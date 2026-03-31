@@ -625,74 +625,96 @@
 </div>
 
 <script>
- // ---------------------- Robust Speech Module (works on PC & mobile) ----------------------
+ // ---------------------- Robust Speech Module (PC + mobile, with fallback) ----------------------
 (function() {
-  if (!window.speechSynthesis) {
-    console.warn("Speech not supported");
-    window.speakText = function(text) { console.log("Would speak: " + text); };
-    return;
-  }
+  // Use a free public TTS API as fallback (no key needed)
+  const TTS_API = 'https://api.streamelements.com/kappa/talk?text=';
 
   let chineseVoice = null;
   let voicesLoaded = false;
-  let pendingSpeak = null;
+  let useBrowserSpeech = true;
 
   function loadVoices() {
+    if (!window.speechSynthesis) {
+      useBrowserSpeech = false;
+      return;
+    }
     const voices = window.speechSynthesis.getVoices();
     if (voices.length) {
       // Try to find a Chinese voice (zh-CN)
       chineseVoice = voices.find(v => v.lang === 'zh-CN' || v.lang === 'zh' || v.lang.startsWith('zh'));
       voicesLoaded = true;
-      console.log("Voices loaded, Chinese voice:", chineseVoice ? chineseVoice.name : "none");
-      // If there was a pending speak request, execute it
-      if (pendingSpeak) {
-        const text = pendingSpeak;
-        pendingSpeak = null;
-        speakNow(text);
-      }
-    }
-  }
-
-  function speakNow(text) {
-    if (!text) return;
-    try {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'zh-CN';
-      utterance.rate = 0.9;
-      utterance.pitch = 1;
-      if (chineseVoice) utterance.voice = chineseVoice;
-      utterance.onerror = function(e) {
-        console.warn("Speech error:", e);
-      };
-      window.speechSynthesis.speak(utterance);
-      console.log("🔊 Speaking:", text);
-    } catch(e) {
-      console.error("Speech error:", e);
+      console.log("✅ Voices loaded, Chinese voice:", chineseVoice ? chineseVoice.name : "none");
+      if (!chineseVoice) useBrowserSpeech = false;
+    } else {
+      // No voices yet, schedule another attempt
+      setTimeout(() => loadVoices(), 200);
     }
   }
 
   // Try to load voices immediately (if already available)
-  if (window.speechSynthesis.getVoices().length) {
-    loadVoices();
+  if (window.speechSynthesis) {
+    if (window.speechSynthesis.getVoices().length) {
+      loadVoices();
+    }
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  } else {
+    useBrowserSpeech = false;
   }
-  window.speechSynthesis.onvoiceschanged = loadVoices;
 
-  // Public function: will wait for voices if not loaded
-  window.speakText = function(text) {
-    if (voicesLoaded) {
-      speakNow(text);
-    } else {
-      console.log("Waiting for voices...");
-      pendingSpeak = text;
-      // Also try to trigger voice loading manually
-      if (!window.speechSynthesis.getVoices().length) {
-        window.speechSynthesis.getVoices(); // force load on some browsers
+  // Warm up the speech engine on page load (helps iOS)
+  setTimeout(() => {
+    if (useBrowserSpeech && window.speechSynthesis) {
+      try {
+        const dummy = new SpeechSynthesisUtterance(' ');
+        dummy.volume = 0;
+        window.speechSynthesis.speak(dummy);
+        window.speechSynthesis.cancel();
+      } catch(e) {}
+    }
+  }, 1000);
+
+  function speakViaBrowser(text) {
+    return new Promise((resolve, reject) => {
+      if (!window.speechSynthesis) {
+        reject('No speech synthesis');
+        return;
       }
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'zh-CN';
+      utterance.rate = 0.85;   // moderate speed
+      utterance.pitch = 1;
+      if (chineseVoice) utterance.voice = chineseVoice;
+      utterance.onend = resolve;
+      utterance.onerror = reject;
+      window.speechSynthesis.cancel(); // stop previous
+      window.speechSynthesis.speak(utterance);
+    });
+  }
+
+  function speakViaAPI(text) {
+    const url = TTS_API + encodeURIComponent(text);
+    const audio = new Audio(url);
+    audio.play().catch(err => console.warn('API TTS failed:', err));
+  }
+
+  window.speakText = function(text) {
+    if (!text) return;
+    if (useBrowserSpeech && window.speechSynthesis) {
+      // If voices not loaded yet, wait a bit
+      if (!voicesLoaded) {
+        setTimeout(() => window.speakText(text), 300);
+        return;
+      }
+      speakViaBrowser(text).catch(() => {
+        // fallback to API
+        speakViaAPI(text);
+      });
+    } else {
+      speakViaAPI(text);
     }
   };
 })();
-
   // ---------------------- MAIN APP LOGIC ----------------------
   const wordList = window.HSK4_WORDS || [];
   if (wordList.length === 0) {
