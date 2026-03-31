@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>HSK4 · 词汇大师 | 字母筛选 + 手机优化</title>
+  <title>HSK4 Vocabulary Master</title>
   <!-- Your ad codes -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9595657076711413" crossorigin="anonymous"></script>
   <script type="text/javascript" data-cfasync="false">
@@ -112,6 +112,10 @@
       background: transparent;
       color: var(--text-primary);
     }
+    .search-box input::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
     .search-box button {
       background: var(--text-secondary);
       border: none;
@@ -158,7 +162,6 @@
     .stats-panel.hidden {
       display: none;
     }
-    /* Letter filter row */
     .letter-filter {
       display: flex;
       flex-wrap: wrap;
@@ -235,7 +238,6 @@
       background: var(--text-secondary);
       color: white;
     }
-    /* Bottom pagination */
     .bottom-pagination {
       margin-top: 1rem;
       display: flex;
@@ -339,18 +341,20 @@
       font-size: 1rem;
       cursor: pointer;
     }
-    /* Buddy container */
+    /* Buddy container - absolute positioning so bubble doesn't shift avatar */
     .buddy-container {
       position: fixed;
       bottom: 20px;
       right: 20px;
       z-index: 1000;
-      width: auto;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
     }
     .buddy-bubble {
+      position: absolute;
+      bottom: 70px; /* above the avatar */
+      right: 0;
       background: var(--bg-card);
       border-radius: 24px 24px 12px 24px;
       padding: 1rem;
@@ -358,12 +362,14 @@
       max-width: 85vw;
       box-shadow: 0 20px 35px rgba(0,0,0,0.25);
       border: 1px solid var(--text-secondary);
-      margin-bottom: 8px;
       transition: 0.2s;
+      transform-origin: bottom right;
+      visibility: visible;
+      opacity: 1;
     }
     .buddy-bubble.hidden {
+      visibility: hidden;
       opacity: 0;
-      transform: scale(0.7);
       pointer-events: none;
     }
     .buddy-header {
@@ -472,29 +478,30 @@
       text-align: center;
     }
     .buddy-avatar {
+      width: 60px;
+      height: 60px;
+      background: var(--bg-card);
+      border-radius: 50%;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      gap: 10px;
-      background: var(--bg-card);
-      padding: 6px 18px 6px 10px;
-      border-radius: 50px;
+      justify-content: center;
       box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-      border: 1px solid var(--text-secondary);
-      cursor: grab;
-      touch-action: none; /* better touch drag */
+      border: 2px solid var(--text-secondary);
+      cursor: pointer;
+      transition: transform 0.1s;
+      position: relative;
+      z-index: 10;
     }
     .buddy-avatar:active {
-      cursor: grabbing;
+      transform: scale(0.95);
     }
     .buddy-avatar img {
-      width: 48px;
-      height: 48px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
     }
     .buddy-avatar span {
-      font-weight: 600;
-      color: var(--text-primary);
+      display: none; /* hide text, keep only icon */
     }
     .footer-note {
       text-align: center;
@@ -526,53 +533,51 @@
     }
   </style>
   <!-- Word list external -->
-  <script src="wordsonlyhsk4.js"></script>
+  <script src="words.js"></script>
 </head>
 <body class="light">
 <div class="app-container">
   <div class="header">
     <div class="title-section">
-      <h1>📚 HSK4 · 词汇大师</h1>
-      <div class="badge"><i class="fas fa-mobile-alt"></i> 字母筛选 + 手机优化</div>
+      <h1>📚 HSK4 Vocabulary Master</h1>
+      <div class="badge"><i class="fas fa-mobile-alt"></i> 1200 words | A–Z filter</div>
     </div>
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="🔍 搜词语、拼音或英文">
-      <button id="searchBtn">搜索</button>
+      <input type="text" id="searchInput" placeholder="🔍 Search by Chinese, pinyin, or English">
+      <button id="searchBtn">Search</button>
     </div>
   </div>
 
   <!-- Settings and stats -->
   <div class="settings-bar">
-    <button id="darkModeToggle" class="icon-btn"><i class="fas fa-moon"></i> 暗色模式</button>
-    <button id="toggleStatsBtn" class="icon-btn"><i class="fas fa-chart-line"></i> 显示统计</button>
-    <button id="exportFavBtn" class="icon-btn"><i class="fas fa-download"></i> 导出收藏</button>
-    <button id="importFavBtn" class="icon-btn"><i class="fas fa-upload"></i> 导入收藏</button>
+    <button id="darkModeToggle" class="icon-btn"><i class="fas fa-moon"></i> Dark Mode</button>
+    <button id="toggleStatsBtn" class="icon-btn"><i class="fas fa-chart-line"></i> Show Stats</button>
+    <button id="exportFavBtn" class="icon-btn"><i class="fas fa-download"></i> Export Favorites</button>
+    <button id="importFavBtn" class="icon-btn"><i class="fas fa-upload"></i> Import Favorites</button>
     <input type="file" id="importFavFile" style="display:none" accept=".json">
   </div>
 
   <div id="statsPanel" class="stats-panel hidden">
-    <div class="stat"><i class="fas fa-heart"></i> 收藏: <span id="favCount">0</span></div>
-    <div class="stat"><i class="fas fa-eye"></i> 已学词汇: <span id="studiedCount">0</span> / <span id="totalWordsStat">0</span></div>
-    <div class="stat"><i class="fas fa-check-circle"></i> 掌握率: <span id="masteryPercent">0</span>%</div>
-    <button id="resetProgressBtn" class="icon-btn" style="font-size:0.8rem;"><i class="fas fa-trash-alt"></i> 重置进度</button>
+    <div class="stat"><i class="fas fa-heart"></i> Favorites: <span id="favCount">0</span></div>
+    <div class="stat"><i class="fas fa-eye"></i> Studied: <span id="studiedCount">0</span> / <span id="totalWordsStat">0</span></div>
+    <div class="stat"><i class="fas fa-check-circle"></i> Mastery: <span id="masteryPercent">0</span>%</div>
+    <button id="resetProgressBtn" class="icon-btn" style="font-size:0.8rem;"><i class="fas fa-trash-alt"></i> Reset Progress</button>
   </div>
 
   <!-- Letter filter row -->
-  <div class="letter-filter" id="letterFilter">
-    <!-- will be populated by JS -->
-  </div>
+  <div class="letter-filter" id="letterFilter"></div>
 
   <div class="categories" id="categoryTabs">
-    <button class="cat-btn active" data-cat="all">全部 (1200)</button>
+    <button class="cat-btn active" data-cat="all">All (1200)</button>
     <button class="cat-btn" data-cat="1-150">1–150</button>
     <button class="cat-btn" data-cat="151-300">151–300</button>
     <button class="cat-btn" data-cat="301-600">301–600</button>
     <button class="cat-btn" data-cat="601-1200">601–1200</button>
-    <button class="cat-btn" data-cat="favorites"><i class="fas fa-heart"></i> 收藏</button>
+    <button class="cat-btn" data-cat="favorites"><i class="fas fa-heart"></i> Favorites</button>
   </div>
 
   <div class="stats-bar">
-    <div class="word-counter">📄 显示 <span id="shownCount">0</span> / <span id="totalCount">1200</span> 词</div>
+    <div class="word-counter">📄 Showing <span id="shownCount">0</span> / <span id="totalCount">1200</span> words</div>
     <div class="pagination-controls" id="paginationContainer"></div>
   </div>
 
@@ -580,45 +585,44 @@
 
   <!-- Bottom pagination with "Next" icon -->
   <div class="bottom-pagination" id="bottomPagination">
-    <button id="prevPageBottom"><i class="fas fa-chevron-left"></i> 上一页</button>
-    <span id="pageInfo">第 1 / 1 页</span>
-    <button id="nextPageBottom">下一页 <i class="fas fa-chevron-right"></i></button>
+    <button id="prevPageBottom"><i class="fas fa-chevron-left"></i> Previous</button>
+    <span id="pageInfo">Page 1 / 1</span>
+    <button id="nextPageBottom">Next <i class="fas fa-chevron-right"></i></button>
   </div>
 
   <div class="footer-note">
-    <span><i class="fas fa-heart"></i> 收藏</span>
-    <span><i class="fas fa-volume-up"></i> 点击发音</span>
-    <span><i class="fas fa-robot"></i> 智能助手</span>
-    <span><i class="fas fa-chart-simple"></i> 学习统计</span>
-    <span><i class="fas fa-font"></i> 字母筛选</span>
+    <span><i class="fas fa-heart"></i> Favorite</span>
+    <span><i class="fas fa-volume-up"></i> Click to hear</span>
+    <span><i class="fas fa-robot"></i> AI Assistant</span>
+    <span><i class="fas fa-chart-simple"></i> Learning stats</span>
+    <span><i class="fas fa-font"></i> A–Z filter</span>
   </div>
 </div>
 
-<!-- Unified Floating Buddy -->
+<!-- Floating Buddy -->
 <div class="buddy-container" id="buddyContainer">
   <div class="buddy-bubble hidden" id="buddyBubble">
     <div class="buddy-header">
-      <span><i class="fas fa-robot"></i> 学习助手</span>
+      <span><i class="fas fa-robot"></i> Learning Assistant</span>
       <button class="buddy-close" id="closeBuddy"><i class="fas fa-times"></i></button>
     </div>
     <div class="buddy-tabs">
-      <button class="buddy-tab active" data-mode="quiz">📝 选择题</button>
-      <button class="buddy-tab" data-mode="typing">⌨️ 打字练习</button>
+      <button class="buddy-tab active" data-mode="quiz">📝 Quiz</button>
+      <button class="buddy-tab" data-mode="typing">⌨️ Typing</button>
     </div>
     <div id="buddyWordDisplay" class="buddy-word">?</div>
     <div class="buddy-controls">
-      <button id="speakBuddyWord"><i class="fas fa-volume-up"></i> 发音</button>
-      <button id="newBuddyWord"><i class="fas fa-random"></i> 换词</button>
+      <button id="speakBuddyWord"><i class="fas fa-volume-up"></i> Speak</button>
+      <button id="newBuddyWord"><i class="fas fa-random"></i> Random</button>
     </div>
     <div id="quizPanel" class="quiz-options"></div>
     <div id="typingPanel" class="typing-area" style="display:none;">
-      <input type="text" id="typingInput" class="typing-input" placeholder="输入英文意思...">
-      <button id="submitTyping" class="buddy-tab" style="background:#1b6b85; color:white;">提交</button>
+      <input type="text" id="typingInput" class="typing-input" placeholder="Type English meaning...">
+      <button id="submitTyping" class="buddy-tab" style="background:#1b6b85; color:white;">Submit</button>
       <div id="typingFeedbackMsg" class="typing-feedback"></div>
     </div>
   </div>
   <div class="buddy-avatar" id="buddyAvatar">
-    <span>AI助手</span>
     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%231b6b85'/%3E%3Ccircle cx='35' cy='40' r='5' fill='white'/%3E%3Ccircle cx='65' cy='40' r='5' fill='white'/%3E%3Cpath d='M35 65 Q50 80 65 65' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="buddy">
   </div>
 </div>
@@ -629,12 +633,12 @@
   // --------------------------------------------------------------
   const wordList = window.HSK4_WORDS || [];
   if (wordList.length === 0) {
-    alert('Error: wordsonlyhsk4.js not loaded. Please ensure it exists.');
+    alert('Error: words.js not loaded. Please ensure it exists.');
   }
 
   // State
   let currentFilter = 'all';
-  let currentLetter = null;      // selected letter (e.g., 'a')
+  let currentLetter = null;
   let filteredWords = [...wordList];
   let currentPage = 1;
   const pageSize = 20;
@@ -665,16 +669,16 @@
   const darkModeToggle = document.getElementById('darkModeToggle');
   const letterFilterDiv = document.getElementById('letterFilter');
 
-  // Buddy elements (same as before)
+  // Buddy elements
   const buddyBubble = document.getElementById('buddyBubble');
   const buddyAvatar = document.getElementById('buddyAvatar');
   const closeBuddy = document.getElementById('closeBuddy');
   const newBuddyWord = document.getElementById('newBuddyWord');
   const speakBuddyWord = document.getElementById('speakBuddyWord');
   const buddyWordDisplay = document.getElementById('buddyWordDisplay');
-  const quizPanel = document.getElementById('quizPanel');
-  const typingPanel = document.getElementById('typingPanel');
-  const typingInput = document.getElementById('typingInput');
+  const quizPanelElem = document.getElementById('quizPanel');
+  const typingPanelElem = document.getElementById('typingPanel');
+  const typingInputElem = document.getElementById('typingInput');
   const submitTyping = document.getElementById('submitTyping');
   const typingFeedbackMsg = document.getElementById('typingFeedbackMsg');
   const tabs = document.querySelectorAll('.buddy-tab');
@@ -712,7 +716,6 @@
   function speakText(text) {
     if (!text) return;
     if (window.speechSynthesis) {
-      // Cancel any ongoing speech to avoid queue buildup
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'zh-CN';
@@ -721,7 +724,7 @@
       if (window.speechSynthesis.getVoices().length === 0) {
         window.speechSynthesis.addEventListener('voiceschanged', () => {
           window.speechSynthesis.speak(utterance);
-        });
+        }, { once: true });
       } else {
         window.speechSynthesis.speak(utterance);
       }
@@ -734,7 +737,6 @@
   function initApp() {
     if (wordList.length === 0) return;
     totalSpan.innerText = wordList.length;
-    // Build letter filter buttons (A-Z)
     buildLetterFilter();
     applyFilter();
     render();
@@ -745,24 +747,23 @@
     if (savedTheme === 'dark') {
       document.body.classList.remove('light');
       document.body.classList.add('dark');
-      darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> 亮色模式';
+      darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
     } else {
       document.body.classList.add('light');
-      darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> 暗色模式';
+      darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
     }
   }
 
   // Build letter filter buttons
   function buildLetterFilter() {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-    letterFilterDiv.innerHTML = '<button class="letter-btn all-letters" data-letter="">全部</button>';
+    letterFilterDiv.innerHTML = '<button class="letter-btn all-letters" data-letter="">All</button>';
     letters.forEach(l => {
       const btn = document.createElement('button');
       btn.className = 'letter-btn';
       btn.textContent = l;
       btn.dataset.letter = l.toLowerCase();
       btn.addEventListener('click', () => {
-        // Remove active class from all letter buttons
         document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentLetter = l.toLowerCase();
@@ -771,7 +772,6 @@
       });
       letterFilterDiv.appendChild(btn);
     });
-    // Add "全部" button functionality
     const allBtn = document.querySelector('.letter-btn.all-letters');
     if (allBtn) {
       allBtn.addEventListener('click', () => {
@@ -781,16 +781,15 @@
         applyFilter();
         render();
       });
-      allBtn.classList.add('active'); // default active
+      allBtn.classList.add('active');
     }
   }
 
-  // Filtering logic (incorporates category, search, and letter)
+  // Filtering logic
   function applyFilter() {
     const searchTerm = searchInput.value.trim().toLowerCase();
     let base = wordList;
 
-    // Category filter
     if (currentFilter === 'favorites') {
       base = wordList.filter(w => favorites.has(w.word));
     } else if (currentFilter !== 'all') {
@@ -798,7 +797,6 @@
       base = wordList.slice(start, end);
     }
 
-    // Letter filter (by pinyin first letter)
     if (currentLetter) {
       base = base.filter(w => {
         const pinyinFirst = w.pinyin.trim().toLowerCase().charAt(0);
@@ -806,7 +804,6 @@
       });
     }
 
-    // Search filter
     if (searchTerm) {
       filteredWords = base.filter(w =>
         w.word.includes(searchTerm) ||
@@ -842,7 +839,7 @@
       applyFilter();
       render();
     } else {
-      render(); // refresh hearts
+      render();
     }
   }
 
@@ -850,7 +847,7 @@
     const start = (currentPage-1)*pageSize;
     const pageWords = filteredWords.slice(start, start+pageSize);
     if (pageWords.length === 0) {
-      grid.innerHTML = '<div class="empty-state" style="text-align:center;padding:2rem;">✨ 暂无词汇</div>';
+      grid.innerHTML = '<div class="empty-state" style="text-align:center;padding:2rem;">✨ No words found</div>';
     } else {
       let html = '';
       pageWords.forEach(item => {
@@ -877,7 +874,6 @@
         `;
       });
       grid.innerHTML = html;
-      // Mark words as studied
       markWordsStudied(pageWords);
     }
 
@@ -915,7 +911,7 @@
       paginationDiv.innerHTML = '';
       bottomPrev.disabled = true;
       bottomNext.disabled = true;
-      pageInfoSpan.innerText = `第 1 / 1 页`;
+      pageInfoSpan.innerText = `Page 1 / 1`;
     } else {
       // Top pagination
       let btns = '';
@@ -941,7 +937,7 @@
       // Bottom pagination
       bottomPrev.disabled = (currentPage === 1);
       bottomNext.disabled = (currentPage === totalPages);
-      pageInfoSpan.innerText = `第 ${currentPage} / ${totalPages} 页`;
+      pageInfoSpan.innerText = `Page ${currentPage} / ${totalPages}`;
     }
   }
 
@@ -951,7 +947,6 @@
       categoryBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentFilter = btn.dataset.cat;
-      // Clear letter filter when switching categories? We'll keep letter filter active.
       applyFilter();
       render();
     });
@@ -993,12 +988,12 @@
       document.body.classList.remove('dark');
       document.body.classList.add('light');
       localStorage.setItem('hsk4_theme', 'light');
-      darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> 暗色模式';
+      darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
     } else {
       document.body.classList.remove('light');
       document.body.classList.add('dark');
       localStorage.setItem('hsk4_theme', 'dark');
-      darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> 亮色模式';
+      darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
     }
   });
 
@@ -1032,15 +1027,15 @@
             applyFilter();
             render();
           } else {
-            render(); // update hearts
+            render();
           }
           updateStats();
-          alert('收藏导入成功！');
+          alert('Favorites imported successfully!');
         } else {
-          alert('文件格式错误，需要JSON数组');
+          alert('Invalid file format, expected JSON array');
         }
       } catch (err) {
-        alert('解析失败，请选择正确的JSON文件');
+        alert('Failed to parse file');
       }
       importFavFile.value = '';
     };
@@ -1049,15 +1044,15 @@
 
   // Reset progress
   resetProgressBtn.addEventListener('click', () => {
-    if (confirm('重置进度将清除所有已学记录，确定吗？')) {
+    if (confirm('Reset progress will clear all studied records. Continue?')) {
       studiedWords.clear();
       localStorage.setItem('hsk4_studied', JSON.stringify([]));
       updateStats();
-      alert('进度已重置');
+      alert('Progress reset');
     }
   });
 
-  // ---------------------- Buddy Logic (with improved touch) ----------------------
+  // ---------------------- Buddy Logic ----------------------
   function getRandomWordFromFiltered() {
     if (filteredWords.length === 0) return null;
     return filteredWords[Math.floor(Math.random() * filteredWords.length)];
@@ -1082,7 +1077,7 @@
       if (!options.includes(rand.meaning) && rand.meaning !== correct) options.push(rand.meaning);
     }
     options = options.sort(() => Math.random() - 0.5);
-    quizPanel.innerHTML = '';
+    quizPanelElem.innerHTML = '';
     options.forEach(opt => {
       const btn = document.createElement('div');
       btn.className = 'quiz-opt';
@@ -1097,21 +1092,18 @@
           });
         }
       });
-      quizPanel.appendChild(btn);
+      quizPanelElem.appendChild(btn);
     });
   }
 
-  function showTypingPanel(wordObj) {
-    if (!wordObj) return;
-    typingInput.value = '';
-    typingFeedbackMsg.innerHTML = '';
-    typingPanel.style.display = 'flex';
-    quizPanel.style.display = 'none';
+  function showTypingPanel() {
+    typingPanelElem.style.display = 'flex';
+    quizPanelElem.style.display = 'none';
   }
 
   function showQuizPanel() {
-    typingPanel.style.display = 'none';
-    quizPanel.style.display = 'flex';
+    typingPanelElem.style.display = 'none';
+    quizPanelElem.style.display = 'flex';
   }
 
   function switchMode(mode) {
@@ -1120,7 +1112,7 @@
       showQuizPanel();
       if (currentBuddyWord) generateQuiz(currentBuddyWord);
     } else {
-      showTypingPanel(currentBuddyWord);
+      showTypingPanel();
     }
   }
 
@@ -1129,78 +1121,46 @@
     if (newWordObj) {
       updateBuddyWord(newWordObj);
       if (currentMode === 'typing') {
-        typingInput.value = '';
+        typingInputElem.value = '';
         typingFeedbackMsg.innerHTML = '';
       }
     } else {
-      buddyWordDisplay.innerText = '暂无词汇';
+      buddyWordDisplay.innerText = 'No words';
     }
   }
 
   function handleTypingSubmit() {
     if (!currentBuddyWord) return;
-    const userAns = typingInput.value.trim().toLowerCase();
+    const userAns = typingInputElem.value.trim().toLowerCase();
     const correct = currentBuddyWord.meaning.toLowerCase();
     if (userAns === correct) {
-      typingFeedbackMsg.innerHTML = '<span style="color:#38a169;">✓ 正确！</span>';
+      typingFeedbackMsg.innerHTML = '<span style="color:#38a169;">✓ Correct!</span>';
     } else {
-      typingFeedbackMsg.innerHTML = `<span style="color:#e53e3e;">✗ 错误，正确答案: ${currentBuddyWord.meaning}</span>`;
+      typingFeedbackMsg.innerHTML = `<span style="color:#e53e3e;">✗ Wrong. Correct: ${currentBuddyWord.meaning}</span>`;
     }
   }
 
-  // Buddy toggle with improved touch detection (no drag conflict)
-  let dragStarted = false;
-  let dragTimer;
-  buddyAvatar.addEventListener('touchstart', (e) => {
-    dragStarted = false;
-    dragTimer = setTimeout(() => { dragStarted = true; }, 100);
-  });
-  buddyAvatar.addEventListener('touchend', (e) => {
-    clearTimeout(dragTimer);
-    if (!dragStarted) {
-      // toggle bubble
-      if (buddyVisible) hideBuddy();
-      else showBuddy();
+  // Buddy toggle: click avatar toggles bubble
+  buddyAvatar.addEventListener('click', () => {
+    if (buddyVisible) {
+      buddyBubble.classList.add('hidden');
+      buddyVisible = false;
+    } else {
+      buddyBubble.classList.remove('hidden');
+      buddyVisible = true;
+      if (!currentBuddyWord) handleNewWord();
     }
   });
-  // For mouse (PC)
-  let mouseDrag = false;
-  buddyAvatar.addEventListener('mousedown', (e) => {
-    mouseDrag = false;
-    const startX = e.clientX, startY = e.clientY;
-    const moveHandler = (moveEvent) => {
-      if (Math.abs(moveEvent.clientX - startX) > 5 || Math.abs(moveEvent.clientY - startY) > 5) {
-        mouseDrag = true;
-      }
-    };
-    const upHandler = () => {
-      if (!mouseDrag) {
-        if (buddyVisible) hideBuddy();
-        else showBuddy();
-      }
-      document.removeEventListener('mousemove', moveHandler);
-      document.removeEventListener('mouseup', upHandler);
-    };
-    document.addEventListener('mousemove', moveHandler);
-    document.addEventListener('mouseup', upHandler);
-  });
-
-  function showBuddy() {
-    buddyBubble.classList.remove('hidden');
-    buddyVisible = true;
-    if (!currentBuddyWord) handleNewWord();
-  }
-  function hideBuddy() {
+  closeBuddy.addEventListener('click', () => {
     buddyBubble.classList.add('hidden');
     buddyVisible = false;
-  }
-  closeBuddy.addEventListener('click', hideBuddy);
+  });
   newBuddyWord.addEventListener('click', handleNewWord);
   speakBuddyWord.addEventListener('click', () => {
     if (currentBuddyWord) speakText(currentBuddyWord.word);
   });
   submitTyping.addEventListener('click', handleTypingSubmit);
-  typingInput.addEventListener('keyup', e => { if (e.key === 'Enter') handleTypingSubmit(); });
+  typingInputElem.addEventListener('keyup', e => { if (e.key === 'Enter') handleTypingSubmit(); });
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -1210,49 +1170,6 @@
       switchMode(mode);
     });
   });
-
-  // Draggable buddy (keep for mouse/touch drag)
-  let dragActive = false, startX, startY, startLeft, startTop;
-  buddyAvatar.addEventListener('mousedown', startDrag);
-  buddyAvatar.addEventListener('touchstart', startDrag, {passive: false});
-  function startDrag(e) {
-    // Only start drag if it's not a simple click (handled by toggle logic)
-    // We'll let the toggle logic run first; if drag occurs, we'll cancel the click.
-    // But we already have separate detection; we'll still allow drag.
-    e.preventDefault();
-    dragActive = true;
-    const rect = buddyContainer.getBoundingClientRect();
-    const clientX = e.clientX ?? e.touches[0].clientX;
-    const clientY = e.clientY ?? e.touches[0].clientY;
-    startX = clientX - rect.left;
-    startY = clientY - rect.top;
-    document.addEventListener('mousemove', onDrag);
-    document.addEventListener('touchmove', onDrag, {passive: false});
-    document.addEventListener('mouseup', stopDrag);
-    document.addEventListener('touchend', stopDrag);
-  }
-  function onDrag(e) {
-    if (!dragActive) return;
-    e.preventDefault();
-    const clientX = e.clientX ?? e.touches[0].clientX;
-    const clientY = e.clientY ?? e.touches[0].clientY;
-    let left = clientX - startX;
-    let top = clientY - startY;
-    left = Math.min(Math.max(left, 0), window.innerWidth - buddyContainer.offsetWidth);
-    top = Math.min(Math.max(top, 0), window.innerHeight - buddyContainer.offsetHeight);
-    buddyContainer.style.position = 'fixed';
-    buddyContainer.style.left = left + 'px';
-    buddyContainer.style.top = top + 'px';
-    buddyContainer.style.right = 'auto';
-    buddyContainer.style.bottom = 'auto';
-  }
-  function stopDrag() {
-    dragActive = false;
-    document.removeEventListener('mousemove', onDrag);
-    document.removeEventListener('touchmove', onDrag);
-    document.removeEventListener('mouseup', stopDrag);
-    document.removeEventListener('touchend', stopDrag);
-  }
 
   // Initialize everything
   initApp();
