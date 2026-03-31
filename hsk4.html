@@ -625,27 +625,53 @@
 </div>
 
 <script>
-  // ---------------------- SPEECH MODULE (embedded) ----------------------
-  // Simple, reliable speech that works on PC and mobile.
-  (function() {
-    if (!window.speechSynthesis) {
-      console.warn("Speech not supported");
-      window.speakText = function(text) { console.log("Would speak: " + text); };
-      return;
+  // ---------------------- Enhanced Speech Module (with voice loading) ----------------------
+(function() {
+  if (!window.speechSynthesis) {
+    console.warn("Speech not supported");
+    window.speakText = function(text) { console.log("Would speak: " + text); };
+    return;
+  }
+
+  let chineseVoice = null;
+  let voicesLoaded = false;
+
+  function loadVoices() {
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length) {
+      // Try to find a Chinese voice (zh-CN)
+      chineseVoice = voices.find(v => v.lang === 'zh-CN' || v.lang === 'zh' || v.lang.startsWith('zh'));
+      if (!chineseVoice) {
+        console.warn("No Chinese voice found, using default");
+      }
+      voicesLoaded = true;
+      console.log("Voices loaded, Chinese voice:", chineseVoice ? chineseVoice.name : "none");
     }
-    window.speakText = function(text) {
-      if (!text) return;
-      try {
-        window.speechSynthesis.cancel(); // stop previous
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'zh-CN';
-        utterance.rate = 0.9;
-        window.speechSynthesis.speak(utterance);
-        console.log("🔊 Speaking:", text);
-      } catch(e) { console.error(e); }
-    };
-    console.log("🎤 Speech ready");
-  })();
+  }
+
+  // Trigger initial load (voices may not be ready immediately)
+  if (window.speechSynthesis.getVoices().length) {
+    loadVoices();
+  }
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+
+  window.speakText = function(text) {
+    if (!text) return;
+    try {
+      // Cancel any ongoing speech to avoid overlap
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'zh-CN';
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      if (chineseVoice) utterance.voice = chineseVoice;
+      window.speechSynthesis.speak(utterance);
+      console.log("🔊 Speaking:", text);
+    } catch(e) {
+      console.error("Speech error:", e);
+    }
+  };
+})();
 
   // ---------------------- MAIN APP LOGIC ----------------------
   const wordList = window.HSK4_WORDS || [];
