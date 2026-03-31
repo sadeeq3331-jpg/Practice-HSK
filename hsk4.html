@@ -625,7 +625,7 @@
 </div>
 
 <script>
-  // ---------------------- Enhanced Speech Module (with voice loading) ----------------------
+ // ---------------------- Robust Speech Module (works on PC & mobile) ----------------------
 (function() {
   if (!window.speechSynthesis) {
     console.warn("Speech not supported");
@@ -635,40 +635,60 @@
 
   let chineseVoice = null;
   let voicesLoaded = false;
+  let pendingSpeak = null;
 
   function loadVoices() {
     const voices = window.speechSynthesis.getVoices();
     if (voices.length) {
       // Try to find a Chinese voice (zh-CN)
       chineseVoice = voices.find(v => v.lang === 'zh-CN' || v.lang === 'zh' || v.lang.startsWith('zh'));
-      if (!chineseVoice) {
-        console.warn("No Chinese voice found, using default");
-      }
       voicesLoaded = true;
       console.log("Voices loaded, Chinese voice:", chineseVoice ? chineseVoice.name : "none");
+      // If there was a pending speak request, execute it
+      if (pendingSpeak) {
+        const text = pendingSpeak;
+        pendingSpeak = null;
+        speakNow(text);
+      }
     }
   }
 
-  // Trigger initial load (voices may not be ready immediately)
-  if (window.speechSynthesis.getVoices().length) {
-    loadVoices();
-  }
-  window.speechSynthesis.onvoiceschanged = loadVoices;
-
-  window.speakText = function(text) {
+  function speakNow(text) {
     if (!text) return;
     try {
-      // Cancel any ongoing speech to avoid overlap
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'zh-CN';
       utterance.rate = 0.9;
       utterance.pitch = 1;
       if (chineseVoice) utterance.voice = chineseVoice;
+      utterance.onerror = function(e) {
+        console.warn("Speech error:", e);
+      };
       window.speechSynthesis.speak(utterance);
       console.log("🔊 Speaking:", text);
     } catch(e) {
       console.error("Speech error:", e);
+    }
+  }
+
+  // Try to load voices immediately (if already available)
+  if (window.speechSynthesis.getVoices().length) {
+    loadVoices();
+  }
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+
+  // Public function: will wait for voices if not loaded
+  window.speakText = function(text) {
+    if (voicesLoaded) {
+      speakNow(text);
+    } else {
+      console.log("Waiting for voices...");
+      pendingSpeak = text;
+      // Also try to trigger voice loading manually
+      if (!window.speechSynthesis.getVoices().length) {
+        window.speechSynthesis.getVoices(); // force load on some browsers
+      }
     }
   };
 })();
