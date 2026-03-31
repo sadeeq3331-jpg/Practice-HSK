@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>HSK4 Vocabulary Master</title>
-  <!-- Ad codes -->
+  <!-- Ad codes (unchanged) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9595657076711413" crossorigin="anonymous"></script>
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
@@ -12,10 +12,8 @@
   /*]]>/* */
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Speech module (separate file) -->
-  <script src="speech.js"></script>
   <style>
-    /* Full styles from the previous version – all CSS remains unchanged */
+    /* ========== All styles from the previous version ========== */
     * {
       margin: 0;
       padding: 0;
@@ -627,9 +625,29 @@
 </div>
 
 <script>
-  // --------------------------------------------------------------
-  // Load words
-  // --------------------------------------------------------------
+  // ---------------------- SPEECH MODULE (embedded) ----------------------
+  // Simple, reliable speech that works on PC and mobile.
+  (function() {
+    if (!window.speechSynthesis) {
+      console.warn("Speech not supported");
+      window.speakText = function(text) { console.log("Would speak: " + text); };
+      return;
+    }
+    window.speakText = function(text) {
+      if (!text) return;
+      try {
+        window.speechSynthesis.cancel(); // stop previous
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-CN';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+        console.log("🔊 Speaking:", text);
+      } catch(e) { console.error(e); }
+    };
+    console.log("🎤 Speech ready");
+  })();
+
+  // ---------------------- MAIN APP LOGIC ----------------------
   const wordList = window.HSK4_WORDS || [];
   if (wordList.length === 0) {
     alert('Error: words.js not loaded. Please ensure it exists.');
@@ -720,7 +738,6 @@
     render();
     updateStats();
 
-    // Load theme preference
     const savedTheme = localStorage.getItem('hsk4_theme');
     if (savedTheme === 'dark') {
       document.body.classList.remove('light');
@@ -855,7 +872,7 @@
       markWordsStudied(pageWords);
     }
 
-    // attach event listeners (using global speakText from speech.js)
+    // attach event listeners using global speakText
     document.querySelectorAll('.speaker-btn').forEach(btn => {
       btn.addEventListener('click', () => window.speakText(btn.dataset.word));
     });
