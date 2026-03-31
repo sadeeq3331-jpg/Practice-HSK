@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>HSK4 · 词汇大师 | 移动/桌面版</title>
+  <title>HSK4 · 词汇大师 | 暗色模式 + 统计</title>
   <!-- Your ad codes -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9595657076711413" crossorigin="anonymous"></script>
   <script type="text/javascript" data-cfasync="false">
@@ -19,25 +19,45 @@
       padding: 0;
       box-sizing: border-box;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    /* Light theme (default) */
+    body.light {
+      background: linear-gradient(145deg, #eef2f7 0%, #e2eaf1 100%);
+      --bg-card: white;
+      --bg-header: rgba(255,255,255,0.7);
+      --text-primary: #0a2f3b;
+      --text-secondary: #1b6b85;
+      --border-light: #b0cfdf;
+      --shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    /* Dark theme */
+    body.dark {
+      background: linear-gradient(145deg, #1a2a2f 0%, #0f1e24 100%);
+      --bg-card: #2a3b42;
+      --bg-header: rgba(30,40,45,0.8);
+      --text-primary: #e2e8f0;
+      --text-secondary: #9ac7db;
+      --border-light: #3a5a66;
+      --shadow: 0 20px 40px rgba(0,0,0,0.3);
     }
     body {
-      background: linear-gradient(145deg, #eef2f7 0%, #e2eaf1 100%);
-      min-height: 100vh;
       padding: 1.2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      touch-action: pan-x pan-y; /* better touch response */
+      touch-action: pan-x pan-y;
+      background: var(--bg-header);
     }
     .app-container {
       max-width: 1400px;
       width: 100%;
-      background: rgba(255,255,255,0.7);
+      background: var(--bg-header);
       backdrop-filter: blur(12px);
       border-radius: 2rem;
       padding: 1.5rem;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.2);
       margin-bottom: 4.5rem;
     }
     /* header */
@@ -49,6 +69,12 @@
       margin-bottom: 1.5rem;
       gap: 1rem;
     }
+    .title-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
     .title-section h1 {
       font-size: 2.2rem;
       background: linear-gradient(135deg, #0f3b4c, #1b6b85);
@@ -56,21 +82,26 @@
       background-clip: text;
       color: transparent;
     }
+    .dark .title-section h1 {
+      background: linear-gradient(135deg, #9ac7db, #e2e8f0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
     .badge {
-      background: #1b6b85;
+      background: var(--text-secondary);
       color: white;
       padding: 0.3rem 1rem;
       border-radius: 40px;
       font-size: 0.85rem;
       display: inline-block;
-      margin-top: 0.3rem;
     }
     .search-box {
       display: flex;
-      background: white;
+      background: var(--bg-card);
       border-radius: 50px;
       padding: 0.2rem 0.2rem 0.2rem 1.2rem;
-      border: 1px solid #b0cfdf;
+      border: 1px solid var(--border-light);
       min-width: 250px;
     }
     .search-box input {
@@ -80,15 +111,55 @@
       font-size: 1rem;
       padding: 0.6rem 0;
       background: transparent;
+      color: var(--text-primary);
     }
     .search-box button {
-      background: #1b6b85;
+      background: var(--text-secondary);
       border: none;
       color: white;
       padding: 0.5rem 1.2rem;
       border-radius: 40px;
       cursor: pointer;
       font-weight: 600;
+    }
+    /* settings bar */
+    .settings-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .icon-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 30px;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+    .icon-btn i {
+      margin-right: 4px;
+    }
+    /* stats panel */
+    .stats-panel {
+      background: var(--bg-card);
+      border-radius: 1.5rem;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      border: 1px solid var(--border-light);
+    }
+    .stats-panel .stat {
+      font-weight: 500;
+    }
+    .stats-panel.hidden {
+      display: none;
     }
     /* categories */
     .categories {
@@ -98,19 +169,18 @@
       margin: 1rem 0;
     }
     .cat-btn {
-      background: white;
-      border: 1px solid #b0cfdf;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
       padding: 0.4rem 1rem;
       border-radius: 30px;
       font-weight: 500;
-      color: #1b6b85;
+      color: var(--text-secondary);
       cursor: pointer;
       font-size: 0.85rem;
     }
     .cat-btn.active {
-      background: #1b6b85;
+      background: var(--text-secondary);
       color: white;
-      border-color: #1b6b85;
     }
     .stats-bar {
       display: flex;
@@ -121,7 +191,7 @@
       gap: 0.5rem;
     }
     .word-counter {
-      background: white;
+      background: var(--bg-card);
       padding: 0.3rem 1rem;
       border-radius: 40px;
       font-size: 0.9rem;
@@ -137,13 +207,13 @@
       height: 34px;
       border-radius: 17px;
       border: none;
-      background: white;
+      background: var(--bg-card);
       font-weight: 600;
-      color: #1b6b85;
+      color: var(--text-secondary);
       cursor: pointer;
     }
     .page-btn.active {
-      background: #1b6b85;
+      background: var(--text-secondary);
       color: white;
     }
     /* cards grid */
@@ -154,13 +224,12 @@
       margin: 1rem 0;
     }
     .vocab-card {
-      background: white;
+      background: var(--bg-card);
       border-radius: 1.5rem;
       padding: 1.2rem 1rem;
-      border: 1px solid rgba(27,107,133,0.2);
+      border: 1px solid var(--border-light);
       transition: 0.2s;
       position: relative;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
     }
     .vocab-card:hover {
       transform: translateY(-2px);
@@ -174,7 +243,7 @@
     .chinese-word {
       font-size: 1.9rem;
       font-weight: 600;
-      color: #0a2f3b;
+      color: var(--text-primary);
     }
     .favorite-btn {
       background: none;
@@ -187,20 +256,20 @@
       color: #e53e3e;
     }
     .speaker-btn {
-      background: #e3f0f5;
+      background: rgba(27,107,133,0.1);
       border: none;
       width: 40px;
       height: 40px;
       border-radius: 50%;
       cursor: pointer;
-      color: #1b6b85;
+      color: var(--text-secondary);
       font-size: 1.2rem;
       margin-left: 0.5rem;
     }
     .pinyin {
       font-size: 0.95rem;
-      color: #1b6b85;
-      background: #e3f0f5;
+      color: var(--text-secondary);
+      background: rgba(27,107,133,0.1);
       padding: 0.2rem 0.8rem;
       border-radius: 30px;
       display: inline-block;
@@ -208,34 +277,36 @@
     }
     .meaning {
       font-size: 0.9rem;
-      background: #f8fbfe;
+      background: rgba(27,107,133,0.05);
       padding: 0.4rem 0.8rem;
       border-radius: 1rem;
-      border: 1px dashed #b0cfdf;
+      border: 1px dashed var(--border-light);
+      color: var(--text-primary);
     }
     .example-container {
       margin-top: 0.6rem;
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      background: #f0f7fa;
+      background: rgba(27,107,133,0.05);
       border-radius: 1rem;
       padding: 0.4rem 0.8rem;
-      border-left: 3px solid #1b6b85;
+      border-left: 3px solid var(--text-secondary);
     }
     .example-text {
       font-size: 0.85rem;
       font-style: italic;
       flex: 1;
+      color: var(--text-primary);
     }
     .example-speaker {
       background: none;
       border: none;
-      color: #1b6b85;
+      color: var(--text-secondary);
       font-size: 1rem;
       cursor: pointer;
     }
-    /* unified buddy */
+    /* buddy container (unchanged) */
     .buddy-container {
       position: fixed;
       bottom: 20px;
@@ -247,16 +318,15 @@
       align-items: flex-end;
     }
     .buddy-bubble {
-      background: white;
+      background: var(--bg-card);
       border-radius: 24px 24px 12px 24px;
       padding: 1rem;
       width: 300px;
       max-width: 85vw;
       box-shadow: 0 20px 35px rgba(0,0,0,0.25);
-      border: 1px solid #1b6b85;
+      border: 1px solid var(--text-secondary);
       margin-bottom: 8px;
       transition: 0.2s;
-      transform-origin: bottom right;
     }
     .buddy-bubble.hidden {
       opacity: 0;
@@ -268,12 +338,12 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--border-light);
       padding-bottom: 6px;
     }
     .buddy-header span {
       font-weight: 700;
-      color: #0a2f3b;
+      color: var(--text-primary);
     }
     .buddy-close {
       background: none;
@@ -288,7 +358,7 @@
       margin-bottom: 12px;
     }
     .buddy-tab {
-      background: #eef2f7;
+      background: rgba(27,107,133,0.1);
       border: none;
       padding: 6px 12px;
       border-radius: 40px;
@@ -296,15 +366,16 @@
       font-weight: 500;
       flex: 1;
       text-align: center;
+      color: var(--text-primary);
     }
     .buddy-tab.active {
-      background: #1b6b85;
+      background: var(--text-secondary);
       color: white;
     }
     .buddy-word {
       font-size: 1.8rem;
       font-weight: 600;
-      color: #0a2f3b;
+      color: var(--text-primary);
       text-align: center;
       margin: 8px 0;
       word-break: break-word;
@@ -316,15 +387,13 @@
       margin: 8px 0;
     }
     .buddy-controls button {
-      background: #e3f0f5;
+      background: rgba(27,107,133,0.1);
       border: none;
       padding: 8px 16px;
       border-radius: 40px;
       cursor: pointer;
       font-weight: 500;
-    }
-    .buddy-controls button i {
-      margin-right: 6px;
+      color: var(--text-primary);
     }
     .quiz-options {
       display: flex;
@@ -333,20 +402,23 @@
       margin: 10px 0;
     }
     .quiz-opt {
-      background: #f0f7fd;
-      border: 1px solid #b8d4e0;
+      background: rgba(27,107,133,0.05);
+      border: 1px solid var(--border-light);
       border-radius: 30px;
       padding: 8px 12px;
       cursor: pointer;
       text-align: center;
+      color: var(--text-primary);
     }
     .quiz-opt.correct {
       background: #c6f6d5;
       border-color: #38a169;
+      color: #2d3748;
     }
     .quiz-opt.wrong {
       background: #fed7d7;
       border-color: #e53e3e;
+      color: #2d3748;
     }
     .typing-area {
       display: flex;
@@ -357,8 +429,10 @@
     .typing-input {
       padding: 10px;
       border-radius: 40px;
-      border: 1px solid #b8d4e0;
+      border: 1px solid var(--border-light);
       width: 100%;
+      background: var(--bg-card);
+      color: var(--text-primary);
     }
     .typing-feedback {
       font-size: 0.85rem;
@@ -369,11 +443,11 @@
       align-items: center;
       justify-content: flex-end;
       gap: 10px;
-      background: white;
+      background: var(--bg-card);
       padding: 6px 18px 6px 10px;
       border-radius: 50px;
       box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-      border: 1px solid #1b6b85;
+      border: 1px solid var(--text-secondary);
       cursor: grab;
     }
     .buddy-avatar:active {
@@ -386,12 +460,12 @@
     }
     .buddy-avatar span {
       font-weight: 600;
-      color: #0a2f3b;
+      color: var(--text-primary);
     }
     .footer-note {
       text-align: center;
       font-size: 0.75rem;
-      color: #4f7a8c;
+      color: var(--text-secondary);
       margin-top: 1rem;
     }
     @media (max-width: 640px) {
@@ -408,11 +482,14 @@
         width: 280px;
       }
     }
+    .hidden {
+      display: none;
+    }
   </style>
-  <!-- Word list external (you can embed if needed) -->
+  <!-- Word list external -->
   <script src="words.js"></script>
 </head>
-<body>
+<body class="light">
 <div class="app-container">
   <div class="header">
     <div class="title-section">
@@ -423,6 +500,22 @@
       <input type="text" id="searchInput" placeholder="🔍 搜词语、拼音或英文">
       <button id="searchBtn">搜索</button>
     </div>
+  </div>
+
+  <!-- Settings and stats -->
+  <div class="settings-bar">
+    <button id="darkModeToggle" class="icon-btn"><i class="fas fa-moon"></i> 暗色模式</button>
+    <button id="toggleStatsBtn" class="icon-btn"><i class="fas fa-chart-line"></i> 显示统计</button>
+    <button id="exportFavBtn" class="icon-btn"><i class="fas fa-download"></i> 导出收藏</button>
+    <button id="importFavBtn" class="icon-btn"><i class="fas fa-upload"></i> 导入收藏</button>
+    <input type="file" id="importFavFile" style="display:none" accept=".json">
+  </div>
+
+  <div id="statsPanel" class="stats-panel hidden">
+    <div class="stat"><i class="fas fa-heart"></i> 收藏: <span id="favCount">0</span></div>
+    <div class="stat"><i class="fas fa-eye"></i> 已学词汇: <span id="studiedCount">0</span> / <span id="totalWordsStat">0</span></div>
+    <div class="stat"><i class="fas fa-check-circle"></i> 掌握率: <span id="masteryPercent">0</span>%</div>
+    <button id="resetProgressBtn" class="icon-btn" style="font-size:0.8rem;"><i class="fas fa-trash-alt"></i> 重置进度</button>
   </div>
 
   <div class="categories" id="categoryTabs">
@@ -445,10 +538,11 @@
     <span><i class="fas fa-heart"></i> 收藏</span>
     <span><i class="fas fa-volume-up"></i> 点击发音</span>
     <span><i class="fas fa-robot"></i> 智能助手</span>
+    <span><i class="fas fa-chart-simple"></i> 学习统计</span>
   </div>
 </div>
 
-<!-- Unified Floating Buddy -->
+<!-- Unified Floating Buddy (same as before, but works with theme) -->
 <div class="buddy-container" id="buddyContainer">
   <div class="buddy-bubble hidden" id="buddyBubble">
     <div class="buddy-header">
@@ -479,22 +573,20 @@
 
 <script>
   // --------------------------------------------------------------
-  // HSK4 WORD LIST (fallback if external not loaded)
+  // Load words
   // --------------------------------------------------------------
   const wordList = window.HSK4_WORDS || [];
   if (wordList.length === 0) {
-    console.warn("words.js not loaded, using inline demo list (minimal). You should provide words.js");
-    // Minimal demo list (you can embed full 1200 here if needed)
-    // For brevity, we only show a placeholder. In real implementation, you'd embed all.
-    // We'll rely on words.js being present.
+    alert('Error: words.js not loaded. Please ensure it exists.');
   }
-  // --------------------------------------------------------------
-  // App state
+
+  // State
   let currentFilter = 'all';
   let filteredWords = [...wordList];
   let currentPage = 1;
   const pageSize = 20;
   let favorites = new Set(JSON.parse(localStorage.getItem('hsk4_favorites') || '[]'));
+  let studiedWords = new Set(JSON.parse(localStorage.getItem('hsk4_studied') || '[]')); // track viewed words
 
   // DOM elements
   const grid = document.getElementById('vocabGrid');
@@ -504,8 +596,19 @@
   const totalSpan = document.getElementById('totalCount');
   const paginationDiv = document.getElementById('paginationContainer');
   const categoryBtns = document.querySelectorAll('.cat-btn');
+  const favCountSpan = document.getElementById('favCount');
+  const studiedCountSpan = document.getElementById('studiedCount');
+  const totalWordsStatSpan = document.getElementById('totalWordsStat');
+  const masteryPercentSpan = document.getElementById('masteryPercent');
+  const statsPanel = document.getElementById('statsPanel');
+  const toggleStatsBtn = document.getElementById('toggleStatsBtn');
+  const exportFavBtn = document.getElementById('exportFavBtn');
+  const importFavBtn = document.getElementById('importFavBtn');
+  const importFavFile = document.getElementById('importFavFile');
+  const resetProgressBtn = document.getElementById('resetProgressBtn');
+  const darkModeToggle = document.getElementById('darkModeToggle');
 
-  // Buddy elements
+  // Buddy elements (same as before)
   const buddyBubble = document.getElementById('buddyBubble');
   const buddyAvatar = document.getElementById('buddyAvatar');
   const closeBuddy = document.getElementById('closeBuddy');
@@ -519,32 +622,65 @@
   const typingFeedbackMsg = document.getElementById('typingFeedbackMsg');
   const tabs = document.querySelectorAll('.buddy-tab');
 
-  let currentMode = 'quiz'; // 'quiz' or 'typing'
+  let currentMode = 'quiz';
   let currentBuddyWord = null;
-  let currentQuizWordObj = null;
   let buddyVisible = false;
 
-  // Helper: speech (works on mobile after user interaction)
+  // Helper: update stats display
+  function updateStats() {
+    favCountSpan.innerText = favorites.size;
+    const studied = studiedWords.size;
+    studiedCountSpan.innerText = studied;
+    totalWordsStatSpan.innerText = wordList.length;
+    const percent = wordList.length ? Math.round((studied / wordList.length) * 100) : 0;
+    masteryPercentSpan.innerText = percent;
+  }
+
+  // Mark word as studied when it appears on current page
+  function markWordsStudied(words) {
+    let changed = false;
+    words.forEach(w => {
+      if (!studiedWords.has(w.word)) {
+        studiedWords.add(w.word);
+        changed = true;
+      }
+    });
+    if (changed) {
+      localStorage.setItem('hsk4_studied', JSON.stringify([...studiedWords]));
+      updateStats();
+    }
+  }
+
+  // Speech helper (works on mobile after user interaction)
   function speakText(text) {
     if (!text) return;
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'zh-CN';
-    window.speechSynthesis.cancel(); // stop any ongoing
+    window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
   }
 
-  // Initialize from wordList
+  // Initialize app
   function initApp() {
-    if (wordList.length === 0) {
-      totalSpan.innerText = '0';
-      return;
-    }
+    if (wordList.length === 0) return;
     totalSpan.innerText = wordList.length;
     applyFilter();
     render();
+    updateStats();
+
+    // Load theme preference
+    const savedTheme = localStorage.getItem('hsk4_theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.remove('light');
+      document.body.classList.add('dark');
+      darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> 亮色模式';
+    } else {
+      document.body.classList.add('light');
+      darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> 暗色模式';
+    }
   }
 
-  // Filtering logic
+  // Filtering
   function applyFilter() {
     const searchTerm = searchInput.value.trim().toLowerCase();
     let base = wordList;
@@ -578,6 +714,7 @@
 
   function saveFavorites() {
     localStorage.setItem('hsk4_favorites', JSON.stringify([...favorites]));
+    updateStats();
   }
 
   function toggleFavorite(word) {
@@ -588,7 +725,7 @@
       applyFilter();
       render();
     } else {
-      render(); // update heart icons
+      render(); // refresh hearts
     }
   }
 
@@ -623,6 +760,8 @@
         `;
       });
       grid.innerHTML = html;
+      // Mark words as studied
+      markWordsStudied(pageWords);
     }
 
     // attach event listeners
@@ -691,7 +830,89 @@
   searchBtn.addEventListener('click', handleSearch);
   searchInput.addEventListener('keyup', e => e.key === 'Enter' && handleSearch());
 
-  // ---------------------- Buddy Logic ----------------------
+  // Stats panel toggle
+  toggleStatsBtn.addEventListener('click', () => {
+    statsPanel.classList.toggle('hidden');
+    localStorage.setItem('hsk4_stats_visible', (!statsPanel.classList.contains('hidden')).toString());
+  });
+  if (localStorage.getItem('hsk4_stats_visible') === 'true') {
+    statsPanel.classList.remove('hidden');
+  } else {
+    statsPanel.classList.add('hidden');
+  }
+
+  // Dark mode toggle
+  darkModeToggle.addEventListener('click', () => {
+    const isDark = document.body.classList.contains('dark');
+    if (isDark) {
+      document.body.classList.remove('dark');
+      document.body.classList.add('light');
+      localStorage.setItem('hsk4_theme', 'light');
+      darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> 暗色模式';
+    } else {
+      document.body.classList.remove('light');
+      document.body.classList.add('dark');
+      localStorage.setItem('hsk4_theme', 'dark');
+      darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> 亮色模式';
+    }
+  });
+
+  // Export favorites as JSON
+  exportFavBtn.addEventListener('click', () => {
+    const data = JSON.stringify([...favorites], null, 2);
+    const blob = new Blob([data], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'hsk4_favorites.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // Import favorites from JSON
+  importFavBtn.addEventListener('click', () => {
+    importFavFile.click();
+  });
+  importFavFile.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const imported = JSON.parse(ev.target.result);
+        if (Array.isArray(imported)) {
+          favorites = new Set(imported);
+          saveFavorites();
+          if (currentFilter === 'favorites') {
+            applyFilter();
+            render();
+          } else {
+            render(); // update hearts
+          }
+          updateStats();
+          alert('收藏导入成功！');
+        } else {
+          alert('文件格式错误，需要JSON数组');
+        }
+      } catch (err) {
+        alert('解析失败，请选择正确的JSON文件');
+      }
+      importFavFile.value = '';
+    };
+    reader.readAsText(file);
+  });
+
+  // Reset progress (clear studied words)
+  resetProgressBtn.addEventListener('click', () => {
+    if (confirm('重置进度将清除所有已学记录，确定吗？')) {
+      studiedWords.clear();
+      localStorage.setItem('hsk4_studied', JSON.stringify([]));
+      updateStats();
+      alert('进度已重置');
+    }
+  });
+
+  // ---------------------- Buddy Logic (unchanged from previous working version) ----------------------
   function getRandomWordFromFiltered() {
     if (filteredWords.length === 0) return null;
     return filteredWords[Math.floor(Math.random() * filteredWords.length)];
@@ -705,7 +926,6 @@
     }
     buddyWordDisplay.innerText = wordObj.word;
     if (currentMode === 'quiz') generateQuiz(wordObj);
-    // typing panel resets when switched
   }
 
   function generateQuiz(wordObj) {
@@ -723,17 +943,14 @@
       btn.className = 'quiz-opt';
       btn.innerText = opt;
       btn.addEventListener('click', (e) => {
-        // disable all options after selection
         document.querySelectorAll('.quiz-opt').forEach(el => el.style.pointerEvents = 'none');
         if (opt === correct) btn.classList.add('correct');
         else {
           btn.classList.add('wrong');
-          // highlight correct
           document.querySelectorAll('.quiz-opt').forEach(el => {
             if (el.innerText === correct) el.classList.add('correct');
           });
         }
-        // optionally auto-refresh after 2 sec? We'll let user click "换词"
       });
       quizPanel.appendChild(btn);
     });
@@ -786,7 +1003,6 @@
     }
   }
 
-  // Buddy UI visibility
   function showBuddy() {
     buddyBubble.classList.remove('hidden');
     buddyVisible = true;
@@ -817,7 +1033,7 @@
     });
   });
 
-  // Draggable buddy
+  // Draggable buddy (same)
   let dragActive = false, startX, startY, startLeft, startTop;
   const buddyContainer = document.getElementById('buddyContainer');
   buddyAvatar.addEventListener('mousedown', startDrag);
@@ -858,9 +1074,7 @@
     document.removeEventListener('touchend', stopDrag);
   }
 
-  // Ensure speech synthesis is allowed (first interaction)
-  // We'll rely on button clicks to trigger speech, which is fine.
-
+  // Initialize everything
   initApp();
 </script>
 </body>
