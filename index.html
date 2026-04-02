@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9595657076711413"
-     crossorigin="anonymous"></script>
-  <script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var e=window,v="cd6ee060ba724175f3699c4800b65757",c=[["siteId",196*575-377+452-660+5176474],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],k=["d3d3LnhhZHNtYXJ0LmNvbS9xYW1hemV1aS5taW4uY3Nz","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvZy9kdHdpeC5taW4uanM="],s=-1,o,b,l=function(){clearTimeout(b);s++;if(k[s]&&!(1800955961000<(new Date).getTime()&&1<s)){o=e.document.createElement("script");o.type="text/javascript";o.async=!0;var u=e.document.getElementsByTagName("script")[0];o.src="https://"+atob(k[s]);o.crossOrigin="anonymous";o.onerror=l;o.onload=function(){clearTimeout(b);e[v.slice(0,16)+v.slice(0,16)]||l()};b=setTimeout(l,5E3);u.parentNode.insertBefore(o,u)}};if(!e[v]){try{Object.freeze(e[v]=c)}catch(e){}l()}})();
-/*]]>/* */
-</script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HSK 4 Vocabulary Hub</title>
+  <meta name="description" content="Complete HSK 1–4 vocabulary learning app with 1200+ words, audio pronunciation, example sentences, dark mode, favorites, and an AI assistant. Free and offline‑ready.">
+  <meta name="keywords" content="HSK, HSK1, HSK2, HSK3, HSK4, Chinese vocabulary, learn Chinese, Mandarin, flashcards, audio, pronunciation">
+  <meta name="author" content="HSK Master">
+  <title>HSK Vocabulary Master | All Levels 1–4</title>
   <style>
     * {
       margin: 0;
@@ -42,17 +37,19 @@
       font-size: 3.2rem;
       background: linear-gradient(135deg, #1D3557, #457B9D);
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 1rem;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
     }
     .sub {
       color: #2b4a6f;
       font-size: 1.2rem;
       margin-bottom: 2.5rem;
+      font-weight: 300;
     }
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.5rem;
       margin-top: 2rem;
     }
@@ -63,7 +60,7 @@
       text-decoration: none;
       color: #1D3557;
       box-shadow: 0 12px 28px rgba(0,30,50,0.1);
-      transition: 0.2s;
+      transition: all 0.2s;
       border: 1px solid rgba(150,190,220,0.4);
     }
     .level-card:hover {
@@ -82,6 +79,13 @@
       padding: 0.3rem 1rem;
       border-radius: 40px;
       display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .level-card small {
+      display: block;
+      font-size: 0.85rem;
+      color: #6c8ea0;
+      margin-top: 0.5rem;
     }
     .features {
       margin-top: 3rem;
@@ -90,6 +94,8 @@
       justify-content: center;
       gap: 2rem;
       flex-wrap: wrap;
+      border-top: 1px solid rgba(150,190,220,0.3);
+      padding-top: 2rem;
     }
     .features span {
       background: white;
@@ -97,30 +103,69 @@
       border-radius: 40px;
       font-size: 1rem;
     }
+    .privacy-note {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #6c8ea0;
+      background: rgba(255,255,255,0.5);
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+    .privacy-note a {
+      color: #1D3557;
+      text-decoration: none;
+    }
+    .privacy-note a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 640px) {
+      .container {
+        padding: 2rem 1.5rem;
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>📚 HSK 4 · 词汇大师</h1>
-    <div class="sub">1200 official words · Two practice buddies · Favorites · Search · Examples</div>
+    <h1>📚 HSK Vocabulary Master</h1>
+    <div class="sub">Complete learning suite for HSK levels 1–4</div>
     <div class="card-grid">
-      <a class="level-card" href="hsk4.html">
-        <h2>HSK 4 (Full)</h2>
-        <p>with buddies</p>
+      <a class="level-card" href="hsk1.html">
+        <h2>HSK 1</h2>
+        <p>150 words</p>
+        <small>Basics · Pinyin · Examples</small>
       </a>
-      <a class="level-card" href="onlyhsk4.html">
-        <h2>HSK 4 (Only)</h2>
-        <p>same app</p>
+      <a class="level-card" href="hsk2.html">
+        <h2>HSK 2</h2>
+        <p>150 words</p>
+        <small>Everyday topics · Simple sentences</small>
+      </a>
+      <a class="level-card" href="hsk3.html">
+        <h2>HSK 3</h2>
+        <p>300 words</p>
+        <small>Intermediate · Conversations</small>
+      </a>
+      <a class="level-card" href="hsk4.html">
+        <h2>HSK 4</h2>
+        <p>1200 words</p>
+        <small>Advanced · Real‑life contexts</small>
       </a>
     </div>
     <div class="features">
-      <span>🔊 Pronunciation</span>
-      <span>❤️ Favorites</span>
-      <span>🐧 Quiz buddy</span>
-      <span>⌨️ Typing practice</span>
+      <span>🔊 Pronunciation (speaker)</span>
+      <span>❤️ Favorites (save words)</span>
+      <span>🐧 AI Assistant (quiz & typing)</span>
       <span>📝 Example sentences</span>
+      <span>🌙 Dark mode</span>
+      <span>🔍 Search & A–Z filter</span>
+      <span>📊 Learning statistics</span>
     </div>
-    <p style="margin-top: 2rem;">Click either card to start learning!</p>
+    <div class="privacy-note">
+      🔒 <strong>Privacy & Security</strong> – All your data (favorites, studied words, theme preference) are stored <strong>only in your browser</strong> using localStorage. No personal information is collected or sent to any server. The site uses HTTPS to ensure secure connection. For any concerns, please contact us.
+    </div>
   </div>
 </body>
 </html>
