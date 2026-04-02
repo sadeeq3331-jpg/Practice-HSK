@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>HSK 2 Vocabulary Master</title>
+  <!-- Your ad codes (optional) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9595657076711413" crossorigin="anonymous"></script>
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var m=window,q="b16361ca2a1a661bda6843ca4a40ef06",b=[["siteId",421*580-695+5044188],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],i=["d3d3LnhhZHNtYXJ0LmNvbS9LRi9mRmx6S1AvaXJldGluYS5taW4uanM=","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvYmF3cy1zZGsubWluLmpz"],u=-1,s,n,z=function(){clearTimeout(n);u++;if(i[u]&&!(1800666136000<(new Date).getTime()&&1<u)){s=m.document.createElement("script");s.type="text/javascript";s.async=!0;var j=m.document.getElementsByTagName("script")[0];s.src="https://"+atob(i[u]);s.crossOrigin="anonymous";s.onerror=z;s.onload=function(){clearTimeout(n);m[q.slice(0,16)+q.slice(0,16)]||z()};n=setTimeout(z,5E3);j.parentNode.insertBefore(s,j)}};if(!m[q]){try{Object.freeze(m[q]=b)}catch(e){}z()}})();
+  /*]]>/* */
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ========== All styles from the previous version (unchanged) ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    body.light {
+      background: linear-gradient(145deg, #eef2f7 0%, #e2eaf1 100%);
+      --bg-card: white;
+      --bg-header: rgba(255,255,255,0.7);
+      --text-primary: #0a2f3b;
+      --text-secondary: #1b6b85;
+      --border-light: #b0cfdf;
+      --shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    body.dark {
+      background: linear-gradient(145deg, #1a2a2f 0%, #0f1e24 100%);
+      --bg-card: #2a3b42;
+      --bg-header: rgba(30,40,45,0.8);
+      --text-primary: #e2e8f0;
+      --text-secondary: #9ac7db;
+      --border-light: #3a5a66;
+      --shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    body {
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      touch-action: pan-x pan-y;
+      background: var(--bg-header);
+    }
+    .app-container {
+      max-width: 1400px;
+      width: 100%;
+      background: var(--bg-header);
+      backdrop-filter: blur(12px);
+      border-radius: 2rem;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.2);
+      margin-bottom: 4.5rem;
+    }
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+    }
+    .title-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .title-section h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, #0f3b4c, #1b6b85);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .dark .title-section h1 {
+      background: linear-gradient(135deg, #9ac7db, #e2e8f0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .badge {
+      background: var(--text-secondary);
+      color: white;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      display: inline-block;
+    }
+    .search-box {
+      display: flex;
+      background: var(--bg-card);
+      border-radius: 50px;
+      padding: 0.2rem 0.2rem 0.2rem 1.2rem;
+      border: 1px solid var(--border-light);
+      min-width: 250px;
+    }
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      padding: 0.6rem 0;
+      background: transparent;
+      color: var(--text-primary);
+    }
+    .search-box input::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
+    .search-box button {
+      background: var(--text-secondary);
+      border: none;
+      color: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .settings-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .icon-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 30px;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+    .icon-btn i {
+      margin-right: 4px;
+    }
+    .stats-panel {
+      background: var(--bg-card);
+      border-radius: 1.5rem;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      border: 1px solid var(--border-light);
+    }
+    .stats-panel .stat {
+      font-weight: 500;
+    }
+    .stats-panel.hidden {
+      display: none;
+    }
+    .letter-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0 0.5rem;
+      justify-content: center;
+    }
+    .letter-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      width: 38px;
+      height: 38px;
+      border-radius: 20px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .letter-btn.active {
+      background: var(--text-secondary);
+      color: white;
+    }
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    .cat-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 0.4rem 1rem;
+      border-radius: 30px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .cat-btn.active {
+      background: var(--text-secondary);
+      color: white;
+    }
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 1rem 0 1.2rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .word-counter {
+      background: var(--bg-card);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .pagination-controls {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .page-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 17px;
+      border: none;
+      background: var(--bg-card);
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .page-btn.active {
+      background: var(--text-secondary);
+      color: white;
+    }
+    .bottom-pagination {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+    .bottom-pagination button {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      color: var(--text-primary);
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .vocab-card {
+      background: var(--bg-card);
+      border-radius: 1.5rem;
+      padding: 1.2rem 1rem;
+      border: 1px solid var(--border-light);
+      transition: 0.2s;
+    }
+    .vocab-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+    .word-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chinese-word {
+      font-size: 1.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .favorite-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #cbd5e0;
+    }
+    .favorite-btn.active {
+      color: #e53e3e;
+    }
+    .speaker-btn {
+      background: rgba(27,107,133,0.1);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      margin-left: 0.5rem;
+    }
+    .pinyin {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      background: rgba(27,107,133,0.1);
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      display: inline-block;
+      margin: 0.6rem 0 0.4rem;
+    }
+    .meaning {
+      font-size: 0.9rem;
+      background: rgba(27,107,133,0.05);
+      padding: 0.4rem 0.8rem;
+      border-radius: 1rem;
+      border: 1px dashed var(--border-light);
+      color: var(--text-primary);
+    }
+    .example-container {
+      margin-top: 0.6rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: rgba(27,107,133,0.05);
+      border-radius: 1rem;
+      padding: 0.4rem 0.8rem;
+      border-left: 3px solid var(--text-secondary);
+    }
+    .example-text {
+      font-size: 0.85rem;
+      font-style: italic;
+      flex: 1;
+      color: var(--text-primary);
+    }
+    .example-speaker {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .buddy-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .buddy-bubble {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      background: var(--bg-card);
+      border-radius: 24px 24px 12px 24px;
+      padding: 1rem;
+      width: 300px;
+      max-width: 85vw;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.25);
+      border: 1px solid var(--text-secondary);
+      transition: 0.2s;
+      transform-origin: bottom right;
+      visibility: visible;
+      opacity: 1;
+    }
+    .buddy-bubble.hidden {
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .buddy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 6px;
+    }
+    .buddy-header span {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .buddy-close {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #8aa9b8;
+    }
+    .buddy-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .buddy-tab {
+      background: rgba(27,107,133,0.1);
+      border: none;
+      padding: 6px 12px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 500;
+      flex: 1;
+      text-align: center;
+      color: var(--text-primary);
+    }
+    .buddy-tab.active {
+      background: var(--text-secondary);
+      color: white;
+    }
+    .buddy-word {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: center;
+      margin: 8px 0;
+      word-break: break-word;
+    }
+    .buddy-controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 8px 0;
+    }
+    .buddy-controls button {
+      background: rgba(27,107,133,0.1);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .quiz-opt {
+      background: rgba(27,107,133,0.05);
+      border: 1px solid var(--border-light);
+      border-radius: 30px;
+      padding: 8px 12px;
+      cursor: pointer;
+      text-align: center;
+      color: var(--text-primary);
+    }
+    .quiz-opt.correct {
+      background: #c6f6d5;
+      border-color: #38a169;
+      color: #2d3748;
+    }
+    .quiz-opt.wrong {
+      background: #fed7d7;
+      border-color: #e53e3e;
+      color: #2d3748;
+    }
+    .typing-area {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .typing-input {
+      padding: 10px;
+      border-radius: 40px;
+      border: 1px solid var(--border-light);
+      width: 100%;
+      background: var(--bg-card);
+      color: var(--text-primary);
+    }
+    .typing-feedback {
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    .buddy-avatar {
+      width: 60px;
+      height: 60px;
+      background: var(--bg-card);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      border: 2px solid var(--text-secondary);
+      cursor: pointer;
+      transition: transform 0.1s;
+      position: relative;
+      z-index: 10;
+    }
+    .buddy-avatar:active {
+      transform: scale(0.95);
+    }
+    .buddy-avatar img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+    .buddy-avatar span {
+      display: none;
+    }
+    .footer-note {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 1rem;
+    }
+    @media (max-width: 640px) {
+      .app-container {
+        padding: 1rem;
+      }
+      .chinese-word {
+        font-size: 1.6rem;
+      }
+      .title-section h1 {
+        font-size: 1.6rem;
+      }
+      .buddy-bubble {
+        width: 280px;
+      }
+      .letter-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 0.8rem;
+      }
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+  <!-- HSK 2 word list -->
+  <script src="words_hsk2.js"></script>
+</head>
+<body class="light">
+<div class="app-container">
+  <div class="header">
+    <div class="title-section">
+      <h1>📚 HSK 2 Vocabulary Master</h1>
+      <div class="badge"><i class="fas fa-mobile-alt"></i> 150 words | A–Z filter</div>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="🔍 Search by Chinese, pinyin, or English">
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+
+  <div class="settings-bar">
+    <button id="darkModeToggle" class="icon-btn"><i class="fas fa-moon"></i> Dark Mode</button>
+    <button id="toggleStatsBtn" class="icon-btn"><i class="fas fa-chart-line"></i> Show Stats</button>
+    <button id="exportFavBtn" class="icon-btn"><i class="fas fa-download"></i> Export Favorites</button>
+    <button id="importFavBtn" class="icon-btn"><i class="fas fa-upload"></i> Import Favorites</button>
+    <input type="file" id="importFavFile" style="display:none" accept=".json">
+  </div>
+
+  <div id="statsPanel" class="stats-panel hidden">
+    <div class="stat"><i class="fas fa-heart"></i> Favorites: <span id="favCount">0</span></div>
+    <div class="stat"><i class="fas fa-eye"></i> Studied: <span id="studiedCount">0</span> / <span id="totalWordsStat">0</span></div>
+    <div class="stat"><i class="fas fa-check-circle"></i> Mastery: <span id="masteryPercent">0</span>%</div>
+    <button id="resetProgressBtn" class="icon-btn" style="font-size:0.8rem;"><i class="fas fa-trash-alt"></i> Reset Progress</button>
+  </div>
+
+  <div class="letter-filter" id="letterFilter"></div>
+
+  <div class="categories" id="categoryTabs">
+    <button class="cat-btn active" data-cat="all">All (150)</button>
+    <button class="cat-btn" data-cat="1-50">1–50</button>
+    <button class="cat-btn" data-cat="51-100">51–100</button>
+    <button class="cat-btn" data-cat="101-150">101–150</button>
+    <button class="cat-btn" data-cat="favorites"><i class="fas fa-heart"></i> Favorites</button>
+  </div>
+
+  <div class="stats-bar">
+    <div class="word-counter">📄 Showing <span id="shownCount">0</span> / <span id="totalCount">150</span> words</div>
+    <div class="pagination-controls" id="paginationContainer"></div>
+  </div>
+
+  <div id="vocabGrid" class="card-grid"></div>
+
+  <div class="bottom-pagination" id="bottomPagination">
+    <button id="prevPageBottom"><i class="fas fa-chevron-left"></i> Previous</button>
+    <span id="pageInfo">Page 1 / 1</span>
+    <button id="nextPageBottom">Next <i class="fas fa-chevron-right"></i></button>
+  </div>
+
+  <div class="footer-note">
+    <span><i class="fas fa-heart"></i> Favorite</span>
+    <span><i class="fas fa-volume-up"></i> Click to hear</span>
+    <span><i class="fas fa-robot"></i> AI Assistant</span>
+    <span><i class="fas fa-chart-simple"></i> Learning stats</span>
+    <span><i class="fas fa-font"></i> A–Z filter</span>
+  </div>
+</div>
+
+<div class="buddy-container" id="buddyContainer">
+  <div class="buddy-bubble hidden" id="buddyBubble">
+    <div class="buddy-header">
+      <span><i class="fas fa-robot"></i> Learning Assistant</span>
+      <button class="buddy-close" id="closeBuddy"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="buddy-tabs">
+      <button class="buddy-tab active" data-mode="quiz">📝 Quiz</button>
+      <button class="buddy-tab" data-mode="typing">⌨️ Typing</button>
+    </div>
+    <div id="buddyWordDisplay" class="buddy-word">?</div>
+    <div class="buddy-controls">
+      <button id="speakBuddyWord"><i class="fas fa-volume-up"></i> Speak</button>
+      <button id="newBuddyWord"><i class="fas fa-random"></i> Random</button>
+    </div>
+    <div id="quizPanel" class="quiz-options"></div>
+    <div id="typingPanel" class="typing-area" style="display:none;">
+      <input type="text" id="typingInput" class="typing-input" placeholder="Type English meaning...">
+      <button id="submitTyping" class="buddy-tab" style="background:#1b6b85; color:white;">Submit</button>
+      <div id="typingFeedbackMsg" class="typing-feedback"></div>
+    </div>
+  </div>
+  <div class="buddy-avatar" id="buddyAvatar">
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%231b6b85'/%3E%3Ccircle cx='35' cy='40' r='5' fill='white'/%3E%3Ccircle cx='65' cy='40' r='5' fill='white'/%3E%3Cpath d='M35 65 Q50 80 65 65' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="buddy">
+  </div>
+</div>
+
+<script>
+  // ================== SPEECH MODULE (embedded) ==================
+  (function() {
+    if (!window.speechSynthesis) {
+      console.warn("Speech not supported");
+      window.speakText = function(text) { console.log("Would speak: " + text); };
+      return;
+    }
+    window.speakText = function(text) {
+      if (!text) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-CN';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+        console.log("🔊 Speaking:", text);
+      } catch(e) { console.error(e); }
+    };
+    console.log("🎤 Speech ready");
+  })();
+
+  // ================== MAIN APP LOGIC ==================
+  const wordList = window.HSK2_WORDS || [];
+  if (wordList.length === 0) {
+    alert('Error: words_hsk2.js not loaded. Please ensure it contains HSK2_WORDS.');
+  }
+
+  // State
+  let currentFilter = 'all';
+  let currentLetter = null;
+  let filteredWords = [...wordList];
+  let currentPage = 1;
+  const pageSize = 20;
+  let favorites = new Set(JSON.parse(localStorage.getItem('hsk2_favorites') || '[]'));
+  let studiedWords = new Set(JSON.parse(localStorage.getItem('hsk2_studied') || '[]'));
+
+  // DOM elements (same as HSK1 version)
+  const grid = document.getElementById('vocabGrid');
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const shownSpan = document.getElementById('shownCount');
+  const totalSpan = document.getElementById('totalCount');
+  const paginationDiv = document.getElementById('paginationContainer');
+  const bottomPrev = document.getElementById('prevPageBottom');
+  const bottomNext = document.getElementById('nextPageBottom');
+  const pageInfoSpan = document.getElementById('pageInfo');
+  const categoryBtns = document.querySelectorAll('.cat-btn');
+  const favCountSpan = document.getElementById('favCount');
+  const studiedCountSpan = document.getElementById('studiedCount');
+  const totalWordsStatSpan = document.getElementById('totalWordsStat');
+  const masteryPercentSpan = document.getElementById('masteryPercent');
+  const statsPanel = document.getElementById('statsPanel');
+  const toggleStatsBtn = document.getElementById('toggleStatsBtn');
+  const exportFavBtn = document.getElementById('exportFavBtn');
+  const importFavBtn = document.getElementById('importFavBtn');
+  const importFavFile = document.getElementById('importFavFile');
+  const resetProgressBtn = document.getElementById('resetProgressBtn');
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const letterFilterDiv = document.getElementById('letterFilter');
+
+  // Buddy elements (same as before)
+  const buddyBubble = document.getElementById('buddyBubble');
+  const buddyAvatar = document.getElementById('buddyAvatar');
+  const closeBuddy = document.getElementById('closeBuddy');
+  const newBuddyWord = document.getElementById('newBuddyWord');
+  const speakBuddyWord = document.getElementById('speakBuddyWord');
+  const buddyWordDisplay = document.getElementById('buddyWordDisplay');
+  const quizPanelElem = document.getElementById('quizPanel');
+  const typingPanelElem = document.getElementById('typingPanel');
+  const typingInputElem = document.getElementById('typingInput');
+  const submitTyping = document.getElementById('submitTyping');
+  const typingFeedbackMsg = document.getElementById('typingFeedbackMsg');
+  const tabs = document.querySelectorAll('.buddy-tab');
+
+  let currentMode = 'quiz';
+  let currentBuddyWord = null;
+  let buddyVisible = false;
+
+  // Helper: update stats display
+  function updateStats() {
+    favCountSpan.innerText = favorites.size;
+    const studied = studiedWords.size;
+    studiedCountSpan.innerText = studied;
+    totalWordsStatSpan.innerText = wordList.length;
+    const percent = wordList.length ? Math.round((studied / wordList.length) * 100) : 0;
+    masteryPercentSpan.innerText = percent;
+  }
+
+  function markWordsStudied(words) {
+    let changed = false;
+    words.forEach(w => {
+      if (!studiedWords.has(w.word)) {
+        studiedWords.add(w.word);
+        changed = true;
+      }
+    });
+    if (changed) {
+      localStorage.setItem('hsk2_studied', JSON.stringify([...studiedWords]));
+      updateStats();
+    }
+  }
+
+  function initApp() {
+    if (wordList.length === 0) return;
+    totalSpan.innerText = wordList.length;
+    buildLetterFilter();
+    applyFilter();
+    render();
+    updateStats();
+
+    const savedTheme = localStorage.getItem('hsk2_theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.remove('light');
+      document.body.classList.add('dark');
+      darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+    } else {
+      document.body.classList.add('light');
+      darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+    }
+  }
+
+  function buildLetterFilter() {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    letterFilterDiv.innerHTML = '<button class="letter-btn all-letters" data-letter="">All</button>';
+    letters.forEach(l => {
+      const btn = document.createElement('button');
+      btn.className = 'letter-btn';
+      btn.textContent = l;
+      btn.dataset.letter = l.toLowerCase();
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentLetter = l.toLowerCase();
+        applyFilter();
+        render();
+      });
+      letterFilterDiv.appendChild(btn);
+    });
+    const allBtn = document.querySelector('.letter-btn.all-letters');
+    if (allBtn) {
+      allBtn.addEventListener('click', () => {
+        document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
+        allBtn.classList.add('active');
+        currentLetter = null;
+        applyFilter();
+        render();
+      });
+      allBtn.classList.add('active');
+    }
+  }
+
+  function applyFilter() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    let base = wordList;
+
+    if (currentFilter === 'favorites') {
+      base = wordList.filter(w => favorites.has(w.word));
+    } else if (currentFilter !== 'all') {
+      const [start, end] = getRangeIndices(currentFilter);
+      base = wordList.slice(start, end);
+    }
+
+    if (currentLetter) {
+      base = base.filter(w => {
+        const pinyinFirst = w.pinyin.trim().toLowerCase().charAt(0);
+        return pinyinFirst === currentLetter;
+      });
+    }
+
+    if (searchTerm) {
+      filteredWords = base.filter(w =>
+        w.word.includes(searchTerm) ||
+        w.pinyin.toLowerCase().includes(searchTerm) ||
+        w.meaning.toLowerCase().includes(searchTerm)
+      );
+    } else {
+      filteredWords = [...base];
+    }
+    currentPage = 1;
+  }
+
+  function getRangeIndices(range) {
+    switch(range) {
+      case '1-50': return [0, 50];
+      case '51-100': return [50, 100];
+      case '101-150': return [100, 150];
+      default: return [0, wordList.length];
+    }
+  }
+
+  function saveFavorites() {
+    localStorage.setItem('hsk2_favorites', JSON.stringify([...favorites]));
+    updateStats();
+  }
+
+  function toggleFavorite(word) {
+    if (favorites.has(word)) favorites.delete(word);
+    else favorites.add(word);
+    saveFavorites();
+    if (currentFilter === 'favorites') {
+      applyFilter();
+      render();
+    } else {
+      render();
+    }
+  }
+
+  function render() {
+    const start = (currentPage-1)*pageSize;
+    const pageWords = filteredWords.slice(start, start+pageSize);
+    if (pageWords.length === 0) {
+      grid.innerHTML = '<div class="empty-state" style="text-align:center;padding:2rem;">✨ No words found</div>';
+    } else {
+      let html = '';
+      pageWords.forEach(item => {
+        const isFav = favorites.has(item.word);
+        const exampleHtml = item.example ? `
+          <div class="example-container">
+            <span class="example-text">📌 ${item.example}</span>
+            <button class="example-speaker" data-example="${item.example}"><i class="fas fa-volume-up"></i></button>
+          </div>
+        ` : '';
+        html += `
+          <div class="vocab-card">
+            <div class="word-header">
+              <span class="chinese-word">${item.word}</span>
+              <div>
+                <button class="favorite-btn ${isFav ? 'active' : ''}" data-word="${item.word}"><i class="${isFav ? 'fas' : 'far'} fa-heart"></i></button>
+                <button class="speaker-btn" data-word="${item.word}"><i class="fas fa-volume-up"></i></button>
+              </div>
+            </div>
+            <div class="pinyin">${item.pinyin}</div>
+            <div class="meaning">${item.meaning}</div>
+            ${exampleHtml}
+          </div>
+        `;
+      });
+      grid.innerHTML = html;
+      markWordsStudied(pageWords);
+    }
+
+    document.querySelectorAll('.speaker-btn').forEach(btn => {
+      btn.addEventListener('click', () => window.speakText(btn.dataset.word));
+    });
+    document.querySelectorAll('.example-speaker').forEach(btn => {
+      btn.addEventListener('click', () => window.speakText(btn.dataset.example));
+    });
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const word = btn.dataset.word;
+        toggleFavorite(word);
+        const icon = btn.querySelector('i');
+        if (favorites.has(word)) {
+          icon.classList.remove('far');
+          icon.classList.add('fas');
+          btn.classList.add('active');
+        } else {
+          icon.classList.remove('fas');
+          icon.classList.add('far');
+          btn.classList.remove('active');
+        }
+      });
+    });
+
+    shownSpan.innerText = filteredWords.length;
+    renderPagination();
+  }
+
+  function renderPagination() {
+    const totalPages = Math.ceil(filteredWords.length / pageSize);
+    if (totalPages <= 1) {
+      paginationDiv.innerHTML = '';
+      bottomPrev.disabled = true;
+      bottomNext.disabled = true;
+      pageInfoSpan.innerText = `Page 1 / 1`;
+    } else {
+      // Top pagination
+      let btns = '';
+      btns += `<button class="page-btn" id="prevPageTop" ${currentPage===1?'disabled':''}><i class="fas fa-chevron-left"></i></button>`;
+      for (let i=1; i<=totalPages; i++) {
+        btns += `<button class="page-btn ${i===currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+      }
+      btns += `<button class="page-btn" id="nextPageTop" ${currentPage===totalPages?'disabled':''}><i class="fas fa-chevron-right"></i></button>`;
+      paginationDiv.innerHTML = btns;
+      document.querySelectorAll('.page-btn[data-page]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentPage = parseInt(btn.dataset.page);
+          render();
+        });
+      });
+      document.getElementById('prevPageTop')?.addEventListener('click', () => {
+        if (currentPage > 1) { currentPage--; render(); }
+      });
+      document.getElementById('nextPageTop')?.addEventListener('click', () => {
+        if (currentPage < totalPages) { currentPage++; render(); }
+      });
+
+      // Bottom pagination
+      bottomPrev.disabled = (currentPage === 1);
+      bottomNext.disabled = (currentPage === totalPages);
+      pageInfoSpan.innerText = `Page ${currentPage} / ${totalPages}`;
+    }
+  }
+
+  categoryBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      categoryBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.cat;
+      applyFilter();
+      render();
+    });
+  });
+
+  function handleSearch() { applyFilter(); render(); }
+  searchBtn.addEventListener('click', handleSearch);
+  searchInput.addEventListener('keyup', e => e.key === 'Enter' && handleSearch());
+
+  bottomPrev.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      render();
+    }
+  });
+  bottomNext.addEventListener('click', () => {
+    const totalPages = Math.ceil(filteredWords.length / pageSize);
+    if (currentPage < totalPages) {
+      currentPage++;
+      render();
+    }
+  });
+
+  toggleStatsBtn.addEventListener('click', () => {
+    statsPanel.classList.toggle('hidden');
+    localStorage.setItem('hsk2_stats_visible', (!statsPanel.classList.contains('hidden')).toString());
+  });
+  if (localStorage.getItem('hsk2_stats_visible') === 'true') {
+    statsPanel.classList.remove('hidden');
+  } else {
+    statsPanel.classList.add('hidden');
+  }
+
+  darkModeToggle.addEventListener('click', () => {
+    const isDark = document.body.classList.contains('dark');
+    if (isDark) {
+      document.body.classList.remove('dark');
+      document.body.classList.add('light');
+      localStorage.setItem('hsk2_theme', 'light');
+      darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+    } else {
+      document.body.classList.remove('light');
+      document.body.classList.add('dark');
+      localStorage.setItem('hsk2_theme', 'dark');
+      darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+    }
+  });
+
+  exportFavBtn.addEventListener('click', () => {
+    const data = JSON.stringify([...favorites], null, 2);
+    const blob = new Blob([data], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'hsk2_favorites.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  importFavBtn.addEventListener('click', () => {
+    importFavFile.click();
+  });
+  importFavFile.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const imported = JSON.parse(ev.target.result);
+        if (Array.isArray(imported)) {
+          favorites = new Set(imported);
+          saveFavorites();
+          if (currentFilter === 'favorites') {
+            applyFilter();
+            render();
+          } else {
+            render();
+          }
+          updateStats();
+          alert('Favorites imported successfully!');
+        } else {
+          alert('Invalid file format, expected JSON array');
+        }
+      } catch (err) {
+        alert('Failed to parse file');
+      }
+      importFavFile.value = '';
+    };
+    reader.readAsText(file);
+  });
+
+  resetProgressBtn.addEventListener('click', () => {
+    if (confirm('Reset progress will clear all studied records. Continue?')) {
+      studiedWords.clear();
+      localStorage.setItem('hsk2_studied', JSON.stringify([]));
+      updateStats();
+      alert('Progress reset');
+    }
+  });
+
+  // ---------------------- Buddy Logic ----------------------
+  function getRandomWordFromFiltered() {
+    if (filteredWords.length === 0) return null;
+    return filteredWords[Math.floor(Math.random() * filteredWords.length)];
+  }
+
+  function updateBuddyWord(wordObj) {
+    currentBuddyWord = wordObj;
+    if (!wordObj) {
+      buddyWordDisplay.innerText = '?';
+      return;
+    }
+    buddyWordDisplay.innerText = wordObj.word;
+    if (currentMode === 'quiz') generateQuiz(wordObj);
+  }
+
+  function generateQuiz(wordObj) {
+    if (!wordObj) return;
+    const correct = wordObj.meaning;
+    let options = [correct];
+    while (options.length < 4) {
+      const rand = wordList[Math.floor(Math.random() * wordList.length)];
+      if (!options.includes(rand.meaning) && rand.meaning !== correct) options.push(rand.meaning);
+    }
+    options = options.sort(() => Math.random() - 0.5);
+    quizPanelElem.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('div');
+      btn.className = 'quiz-opt';
+      btn.innerText = opt;
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.quiz-opt').forEach(el => el.style.pointerEvents = 'none');
+        if (opt === correct) btn.classList.add('correct');
+        else {
+          btn.classList.add('wrong');
+          document.querySelectorAll('.quiz-opt').forEach(el => {
+            if (el.innerText === correct) el.classList.add('correct');
+          });
+        }
+      });
+      quizPanelElem.appendChild(btn);
+    });
+  }
+
+  function showTypingPanel() {
+    typingPanelElem.style.display = 'flex';
+    quizPanelElem.style.display = 'none';
+  }
+
+  function showQuizPanel() {
+    typingPanelElem.style.display = 'none';
+    quizPanelElem.style.display = 'flex';
+  }
+
+  function switchMode(mode) {
+    currentMode = mode;
+    if (mode === 'quiz') {
+      showQuizPanel();
+      if (currentBuddyWord) generateQuiz(currentBuddyWord);
+    } else {
+      showTypingPanel();
+    }
+  }
+
+  function handleNewWord() {
+    const newWordObj = getRandomWordFromFiltered();
+    if (newWordObj) {
+      updateBuddyWord(newWordObj);
+      if (currentMode === 'typing') {
+        typingInputElem.value = '';
+        typingFeedbackMsg.innerHTML = '';
+      }
+    } else {
+      buddyWordDisplay.innerText = 'No words';
+    }
+  }
+
+  function handleTypingSubmit() {
+    if (!currentBuddyWord) return;
+    const userAns = typingInputElem.value.trim().toLowerCase();
+    const correct = currentBuddyWord.meaning.toLowerCase();
+    if (userAns === correct) {
+      typingFeedbackMsg.innerHTML = '<span style="color:#38a169;">✓ Correct!</span>';
+    } else {
+      typingFeedbackMsg.innerHTML = `<span style="color:#e53e3e;">✗ Wrong. Correct: ${currentBuddyWord.meaning}</span>`;
+    }
+  }
+
+  buddyAvatar.addEventListener('click', () => {
+    if (buddyVisible) {
+      buddyBubble.classList.add('hidden');
+      buddyVisible = false;
+    } else {
+      buddyBubble.classList.remove('hidden');
+      buddyVisible = true;
+      if (!currentBuddyWord) handleNewWord();
+    }
+  });
+  closeBuddy.addEventListener('click', () => {
+    buddyBubble.classList.add('hidden');
+    buddyVisible = false;
+  });
+  newBuddyWord.addEventListener('click', handleNewWord);
+  speakBuddyWord.addEventListener('click', () => {
+    if (currentBuddyWord) window.speakText(currentBuddyWord.word);
+  });
+  submitTyping.addEventListener('click', handleTypingSubmit);
+  typingInputElem.addEventListener('keyup', e => { if (e.key === 'Enter') handleTypingSubmit(); });
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const mode = tab.dataset.mode;
+      switchMode(mode);
+    });
+  });
+
+  initApp();
+</script>
+</body>
+</html>
