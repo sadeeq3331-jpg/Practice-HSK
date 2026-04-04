@@ -4,12 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>HSK 6 Vocabulary Master</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9595657076711413" crossorigin="anonymous"></script>
-  <script type="text/javascript" data-cfasync="false">
-  /*<![CDATA[/* */
-  (function(){var m=window,q="b16361ca2a1a661bda6843ca4a40ef06",b=[["siteId",421*580-695+5044188],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],i=["d3d3LnhhZHNtYXJ0LmNvbS9LRi9mRmx6S1AvaXJldGluYS5taW4uanM=","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvYmF3cy1zZGsubWluLmpz"],u=-1,s,n,z=function(){clearTimeout(n);u++;if(i[u]&&!(1800666136000<(new Date).getTime()&&1<u)){s=m.document.createElement("script");s.type="text/javascript";s.async=!0;var j=m.document.getElementsByTagName("script")[0];s.src="https://"+atob(i[u]);s.crossOrigin="anonymous";s.onerror=z;s.onload=function(){clearTimeout(n);m[q.slice(0,16)+q.slice(0,16)]||z()};n=setTimeout(z,5E3);j.parentNode.insertBefore(s,j)}};if(!m[q]){try{Object.freeze(m[q]=b)}catch(e){}z()}})();
-  /*]]>/* */
-  </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -57,7 +51,7 @@
       padding: 0.8rem 1rem;
       box-shadow: var(--shadow);
       border: 1px solid rgba(255,255,255,0.2);
-      margin-bottom: 3.5rem;
+      margin-bottom: 1rem;
     }
     .header {
       display: flex;
@@ -110,7 +104,7 @@
       display: flex;
       justify-content: flex-end;
       gap: 0.5rem;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.4rem;
       flex-wrap: wrap;
     }
     .icon-btn {
@@ -119,12 +113,12 @@
     }
     .stats-panel {
       padding: 0.4rem 0.8rem;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.4rem;
       font-size: 0.75rem;
     }
     .letter-filter {
       gap: 0.3rem;
-      margin: 0.4rem 0;
+      margin: 0.3rem 0;
     }
     .letter-btn {
       width: 28px;
@@ -133,14 +127,14 @@
     }
     .categories {
       gap: 0.3rem;
-      margin: 0.4rem 0;
+      margin: 0.3rem 0;
     }
     .cat-btn {
       padding: 0.2rem 0.6rem;
       font-size: 0.7rem;
     }
     .stats-bar {
-      margin: 0.4rem 0 0.6rem;
+      margin: 0.3rem 0 0.4rem;
     }
     .word-counter {
       padding: 0.2rem 0.6rem;
@@ -175,7 +169,8 @@
     }
     .footer-note {
       font-size: 0.6rem;
-      margin-top: 0.5rem;
+      margin-top: 0.3rem;
+      text-align: center;
     }
     @media (max-width: 640px) {
       .app-container {
@@ -217,6 +212,106 @@
     .study-mode-active .example-container {
       display: none !important;
     }
+    /* Modal for full vocabulary */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+    .modal-content {
+      max-width: 1200px;
+      margin: 2rem auto;
+      background: var(--bg-card);
+      border-radius: 1.5rem;
+      padding: 1rem;
+      position: relative;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .modal-header h2 {
+      color: var(--text-primary);
+      font-size: 1.2rem;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+    }
+    .modal-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 0.5rem;
+    }
+    .modal-tab {
+      background: none;
+      border: none;
+      padding: 0.3rem 1rem;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-radius: 30px;
+    }
+    .modal-tab.active {
+      background: var(--accent);
+      color: white;
+    }
+    .vocab-list {
+      max-height: 70vh;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+    .letter-group {
+      margin-bottom: 1.2rem;
+    }
+    .letter-group h3 {
+      background: var(--accent);
+      color: white;
+      display: inline-block;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    .letter-group .word-item {
+      display: inline-block;
+      width: calc(20% - 8px);
+      margin: 4px;
+      background: rgba(79,70,229,0.05);
+      padding: 4px 6px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .letter-group .word-item:hover {
+      background: var(--accent);
+      color: white;
+    }
+    .range-group {
+      margin-bottom: 1rem;
+    }
+    .range-group h4 {
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+    }
     .buddy-container { position: fixed; bottom: 15px; right: 15px; z-index: 1000; display: flex; flex-direction: column; align-items: flex-end; }
     .buddy-bubble { position: absolute; bottom: 60px; right: 0; background: var(--bg-card); border-radius: 20px 20px 10px 20px; padding: 0.8rem; width: 260px; max-width: 85vw; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border: 1px solid var(--accent); }
     .buddy-bubble.hidden { visibility: hidden; opacity: 0; pointer-events: none; }
@@ -247,7 +342,7 @@
     <button id="darkModeToggle" class="icon-btn"><i class="fas fa-moon"></i> Dark</button>
     <button id="toggleStatsBtn" class="icon-btn"><i class="fas fa-chart-line"></i> Stats</button>
     <button id="shuffleBtn" class="icon-btn"><i class="fas fa-random"></i> Shuffle</button>
-    <button id="allWordsBtn" class="icon-btn"><i class="fas fa-list"></i> All Words</button>
+    <button id="fullVocabBtn" class="icon-btn"><i class="fas fa-list-ul"></i> Full Vocabulary</button>
     <button id="exportFavBtn" class="icon-btn"><i class="fas fa-download"></i> Export</button>
     <button id="importFavBtn" class="icon-btn"><i class="fas fa-upload"></i> Import</button>
     <input type="file" id="importFavFile" style="display:none" accept=".json">
@@ -261,8 +356,6 @@
   </div>
 
   <div id="studyModeToggle" class="study-mode-toggle"><i class="fas fa-eye-slash"></i><span>Study Mode</span></div>
-
-  <div class="ad-container" id="adTop"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9595657076711413" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
 
   <div class="letter-filter" id="letterFilter"></div>
   <div class="categories" id="categoryTabs">
@@ -278,11 +371,25 @@
 
   <div id="vocabGrid" class="card-grid"></div>
 
-  <div class="ad-container" id="adBottom"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9595657076711413" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
-
   <div class="bottom-pagination" id="bottomPagination"><button id="prevPageBottom"><i class="fas fa-chevron-left"></i> Prev</button><span id="pageInfo">Page 1 / 1</span><button id="nextPageBottom">Next <i class="fas fa-chevron-right"></i></button></div>
 
-  <div class="footer-note"><span><i class="fas fa-heart"></i> Fav</span><span><i class="fas fa-volume-up"></i> Click to hear</span><span><i class="fas fa-robot"></i> Assistant</span><span><i class="fas fa-random"></i> Shuffle</span><span><i class="fas fa-list"></i> All words</span></div>
+  <div class="footer-note"><span><i class="fas fa-heart"></i> Fav</span><span><i class="fas fa-volume-up"></i> Click to hear</span><span><i class="fas fa-robot"></i> Assistant</span><span><i class="fas fa-random"></i> Shuffle</span><span><i class="fas fa-list-ul"></i> Full List</span></div>
+</div>
+
+<!-- Modal for full vocabulary -->
+<div id="vocabModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Complete HSK 6 Vocabulary</h2>
+      <button class="modal-close" id="closeModal">&times;</button>
+    </div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" data-tab="letter">By Pinyin (A–Z)</button>
+      <button class="modal-tab" data-tab="range">By Range (1–625, 626–1250...)</button>
+    </div>
+    <div id="letterView" class="vocab-list"></div>
+    <div id="rangeView" class="vocab-list" style="display:none;"></div>
+  </div>
 </div>
 
 <!-- Floating Buddy (unchanged) -->
@@ -325,8 +432,14 @@
   const letterFilterDiv = document.getElementById('letterFilter');
   const studyModeToggle = document.getElementById('studyModeToggle');
   const shuffleBtn = document.getElementById('shuffleBtn');
-  const allWordsBtn = document.getElementById('allWordsBtn');
+  const fullVocabBtn = document.getElementById('fullVocabBtn');
+  const modal = document.getElementById('vocabModal');
+  const closeModal = document.getElementById('closeModal');
+  const letterView = document.getElementById('letterView');
+  const rangeView = document.getElementById('rangeView');
+  const modalTabs = document.querySelectorAll('.modal-tab');
 
+  // Buddy elements
   const buddyBubble = document.getElementById('buddyBubble');
   const buddyAvatar = document.getElementById('buddyAvatar');
   const closeBuddy = document.getElementById('closeBuddy');
@@ -353,7 +466,7 @@
     words.forEach(w => { if (!studiedWords.has(w.word)) { studiedWords.add(w.word); changed = true; } });
     if (changed) { localStorage.setItem('hsk6_studied', JSON.stringify([...studiedWords])); updateStats(); }
   }
-  function refreshAds() { if (typeof(adsbygoogle) !== 'undefined') { try { document.querySelectorAll('.adsbygoogle').forEach(ad => { (adsbygoogle = window.adsbygoogle || []).push({}); }); } catch(e) { } } }
+  function refreshAds() { /* No ads, so nothing to refresh */ }
 
   function applyFilter() {
     const searchTerm = searchInput.value.trim().toLowerCase();
@@ -422,7 +535,7 @@
   importFavFile.addEventListener('change', e => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = ev => { try { const imported = JSON.parse(ev.target.result); if (Array.isArray(imported)) { favorites = new Set(imported); saveFavorites(); if (currentFilter === 'favorites') { applyFilter(); render(); } else render(); updateStats(); alert('Favorites imported!'); refreshAds(); } else alert('Invalid file'); } catch(err) { alert('Parse error'); } importFavFile.value = ''; }; reader.readAsText(file); });
   resetProgressBtn.addEventListener('click', () => { if (confirm('Reset progress?')) { studiedWords.clear(); localStorage.setItem('hsk6_studied', JSON.stringify([])); updateStats(); alert('Progress reset'); refreshAds(); } });
 
-  // Study Mode toggle (animated)
+  // Study Mode
   studyModeToggle.addEventListener('click', () => {
     studyMode = !studyMode;
     localStorage.setItem('hsk6_studyMode', studyMode);
@@ -446,8 +559,7 @@
     studyModeToggle.querySelector('i').classList.add('fa-eye');
   }
 
-  // ========== NEW FEATURES ==========
-  // Shuffle: randomize filteredWords and reset to page 1
+  // Shuffle
   function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -464,24 +576,83 @@
     }
   });
 
-  // All Words: open a new tab with a printable list of all words
-  allWordsBtn.addEventListener('click', () => {
-    const all = wordList; // use full original list, not filtered
-    let htmlContent = `<!DOCTYPE html>
-    <html>
-    <head><meta charset="UTF-8"><title>HSK 6 All Words</title>
-    <style>body{font-family: Arial; margin:20px; line-height:1.4;} h1{color:#1e1b4b;} table{border-collapse:collapse; width:100%;} th,td{border:1px solid #ccc; padding:6px; text-align:left;} th{background:#f0f0f0;} .chinese{font-size:1.2em;}</style>
-    </head>
-    <body><h1>HSK 6 Complete Vocabulary (${all.length} words)</h1>
-    <table><thead><tr><th>Word</th><th>Pinyin</th><th>Meaning</th><th>Example</th></tr></thead><tbody>`;
-    all.forEach(w => {
-      htmlContent += `<tr><td class="chinese">${w.word}</td><td>${w.pinyin}</td><td>${w.meaning}</td><td>${w.example || ''}</td></tr>`;
+  // Full Vocabulary Modal
+  function buildLetterView() {
+    const groups = {};
+    wordList.forEach(w => {
+      const first = w.pinyin.trim().toLowerCase().charAt(0);
+      if (!groups[first]) groups[first] = [];
+      groups[first].push(w);
     });
-    htmlContent += `</tbody></table></body></html>`;
-    const newWindow = window.open();
-    newWindow.document.write(htmlContent);
-    newWindow.document.close();
+    let html = '';
+    for (let l of 'abcdefghijklmnopqrstuvwxyz') {
+      if (groups[l]) {
+        html += `<div class="letter-group"><h3>${l.toUpperCase()}</h3>`;
+        groups[l].forEach(w => {
+          html += `<div class="word-item" data-word="${w.word}" data-pinyin="${w.pinyin}" data-meaning="${w.meaning}">${w.word}</div>`;
+        });
+        html += `</div>`;
+      }
+    }
+    letterView.innerHTML = html;
+    document.querySelectorAll('#letterView .word-item').forEach(el => {
+      el.addEventListener('click', () => {
+        // Optional: jump to that word in main view? For now, just close modal
+        modal.style.display = 'none';
+        // Could also search for that word
+        searchInput.value = el.dataset.word;
+        handleSearch();
+      });
+    });
+  }
+  function buildRangeView() {
+    const ranges = [
+      { name: "1–625", start: 0, end: 625 },
+      { name: "626–1250", start: 625, end: 1250 },
+      { name: "1251–1875", start: 1250, end: 1875 },
+      { name: "1876–2500", start: 1875, end: 2500 }
+    ];
+    let html = '';
+    ranges.forEach(range => {
+      const words = wordList.slice(range.start, range.end);
+      html += `<div class="range-group"><h4>${range.name} (${words.length} words)</h4>`;
+      words.forEach(w => {
+        html += `<div class="word-item" data-word="${w.word}" data-pinyin="${w.pinyin}" data-meaning="${w.meaning}">${w.word}</div>`;
+      });
+      html += `</div>`;
+    });
+    rangeView.innerHTML = html;
+    document.querySelectorAll('#rangeView .word-item').forEach(el => {
+      el.addEventListener('click', () => {
+        modal.style.display = 'none';
+        searchInput.value = el.dataset.word;
+        handleSearch();
+      });
+    });
+  }
+  fullVocabBtn.addEventListener('click', () => {
+    buildLetterView();
+    buildRangeView();
+    modal.style.display = 'block';
   });
+  closeModal.addEventListener('click', () => { modal.style.display = 'none'; });
+  window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+  modalTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      modalTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      if (tab.dataset.tab === 'letter') {
+        letterView.style.display = 'block';
+        rangeView.style.display = 'none';
+      } else {
+        letterView.style.display = 'none';
+        rangeView.style.display = 'block';
+      }
+    });
+  });
+  // Initially show letter view
+  letterView.style.display = 'block';
+  rangeView.style.display = 'none';
 
   // Buddy logic (unchanged)
   function getRandomWordFromFiltered() { if (filteredWords.length === 0) return null; return filteredWords[Math.floor(Math.random() * filteredWords.length)]; }
