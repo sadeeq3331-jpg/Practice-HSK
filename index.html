@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Complete HSK 1–5 vocabulary learning app with 3300+ words, audio pronunciation, example sentences, dark mode, favorites, and an AI assistant. Free and offline‑ready.">
-  <meta name="keywords" content="HSK, HSK1, HSK2, HSK3, HSK4, HSK5, Chinese vocabulary, learn Chinese, Mandarin, flashcards, audio, pronunciation">
+  <meta name="description" content="Complete HSK 1–6 vocabulary learning app with 5000+ words, audio pronunciation, example sentences, dark mode, favorites, and an AI assistant. Free and offline‑ready.">
+  <meta name="keywords" content="HSK, HSK1, HSK2, HSK3, HSK4, HSK5, HSK6, Chinese vocabulary, learn Chinese, Mandarin, flashcards, audio, pronunciation">
   <meta name="author" content="HSK Master">
-  <title>HSK Vocabulary Master | All Levels 1–5</title>
-  <!-- Favicon as SVG data URI -->
+  <title>HSK Vocabulary Master | All Levels 1–6</title>
+  <!-- Favicon as SVG data URI (your stethoscope logo) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Crect width='800' height='800' rx='200' fill='%230a2942'/%3E%3Cg transform='translate(200, 200) scale(0.8)'%3E%3Cpath d='M192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v25.6C69.5 68.4 16 127.1 16 200v32c0 101.7 82.3 184 184 184h64c101.7 0 184-82.3 184-184v-32c0-72.9-53.5-131.6-128-142.4V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V32zM48 200c0-63.1 48-115.4 109.5-126.9 4.2-.7 8.5-1.1 12.8-1.1h31.5c4.3 0 8.6 .4 12.8 1.1C288 84.6 336 136.9 336 200v32c0 75.1-60.9 136-136 136h-64c-75.1 0-136-60.9-136-136v-32zm320 240c0-8.8-7.2-16-16-16H32c-8.8 0-16 7.2-16 16v48c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16v-48z' fill='%23ffd966'/%3E%3C/g%3E%3C/svg%3E">
   <style>
     * {
@@ -61,14 +61,14 @@
     }
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1.5rem;
       margin-top: 2rem;
     }
     .level-card {
       background: white;
       border-radius: 2rem;
-      padding: 2rem 1rem;
+      padding: 1.5rem 0.8rem;
       text-decoration: none;
       color: #1D3557;
       box-shadow: 0 12px 28px rgba(0,30,50,0.1);
@@ -81,21 +81,21 @@
       border-color: #A8DADC;
     }
     .level-card h2 {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
     }
     .level-card p {
-      font-size: 1.2rem;
+      font-size: 1rem;
       background: #e3f0f5;
-      padding: 0.3rem 1rem;
+      padding: 0.2rem 0.8rem;
       border-radius: 40px;
       display: inline-block;
       margin-bottom: 0.5rem;
     }
     .level-card small {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: #6c8ea0;
     }
     .features {
@@ -112,7 +112,7 @@
       background: white;
       padding: 0.5rem 1.5rem;
       border-radius: 40px;
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
     .privacy-note {
       margin-top: 2rem;
@@ -140,6 +140,12 @@
         width: 60px;
         height: 60px;
       }
+      .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+      .level-card h2 {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
@@ -155,7 +161,7 @@
     </svg>
   </div>
   <h1>📚 HSK Vocabulary Master</h1>
-  <div class="sub">Complete learning suite for HSK levels 1–5</div>
+  <div class="sub">Complete learning suite for HSK levels 1–6</div>
   <div class="card-grid">
     <a class="level-card" href="hsk1.html">
       <h2>HSK 1</h2>
@@ -174,13 +180,18 @@
     </a>
     <a class="level-card" href="hsk4.html">
       <h2>HSK 4</h2>
-      <p>1200 words</p>
+      <p>600 words</p>
       <small>Advanced · Real‑life contexts</small>
     </a>
     <a class="level-card" href="hsk5.html">
       <h2>HSK 5</h2>
       <p>1300 words</p>
       <small>Proficient · Complex topics</small>
+    </a>
+    <a class="level-card" href="hsk6.html">
+      <h2>HSK 6</h2>
+      <p>2500 words</p>
+      <small>Master · Full fluency</small>
     </a>
   </div>
   <div class="features">
