@@ -114,9 +114,11 @@
       border-radius: 40px;
       cursor: pointer;
       font-weight: 600;
+      transition: transform 0.1s, background 0.2s;
     }
     .search-box button:hover {
       background: var(--accent-hover);
+      transform: scale(1.02);
     }
     .settings-bar {
       display: flex;
@@ -133,9 +135,13 @@
       cursor: pointer;
       color: var(--text-primary);
       font-size: 0.9rem;
+      transition: all 0.2s;
     }
-    .icon-btn i {
-      margin-right: 4px;
+    .icon-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
     .stats-panel {
       background: var(--bg-card);
@@ -172,6 +178,12 @@
       color: var(--text-secondary);
       cursor: pointer;
       font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .letter-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.05);
     }
     .letter-btn.active {
       background: var(--accent);
@@ -192,6 +204,12 @@
       color: var(--text-secondary);
       cursor: pointer;
       font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .cat-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-2px);
     }
     .cat-btn.active {
       background: var(--accent);
@@ -226,6 +244,12 @@
       font-weight: 600;
       color: var(--text-secondary);
       cursor: pointer;
+      transition: all 0.2s;
+    }
+    .page-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.05);
     }
     .page-btn.active {
       background: var(--accent);
@@ -245,6 +269,12 @@
       border-radius: 30px;
       cursor: pointer;
       color: var(--text-primary);
+      transition: all 0.2s;
+    }
+    .bottom-pagination button:hover {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.02);
     }
     .card-grid {
       display: grid;
@@ -279,6 +309,10 @@
       font-size: 1.5rem;
       cursor: pointer;
       color: #cbd5e0;
+      transition: transform 0.1s;
+    }
+    .favorite-btn:hover {
+      transform: scale(1.1);
     }
     .favorite-btn.active {
       color: #e53e3e;
@@ -293,6 +327,12 @@
       color: var(--text-secondary);
       font-size: 1.2rem;
       margin-left: 0.5rem;
+      transition: all 0.2s;
+    }
+    .speaker-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.05);
     }
     .pinyin {
       font-size: 0.95rem;
@@ -333,16 +373,28 @@
       color: var(--text-secondary);
       font-size: 1rem;
       cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .example-speaker:hover {
+      transform: scale(1.1);
     }
     .study-mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       background: var(--accent);
       color: white;
       border: none;
-      border-radius: 30px;
+      border-radius: 40px;
       padding: 0.3rem 1rem;
       margin-left: 1rem;
       font-size: 0.8rem;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+    .study-mode-toggle:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
     .study-mode-active .pinyin,
     .study-mode-active .meaning,
@@ -389,6 +441,10 @@
       font-size: 1.5rem;
       cursor: pointer;
       color: var(--text-secondary);
+      transition: transform 0.1s;
+    }
+    .modal-close:hover {
+      transform: scale(1.1);
     }
     .modal-tabs {
       display: flex;
@@ -405,6 +461,11 @@
       font-weight: 500;
       color: var(--text-secondary);
       border-radius: 30px;
+      transition: all 0.2s;
+    }
+    .modal-tab:hover {
+      background: var(--accent);
+      color: white;
     }
     .modal-tab.active {
       background: var(--accent);
@@ -436,11 +497,12 @@
       border-radius: 20px;
       font-size: 0.8rem;
       cursor: pointer;
-      transition: 0.1s;
+      transition: all 0.1s;
     }
     .letter-group .word-item:hover {
       background: var(--accent);
       color: white;
+      transform: scale(1.02);
     }
     .range-group {
       margin-bottom: 1rem;
@@ -497,6 +559,10 @@
       font-size: 1.2rem;
       cursor: pointer;
       color: #8aa9b8;
+      transition: transform 0.1s;
+    }
+    .buddy-close:hover {
+      transform: scale(1.1);
     }
     .buddy-tabs {
       display: flex;
@@ -513,6 +579,11 @@
       flex: 1;
       text-align: center;
       color: var(--text-primary);
+      transition: all 0.2s;
+    }
+    .buddy-tab:hover {
+      background: var(--accent);
+      color: white;
     }
     .buddy-tab.active {
       background: var(--accent);
@@ -540,6 +611,12 @@
       cursor: pointer;
       font-weight: 500;
       color: var(--text-primary);
+      transition: all 0.2s;
+    }
+    .buddy-controls button:hover {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.02);
     }
     .quiz-options {
       display: flex;
@@ -555,6 +632,11 @@
       cursor: pointer;
       text-align: center;
       color: var(--text-primary);
+      transition: all 0.1s;
+    }
+    .quiz-opt:hover {
+      background: var(--accent);
+      color: white;
     }
     .quiz-opt.correct {
       background: #c6f6d5;
@@ -681,6 +763,12 @@
     <button id="resetProgressBtn" class="icon-btn" style="font-size:0.8rem;"><i class="fas fa-trash-alt"></i> Reset Progress</button>
   </div>
 
+  <!-- Animated Study Mode Toggle with eye icon -->
+  <div id="studyModeToggle" class="study-mode-toggle">
+    <i class="fas fa-eye-slash"></i>
+    <span>Study Mode</span>
+  </div>
+
   <div class="letter-filter" id="letterFilter"></div>
 
   <div class="categories" id="categoryTabs">
@@ -730,7 +818,7 @@
   </div>
 </div>
 
-<!-- Floating Buddy (same as original) -->
+<!-- Floating Assistant Buddy -->
 <div class="buddy-container" id="buddyContainer">
   <div class="buddy-bubble hidden" id="buddyBubble">
     <div class="buddy-header">
@@ -760,7 +848,22 @@
 
 <script>
   // ========== SPEECH MODULE ==========
-  (function() { if (!window.speechSynthesis) { window.speakText = function(t) { console.log(t); }; return; } window.speakText = function(text) { if (!text) return; try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'zh-CN'; u.rate = 0.9; window.speechSynthesis.speak(u); } catch(e) { console.error(e); } }; })();
+  (function() {
+    if (!window.speechSynthesis) {
+      window.speakText = function(t) { console.log(t); };
+      return;
+    }
+    window.speakText = function(text) {
+      if (!text) return;
+      try {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'zh-CN';
+        u.rate = 0.9;
+        window.speechSynthesis.speak(u);
+      } catch(e) { console.error(e); }
+    };
+  })();
 
   const wordList = window.HSK6_WORDS || [];
   if (wordList.length === 0) alert('words_hsk6.js missing!');
@@ -898,18 +1001,31 @@
   importFavFile.addEventListener('change', e => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = ev => { try { const imported = JSON.parse(ev.target.result); if (Array.isArray(imported)) { favorites = new Set(imported); saveFavorites(); if (currentFilter === 'favorites') { applyFilter(); render(); } else render(); updateStats(); alert('Favorites imported!'); refreshAds(); } else alert('Invalid file'); } catch(err) { alert('Parse error'); } importFavFile.value = ''; }; reader.readAsText(file); });
   resetProgressBtn.addEventListener('click', () => { if (confirm('Reset progress?')) { studiedWords.clear(); localStorage.setItem('hsk6_studied', JSON.stringify([])); updateStats(); alert('Progress reset'); refreshAds(); } });
 
-  // Study Mode
+  // Study Mode toggle with eye icon animation
   studyModeToggle.addEventListener('click', () => {
     studyMode = !studyMode;
     localStorage.setItem('hsk6_studyMode', studyMode);
+    const icon = studyModeToggle.querySelector('i');
     if (studyMode) {
       document.body.classList.add('study-mode-active');
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
     } else {
       document.body.classList.remove('study-mode-active');
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
     }
     refreshAds();
   });
-  if (studyMode) document.body.classList.add('study-mode-active');
+  // Initial state
+  if (studyMode) {
+    document.body.classList.add('study-mode-active');
+    studyModeToggle.querySelector('i').classList.remove('fa-eye-slash');
+    studyModeToggle.querySelector('i').classList.add('fa-eye');
+  } else {
+    studyModeToggle.querySelector('i').classList.remove('fa-eye');
+    studyModeToggle.querySelector('i').classList.add('fa-eye-slash');
+  }
 
   // Shuffle
   function shuffleArray(arr) {
@@ -1003,7 +1119,7 @@
   letterView.style.display = 'block';
   rangeView.style.display = 'none';
 
-  // Buddy logic (unchanged)
+  // Buddy assistant logic
   function getRandomWordFromFiltered() { if (filteredWords.length === 0) return null; return filteredWords[Math.floor(Math.random() * filteredWords.length)]; }
   function updateBuddyWord(wordObj) { currentBuddyWord = wordObj; if (!wordObj) buddyWordDisplay.innerText = '?'; else { buddyWordDisplay.innerText = wordObj.word; if (currentMode === 'quiz') generateQuiz(wordObj); } }
   function generateQuiz(wordObj) { if (!wordObj) return; const correct = wordObj.meaning; let options = [correct]; while (options.length < 4) { const rand = wordList[Math.floor(Math.random() * wordList.length)]; if (!options.includes(rand.meaning) && rand.meaning !== correct) options.push(rand.meaning); } options = options.sort(() => Math.random() - 0.5); quizPanelElem.innerHTML = ''; options.forEach(opt => { const btn = document.createElement('div'); btn.className = 'quiz-opt'; btn.innerText = opt; btn.addEventListener('click', () => { document.querySelectorAll('.quiz-opt').forEach(el => el.style.pointerEvents = 'none'); if (opt === correct) btn.classList.add('correct'); else { btn.classList.add('wrong'); document.querySelectorAll('.quiz-opt').forEach(el => { if (el.innerText === correct) el.classList.add('correct'); }); } }); quizPanelElem.appendChild(btn); }); }
