@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HSK 1 Badges & Progress</title>
+  <!-- Ad code -->
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
   (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
@@ -30,19 +31,17 @@
   <h1>🏆 Badges & Progress</h1>
   <div class="stats-grid" id="statsGrid"></div>
   <div class="badge-list" id="badgeList"></div>
-  <button class="back-btn" onclick="window.location.href='hsk1.html'"><i class="fas fa-arrow-left"></i> Back to Hub</button>
+  <button class="back-btn" onclick="window.location.href='hsk1_hub.html'"><i class="fas fa-arrow-left"></i> Back to Hub</button>
 </div>
 <script>
-  // Retrieve data from localStorage (shared with vocabulary module)
   const studiedWords = new Set(JSON.parse(localStorage.getItem('hsk1_studied') || '[]'));
   const favorites = new Set(JSON.parse(localStorage.getItem('hsk1_favorites') || '[]'));
   const streak = parseInt(localStorage.getItem('hsk1_challenge_streak') || '0');
   const examBest = parseInt(localStorage.getItem('hsk1_exam_best') || '0');
-  const totalWords = 150; // HSK1 total words
+  const totalWords = 150;
   const studiedCount = studiedWords.size;
   const favCount = favorites.size;
   const masteryPercent = Math.round((studiedCount / totalWords) * 100);
-  // Define badges
   const badges = [
     { id: "first_study", name: "First Steps", icon: "fas fa-shoe-prints", condition: () => studiedCount >= 1, description: "Studied your first word" },
     { id: "scholar", name: "Scholar", icon: "fas fa-graduation-cap", condition: () => studiedCount >= 50, description: "Studied 50 words" },
@@ -52,7 +51,6 @@
     { id: "exam_passer", name: "Exam Taker", icon: "fas fa-clipboard-check", condition: () => examBest >= 60, description: "Passed the mock exam" },
     { id: "perfectionist", name: "Perfectionist", icon: "fas fa-star", condition: () => examBest >= 90, description: "Scored 90%+ on exam" }
   ];
-  const unlockedBadges = badges.filter(b => b.condition());
   const statsHTML = `
     <div class="stat-card"><i class="fas fa-book"></i><br>Studied<br><strong>${studiedCount}/${totalWords}</strong></div>
     <div class="stat-card"><i class="fas fa-heart"></i><br>Favorites<br><strong>${favCount}</strong></div>
