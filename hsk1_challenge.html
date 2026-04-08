@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HSK 1 Daily Challenge</title>
+  <!-- Ad code -->
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
   (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
@@ -26,115 +27,95 @@
     .next-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 2rem; cursor: pointer; }
     .back-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem; }
   </style>
+  <script src="words_hsk1.js"></script>
 </head>
 <body class="light">
 <div class="container">
   <h1>🎯 Daily Challenge</h1>
   <div class="streak" id="streakDisplay">🔥 Streak: 0 days</div>
   <div id="challengeArea"></div>
-  <button class="back-btn" onclick="window.location.href='hsk1.html'"><i class="fas fa-arrow-left"></i> Back to Hub</button>
+  <button class="back-btn" onclick="window.location.href='hsk1_hub.html'"><i class="fas fa-arrow-left"></i> Back to Hub</button>
 </div>
 <script>
-  // HSK1 word list (same as vocabulary – you can reuse the full list)
-  // For demonstration, a small subset:
-  const wordBank = [
-    { word: "爱", pinyin: "ài", meaning: "to love" },
-    { word: "八", pinyin: "bā", meaning: "eight" },
-    { word: "爸爸", pinyin: "bàba", meaning: "father" },
-    { word: "杯子", pinyin: "bēizi", meaning: "cup" },
-    { word: "北京", pinyin: "Běijīng", meaning: "Beijing" },
-    { word: "不", pinyin: "bù", meaning: "not" },
-    { word: "吃", pinyin: "chī", meaning: "to eat" },
-    { word: "大", pinyin: "dà", meaning: "big" },
-    { word: "的", pinyin: "de", meaning: "(possessive)" },
-    { word: "点", pinyin: "diǎn", meaning: "o'clock" }
-  ];
-  let currentWord = null;
-  let currentOptions = [];
-  let streak = parseInt(localStorage.getItem('hsk1_challenge_streak') || '0');
-  let lastChallengeDate = localStorage.getItem('hsk1_challenge_last') || '';
-  function updateStreakDisplay() { document.getElementById('streakDisplay').innerHTML = `🔥 Streak: ${streak} days`; }
-  function checkDailyStreak() {
-    const today = new Date().toDateString();
-    if (lastChallengeDate !== today) {
-      // new day, streak not yet updated – we'll increase only when user answers correctly
-      // But if they haven't played today, we don't reset streak yet.
-    }
-  }
-  function getRandomWord() {
-    return wordBank[Math.floor(Math.random() * wordBank.length)];
-  }
-  function generateOptions(correctMeaning) {
-    let opts = [correctMeaning];
-    while (opts.length < 4) {
-      const rand = wordBank[Math.floor(Math.random() * wordBank.length)];
-      if (!opts.includes(rand.meaning)) opts.push(rand.meaning);
-    }
-    return opts.sort(() => Math.random() - 0.5);
-  }
-  function loadNewChallenge() {
-    currentWord = getRandomWord();
-    currentOptions = generateOptions(currentWord.meaning);
-    renderChallenge();
-  }
-  function renderChallenge() {
-    const area = document.getElementById('challengeArea');
-    area.innerHTML = `
-      <div class="word-card">
-        <div class="chinese">${currentWord.word}</div>
-        <div class="options" id="optionsContainer"></div>
-        <div class="feedback" id="feedbackMsg"></div>
-        <button id="nextChallengeBtn" class="next-btn" style="display:none;">Next Challenge</button>
-      </div>
-    `;
-    const optsDiv = document.getElementById('optionsContainer');
-    currentOptions.forEach(opt => {
-      const btn = document.createElement('div');
-      btn.className = 'option-btn';
-      btn.innerText = opt;
-      btn.addEventListener('click', () => checkAnswer(opt, btn));
-      optsDiv.appendChild(btn);
-    });
-    const nextBtn = document.getElementById('nextChallengeBtn');
-    nextBtn.addEventListener('click', () => {
-      document.getElementById('feedbackMsg').innerHTML = '';
-      loadNewChallenge();
-    });
-  }
-  function checkAnswer(selected, btnElement) {
-    const feedback = document.getElementById('feedbackMsg');
-    const allOptions = document.querySelectorAll('.option-btn');
-    if (selected === currentWord.meaning) {
-      feedback.innerHTML = '✅ Correct! +1 streak';
-      feedback.style.color = '#38a169';
-      // Update streak only once per day
-      const today = new Date().toDateString();
-      if (lastChallengeDate !== today) {
-        streak++;
-        localStorage.setItem('hsk1_challenge_streak', streak);
-        lastChallengeDate = today;
-        localStorage.setItem('hsk1_challenge_last', lastChallengeDate);
-        updateStreakDisplay();
-      } else {
-        feedback.innerHTML = '✅ Correct! (You already earned your streak today)';
+  const wordBank = window.HSK1_WORDS;
+  if (!wordBank || wordBank.length === 0) {
+    alert('words_hsk1.js not loaded!');
+  } else {
+    let currentWord = null;
+    let currentOptions = [];
+    let streak = parseInt(localStorage.getItem('hsk1_challenge_streak') || '0');
+    let lastChallengeDate = localStorage.getItem('hsk1_challenge_last') || '';
+    function updateStreakDisplay() { document.getElementById('streakDisplay').innerHTML = `🔥 Streak: ${streak} days`; }
+    function getRandomWord() { return wordBank[Math.floor(Math.random() * wordBank.length)]; }
+    function generateOptions(correctMeaning) {
+      let opts = [correctMeaning];
+      while (opts.length < 4) {
+        const rand = wordBank[Math.floor(Math.random() * wordBank.length)];
+        if (!opts.includes(rand.meaning)) opts.push(rand.meaning);
       }
-      allOptions.forEach(btn => btn.style.pointerEvents = 'none');
-      document.getElementById('nextChallengeBtn').style.display = 'block';
-    } else {
-      feedback.innerHTML = `❌ Wrong. The correct meaning is: ${currentWord.meaning}`;
-      feedback.style.color = '#e53e3e';
-      // Highlight correct answer
-      allOptions.forEach(btn => {
-        if (btn.innerText === currentWord.meaning) btn.style.background = 'var(--accent)';
-        btn.style.pointerEvents = 'none';
-      });
-      document.getElementById('nextChallengeBtn').style.display = 'block';
+      return opts.sort(() => Math.random() - 0.5);
     }
+    function loadNewChallenge() {
+      currentWord = getRandomWord();
+      currentOptions = generateOptions(currentWord.meaning);
+      renderChallenge();
+    }
+    function renderChallenge() {
+      const area = document.getElementById('challengeArea');
+      area.innerHTML = `
+        <div class="word-card">
+          <div class="chinese">${currentWord.word}</div>
+          <div class="options" id="optionsContainer"></div>
+          <div class="feedback" id="feedbackMsg"></div>
+          <button id="nextChallengeBtn" class="next-btn" style="display:none;">Next Challenge</button>
+        </div>
+      `;
+      const optsDiv = document.getElementById('optionsContainer');
+      currentOptions.forEach(opt => {
+        const btn = document.createElement('div');
+        btn.className = 'option-btn';
+        btn.innerText = opt;
+        btn.addEventListener('click', () => checkAnswer(opt, btn));
+        optsDiv.appendChild(btn);
+      });
+      const nextBtn = document.getElementById('nextChallengeBtn');
+      nextBtn.addEventListener('click', () => {
+        document.getElementById('feedbackMsg').innerHTML = '';
+        loadNewChallenge();
+      });
+    }
+    function checkAnswer(selected, btnElement) {
+      const feedback = document.getElementById('feedbackMsg');
+      const allOptions = document.querySelectorAll('.option-btn');
+      if (selected === currentWord.meaning) {
+        feedback.innerHTML = '✅ Correct! +1 streak';
+        feedback.style.color = '#38a169';
+        const today = new Date().toDateString();
+        if (lastChallengeDate !== today) {
+          streak++;
+          localStorage.setItem('hsk1_challenge_streak', streak);
+          lastChallengeDate = today;
+          localStorage.setItem('hsk1_challenge_last', lastChallengeDate);
+          updateStreakDisplay();
+        } else {
+          feedback.innerHTML = '✅ Correct! (You already earned your streak today)';
+        }
+        allOptions.forEach(btn => btn.style.pointerEvents = 'none');
+        document.getElementById('nextChallengeBtn').style.display = 'block';
+      } else {
+        feedback.innerHTML = `❌ Wrong. The correct meaning is: ${currentWord.meaning}`;
+        feedback.style.color = '#e53e3e';
+        allOptions.forEach(btn => {
+          if (btn.innerText === currentWord.meaning) btn.style.background = 'var(--accent)';
+          btn.style.pointerEvents = 'none';
+        });
+        document.getElementById('nextChallengeBtn').style.display = 'block';
+      }
+    }
+    updateStreakDisplay();
+    loadNewChallenge();
   }
-  checkDailyStreak();
-  updateStreakDisplay();
-  loadNewChallenge();
-  // Dark mode (simple)
+  // Dark mode
   const darkBtn = document.createElement('button');
   darkBtn.innerHTML = '<i class="fas fa-moon"></i> Dark';
   darkBtn.style.position = 'fixed'; darkBtn.style.bottom = '20px'; darkBtn.style.right = '20px';
