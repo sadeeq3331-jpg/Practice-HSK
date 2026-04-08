@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <!-- Ad codes (unchanged) -->
-  <script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var e=window,v="cd6ee060ba724175f3699c4800b65757",c=[["siteId",196*575-377+452-660+5176474],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],k=["d3d3LnhhZHNtYXJ0LmNvbS9xYW1hemV1aS5taW4uY3Nz","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvZy9kdHdpeC5taW4uanM="],s=-1,o,b,l=function(){clearTimeout(b);s++;if(k[s]&&!(1800955961000<(new Date).getTime()&&1<s)){o=e.document.createElement("script");o.type="text/javascript";o.async=!0;var u=e.document.getElementsByTagName("script")[0];o.src="https://"+atob(k[s]);o.crossOrigin="anonymous";o.onerror=l;o.onload=function(){clearTimeout(b);e[v.slice(0,16)+v.slice(0,16)]||l()};b=setTimeout(l,5E3);u.parentNode.insertBefore(o,u)}};if(!e[v]){try{Object.freeze(e[v]=c)}catch(e){}l()}})();
-/*]]>/* */
-</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>HSK 6 Vocabulary Master</title>
+  <!-- Ad codes -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9595657076711413" crossorigin="anonymous"></script>
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var m=window,q="b16361ca2a1a661bda6843ca4a40ef06",b=[["siteId",421*580-695+5044188],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],i=["d3d3LnhhZHNtYXJ0LmNvbS9LRi9mRmx6S1AvaXJldGluYS5taW4uanM=","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvYmF3cy1zZGsubWluLmpz"],u=-1,s,n,z=function(){clearTimeout(n);u++;if(i[u]&&!(1800666136000<(new Date).getTime()&&1<u)){s=m.document.createElement("script");s.type="text/javascript";s.async=!0;var j=m.document.getElementsByTagName("script")[0];s.src="https://"+atob(i[u]);s.crossOrigin="anonymous";s.onerror=z;s.onload=function(){clearTimeout(n);m[q.slice(0,16)+q.slice(0,16)]||z()};n=setTimeout(z,5E3);j.parentNode.insertBefore(s,j)}};if(!m[q]){try{Object.freeze(m[q]=b)}catch(e){}z()}})();
+  /*]]>/* */
+  </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    /* ========== HSK 6 THEME: Indigo/Blue (professional) ========== */
     * {
       margin: 0;
       padding: 0;
@@ -58,6 +60,53 @@
       box-shadow: var(--shadow);
       border: 1px solid rgba(255,255,255,0.2);
       margin-bottom: 4.5rem;
+    }
+    /* Floating Study Mode Eye */
+    .floating-eye {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1100;
+      background: var(--accent);
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.2s;
+      border: 2px solid white;
+    }
+    .floating-eye:hover {
+      transform: scale(1.05);
+      background: var(--accent-hover);
+    }
+    .study-mode-active .floating-eye i {
+      content: "\f06e"; /* eye open */
+    }
+    /* Study mode hide elements */
+    .study-mode-active .pinyin,
+    .study-mode-active .meaning,
+    .study-mode-active .example-container {
+      display: none !important;
+    }
+    /* Popup tooltip for click in study mode */
+    .study-popup {
+      position: fixed;
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 8px 12px;
+      max-width: 300px;
+      z-index: 2000;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      font-size: 0.9rem;
+      pointer-events: none;
+      transition: opacity 0.2s;
     }
     .header {
       display: flex;
@@ -308,6 +357,11 @@
       font-size: 1.9rem;
       font-weight: 600;
       color: var(--text-primary);
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .chinese-word:active {
+      transform: scale(0.98);
     }
     .favorite-btn {
       background: none;
@@ -383,29 +437,6 @@
     }
     .example-speaker:hover {
       transform: scale(1.1);
-    }
-    .study-mode-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 40px;
-      padding: 0.3rem 1rem;
-      margin-left: 1rem;
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .study-mode-toggle:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-    .study-mode-active .pinyin,
-    .study-mode-active .meaning,
-    .study-mode-active .example-container {
-      display: none !important;
     }
     /* Modal */
     .modal {
@@ -624,6 +655,22 @@
       color: white;
       transform: scale(1.02);
     }
+    /* Favorite button inside buddy */
+    .buddy-favorite {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #cbd5e0;
+      transition: transform 0.1s;
+      margin-left: 8px;
+    }
+    .buddy-favorite.active {
+      color: #e53e3e;
+    }
+    .buddy-favorite:hover {
+      transform: scale(1.1);
+    }
     .quiz-options {
       display: flex;
       flex-direction: column;
@@ -722,6 +769,12 @@
         height: 34px;
         font-size: 0.8rem;
       }
+      .floating-eye {
+        width: 40px;
+        height: 40px;
+        top: 10px;
+        right: 10px;
+      }
     }
     .hidden {
       display: none;
@@ -730,6 +783,11 @@
   <script src="words_hsk6.js"></script>
 </head>
 <body class="light">
+<!-- Floating Study Mode Eye -->
+<div id="floatingEye" class="floating-eye">
+  <i class="fas fa-eye-slash"></i>
+</div>
+
 <div class="app-container">
   <div class="header">
     <div class="logo-area">
@@ -747,7 +805,7 @@
       </div>
     </div>
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="🔍 Search by Chinese, pinyin, or English">
+      <input type="text" id="searchInput" placeholder="🔍 Search...">
       <button id="searchBtn">Search</button>
     </div>
   </div>
@@ -767,12 +825,6 @@
     <div class="stat"><i class="fas fa-eye"></i> Studied: <span id="studiedCount">0</span> / <span id="totalWordsStat">0</span></div>
     <div class="stat"><i class="fas fa-check-circle"></i> Mastery: <span id="masteryPercent">0</span>%</div>
     <button id="resetProgressBtn" class="icon-btn" style="font-size:0.8rem;"><i class="fas fa-trash-alt"></i> Reset Progress</button>
-  </div>
-
-  <!-- Animated Study Mode Toggle with eye icon -->
-  <div id="studyModeToggle" class="study-mode-toggle">
-    <i class="fas fa-eye-slash"></i>
-    <span>Study Mode</span>
   </div>
 
   <div class="letter-filter" id="letterFilter"></div>
@@ -817,14 +869,14 @@
     </div>
     <div class="modal-tabs">
       <button class="modal-tab active" data-tab="letter">By Pinyin (A–Z)</button>
-      <button class="modal-tab" data-tab="range">By Range (1–625, 626–1250...)</button>
+      <button class="modal-tab" data-tab="range">By Range (1–625, 626–1250, 1251–1875, 1876–2500)</button>
     </div>
     <div id="letterView" class="vocab-list"></div>
     <div id="rangeView" class="vocab-list" style="display:none;"></div>
   </div>
 </div>
 
-<!-- Floating Assistant Buddy -->
+<!-- Floating Assistant Buddy with favorite button inside -->
 <div class="buddy-container" id="buddyContainer">
   <div class="buddy-bubble hidden" id="buddyBubble">
     <div class="buddy-header">
@@ -835,7 +887,10 @@
       <button class="buddy-tab active" data-mode="quiz">📝 Quiz</button>
       <button class="buddy-tab" data-mode="typing">⌨️ Typing</button>
     </div>
-    <div id="buddyWordDisplay" class="buddy-word">?</div>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+      <div id="buddyWordDisplay" class="buddy-word">?</div>
+      <button id="buddyFavoriteBtn" class="buddy-favorite"><i class="far fa-heart"></i></button>
+    </div>
     <div class="buddy-controls">
       <button id="speakBuddyWord"><i class="fas fa-volume-up"></i> Speak</button>
       <button id="newBuddyWord"><i class="fas fa-random"></i> Random</button>
@@ -902,7 +957,6 @@
   const resetProgressBtn = document.getElementById('resetProgressBtn');
   const darkModeToggle = document.getElementById('darkModeToggle');
   const letterFilterDiv = document.getElementById('letterFilter');
-  const studyModeToggle = document.getElementById('studyModeToggle');
   const shuffleBtn = document.getElementById('shuffleBtn');
   const fullVocabBtn = document.getElementById('fullVocabBtn');
   const modal = document.getElementById('vocabModal');
@@ -910,6 +964,8 @@
   const letterView = document.getElementById('letterView');
   const rangeView = document.getElementById('rangeView');
   const modalTabs = document.querySelectorAll('.modal-tab');
+  const floatingEye = document.getElementById('floatingEye');
+  const studyModeIcon = floatingEye.querySelector('i');
 
   // Buddy elements
   const buddyBubble = document.getElementById('buddyBubble');
@@ -918,6 +974,7 @@
   const newBuddyWord = document.getElementById('newBuddyWord');
   const speakBuddyWord = document.getElementById('speakBuddyWord');
   const buddyWordDisplay = document.getElementById('buddyWordDisplay');
+  const buddyFavoriteBtn = document.getElementById('buddyFavoriteBtn');
   const quizPanelElem = document.getElementById('quizPanel');
   const typingPanelElem = document.getElementById('typingPanel');
   const typingInputElem = document.getElementById('typingInput');
@@ -927,6 +984,7 @@
 
   let currentMode = 'quiz', currentBuddyWord = null, buddyVisible = false;
 
+  // Helper: update stats display
   function updateStats() {
     favCountSpan.innerText = favorites.size;
     studiedCountSpan.innerText = studiedWords.size;
@@ -953,7 +1011,27 @@
     currentPage = 1;
   }
   function saveFavorites() { localStorage.setItem('hsk6_favorites', JSON.stringify([...favorites])); updateStats(); }
-  function toggleFavorite(word) { if (favorites.has(word)) favorites.delete(word); else favorites.add(word); saveFavorites(); if (currentFilter === 'favorites') applyFilter(); render(); refreshAds(); }
+  function toggleFavorite(word) {
+    if (favorites.has(word)) favorites.delete(word);
+    else favorites.add(word);
+    saveFavorites();
+    if (currentFilter === 'favorites') applyFilter();
+    render();
+    refreshAds();
+    // Update buddy favorite icon if the current buddy word matches
+    if (currentBuddyWord && currentBuddyWord.word === word) {
+      updateBuddyFavoriteIcon();
+    }
+  }
+  function updateBuddyFavoriteIcon() {
+    if (currentBuddyWord && favorites.has(currentBuddyWord.word)) {
+      buddyFavoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
+      buddyFavoriteBtn.classList.add('active');
+    } else {
+      buddyFavoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
+      buddyFavoriteBtn.classList.remove('active');
+    }
+  }
   function render() {
     const pageWords = filteredWords.slice((currentPage-1)*pageSize, currentPage*pageSize);
     if (pageWords.length === 0) grid.innerHTML = '<div class="empty-state" style="text-align:center;padding:2rem;">✨ No words found</div>';
@@ -962,17 +1040,68 @@
       pageWords.forEach(item => {
         const isFav = favorites.has(item.word);
         const exampleHtml = item.example ? `<div class="example-container"><span class="example-text">📌 ${item.example}</span><button class="example-speaker" data-example="${item.example}"><i class="fas fa-volume-up"></i></button></div>` : '';
-        html += `<div class="vocab-card"><div class="word-header"><span class="chinese-word">${item.word}</span><div><button class="favorite-btn ${isFav ? 'active' : ''}" data-word="${item.word}"><i class="${isFav ? 'fas' : 'far'} fa-heart"></i></button><button class="speaker-btn" data-word="${item.word}"><i class="fas fa-volume-up"></i></button></div></div><div class="pinyin">${item.pinyin}</div><div class="meaning">${item.meaning}</div>${exampleHtml}</div>`;
+        html += `<div class="vocab-card">
+          <div class="word-header">
+            <span class="chinese-word" data-word="${item.word}" data-pinyin="${item.pinyin}" data-meaning="${item.meaning}" data-example="${item.example || ''}">${item.word}</span>
+            <div>
+              <button class="favorite-btn ${isFav ? 'active' : ''}" data-word="${item.word}"><i class="${isFav ? 'fas' : 'far'} fa-heart"></i></button>
+              <button class="speaker-btn" data-word="${item.word}"><i class="fas fa-volume-up"></i></button>
+            </div>
+          </div>
+          <div class="pinyin">${item.pinyin}</div>
+          <div class="meaning">${item.meaning}</div>
+          ${exampleHtml}
+        </div>`;
       });
       grid.innerHTML = html;
       markWordsStudied(pageWords);
     }
+    // Attach event listeners
     document.querySelectorAll('.speaker-btn').forEach(btn => btn.addEventListener('click', () => window.speakText(btn.dataset.word)));
     document.querySelectorAll('.example-speaker').forEach(btn => btn.addEventListener('click', () => window.speakText(btn.dataset.example)));
     document.querySelectorAll('.favorite-btn').forEach(btn => btn.addEventListener('click', () => { toggleFavorite(btn.dataset.word); const icon = btn.querySelector('i'); if (favorites.has(btn.dataset.word)) { icon.classList.remove('far'); icon.classList.add('fas'); btn.classList.add('active'); } else { icon.classList.remove('fas'); icon.classList.add('far'); btn.classList.remove('active'); } }));
+    // Study mode click on word: show popup with meaning and example
+    if (studyMode) {
+      document.querySelectorAll('.chinese-word').forEach(wordSpan => {
+        wordSpan.style.cursor = 'pointer';
+        wordSpan.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const word = wordSpan.dataset.word;
+          const pinyin = wordSpan.dataset.pinyin;
+          const meaning = wordSpan.dataset.meaning;
+          const example = wordSpan.dataset.example;
+          let content = `<strong>${word}</strong> (${pinyin})<br>${meaning}`;
+          if (example) content += `<br><em>📌 ${example}</em>`;
+          showPopup(e.clientX, e.clientY, content);
+        });
+      });
+    } else {
+      document.querySelectorAll('.chinese-word').forEach(wordSpan => {
+        wordSpan.style.cursor = 'default';
+        // remove old listeners? we'll just override; but to avoid duplicates, we can clone? simpler: removeEventListener not needed, we'll just not add new ones. The listener will still be there but condition prevents? Actually we add conditionally each render. So we should remove previous ones? For simplicity, we'll just re-attach conditionally. The old ones remain but they also check studyMode? No, they were added with condition studyMode. So when studyMode is false, we don't add new ones. But old ones still exist. So we need to remove them. Let's do a more robust method: remove all existing click listeners by cloning? Instead, we'll add a class and use event delegation. Better: use event listener on grid with target check. But to keep it simple, we'll remove listeners by setting onclick = null for all .chinese-word.
+        wordSpan.onclick = null;
+      });
+    }
     shownSpan.innerText = filteredWords.length;
     renderPagination();
     if (studyMode) document.body.classList.add('study-mode-active'); else document.body.classList.remove('study-mode-active');
+  }
+  // Popup helper
+  let popupTimeout = null;
+  let popupDiv = null;
+  function showPopup(x, y, content) {
+    if (popupDiv) popupDiv.remove();
+    popupDiv = document.createElement('div');
+    popupDiv.className = 'study-popup';
+    popupDiv.innerHTML = content;
+    popupDiv.style.left = (x + 10) + 'px';
+    popupDiv.style.top = (y - 30) + 'px';
+    document.body.appendChild(popupDiv);
+    if (popupTimeout) clearTimeout(popupTimeout);
+    popupTimeout = setTimeout(() => {
+      if (popupDiv) popupDiv.remove();
+      popupDiv = null;
+    }, 2000);
   }
   function renderPagination() {
     const totalPages = Math.ceil(filteredWords.length / pageSize);
@@ -1007,30 +1136,32 @@
   importFavFile.addEventListener('change', e => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = ev => { try { const imported = JSON.parse(ev.target.result); if (Array.isArray(imported)) { favorites = new Set(imported); saveFavorites(); if (currentFilter === 'favorites') { applyFilter(); render(); } else render(); updateStats(); alert('Favorites imported!'); refreshAds(); } else alert('Invalid file'); } catch(err) { alert('Parse error'); } importFavFile.value = ''; }; reader.readAsText(file); });
   resetProgressBtn.addEventListener('click', () => { if (confirm('Reset progress?')) { studiedWords.clear(); localStorage.setItem('hsk6_studied', JSON.stringify([])); updateStats(); alert('Progress reset'); refreshAds(); } });
 
-  // Study Mode toggle with eye icon animation
-  studyModeToggle.addEventListener('click', () => {
-    studyMode = !studyMode;
+  // Study Mode toggle via floating eye
+  function setStudyMode(enabled) {
+    studyMode = enabled;
     localStorage.setItem('hsk6_studyMode', studyMode);
-    const icon = studyModeToggle.querySelector('i');
     if (studyMode) {
       document.body.classList.add('study-mode-active');
-      icon.classList.remove('fa-eye-slash');
-      icon.classList.add('fa-eye');
+      studyModeIcon.classList.remove('fa-eye-slash');
+      studyModeIcon.classList.add('fa-eye');
     } else {
       document.body.classList.remove('study-mode-active');
-      icon.classList.remove('fa-eye');
-      icon.classList.add('fa-eye-slash');
+      studyModeIcon.classList.remove('fa-eye');
+      studyModeIcon.classList.add('fa-eye-slash');
     }
+    render(); // re-render to attach click listeners on words
     refreshAds();
+  }
+  floatingEye.addEventListener('click', () => {
+    setStudyMode(!studyMode);
   });
-  // Initial state
   if (studyMode) {
     document.body.classList.add('study-mode-active');
-    studyModeToggle.querySelector('i').classList.remove('fa-eye-slash');
-    studyModeToggle.querySelector('i').classList.add('fa-eye');
+    studyModeIcon.classList.remove('fa-eye-slash');
+    studyModeIcon.classList.add('fa-eye');
   } else {
-    studyModeToggle.querySelector('i').classList.remove('fa-eye');
-    studyModeToggle.querySelector('i').classList.add('fa-eye-slash');
+    studyModeIcon.classList.remove('fa-eye');
+    studyModeIcon.classList.add('fa-eye-slash');
   }
 
   // Shuffle
@@ -1127,7 +1258,18 @@
 
   // Buddy assistant logic
   function getRandomWordFromFiltered() { if (filteredWords.length === 0) return null; return filteredWords[Math.floor(Math.random() * filteredWords.length)]; }
-  function updateBuddyWord(wordObj) { currentBuddyWord = wordObj; if (!wordObj) buddyWordDisplay.innerText = '?'; else { buddyWordDisplay.innerText = wordObj.word; if (currentMode === 'quiz') generateQuiz(wordObj); } }
+  function updateBuddyWord(wordObj) {
+    currentBuddyWord = wordObj;
+    if (!wordObj) {
+      buddyWordDisplay.innerText = '?';
+      buddyFavoriteBtn.style.display = 'none';
+    } else {
+      buddyWordDisplay.innerText = wordObj.word;
+      buddyFavoriteBtn.style.display = 'inline-block';
+      updateBuddyFavoriteIcon();
+      if (currentMode === 'quiz') generateQuiz(wordObj);
+    }
+  }
   function generateQuiz(wordObj) { if (!wordObj) return; const correct = wordObj.meaning; let options = [correct]; while (options.length < 4) { const rand = wordList[Math.floor(Math.random() * wordList.length)]; if (!options.includes(rand.meaning) && rand.meaning !== correct) options.push(rand.meaning); } options = options.sort(() => Math.random() - 0.5); quizPanelElem.innerHTML = ''; options.forEach(opt => { const btn = document.createElement('div'); btn.className = 'quiz-opt'; btn.innerText = opt; btn.addEventListener('click', () => { document.querySelectorAll('.quiz-opt').forEach(el => el.style.pointerEvents = 'none'); if (opt === correct) btn.classList.add('correct'); else { btn.classList.add('wrong'); document.querySelectorAll('.quiz-opt').forEach(el => { if (el.innerText === correct) el.classList.add('correct'); }); } }); quizPanelElem.appendChild(btn); }); }
   function showTypingPanel() { typingPanelElem.style.display = 'flex'; quizPanelElem.style.display = 'none'; }
   function showQuizPanel() { typingPanelElem.style.display = 'none'; quizPanelElem.style.display = 'flex'; }
@@ -1140,6 +1282,11 @@
   speakBuddyWord.addEventListener('click', () => { if (currentBuddyWord) window.speakText(currentBuddyWord.word); });
   submitTyping.addEventListener('click', handleTypingSubmit);
   typingInputElem.addEventListener('keyup', e => { if (e.key === 'Enter') handleTypingSubmit(); });
+  buddyFavoriteBtn.addEventListener('click', () => {
+    if (currentBuddyWord) {
+      toggleFavorite(currentBuddyWord.word);
+    }
+  });
   tabs.forEach(tab => tab.addEventListener('click', () => { tabs.forEach(t => t.classList.remove('active')); tab.classList.add('active'); switchMode(tab.dataset.mode); }));
 
   const savedTheme = localStorage.getItem('hsk6_theme'); if (savedTheme === 'dark') { document.body.classList.add('dark'); darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode'; } else { document.body.classList.add('light'); darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode'; }
