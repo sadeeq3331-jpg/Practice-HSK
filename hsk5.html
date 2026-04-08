@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Ad codes (unchanged) -->
-  <script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var e=window,v="cd6ee060ba724175f3699c4800b65757",c=[["siteId",196*575-377+452-660+5176474],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],k=["d3d3LnhhZHNtYXJ0LmNvbS9xYW1hemV1aS5taW4uY3Nz","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvZy9kdHdpeC5taW4uanM="],s=-1,o,b,l=function(){clearTimeout(b);s++;if(k[s]&&!(1800955961000<(new Date).getTime()&&1<s)){o=e.document.createElement("script");o.type="text/javascript";o.async=!0;var u=e.document.getElementsByTagName("script")[0];o.src="https://"+atob(k[s]);o.crossOrigin="anonymous";o.onerror=l;o.onload=function(){clearTimeout(b);e[v.slice(0,16)+v.slice(0,16)]||l()};b=setTimeout(l,5E3);u.parentNode.insertBefore(o,u)}};if(!e[v]){try{Object.freeze(e[v]=c)}catch(e){}l()}})();
-/*]]>/* */
-</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>HSK 5 Vocabulary Master</title>
+  <!-- Ad code (as requested) -->
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
+  /*]]>/* */
+  </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     /* ========== HSK 5 THEME: Red/Coral ========== */
@@ -408,115 +408,61 @@
     .study-mode-active .example-container {
       display: none !important;
     }
-    /* Modal */
-    .modal {
-      display: none;
+    .floating-eye {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      z-index: 2000;
-      overflow-y: auto;
-      padding: 1rem;
-    }
-    .modal-content {
-      max-width: 1200px;
-      margin: 2rem auto;
-      background: var(--bg-card);
-      border-radius: 1.5rem;
-      padding: 1rem;
-      position: relative;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-    }
-    .modal-header {
+      top: 20px;
+      right: 20px;
+      z-index: 1100;
+      background: var(--accent);
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid var(--border-light);
-      padding-bottom: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    .modal-header h2 {
-      color: var(--text-primary);
-      font-size: 1.2rem;
-    }
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
+      justify-content: center;
       cursor: pointer;
-      color: var(--text-secondary);
-      transition: transform 0.1s;
-    }
-    .modal-close:hover {
-      transform: scale(1.1);
-    }
-    .modal-tabs {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid var(--border-light);
-      padding-bottom: 0.5rem;
-    }
-    .modal-tab {
-      background: none;
-      border: none;
-      padding: 0.3rem 1rem;
-      cursor: pointer;
-      font-weight: 500;
-      color: var(--text-secondary);
-      border-radius: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       transition: all 0.2s;
+      border: 2px solid white;
     }
-    .modal-tab:hover {
+    .go-to-top {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      z-index: 1100;
       background: var(--accent);
       color: white;
-    }
-    .modal-tab.active {
-      background: var(--accent);
-      color: white;
-    }
-    .vocab-list {
-      max-height: 70vh;
-      overflow-y: auto;
-      padding-right: 0.5rem;
-    }
-    .letter-group {
-      margin-bottom: 1.2rem;
-    }
-    .letter-group h3 {
-      background: var(--accent);
-      color: white;
-      display: inline-block;
-      padding: 0.2rem 0.8rem;
-      border-radius: 30px;
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
-    .letter-group .word-item {
-      display: inline-block;
-      width: calc(20% - 8px);
-      margin: 4px;
-      background: rgba(230,92,92,0.05);
-      padding: 4px 6px;
-      border-radius: 20px;
-      font-size: 0.8rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      transition: all 0.1s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.2s;
+      border: 2px solid white;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
     }
-    .letter-group .word-item:hover {
-      background: var(--accent);
-      color: white;
-      transform: scale(1.02);
+    .go-to-top.show {
+      opacity: 1;
+      visibility: visible;
     }
-    .range-group {
-      margin-bottom: 1rem;
-    }
-    .range-group h4 {
+    .study-popup {
+      position: fixed;
+      background: var(--bg-card);
       color: var(--text-primary);
-      margin-bottom: 0.3rem;
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 8px 12px;
+      max-width: 300px;
+      z-index: 2000;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      font-size: 0.9rem;
+      pointer-events: none;
     }
     .buddy-container {
       position: fixed;
@@ -599,10 +545,8 @@
     .buddy-word {
       font-size: 1.8rem;
       font-weight: 600;
-      color: var(--text-primary);
       text-align: center;
       margin: 8px 0;
-      word-break: break-word;
     }
     .buddy-controls {
       display: flex;
@@ -624,6 +568,21 @@
       background: var(--accent);
       color: white;
       transform: scale(1.02);
+    }
+    .buddy-favorite {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #cbd5e0;
+      transition: transform 0.1s;
+      margin-left: 8px;
+    }
+    .buddy-favorite.active {
+      color: #e53e3e;
+    }
+    .buddy-favorite:hover {
+      transform: scale(1.1);
     }
     .quiz-options {
       display: flex;
@@ -669,6 +628,21 @@
       background: var(--bg-card);
       color: var(--text-primary);
     }
+    .voice-input-btn {
+      background: var(--accent);
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.2s;
+    }
+    .voice-input-btn:hover {
+      transform: scale(1.05);
+      background: var(--accent-hover);
+    }
     .typing-feedback {
       font-size: 0.85rem;
       text-align: center;
@@ -685,8 +659,6 @@
       border: 2px solid var(--accent);
       cursor: pointer;
       transition: transform 0.1s;
-      position: relative;
-      z-index: 10;
     }
     .buddy-avatar:active {
       transform: scale(0.95);
@@ -695,9 +667,6 @@
       width: 50px;
       height: 50px;
       border-radius: 50%;
-    }
-    .buddy-avatar span {
-      display: none;
     }
     .footer-note {
       text-align: center;
@@ -723,6 +692,10 @@
         height: 34px;
         font-size: 0.8rem;
       }
+      .floating-eye, .go-to-top {
+        width: 40px;
+        height: 40px;
+      }
     }
     .hidden {
       display: none;
@@ -731,33 +704,22 @@
   <script src="words_hsk5.js"></script>
 </head>
 <body class="light">
+<div id="floatingEye" class="floating-eye"><i class="fas fa-eye-slash"></i></div>
+<div id="goToTop" class="go-to-top"><i class="fas fa-arrow-up"></i></div>
 <div class="app-container">
   <div class="header">
     <div class="logo-area">
-      <div class="logo-svg">
-        <svg width="42" height="42" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="800" height="800" rx="200" fill="#0a2942"/>
-          <g transform="translate(200, 200) scale(0.8)">
-            <path d="M192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v25.6C69.5 68.4 16 127.1 16 200v32c0 101.7 82.3 184 184 184h64c101.7 0 184-82.3 184-184v-32c0-72.9-53.5-131.6-128-142.4V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V32zM48 200c0-63.1 48-115.4 109.5-126.9 4.2-.7 8.5-1.1 12.8-1.1h31.5c4.3 0 8.6 .4 12.8 1.1C288 84.6 336 136.9 336 200v32c0 75.1-60.9 136-136 136h-64c-75.1 0-136-60.9-136-136v-32zm320 240c0-8.8-7.2-16-16-16H32c-8.8 0-16 7.2-16 16v48c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16v-48z" fill="#ffd966"/>
-          </g>
-        </svg>
-      </div>
-      <div class="title-section">
-        <h1>HSK 5 · 词汇大师</h1>
-        <div class="badge"><i class="fas fa-star"></i> 1300 words</div>
-      </div>
+      <div class="logo-svg"><svg width="42" height="42" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="800" height="800" rx="200" fill="#0a2942"/><g transform="translate(200, 200) scale(0.8)"><path d="M192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v25.6C69.5 68.4 16 127.1 16 200v32c0 101.7 82.3 184 184 184h64c101.7 0 184-82.3 184-184v-32c0-72.9-53.5-131.6-128-142.4V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V32zM48 200c0-63.1 48-115.4 109.5-126.9 4.2-.7 8.5-1.1 12.8-1.1h31.5c4.3 0 8.6 .4 12.8 1.1C288 84.6 336 136.9 336 200v32c0 75.1-60.9 136-136 136h-64c-75.1 0-136-60.9-136-136v-32zm320 240c0-8.8-7.2-16-16-16H32c-8.8 0-16 7.2-16 16v48c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16v-48z" fill="#ffd966"/></g></svg></div>
+      <div class="title-section"><h1>HSK 5 · 词汇大师</h1><div class="badge"><i class="fas fa-star"></i> 1300 words</div></div>
     </div>
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="🔍 Search...">
-      <button id="searchBtn">Search</button>
-    </div>
+    <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search..."><button id="searchBtn">Search</button></div>
   </div>
 
   <div class="settings-bar">
     <button id="darkModeToggle" class="icon-btn"><i class="fas fa-moon"></i> Dark Mode</button>
-    <button id="toggleStatsBtn" class="icon-btn"><i class="fas fa-chart-line"></i> Show Stats</button>
+    <button id="toggleStatsBtn" class="icon-btn"><i class="fas fa-chart-line"></i> Stats</button>
     <button id="shuffleBtn" class="icon-btn"><i class="fas fa-random"></i> Shuffle</button>
-    <button id="fullVocabBtn" class="icon-btn"><i class="fas fa-list-ul"></i> Full Vocabulary</button>
+    <button id="fullVocabBtn" class="icon-btn"><i class="fas fa-list-ul"></i> Full List</button>
     <button id="exportFavBtn" class="icon-btn"><i class="fas fa-download"></i> Export Favorites</button>
     <button id="importFavBtn" class="icon-btn"><i class="fas fa-upload"></i> Import Favorites</button>
     <input type="file" id="importFavFile" style="display:none" accept=".json">
@@ -770,13 +732,7 @@
     <button id="resetProgressBtn" class="icon-btn" style="font-size:0.8rem;"><i class="fas fa-trash-alt"></i> Reset Progress</button>
   </div>
 
-  <div id="studyModeToggle" class="study-mode-toggle">
-    <i class="fas fa-eye-slash"></i>
-    <span>Study Mode</span>
-  </div>
-
   <div class="letter-filter" id="letterFilter"></div>
-
   <div class="categories" id="categoryTabs">
     <button class="cat-btn active" data-cat="all">All (1300)</button>
     <button class="cat-btn" data-cat="1-325">1–325</button>
@@ -786,94 +742,35 @@
     <button class="cat-btn" data-cat="favorites"><i class="fas fa-heart"></i> Favorites</button>
   </div>
 
-  <div class="stats-bar">
-    <div class="word-counter">📄 Showing <span id="shownCount">0</span> / <span id="totalCount">1300</span> words</div>
-    <div class="pagination-controls" id="paginationContainer"></div>
-  </div>
-
+  <div class="stats-bar"><div class="word-counter">📄 <span id="shownCount">0</span> / <span id="totalCount">1300</span></div><div class="pagination-controls" id="paginationContainer"></div></div>
   <div id="vocabGrid" class="card-grid"></div>
-
-  <div class="bottom-pagination" id="bottomPagination">
-    <button id="prevPageBottom"><i class="fas fa-chevron-left"></i> Previous</button>
-    <span id="pageInfo">Page 1 / 1</span>
-    <button id="nextPageBottom">Next <i class="fas fa-chevron-right"></i></button>
-  </div>
-
-  <div class="footer-note">
-    <span><i class="fas fa-heart"></i> Favorite</span>
-    <span><i class="fas fa-volume-up"></i> Click to hear</span>
-    <span><i class="fas fa-robot"></i> AI Assistant</span>
-    <span><i class="fas fa-random"></i> Shuffle</span>
-    <span><i class="fas fa-list-ul"></i> Full list</span>
-  </div>
+  <div class="bottom-pagination" id="bottomPagination"><button id="prevPageBottom"><i class="fas fa-chevron-left"></i> Prev</button><span id="pageInfo">Page 1 / 1</span><button id="nextPageBottom">Next <i class="fas fa-chevron-right"></i></button></div>
+  <div class="footer-note"><span><i class="fas fa-heart"></i> Favorite</span><span><i class="fas fa-volume-up"></i> Click to hear</span><span><i class="fas fa-robot"></i> Assistant</span><span><i class="fas fa-random"></i> Shuffle</span><span><i class="fas fa-list-ul"></i> Full list</span><span><i class="fas fa-microphone"></i> Voice typing</span></div>
 </div>
 
 <!-- Modal for full vocabulary -->
-<div id="vocabModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Complete HSK 5 Vocabulary (1300 words)</h2>
-      <button class="modal-close" id="closeModal">&times;</button>
-    </div>
-    <div class="modal-tabs">
-      <button class="modal-tab active" data-tab="letter">By Pinyin (A–Z)</button>
-      <button class="modal-tab" data-tab="range">By Range (1–325, 326–650, 651–975, 976–1300)</button>
-    </div>
-    <div id="letterView" class="vocab-list"></div>
-    <div id="rangeView" class="vocab-list" style="display:none;"></div>
-  </div>
-</div>
+<div id="vocabModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>Complete HSK 5 Vocabulary (1300 words)</h2><button class="modal-close" id="closeModal">&times;</button></div><div class="modal-tabs"><button class="modal-tab active" data-tab="letter">By Pinyin (A–Z)</button><button class="modal-tab" data-tab="range">By Range (1–325, 326–650, 651–975, 976–1300)</button></div><div id="letterView" class="vocab-list"></div><div id="rangeView" class="vocab-list" style="display:none;"></div></div></div>
 
-<!-- Floating Assistant Buddy -->
 <div class="buddy-container" id="buddyContainer">
   <div class="buddy-bubble hidden" id="buddyBubble">
-    <div class="buddy-header">
-      <span><i class="fas fa-robot"></i> Learning Assistant</span>
-      <button class="buddy-close" id="closeBuddy"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="buddy-tabs">
-      <button class="buddy-tab active" data-mode="quiz">📝 Quiz</button>
-      <button class="buddy-tab" data-mode="typing">⌨️ Typing</button>
-    </div>
-    <div id="buddyWordDisplay" class="buddy-word">?</div>
-    <div class="buddy-controls">
-      <button id="speakBuddyWord"><i class="fas fa-volume-up"></i> Speak</button>
-      <button id="newBuddyWord"><i class="fas fa-random"></i> Random</button>
-    </div>
+    <div class="buddy-header"><span><i class="fas fa-robot"></i> Assistant</span><button class="buddy-close" id="closeBuddy"><i class="fas fa-times"></i></button></div>
+    <div class="buddy-tabs"><button class="buddy-tab active" data-mode="quiz">Quiz</button><button class="buddy-tab" data-mode="typing">Typing</button></div>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px;"><div id="buddyWordDisplay" class="buddy-word">?</div><button id="buddyFavoriteBtn" class="buddy-favorite"><i class="far fa-heart"></i></button></div>
+    <div class="buddy-controls"><button id="speakBuddyWord"><i class="fas fa-volume-up"></i> Speak</button><button id="newBuddyWord"><i class="fas fa-random"></i> Random</button></div>
     <div id="quizPanel" class="quiz-options"></div>
-    <div id="typingPanel" class="typing-area" style="display:none;">
-      <input type="text" id="typingInput" class="typing-input" placeholder="Type English meaning...">
-      <button id="submitTyping" class="buddy-tab" style="background:#e65c5c; color:white;">Submit</button>
-      <div id="typingFeedbackMsg" class="typing-feedback"></div>
-    </div>
+    <div id="typingPanel" class="typing-area" style="display:none;"><input type="text" id="typingInput" placeholder="Type meaning..."><button id="submitTyping">Submit</button><button id="voiceInputBtn" class="voice-input-btn"><i class="fas fa-microphone"></i></button><div id="typingFeedbackMsg"></div></div>
   </div>
-  <div class="buddy-avatar" id="buddyAvatar">
-    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e65c5c'/%3E%3Ccircle cx='35' cy='40' r='5' fill='white'/%3E%3Ccircle cx='65' cy='40' r='5' fill='white'/%3E%3Cpath d='M35 65 Q50 80 65 65' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="buddy">
-  </div>
+  <div class="buddy-avatar" id="buddyAvatar"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e65c5c'/%3E%3Ccircle cx='35' cy='40' r='5' fill='white'/%3E%3Ccircle cx='65' cy='40' r='5' fill='white'/%3E%3Cpath d='M35 65 Q50 80 65 65' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="buddy"></div>
 </div>
 
 <script>
   // ========== SPEECH MODULE ==========
-  (function() {
-    if (!window.speechSynthesis) {
-      window.speakText = function(t) { console.log(t); };
-      return;
-    }
-    window.speakText = function(text) {
-      if (!text) return;
-      try {
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = 'zh-CN';
-        u.rate = 0.9;
-        window.speechSynthesis.speak(u);
-      } catch(e) { console.error(e); }
-    };
-  })();
+  (function() { if (!window.speechSynthesis) { window.speakText = function(t) { console.log(t); }; return; } window.speakText = function(text) { if (!text) return; try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'zh-CN'; u.rate = 0.9; window.speechSynthesis.speak(u); } catch(e) { console.error(e); } }; })();
 
   const wordList = window.HSK5_WORDS || [];
   if (wordList.length === 0) alert('words_hsk5.js missing!');
 
+  // State
   let currentFilter = 'all', currentLetter = null, filteredWords = [...wordList], currentPage = 1, pageSize = 20;
   let favorites = new Set(JSON.parse(localStorage.getItem('hsk5_favorites') || '[]'));
   let studiedWords = new Set(JSON.parse(localStorage.getItem('hsk5_studied') || '[]'));
@@ -896,13 +793,14 @@
   const masteryPercentSpan = document.getElementById('masteryPercent');
   const statsPanel = document.getElementById('statsPanel');
   const toggleStatsBtn = document.getElementById('toggleStatsBtn');
-  const exportFavBtn = document.getElementById('exportFavBtn');
-  const importFavBtn = document.getElementById('importFavBtn');
-  const importFavFile = document.getElementById('importFavFile');
   const resetProgressBtn = document.getElementById('resetProgressBtn');
   const darkModeToggle = document.getElementById('darkModeToggle');
   const letterFilterDiv = document.getElementById('letterFilter');
-  const studyModeToggle = document.getElementById('studyModeToggle');
+  const floatingEye = document.getElementById('floatingEye');
+  const goToTop = document.getElementById('goToTop');
+  const exportFavBtn = document.getElementById('exportFavBtn');
+  const importFavBtn = document.getElementById('importFavBtn');
+  const importFavFile = document.getElementById('importFavFile');
   const shuffleBtn = document.getElementById('shuffleBtn');
   const fullVocabBtn = document.getElementById('fullVocabBtn');
   const modal = document.getElementById('vocabModal');
@@ -918,15 +816,36 @@
   const newBuddyWord = document.getElementById('newBuddyWord');
   const speakBuddyWord = document.getElementById('speakBuddyWord');
   const buddyWordDisplay = document.getElementById('buddyWordDisplay');
+  const buddyFavoriteBtn = document.getElementById('buddyFavoriteBtn');
   const quizPanelElem = document.getElementById('quizPanel');
   const typingPanelElem = document.getElementById('typingPanel');
   const typingInputElem = document.getElementById('typingInput');
   const submitTyping = document.getElementById('submitTyping');
   const typingFeedbackMsg = document.getElementById('typingFeedbackMsg');
-  const tabs = document.querySelectorAll('.buddy-tab');
+  const voiceInputBtn = document.getElementById('voiceInputBtn');
+  const tabsBuddy = document.querySelectorAll('.buddy-tab');
 
   let currentMode = 'quiz', currentBuddyWord = null, buddyVisible = false;
 
+  // Voice input
+  if ('webkitSpeechRecognition' in window) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.continuous = false;
+    voiceInputBtn.addEventListener('click', () => {
+      recognition.start();
+      voiceInputBtn.style.opacity = '0.5';
+    });
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      typingInputElem.value = transcript;
+      voiceInputBtn.style.opacity = '1';
+    };
+    recognition.onerror = () => { voiceInputBtn.style.opacity = '1'; };
+  } else { voiceInputBtn.style.display = 'none'; }
+
+  // Helper functions
   function updateStats() {
     favCountSpan.innerText = favorites.size;
     studiedCountSpan.innerText = studiedWords.size;
@@ -938,8 +857,6 @@
     words.forEach(w => { if (!studiedWords.has(w.word)) { studiedWords.add(w.word); changed = true; } });
     if (changed) { localStorage.setItem('hsk5_studied', JSON.stringify([...studiedWords])); updateStats(); }
   }
-  function refreshAds() {} // no ads
-
   function applyFilter() {
     const searchTerm = searchInput.value.trim().toLowerCase();
     let base = wordList;
@@ -953,7 +870,35 @@
     currentPage = 1;
   }
   function saveFavorites() { localStorage.setItem('hsk5_favorites', JSON.stringify([...favorites])); updateStats(); }
-  function toggleFavorite(word) { if (favorites.has(word)) favorites.delete(word); else favorites.add(word); saveFavorites(); if (currentFilter === 'favorites') applyFilter(); render(); refreshAds(); }
+  function toggleFavorite(word) {
+    if (favorites.has(word)) favorites.delete(word);
+    else favorites.add(word);
+    saveFavorites();
+    if (currentFilter === 'favorites') applyFilter();
+    render();
+    if (currentBuddyWord && currentBuddyWord.word === word) updateBuddyFavoriteIcon();
+  }
+  function updateBuddyFavoriteIcon() {
+    if (currentBuddyWord && favorites.has(currentBuddyWord.word)) {
+      buddyFavoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
+      buddyFavoriteBtn.classList.add('active');
+    } else {
+      buddyFavoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
+      buddyFavoriteBtn.classList.remove('active');
+    }
+  }
+  let popupTimeout = null, popupDiv = null;
+  function showPopup(x, y, content) {
+    if (popupDiv) popupDiv.remove();
+    popupDiv = document.createElement('div');
+    popupDiv.className = 'study-popup';
+    popupDiv.innerHTML = content;
+    popupDiv.style.left = (x + 10) + 'px';
+    popupDiv.style.top = (y - 30) + 'px';
+    document.body.appendChild(popupDiv);
+    if (popupTimeout) clearTimeout(popupTimeout);
+    popupTimeout = setTimeout(() => { if (popupDiv) popupDiv.remove(); popupDiv = null; }, 2000);
+  }
   function render() {
     const pageWords = filteredWords.slice((currentPage-1)*pageSize, currentPage*pageSize);
     if (pageWords.length === 0) grid.innerHTML = '<div class="empty-state" style="text-align:center;padding:2rem;">✨ No words found</div>';
@@ -962,7 +907,14 @@
       pageWords.forEach(item => {
         const isFav = favorites.has(item.word);
         const exampleHtml = item.example ? `<div class="example-container"><span class="example-text">📌 ${item.example}</span><button class="example-speaker" data-example="${item.example}"><i class="fas fa-volume-up"></i></button></div>` : '';
-        html += `<div class="vocab-card"><div class="word-header"><span class="chinese-word">${item.word}</span><div><button class="favorite-btn ${isFav ? 'active' : ''}" data-word="${item.word}"><i class="${isFav ? 'fas' : 'far'} fa-heart"></i></button><button class="speaker-btn" data-word="${item.word}"><i class="fas fa-volume-up"></i></button></div></div><div class="pinyin">${item.pinyin}</div><div class="meaning">${item.meaning}</div>${exampleHtml}</div>`;
+        html += `<div class="vocab-card">
+          <div class="word-header">
+            <span class="chinese-word" data-word="${item.word}" data-pinyin="${item.pinyin}" data-meaning="${item.meaning}" data-example="${item.example || ''}">${item.word}</span>
+            <div><button class="favorite-btn ${isFav ? 'active' : ''}" data-word="${item.word}"><i class="${isFav ? 'fas' : 'far'} fa-heart"></i></button><button class="speaker-btn" data-word="${item.word}"><i class="fas fa-volume-up"></i></button></div>
+          </div>
+          <div class="pinyin">${item.pinyin}</div>
+          <div class="meaning">${item.meaning}</div>${exampleHtml}
+        </div>`;
       });
       grid.innerHTML = html;
       markWordsStudied(pageWords);
@@ -970,9 +922,27 @@
     document.querySelectorAll('.speaker-btn').forEach(btn => btn.addEventListener('click', () => window.speakText(btn.dataset.word)));
     document.querySelectorAll('.example-speaker').forEach(btn => btn.addEventListener('click', () => window.speakText(btn.dataset.example)));
     document.querySelectorAll('.favorite-btn').forEach(btn => btn.addEventListener('click', () => { toggleFavorite(btn.dataset.word); const icon = btn.querySelector('i'); if (favorites.has(btn.dataset.word)) { icon.classList.remove('far'); icon.classList.add('fas'); btn.classList.add('active'); } else { icon.classList.remove('fas'); icon.classList.add('far'); btn.classList.remove('active'); } }));
+    if (studyMode) {
+      document.querySelectorAll('.chinese-word').forEach(wordSpan => {
+        wordSpan.style.cursor = 'pointer';
+        wordSpan.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const word = wordSpan.dataset.word;
+          const pinyin = wordSpan.dataset.pinyin;
+          const meaning = wordSpan.dataset.meaning;
+          const example = wordSpan.dataset.example;
+          let content = `<strong>${word}</strong> (${pinyin})<br>${meaning}`;
+          if (example) content += `<br><em>📌 ${example}</em>`;
+          showPopup(e.clientX, e.clientY, content);
+        });
+      });
+    } else {
+      document.querySelectorAll('.chinese-word').forEach(wordSpan => { wordSpan.style.cursor = 'default'; wordSpan.onclick = null; });
+    }
     shownSpan.innerText = filteredWords.length;
     renderPagination();
     if (studyMode) document.body.classList.add('study-mode-active'); else document.body.classList.remove('study-mode-active');
+    saveState();
   }
   function renderPagination() {
     const totalPages = Math.ceil(filteredWords.length / pageSize);
@@ -981,9 +951,9 @@
       for (let i=1; i<=totalPages; i++) btns += `<button class="page-btn ${i===currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
       btns += `<button class="page-btn" id="nextPageTop" ${currentPage===totalPages?'disabled':''}><i class="fas fa-chevron-right"></i></button>`;
       paginationDiv.innerHTML = btns;
-      document.querySelectorAll('.page-btn[data-page]').forEach(btn => btn.addEventListener('click', () => { currentPage = parseInt(btn.dataset.page); render(); refreshAds(); }));
-      document.getElementById('prevPageTop')?.addEventListener('click', () => { if (currentPage > 1) { currentPage--; render(); refreshAds(); } });
-      document.getElementById('nextPageTop')?.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; render(); refreshAds(); } });
+      document.querySelectorAll('.page-btn[data-page]').forEach(btn => btn.addEventListener('click', () => { currentPage = parseInt(btn.dataset.page); render(); }));
+      document.getElementById('prevPageTop')?.addEventListener('click', () => { if (currentPage > 1) { currentPage--; render(); } });
+      document.getElementById('nextPageTop')?.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; render(); } });
       bottomPrev.disabled = (currentPage === 1); bottomNext.disabled = (currentPage === totalPages);
       pageInfoSpan.innerText = `Page ${currentPage} / ${totalPages}`;
     }
@@ -991,158 +961,124 @@
   function buildLetterFilter() {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     letterFilterDiv.innerHTML = '<button class="letter-btn all-letters" data-letter="">All</button>';
-    letters.forEach(l => { const btn = document.createElement('button'); btn.className = 'letter-btn'; btn.textContent = l; btn.dataset.letter = l.toLowerCase(); btn.addEventListener('click', () => { document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentLetter = l.toLowerCase(); applyFilter(); render(); refreshAds(); }); letterFilterDiv.appendChild(btn); });
-    const allBtn = document.querySelector('.letter-btn.all-letters'); if (allBtn) allBtn.addEventListener('click', () => { document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active')); allBtn.classList.add('active'); currentLetter = null; applyFilter(); render(); refreshAds(); });
+    letters.forEach(l => { const btn = document.createElement('button'); btn.className = 'letter-btn'; btn.textContent = l; btn.dataset.letter = l.toLowerCase(); btn.addEventListener('click', () => { document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentLetter = l.toLowerCase(); applyFilter(); render(); }); letterFilterDiv.appendChild(btn); });
+    const allBtn = document.querySelector('.letter-btn.all-letters'); if (allBtn) allBtn.addEventListener('click', () => { document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active')); allBtn.classList.add('active'); currentLetter = null; applyFilter(); render(); });
   }
-  categoryBtns.forEach(btn => btn.addEventListener('click', () => { categoryBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.cat; applyFilter(); render(); refreshAds(); }));
-  function handleSearch() { applyFilter(); render(); refreshAds(); }
+  categoryBtns.forEach(btn => btn.addEventListener('click', () => { categoryBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.cat; applyFilter(); render(); }));
+  function handleSearch() { applyFilter(); render(); }
   searchBtn.addEventListener('click', handleSearch); searchInput.addEventListener('keyup', e => e.key === 'Enter' && handleSearch());
-  bottomPrev.addEventListener('click', () => { if (currentPage > 1) { currentPage--; render(); refreshAds(); } });
-  bottomNext.addEventListener('click', () => { if (currentPage < Math.ceil(filteredWords.length / pageSize)) { currentPage++; render(); refreshAds(); } });
-  toggleStatsBtn.addEventListener('click', () => { statsPanel.classList.toggle('hidden'); localStorage.setItem('hsk5_stats_visible', (!statsPanel.classList.contains('hidden')).toString()); refreshAds(); });
+  bottomPrev.addEventListener('click', () => { if (currentPage > 1) { currentPage--; render(); } });
+  bottomNext.addEventListener('click', () => { if (currentPage < Math.ceil(filteredWords.length / pageSize)) { currentPage++; render(); } });
+  toggleStatsBtn.addEventListener('click', () => { statsPanel.classList.toggle('hidden'); localStorage.setItem('hsk5_stats_visible', (!statsPanel.classList.contains('hidden')).toString()); });
   if (localStorage.getItem('hsk5_stats_visible') === 'true') statsPanel.classList.remove('hidden'); else statsPanel.classList.add('hidden');
-  darkModeToggle.addEventListener('click', () => { const isDark = document.body.classList.contains('dark'); if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk5_theme', 'light'); darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode'; } else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk5_theme', 'dark'); darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode'; } refreshAds(); });
+  darkModeToggle.addEventListener('click', () => { const isDark = document.body.classList.contains('dark'); if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk5_theme', 'light'); darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode'; } else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk5_theme', 'dark'); darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode'; } });
   exportFavBtn.addEventListener('click', () => { const data = JSON.stringify([...favorites], null, 2); const blob = new Blob([data], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'hsk5_favorites.json'; a.click(); URL.revokeObjectURL(url); });
   importFavBtn.addEventListener('click', () => importFavFile.click());
-  importFavFile.addEventListener('change', e => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = ev => { try { const imported = JSON.parse(ev.target.result); if (Array.isArray(imported)) { favorites = new Set(imported); saveFavorites(); if (currentFilter === 'favorites') { applyFilter(); render(); } else render(); updateStats(); alert('Favorites imported!'); refreshAds(); } else alert('Invalid file'); } catch(err) { alert('Parse error'); } importFavFile.value = ''; }; reader.readAsText(file); });
-  resetProgressBtn.addEventListener('click', () => { if (confirm('Reset progress?')) { studiedWords.clear(); localStorage.setItem('hsk5_studied', JSON.stringify([])); updateStats(); alert('Progress reset'); refreshAds(); } });
+  importFavFile.addEventListener('change', e => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = ev => { try { const imported = JSON.parse(ev.target.result); if (Array.isArray(imported)) { favorites = new Set(imported); saveFavorites(); if (currentFilter === 'favorites') { applyFilter(); render(); } else render(); updateStats(); alert('Favorites imported!'); } else alert('Invalid file'); } catch(err) { alert('Parse error'); } importFavFile.value = ''; }; reader.readAsText(file); });
+  resetProgressBtn.addEventListener('click', () => { if (confirm('Reset progress?')) { studiedWords.clear(); favorites.clear(); localStorage.setItem('hsk5_studied', JSON.stringify([])); localStorage.setItem('hsk5_favorites', JSON.stringify([])); updateStats(); if (currentFilter === 'favorites') applyFilter(); render(); } });
 
-  // Study Mode toggle with eye icon animation
-  studyModeToggle.addEventListener('click', () => {
-    studyMode = !studyMode;
+  // Study Mode floating eye
+  function setStudyMode(enabled) {
+    studyMode = enabled;
     localStorage.setItem('hsk5_studyMode', studyMode);
-    const icon = studyModeToggle.querySelector('i');
-    if (studyMode) {
-      document.body.classList.add('study-mode-active');
-      icon.classList.remove('fa-eye-slash');
-      icon.classList.add('fa-eye');
-    } else {
-      document.body.classList.remove('study-mode-active');
-      icon.classList.remove('fa-eye');
-      icon.classList.add('fa-eye-slash');
-    }
-    refreshAds();
-  });
-  if (studyMode) {
-    document.body.classList.add('study-mode-active');
-    studyModeToggle.querySelector('i').classList.remove('fa-eye-slash');
-    studyModeToggle.querySelector('i').classList.add('fa-eye');
-  } else {
-    studyModeToggle.querySelector('i').classList.remove('fa-eye');
-    studyModeToggle.querySelector('i').classList.add('fa-eye-slash');
+    const icon = floatingEye.querySelector('i');
+    if (studyMode) { icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); } else { icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); }
+    render();
   }
+  floatingEye.addEventListener('click', () => setStudyMode(!studyMode));
+  if (studyMode) { document.body.classList.add('study-mode-active'); floatingEye.querySelector('i').classList.remove('fa-eye-slash'); floatingEye.querySelector('i').classList.add('fa-eye'); }
 
   // Shuffle
-  function shuffleArray(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-  shuffleBtn.addEventListener('click', () => {
-    if (filteredWords.length > 0) {
-      filteredWords = shuffleArray([...filteredWords]);
-      currentPage = 1;
-      render();
-      refreshAds();
-    }
-  });
+  function shuffleArray(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+  shuffleBtn.addEventListener('click', () => { if (filteredWords.length > 0) { filteredWords = shuffleArray([...filteredWords]); currentPage = 1; render(); } });
 
   // Full Vocabulary Modal
   function buildLetterView() {
     const groups = {};
-    wordList.forEach(w => {
-      const first = w.pinyin.trim().toLowerCase().charAt(0);
-      if (!groups[first]) groups[first] = [];
-      groups[first].push(w);
-    });
+    wordList.forEach(w => { const first = w.pinyin.trim().toLowerCase().charAt(0); if (!groups[first]) groups[first] = []; groups[first].push(w); });
     let html = '';
     for (let l of 'abcdefghijklmnopqrstuvwxyz') {
       if (groups[l]) {
         html += `<div class="letter-group"><h3>${l.toUpperCase()}</h3>`;
-        groups[l].forEach(w => {
-          html += `<div class="word-item" data-word="${w.word}" data-pinyin="${w.pinyin}" data-meaning="${w.meaning}">${w.word}</div>`;
-        });
+        groups[l].forEach(w => html += `<div class="word-item" data-word="${w.word}">${w.word}</div>`);
         html += `</div>`;
       }
     }
     letterView.innerHTML = html;
-    document.querySelectorAll('#letterView .word-item').forEach(el => {
-      el.addEventListener('click', () => {
-        modal.style.display = 'none';
-        searchInput.value = el.dataset.word;
-        handleSearch();
-      });
-    });
+    document.querySelectorAll('#letterView .word-item').forEach(el => { el.addEventListener('click', () => { modal.style.display = 'none'; searchInput.value = el.dataset.word; handleSearch(); }); });
   }
   function buildRangeView() {
-    const ranges = [
-      { name: "1–325", start: 0, end: 325 },
-      { name: "326–650", start: 325, end: 650 },
-      { name: "651–975", start: 650, end: 975 },
-      { name: "976–1300", start: 975, end: 1300 }
-    ];
+    const ranges = [[0,325,"1–325"],[325,650,"326–650"],[650,975,"651–975"],[975,1300,"976–1300"]];
     let html = '';
-    ranges.forEach(range => {
-      const words = wordList.slice(range.start, range.end);
-      html += `<div class="range-group"><h4>${range.name} (${words.length} words)</h4>`;
-      words.forEach(w => {
-        html += `<div class="word-item" data-word="${w.word}" data-pinyin="${w.pinyin}" data-meaning="${w.meaning}">${w.word}</div>`;
-      });
-      html += `</div>`;
-    });
+    ranges.forEach(([s,e,name]) => { const words = wordList.slice(s,e); html += `<div class="range-group"><h4>${name} (${words.length} words)</h4>`; words.forEach(w => html += `<div class="word-item" data-word="${w.word}">${w.word}</div>`); html += `</div>`; });
     rangeView.innerHTML = html;
-    document.querySelectorAll('#rangeView .word-item').forEach(el => {
-      el.addEventListener('click', () => {
-        modal.style.display = 'none';
-        searchInput.value = el.dataset.word;
-        handleSearch();
-      });
-    });
+    document.querySelectorAll('#rangeView .word-item').forEach(el => { el.addEventListener('click', () => { modal.style.display = 'none'; searchInput.value = el.dataset.word; handleSearch(); }); });
   }
-  fullVocabBtn.addEventListener('click', () => {
-    buildLetterView();
-    buildRangeView();
-    modal.style.display = 'block';
-  });
-  closeModal.addEventListener('click', () => { modal.style.display = 'none'; });
+  fullVocabBtn.addEventListener('click', () => { buildLetterView(); buildRangeView(); modal.style.display = 'block'; });
+  closeModal.addEventListener('click', () => modal.style.display = 'none');
   window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-  modalTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      modalTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      if (tab.dataset.tab === 'letter') {
-        letterView.style.display = 'block';
-        rangeView.style.display = 'none';
-      } else {
-        letterView.style.display = 'none';
-        rangeView.style.display = 'block';
-      }
-    });
-  });
-  letterView.style.display = 'block';
-  rangeView.style.display = 'none';
+  modalTabs.forEach(tab => tab.addEventListener('click', () => { modalTabs.forEach(t => t.classList.remove('active')); tab.classList.add('active'); if (tab.dataset.tab === 'letter') { letterView.style.display = 'block'; rangeView.style.display = 'none'; } else { letterView.style.display = 'none'; rangeView.style.display = 'block'; } }));
+  letterView.style.display = 'block'; rangeView.style.display = 'none';
 
   // Buddy assistant logic
   function getRandomWordFromFiltered() { if (filteredWords.length === 0) return null; return filteredWords[Math.floor(Math.random() * filteredWords.length)]; }
-  function updateBuddyWord(wordObj) { currentBuddyWord = wordObj; if (!wordObj) buddyWordDisplay.innerText = '?'; else { buddyWordDisplay.innerText = wordObj.word; if (currentMode === 'quiz') generateQuiz(wordObj); } }
+  function updateBuddyWord(wordObj) { currentBuddyWord = wordObj; if (!wordObj) { buddyWordDisplay.innerText = '?'; buddyFavoriteBtn.style.display = 'none'; } else { buddyWordDisplay.innerText = wordObj.word; buddyFavoriteBtn.style.display = 'inline-block'; updateBuddyFavoriteIcon(); if (currentMode === 'quiz') generateQuiz(wordObj); } }
   function generateQuiz(wordObj) { if (!wordObj) return; const correct = wordObj.meaning; let options = [correct]; while (options.length < 4) { const rand = wordList[Math.floor(Math.random() * wordList.length)]; if (!options.includes(rand.meaning) && rand.meaning !== correct) options.push(rand.meaning); } options = options.sort(() => Math.random() - 0.5); quizPanelElem.innerHTML = ''; options.forEach(opt => { const btn = document.createElement('div'); btn.className = 'quiz-opt'; btn.innerText = opt; btn.addEventListener('click', () => { document.querySelectorAll('.quiz-opt').forEach(el => el.style.pointerEvents = 'none'); if (opt === correct) btn.classList.add('correct'); else { btn.classList.add('wrong'); document.querySelectorAll('.quiz-opt').forEach(el => { if (el.innerText === correct) el.classList.add('correct'); }); } }); quizPanelElem.appendChild(btn); }); }
   function showTypingPanel() { typingPanelElem.style.display = 'flex'; quizPanelElem.style.display = 'none'; }
   function showQuizPanel() { typingPanelElem.style.display = 'none'; quizPanelElem.style.display = 'flex'; }
   function switchMode(mode) { currentMode = mode; if (mode === 'quiz') { showQuizPanel(); if (currentBuddyWord) generateQuiz(currentBuddyWord); } else showTypingPanel(); }
   function handleNewWord() { const newWordObj = getRandomWordFromFiltered(); if (newWordObj) { updateBuddyWord(newWordObj); if (currentMode === 'typing') { typingInputElem.value = ''; typingFeedbackMsg.innerHTML = ''; } } else buddyWordDisplay.innerText = 'No words'; }
-  function handleTypingSubmit() { if (!currentBuddyWord) return; const userAns = typingInputElem.value.trim().toLowerCase(); const correct = currentBuddyWord.meaning.toLowerCase(); typingFeedbackMsg.innerHTML = (userAns === correct) ? '<span style="color:#38a169;">✓ Correct!</span>' : `<span style="color:#e53e3e;">✗ Wrong. Correct: ${currentBuddyWord.meaning}</span>`; }
+  function handleTypingSubmit() { if (!currentBuddyWord) return; const userAns = typingInputElem.value.trim().toLowerCase(); const correct = currentBuddyWord.meaning.toLowerCase(); if (userAns === correct) { typingFeedbackMsg.innerHTML = '<span style="color:#38a169;">✓ Correct!</span>'; } else { typingFeedbackMsg.innerHTML = `<span style="color:#e53e3e;">✗ Wrong. Correct: ${currentBuddyWord.meaning}</span>`; } }
   buddyAvatar.addEventListener('click', () => { if (buddyVisible) { buddyBubble.classList.add('hidden'); buddyVisible = false; } else { buddyBubble.classList.remove('hidden'); buddyVisible = true; if (!currentBuddyWord) handleNewWord(); } });
   closeBuddy.addEventListener('click', () => { buddyBubble.classList.add('hidden'); buddyVisible = false; });
   newBuddyWord.addEventListener('click', handleNewWord);
   speakBuddyWord.addEventListener('click', () => { if (currentBuddyWord) window.speakText(currentBuddyWord.word); });
   submitTyping.addEventListener('click', handleTypingSubmit);
   typingInputElem.addEventListener('keyup', e => { if (e.key === 'Enter') handleTypingSubmit(); });
-  tabs.forEach(tab => tab.addEventListener('click', () => { tabs.forEach(t => t.classList.remove('active')); tab.classList.add('active'); switchMode(tab.dataset.mode); }));
+  buddyFavoriteBtn.addEventListener('click', () => { if (currentBuddyWord) toggleFavorite(currentBuddyWord.word); });
+  tabsBuddy.forEach(tab => tab.addEventListener('click', () => { tabsBuddy.forEach(t => t.classList.remove('active')); tab.classList.add('active'); switchMode(tab.dataset.mode); }));
 
-  const savedTheme = localStorage.getItem('hsk5_theme'); if (savedTheme === 'dark') { document.body.classList.add('dark'); darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode'; } else { document.body.classList.add('light'); darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode'; }
-  buildLetterFilter(); applyFilter(); render(); updateStats(); refreshAds();
+  // Go to top
+  window.addEventListener('scroll', () => { if (window.scrollY > 300) goToTop.classList.add('show'); else goToTop.classList.remove('show'); });
+  goToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // State persistence
+  function saveState() {
+    localStorage.setItem('hsk5_currentFilter', currentFilter);
+    localStorage.setItem('hsk5_currentLetter', currentLetter || '');
+    localStorage.setItem('hsk5_searchTerm', searchInput.value);
+    localStorage.setItem('hsk5_currentPage', currentPage);
+    localStorage.setItem('hsk5_studyMode', studyMode);
+  }
+  function loadState() {
+    const savedFilter = localStorage.getItem('hsk5_currentFilter');
+    if (savedFilter && ['all','1-325','326-650','651-975','976-1300','favorites'].includes(savedFilter)) currentFilter = savedFilter;
+    const savedLetter = localStorage.getItem('hsk5_currentLetter');
+    if (savedLetter && savedLetter !== '') currentLetter = savedLetter;
+    const savedSearch = localStorage.getItem('hsk5_searchTerm');
+    if (savedSearch) searchInput.value = savedSearch;
+    const savedPage = parseInt(localStorage.getItem('hsk5_currentPage'));
+    if (!isNaN(savedPage) && savedPage > 0) currentPage = savedPage;
+    studyMode = localStorage.getItem('hsk5_studyMode') === 'true';
+    if (studyMode) document.body.classList.add('study-mode-active');
+    else document.body.classList.remove('study-mode-active');
+    const eyeIcon = floatingEye.querySelector('i');
+    if (studyMode) { eyeIcon.classList.remove('fa-eye-slash'); eyeIcon.classList.add('fa-eye'); }
+    else { eyeIcon.classList.remove('fa-eye'); eyeIcon.classList.add('fa-eye-slash'); }
+  }
+
+  // ========== AUTO REFRESH EVERY 5 MINUTES (to show new ads) ==========
+  setTimeout(() => {
+    saveState();
+    location.reload();
+  }, 300000);
+
+  // Initial load
+  loadState();
+  buildLetterFilter();
+  applyFilter();
+  render();
+  updateStats();
 </script>
 </body>
 </html>
