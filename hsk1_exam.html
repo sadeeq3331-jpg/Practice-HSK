@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HSK 1 Mock Exam</title>
+  <!-- Ad code -->
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
   (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
@@ -36,7 +38,7 @@
     <button id="resetBtn" class="reset-btn">Reset</button>
   </div>
   <div id="result" class="result"></div>
-  <button class="back-btn" onclick="window.location.href='hsk1.html'"><i class="fas fa-arrow-left"></i> Back to Hub</button>
+  <button class="back-btn" onclick="window.location.href='hsk1_hub.html'"><i class="fas fa-arrow-left"></i> Back to Hub</button>
 </div>
 <script>
   const questions = [
@@ -66,7 +68,6 @@
       html += `</div></div>`;
     });
     container.innerHTML = html;
-    // attach event listeners
     questions.forEach((_, idx) => {
       document.querySelectorAll(`input[name="q${idx}"]`).forEach(radio => {
         radio.addEventListener('change', (e) => { userAnswers[idx] = parseInt(e.target.value); });
@@ -98,7 +99,6 @@
     const passed = percent >= 60;
     const resultDiv = document.getElementById('result');
     resultDiv.innerHTML = `<strong>Your score: ${score}/${questions.length} (${percent}%)</strong><br>${passed ? '🎉 Congratulations! You passed!' : '😢 Keep practicing! You can retake the exam.'}`;
-    // Save best score
     const best = localStorage.getItem('hsk1_exam_best') || 0;
     if (percent > best) localStorage.setItem('hsk1_exam_best', percent);
     resultDiv.innerHTML += `<br>🏆 Best score: ${best}%`;
@@ -113,7 +113,7 @@
   });
   renderQuestions();
   startTimer();
-  // Dark mode (simple)
+  // Dark mode
   const darkBtn = document.createElement('button');
   darkBtn.innerHTML = '<i class="fas fa-moon"></i> Dark';
   darkBtn.style.position = 'fixed'; darkBtn.style.bottom = '20px'; darkBtn.style.right = '20px';
