@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>HSK 4 Vocabulary Master</title>
+  <title>HSK 5 Vocabulary Master</title>
   <!-- Ad code (as requested) -->
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
@@ -12,7 +12,7 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* ========== HSK 4 THEME: Purple/Lavender ========== */
+    /* ========== HSK 5 THEME: Red/Coral ========== */
     * {
       margin: 0;
       padding: 0;
@@ -21,26 +21,26 @@
       transition: background 0.2s, color 0.2s, border-color 0.2s;
     }
     body.light {
-      background: linear-gradient(145deg, #f5f0ff 0%, #e8dfff 100%);
+      background: linear-gradient(145deg, #ffe8e8 0%, #ffd6d6 100%);
       --bg-card: #ffffff;
       --bg-header: rgba(255,255,255,0.7);
-      --text-primary: #3a1f6e;
-      --text-secondary: #7e57c2;
-      --border-light: #d9c8ff;
-      --shadow: 0 20px 40px rgba(126,87,194,0.1);
-      --accent: #7e57c2;
-      --accent-hover: #5e35b1;
+      --text-primary: #8b2c2c;
+      --text-secondary: #e65c5c;
+      --border-light: #ffb3b3;
+      --shadow: 0 20px 40px rgba(230,92,92,0.1);
+      --accent: #e65c5c;
+      --accent-hover: #c13b3b;
     }
     body.dark {
-      background: linear-gradient(145deg, #1e1a2f 0%, #121020 100%);
-      --bg-card: #2a2442;
-      --bg-header: rgba(40,35,55,0.8);
-      --text-primary: #e2d9ff;
-      --text-secondary: #b9a9ff;
-      --border-light: #4a3b6e;
+      background: linear-gradient(145deg, #2a1a1a 0%, #1f1212 100%);
+      --bg-card: #3a2626;
+      --bg-header: rgba(50,35,35,0.8);
+      --text-primary: #ffd9d9;
+      --text-secondary: #ff8a8a;
+      --border-light: #6e4242;
       --shadow: 0 20px 40px rgba(0,0,0,0.3);
-      --accent: #9c7ce0;
-      --accent-hover: #7e57c2;
+      --accent: #ff7a7a;
+      --accent-hover: #e65c5c;
     }
     body {
       padding: 1.2rem;
@@ -325,7 +325,7 @@
       color: #e53e3e;
     }
     .speaker-btn {
-      background: rgba(126,87,194,0.1);
+      background: rgba(230,92,92,0.1);
       border: none;
       width: 40px;
       height: 40px;
@@ -344,7 +344,7 @@
     .pinyin {
       font-size: 0.95rem;
       color: var(--text-secondary);
-      background: rgba(126,87,194,0.1);
+      background: rgba(230,92,92,0.1);
       padding: 0.2rem 0.8rem;
       border-radius: 30px;
       display: inline-block;
@@ -352,7 +352,7 @@
     }
     .meaning {
       font-size: 0.9rem;
-      background: rgba(126,87,194,0.05);
+      background: rgba(230,92,92,0.05);
       padding: 0.4rem 0.8rem;
       border-radius: 1rem;
       border: 1px dashed var(--border-light);
@@ -363,7 +363,7 @@
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      background: rgba(126,87,194,0.05);
+      background: rgba(230,92,92,0.05);
       border-radius: 1rem;
       padding: 0.4rem 0.8rem;
       border-left: 3px solid var(--accent);
@@ -523,7 +523,7 @@
       margin-bottom: 12px;
     }
     .buddy-tab {
-      background: rgba(126,87,194,0.1);
+      background: rgba(230,92,92,0.1);
       border: none;
       padding: 6px 12px;
       border-radius: 40px;
@@ -555,7 +555,7 @@
       margin: 8px 0;
     }
     .buddy-controls button {
-      background: rgba(126,87,194,0.1);
+      background: rgba(230,92,92,0.1);
       border: none;
       padding: 8px 16px;
       border-radius: 40px;
@@ -591,7 +591,7 @@
       margin: 10px 0;
     }
     .quiz-opt {
-      background: rgba(126,87,194,0.05);
+      background: rgba(230,92,92,0.05);
       border: 1px solid var(--border-light);
       border-radius: 30px;
       padding: 8px 12px;
@@ -701,7 +701,7 @@
       display: none;
     }
   </style>
-  <script src="words_hsk4.js"></script>
+  <script src="words_hsk5.js"></script>
 </head>
 <body class="light">
 <div id="floatingEye" class="floating-eye"><i class="fas fa-eye-slash"></i></div>
@@ -710,7 +710,7 @@
   <div class="header">
     <div class="logo-area">
       <div class="logo-svg"><svg width="42" height="42" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="800" height="800" rx="200" fill="#0a2942"/><g transform="translate(200, 200) scale(0.8)"><path d="M192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v25.6C69.5 68.4 16 127.1 16 200v32c0 101.7 82.3 184 184 184h64c101.7 0 184-82.3 184-184v-32c0-72.9-53.5-131.6-128-142.4V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V32zM48 200c0-63.1 48-115.4 109.5-126.9 4.2-.7 8.5-1.1 12.8-1.1h31.5c4.3 0 8.6 .4 12.8 1.1C288 84.6 336 136.9 336 200v32c0 75.1-60.9 136-136 136h-64c-75.1 0-136-60.9-136-136v-32zm320 240c0-8.8-7.2-16-16-16H32c-8.8 0-16 7.2-16 16v48c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16v-48z" fill="#ffd966"/></g></svg></div>
-      <div class="title-section"><h1>HSK 4 · 词汇大师</h1><div class="badge"><i class="fas fa-gem"></i> 600 words</div></div>
+      <div class="title-section"><h1>HSK 5 · 词汇大师</h1><div class="badge"><i class="fas fa-star"></i> 1300 words</div></div>
     </div>
     <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search..."><button id="searchBtn">Search</button></div>
   </div>
@@ -734,22 +734,22 @@
 
   <div class="letter-filter" id="letterFilter"></div>
   <div class="categories" id="categoryTabs">
-    <button class="cat-btn active" data-cat="all">All (600)</button>
-    <button class="cat-btn" data-cat="1-150">1–150</button>
-    <button class="cat-btn" data-cat="151-300">151–300</button>
-    <button class="cat-btn" data-cat="301-450">301–450</button>
-    <button class="cat-btn" data-cat="451-600">451–600</button>
+    <button class="cat-btn active" data-cat="all">All (1300)</button>
+    <button class="cat-btn" data-cat="1-325">1–325</button>
+    <button class="cat-btn" data-cat="326-650">326–650</button>
+    <button class="cat-btn" data-cat="651-975">651–975</button>
+    <button class="cat-btn" data-cat="976-1300">976–1300</button>
     <button class="cat-btn" data-cat="favorites"><i class="fas fa-heart"></i> Favorites</button>
   </div>
 
-  <div class="stats-bar"><div class="word-counter">📄 <span id="shownCount">0</span> / <span id="totalCount">600</span></div><div class="pagination-controls" id="paginationContainer"></div></div>
+  <div class="stats-bar"><div class="word-counter">📄 <span id="shownCount">0</span> / <span id="totalCount">1300</span></div><div class="pagination-controls" id="paginationContainer"></div></div>
   <div id="vocabGrid" class="card-grid"></div>
   <div class="bottom-pagination" id="bottomPagination"><button id="prevPageBottom"><i class="fas fa-chevron-left"></i> Prev</button><span id="pageInfo">Page 1 / 1</span><button id="nextPageBottom">Next <i class="fas fa-chevron-right"></i></button></div>
   <div class="footer-note"><span><i class="fas fa-heart"></i> Favorite</span><span><i class="fas fa-volume-up"></i> Click to hear</span><span><i class="fas fa-robot"></i> Assistant</span><span><i class="fas fa-random"></i> Shuffle</span><span><i class="fas fa-list-ul"></i> Full list</span><span><i class="fas fa-microphone"></i> Voice typing</span></div>
 </div>
 
 <!-- Modal for full vocabulary -->
-<div id="vocabModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>Complete HSK 4 Vocabulary (600 words)</h2><button class="modal-close" id="closeModal">&times;</button></div><div class="modal-tabs"><button class="modal-tab active" data-tab="letter">By Pinyin (A–Z)</button><button class="modal-tab" data-tab="range">By Range (1–150, 151–300, 301–450, 451–600)</button></div><div id="letterView" class="vocab-list"></div><div id="rangeView" class="vocab-list" style="display:none;"></div></div></div>
+<div id="vocabModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>Complete HSK 5 Vocabulary (1300 words)</h2><button class="modal-close" id="closeModal">&times;</button></div><div class="modal-tabs"><button class="modal-tab active" data-tab="letter">By Pinyin (A–Z)</button><button class="modal-tab" data-tab="range">By Range (1–325, 326–650, 651–975, 976–1300)</button></div><div id="letterView" class="vocab-list"></div><div id="rangeView" class="vocab-list" style="display:none;"></div></div></div>
 
 <div class="buddy-container" id="buddyContainer">
   <div class="buddy-bubble hidden" id="buddyBubble">
@@ -760,21 +760,21 @@
     <div id="quizPanel" class="quiz-options"></div>
     <div id="typingPanel" class="typing-area" style="display:none;"><input type="text" id="typingInput" placeholder="Type meaning..."><button id="submitTyping">Submit</button><button id="voiceInputBtn" class="voice-input-btn"><i class="fas fa-microphone"></i></button><div id="typingFeedbackMsg"></div></div>
   </div>
-  <div class="buddy-avatar" id="buddyAvatar"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%237e57c2'/%3E%3Ccircle cx='35' cy='40' r='5' fill='white'/%3E%3Ccircle cx='65' cy='40' r='5' fill='white'/%3E%3Cpath d='M35 65 Q50 80 65 65' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="buddy"></div>
+  <div class="buddy-avatar" id="buddyAvatar"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e65c5c'/%3E%3Ccircle cx='35' cy='40' r='5' fill='white'/%3E%3Ccircle cx='65' cy='40' r='5' fill='white'/%3E%3Cpath d='M35 65 Q50 80 65 65' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="buddy"></div>
 </div>
 
 <script>
   // ========== SPEECH MODULE ==========
   (function() { if (!window.speechSynthesis) { window.speakText = function(t) { console.log(t); }; return; } window.speakText = function(text) { if (!text) return; try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'zh-CN'; u.rate = 0.9; window.speechSynthesis.speak(u); } catch(e) { console.error(e); } }; })();
 
-  const wordList = window.HSK4_WORDS || [];
-  if (wordList.length === 0) alert('words_hsk4.js missing!');
+  const wordList = window.HSK5_WORDS || [];
+  if (wordList.length === 0) alert('words_hsk5.js missing!');
 
   // State
   let currentFilter = 'all', currentLetter = null, filteredWords = [...wordList], currentPage = 1, pageSize = 20;
-  let favorites = new Set(JSON.parse(localStorage.getItem('hsk4_favorites') || '[]'));
-  let studiedWords = new Set(JSON.parse(localStorage.getItem('hsk4_studied') || '[]'));
-  let studyMode = localStorage.getItem('hsk4_studyMode') === 'true';
+  let favorites = new Set(JSON.parse(localStorage.getItem('hsk5_favorites') || '[]'));
+  let studiedWords = new Set(JSON.parse(localStorage.getItem('hsk5_studied') || '[]'));
+  let studyMode = localStorage.getItem('hsk5_studyMode') === 'true';
 
   // DOM elements
   const grid = document.getElementById('vocabGrid');
@@ -855,21 +855,21 @@
   function markWordsStudied(words) {
     let changed = false;
     words.forEach(w => { if (!studiedWords.has(w.word)) { studiedWords.add(w.word); changed = true; } });
-    if (changed) { localStorage.setItem('hsk4_studied', JSON.stringify([...studiedWords])); updateStats(); }
+    if (changed) { localStorage.setItem('hsk5_studied', JSON.stringify([...studiedWords])); updateStats(); }
   }
   function applyFilter() {
     const searchTerm = searchInput.value.trim().toLowerCase();
     let base = wordList;
     if (currentFilter === 'favorites') base = wordList.filter(w => favorites.has(w.word));
     else if (currentFilter !== 'all') {
-      const [s,e] = currentFilter === '1-150' ? [0,150] : currentFilter === '151-300' ? [150,300] : currentFilter === '301-450' ? [300,450] : [450,600];
+      const [s,e] = currentFilter === '1-325' ? [0,325] : currentFilter === '326-650' ? [325,650] : currentFilter === '651-975' ? [650,975] : [975,1300];
       base = wordList.slice(s,e);
     }
     if (currentLetter) base = base.filter(w => w.pinyin.trim().toLowerCase().charAt(0) === currentLetter);
     filteredWords = searchTerm ? base.filter(w => w.word.includes(searchTerm) || w.pinyin.toLowerCase().includes(searchTerm) || w.meaning.toLowerCase().includes(searchTerm)) : [...base];
     currentPage = 1;
   }
-  function saveFavorites() { localStorage.setItem('hsk4_favorites', JSON.stringify([...favorites])); updateStats(); }
+  function saveFavorites() { localStorage.setItem('hsk5_favorites', JSON.stringify([...favorites])); updateStats(); }
   function toggleFavorite(word) {
     if (favorites.has(word)) favorites.delete(word);
     else favorites.add(word);
@@ -969,18 +969,18 @@
   searchBtn.addEventListener('click', handleSearch); searchInput.addEventListener('keyup', e => e.key === 'Enter' && handleSearch());
   bottomPrev.addEventListener('click', () => { if (currentPage > 1) { currentPage--; render(); } });
   bottomNext.addEventListener('click', () => { if (currentPage < Math.ceil(filteredWords.length / pageSize)) { currentPage++; render(); } });
-  toggleStatsBtn.addEventListener('click', () => { statsPanel.classList.toggle('hidden'); localStorage.setItem('hsk4_stats_visible', (!statsPanel.classList.contains('hidden')).toString()); });
-  if (localStorage.getItem('hsk4_stats_visible') === 'true') statsPanel.classList.remove('hidden'); else statsPanel.classList.add('hidden');
-  darkModeToggle.addEventListener('click', () => { const isDark = document.body.classList.contains('dark'); if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk4_theme', 'light'); darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode'; } else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk4_theme', 'dark'); darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode'; } });
-  exportFavBtn.addEventListener('click', () => { const data = JSON.stringify([...favorites], null, 2); const blob = new Blob([data], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'hsk4_favorites.json'; a.click(); URL.revokeObjectURL(url); });
+  toggleStatsBtn.addEventListener('click', () => { statsPanel.classList.toggle('hidden'); localStorage.setItem('hsk5_stats_visible', (!statsPanel.classList.contains('hidden')).toString()); });
+  if (localStorage.getItem('hsk5_stats_visible') === 'true') statsPanel.classList.remove('hidden'); else statsPanel.classList.add('hidden');
+  darkModeToggle.addEventListener('click', () => { const isDark = document.body.classList.contains('dark'); if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk5_theme', 'light'); darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode'; } else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk5_theme', 'dark'); darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode'; } });
+  exportFavBtn.addEventListener('click', () => { const data = JSON.stringify([...favorites], null, 2); const blob = new Blob([data], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'hsk5_favorites.json'; a.click(); URL.revokeObjectURL(url); });
   importFavBtn.addEventListener('click', () => importFavFile.click());
   importFavFile.addEventListener('change', e => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = ev => { try { const imported = JSON.parse(ev.target.result); if (Array.isArray(imported)) { favorites = new Set(imported); saveFavorites(); if (currentFilter === 'favorites') { applyFilter(); render(); } else render(); updateStats(); alert('Favorites imported!'); } else alert('Invalid file'); } catch(err) { alert('Parse error'); } importFavFile.value = ''; }; reader.readAsText(file); });
-  resetProgressBtn.addEventListener('click', () => { if (confirm('Reset progress?')) { studiedWords.clear(); favorites.clear(); localStorage.setItem('hsk4_studied', JSON.stringify([])); localStorage.setItem('hsk4_favorites', JSON.stringify([])); updateStats(); if (currentFilter === 'favorites') applyFilter(); render(); } });
+  resetProgressBtn.addEventListener('click', () => { if (confirm('Reset progress?')) { studiedWords.clear(); favorites.clear(); localStorage.setItem('hsk5_studied', JSON.stringify([])); localStorage.setItem('hsk5_favorites', JSON.stringify([])); updateStats(); if (currentFilter === 'favorites') applyFilter(); render(); } });
 
   // Study Mode floating eye
   function setStudyMode(enabled) {
     studyMode = enabled;
-    localStorage.setItem('hsk4_studyMode', studyMode);
+    localStorage.setItem('hsk5_studyMode', studyMode);
     const icon = floatingEye.querySelector('i');
     if (studyMode) { icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); } else { icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); }
     render();
@@ -1008,7 +1008,7 @@
     document.querySelectorAll('#letterView .word-item').forEach(el => { el.addEventListener('click', () => { modal.style.display = 'none'; searchInput.value = el.dataset.word; handleSearch(); }); });
   }
   function buildRangeView() {
-    const ranges = [[0,150,"1–150"],[150,300,"151–300"],[300,450,"301–450"],[450,600,"451–600"]];
+    const ranges = [[0,325,"1–325"],[325,650,"326–650"],[650,975,"651–975"],[975,1300,"976–1300"]];
     let html = '';
     ranges.forEach(([s,e,name]) => { const words = wordList.slice(s,e); html += `<div class="range-group"><h4>${name} (${words.length} words)</h4>`; words.forEach(w => html += `<div class="word-item" data-word="${w.word}">${w.word}</div>`); html += `</div>`; });
     rangeView.innerHTML = html;
@@ -1044,22 +1044,22 @@
 
   // State persistence
   function saveState() {
-    localStorage.setItem('hsk4_currentFilter', currentFilter);
-    localStorage.setItem('hsk4_currentLetter', currentLetter || '');
-    localStorage.setItem('hsk4_searchTerm', searchInput.value);
-    localStorage.setItem('hsk4_currentPage', currentPage);
-    localStorage.setItem('hsk4_studyMode', studyMode);
+    localStorage.setItem('hsk5_currentFilter', currentFilter);
+    localStorage.setItem('hsk5_currentLetter', currentLetter || '');
+    localStorage.setItem('hsk5_searchTerm', searchInput.value);
+    localStorage.setItem('hsk5_currentPage', currentPage);
+    localStorage.setItem('hsk5_studyMode', studyMode);
   }
   function loadState() {
-    const savedFilter = localStorage.getItem('hsk4_currentFilter');
-    if (savedFilter && ['all','1-150','151-300','301-450','451-600','favorites'].includes(savedFilter)) currentFilter = savedFilter;
-    const savedLetter = localStorage.getItem('hsk4_currentLetter');
+    const savedFilter = localStorage.getItem('hsk5_currentFilter');
+    if (savedFilter && ['all','1-325','326-650','651-975','976-1300','favorites'].includes(savedFilter)) currentFilter = savedFilter;
+    const savedLetter = localStorage.getItem('hsk5_currentLetter');
     if (savedLetter && savedLetter !== '') currentLetter = savedLetter;
-    const savedSearch = localStorage.getItem('hsk4_searchTerm');
+    const savedSearch = localStorage.getItem('hsk5_searchTerm');
     if (savedSearch) searchInput.value = savedSearch;
-    const savedPage = parseInt(localStorage.getItem('hsk4_currentPage'));
+    const savedPage = parseInt(localStorage.getItem('hsk5_currentPage'));
     if (!isNaN(savedPage) && savedPage > 0) currentPage = savedPage;
-    studyMode = localStorage.getItem('hsk4_studyMode') === 'true';
+    studyMode = localStorage.getItem('hsk5_studyMode') === 'true';
     if (studyMode) document.body.classList.add('study-mode-active');
     else document.body.classList.remove('study-mode-active');
     const eyeIcon = floatingEye.querySelector('i');
