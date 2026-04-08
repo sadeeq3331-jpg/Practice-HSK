@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>HSK 6 Vocabulary Master</title>
-  <!-- Ad codes -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9595657076711413" crossorigin="anonymous"></script>
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
@@ -13,7 +12,6 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* ========== HSK 6 THEME: Indigo/Blue (professional) ========== */
     * {
       margin: 0;
       padding: 0;
@@ -21,8 +19,9 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
       transition: background 0.2s, color 0.2s, border-color 0.2s;
     }
-    body.light {
-      background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%);
+    body.light { background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%); }
+    body.dark { background: linear-gradient(145deg, #0f172a 0%, #0b1120 100%); }
+    :root {
       --bg-card: #ffffff;
       --bg-header: rgba(255,255,255,0.7);
       --text-primary: #1e1b4b;
@@ -33,7 +32,6 @@
       --accent-hover: #6366f1;
     }
     body.dark {
-      background: linear-gradient(145deg, #0f172a 0%, #0b1120 100%);
       --bg-card: #1e293b;
       --bg-header: rgba(30,41,59,0.8);
       --text-primary: #e2e8f0;
@@ -43,6 +41,11 @@
       --accent: #818cf8;
       --accent-hover: #6366f1;
     }
+    body.theme-green { --accent: #2b7a4b; --accent-hover: #1e5a38; --text-secondary: #2b7a4b; }
+    body.theme-amber { --accent: #e67e22; --accent-hover: #c95e0e; --text-secondary: #e67e22; }
+    body.theme-blue { --accent: #1e88e5; --accent-hover: #0d6bb8; --text-secondary: #1e88e5; }
+    body.theme-purple { --accent: #7e57c2; --accent-hover: #5e35b1; --text-secondary: #7e57c2; }
+    body.theme-red { --accent: #e65c5c; --accent-hover: #c13b3b; --text-secondary: #e65c5c; }
     body {
       padding: 1.2rem;
       display: flex;
@@ -61,11 +64,8 @@
       border: 1px solid rgba(255,255,255,0.2);
       margin-bottom: 4.5rem;
     }
-    /* Floating Study Mode Eye */
-    .floating-eye {
+    .floating-eye, .go-to-top {
       position: fixed;
-      top: 20px;
-      right: 20px;
       z-index: 1100;
       background: var(--accent);
       color: white;
@@ -80,20 +80,12 @@
       transition: all 0.2s;
       border: 2px solid white;
     }
-    .floating-eye:hover {
-      transform: scale(1.05);
-      background: var(--accent-hover);
-    }
-    .study-mode-active .floating-eye i {
-      content: "\f06e"; /* eye open */
-    }
-    /* Study mode hide elements */
-    .study-mode-active .pinyin,
-    .study-mode-active .meaning,
-    .study-mode-active .example-container {
-      display: none !important;
-    }
-    /* Popup tooltip for click in study mode */
+    .floating-eye { top: 20px; right: 20px; }
+    .go-to-top { bottom: 90px; right: 20px; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+    .go-to-top.show { opacity: 1; visibility: visible; }
+    .floating-eye:hover, .go-to-top:hover { transform: scale(1.05); background: var(--accent-hover); }
+    .study-mode-active .pinyin, .study-mode-active .meaning, .study-mode-active .example-container { display: none !important; }
+    .chinese-word { cursor: pointer; }
     .study-popup {
       position: fixed;
       background: var(--bg-card);
@@ -106,7 +98,6 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
       font-size: 0.9rem;
       pointer-events: none;
-      transition: opacity 0.2s;
     }
     .header {
       display: flex;
@@ -157,10 +148,6 @@
       background: transparent;
       color: var(--text-primary);
     }
-    .search-box input::placeholder {
-      color: var(--text-secondary);
-      opacity: 0.7;
-    }
     .search-box button {
       background: var(--accent);
       border: none;
@@ -171,10 +158,7 @@
       font-weight: 600;
       transition: transform 0.1s, background 0.2s;
     }
-    .search-box button:hover {
-      background: var(--accent-hover);
-      transform: scale(1.02);
-    }
+    .search-box button:hover { background: var(--accent-hover); transform: scale(1.02); }
     .settings-bar {
       display: flex;
       justify-content: flex-end;
@@ -210,12 +194,7 @@
       gap: 0.8rem;
       border: 1px solid var(--border-light);
     }
-    .stats-panel .stat {
-      font-weight: 500;
-    }
-    .stats-panel.hidden {
-      display: none;
-    }
+    .stats-panel.hidden { display: none; }
     .letter-filter {
       display: flex;
       flex-wrap: wrap;
@@ -235,15 +214,8 @@
       font-size: 0.9rem;
       transition: all 0.2s;
     }
-    .letter-btn:hover {
-      background: var(--accent);
-      color: white;
-      transform: scale(1.05);
-    }
-    .letter-btn.active {
-      background: var(--accent);
-      color: white;
-    }
+    .letter-btn:hover { background: var(--accent); color: white; transform: scale(1.05); }
+    .letter-btn.active { background: var(--accent); color: white; }
     .categories {
       display: flex;
       flex-wrap: wrap;
@@ -261,15 +233,8 @@
       font-size: 0.85rem;
       transition: all 0.2s;
     }
-    .cat-btn:hover {
-      background: var(--accent);
-      color: white;
-      transform: translateY(-2px);
-    }
-    .cat-btn.active {
-      background: var(--accent);
-      color: white;
-    }
+    .cat-btn:hover { background: var(--accent); color: white; transform: translateY(-2px); }
+    .cat-btn.active { background: var(--accent); color: white; }
     .stats-bar {
       display: flex;
       justify-content: space-between;
@@ -301,15 +266,8 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .page-btn:hover {
-      background: var(--accent);
-      color: white;
-      transform: scale(1.05);
-    }
-    .page-btn.active {
-      background: var(--accent);
-      color: white;
-    }
+    .page-btn:hover { background: var(--accent); color: white; transform: scale(1.05); }
+    .page-btn.active { background: var(--accent); color: white; }
     .bottom-pagination {
       margin-top: 1rem;
       display: flex;
@@ -326,11 +284,7 @@
       color: var(--text-primary);
       transition: all 0.2s;
     }
-    .bottom-pagination button:hover {
-      background: var(--accent);
-      color: white;
-      transform: scale(1.02);
-    }
+    .bottom-pagination button:hover { background: var(--accent); color: white; transform: scale(1.02); }
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -344,10 +298,7 @@
       border: 1px solid var(--border-light);
       transition: 0.2s;
     }
-    .vocab-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    }
+    .vocab-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
     .word-header {
       display: flex;
       align-items: center;
@@ -357,11 +308,6 @@
       font-size: 1.9rem;
       font-weight: 600;
       color: var(--text-primary);
-      cursor: pointer;
-      transition: 0.1s;
-    }
-    .chinese-word:active {
-      transform: scale(0.98);
     }
     .favorite-btn {
       background: none;
@@ -371,12 +317,8 @@
       color: #cbd5e0;
       transition: transform 0.1s;
     }
-    .favorite-btn:hover {
-      transform: scale(1.1);
-    }
-    .favorite-btn.active {
-      color: #e53e3e;
-    }
+    .favorite-btn:hover { transform: scale(1.1); }
+    .favorite-btn.active { color: #e53e3e; }
     .speaker-btn {
       background: rgba(79,70,229,0.1);
       border: none;
@@ -389,11 +331,7 @@
       margin-left: 0.5rem;
       transition: all 0.2s;
     }
-    .speaker-btn:hover {
-      background: var(--accent);
-      color: white;
-      transform: scale(1.05);
-    }
+    .speaker-btn:hover { background: var(--accent); color: white; transform: scale(1.05); }
     .pinyin {
       font-size: 0.95rem;
       color: var(--text-secondary);
@@ -435,9 +373,7 @@
       cursor: pointer;
       transition: transform 0.1s;
     }
-    .example-speaker:hover {
-      transform: scale(1.1);
-    }
+    .example-speaker:hover { transform: scale(1.1); }
     /* Modal */
     .modal {
       display: none;
@@ -468,10 +404,6 @@
       padding-bottom: 0.5rem;
       margin-bottom: 1rem;
     }
-    .modal-header h2 {
-      color: var(--text-primary);
-      font-size: 1.2rem;
-    }
     .modal-close {
       background: none;
       border: none;
@@ -480,9 +412,7 @@
       color: var(--text-secondary);
       transition: transform 0.1s;
     }
-    .modal-close:hover {
-      transform: scale(1.1);
-    }
+    .modal-close:hover { transform: scale(1.1); }
     .modal-tabs {
       display: flex;
       gap: 0.5rem;
@@ -500,22 +430,14 @@
       border-radius: 30px;
       transition: all 0.2s;
     }
-    .modal-tab:hover {
-      background: var(--accent);
-      color: white;
-    }
-    .modal-tab.active {
-      background: var(--accent);
-      color: white;
-    }
+    .modal-tab:hover { background: var(--accent); color: white; }
+    .modal-tab.active { background: var(--accent); color: white; }
     .vocab-list {
       max-height: 70vh;
       overflow-y: auto;
       padding-right: 0.5rem;
     }
-    .letter-group {
-      margin-bottom: 1.2rem;
-    }
+    .letter-group { margin-bottom: 1.2rem; }
     .letter-group h3 {
       background: var(--accent);
       color: white;
@@ -536,18 +458,9 @@
       cursor: pointer;
       transition: all 0.1s;
     }
-    .letter-group .word-item:hover {
-      background: var(--accent);
-      color: white;
-      transform: scale(1.02);
-    }
-    .range-group {
-      margin-bottom: 1rem;
-    }
-    .range-group h4 {
-      color: var(--text-primary);
-      margin-bottom: 0.3rem;
-    }
+    .letter-group .word-item:hover { background: var(--accent); color: white; transform: scale(1.02); }
+    .range-group { margin-bottom: 1rem; }
+    .range-group h4 { color: var(--text-primary); margin-bottom: 0.3rem; }
     .buddy-container {
       position: fixed;
       bottom: 20px;
@@ -573,11 +486,7 @@
       visibility: visible;
       opacity: 1;
     }
-    .buddy-bubble.hidden {
-      visibility: hidden;
-      opacity: 0;
-      pointer-events: none;
-    }
+    .buddy-bubble.hidden { visibility: hidden; opacity: 0; pointer-events: none; }
     .buddy-header {
       display: flex;
       justify-content: space-between;
@@ -586,10 +495,7 @@
       border-bottom: 1px solid var(--border-light);
       padding-bottom: 6px;
     }
-    .buddy-header span {
-      font-weight: 700;
-      color: var(--text-primary);
-    }
+    .buddy-header span { font-weight: 700; color: var(--text-primary); }
     .buddy-close {
       background: none;
       border: none;
@@ -598,9 +504,7 @@
       color: #8aa9b8;
       transition: transform 0.1s;
     }
-    .buddy-close:hover {
-      transform: scale(1.1);
-    }
+    .buddy-close:hover { transform: scale(1.1); }
     .buddy-tabs {
       display: flex;
       gap: 8px;
@@ -618,22 +522,9 @@
       color: var(--text-primary);
       transition: all 0.2s;
     }
-    .buddy-tab:hover {
-      background: var(--accent);
-      color: white;
-    }
-    .buddy-tab.active {
-      background: var(--accent);
-      color: white;
-    }
-    .buddy-word {
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      text-align: center;
-      margin: 8px 0;
-      word-break: break-word;
-    }
+    .buddy-tab:hover { background: var(--accent); color: white; }
+    .buddy-tab.active { background: var(--accent); color: white; }
+    .buddy-word { font-size: 1.8rem; font-weight: 600; text-align: center; margin: 8px 0; }
     .buddy-controls {
       display: flex;
       justify-content: center;
@@ -650,12 +541,7 @@
       color: var(--text-primary);
       transition: all 0.2s;
     }
-    .buddy-controls button:hover {
-      background: var(--accent);
-      color: white;
-      transform: scale(1.02);
-    }
-    /* Favorite button inside buddy */
+    .buddy-controls button:hover { background: var(--accent); color: white; transform: scale(1.02); }
     .buddy-favorite {
       background: none;
       border: none;
@@ -665,12 +551,8 @@
       transition: transform 0.1s;
       margin-left: 8px;
     }
-    .buddy-favorite.active {
-      color: #e53e3e;
-    }
-    .buddy-favorite:hover {
-      transform: scale(1.1);
-    }
+    .buddy-favorite.active { color: #e53e3e; }
+    .buddy-favorite:hover { transform: scale(1.1); }
     .quiz-options {
       display: flex;
       flex-direction: column;
@@ -687,20 +569,9 @@
       color: var(--text-primary);
       transition: all 0.1s;
     }
-    .quiz-opt:hover {
-      background: var(--accent);
-      color: white;
-    }
-    .quiz-opt.correct {
-      background: #c6f6d5;
-      border-color: #38a169;
-      color: #2d3748;
-    }
-    .quiz-opt.wrong {
-      background: #fed7d7;
-      border-color: #e53e3e;
-      color: #2d3748;
-    }
+    .quiz-opt:hover { background: var(--accent); color: white; }
+    .quiz-opt.correct { background: #c6f6d5; border-color: #38a169; color: #2d3748; }
+    .quiz-opt.wrong { background: #fed7d7; border-color: #e53e3e; color: #2d3748; }
     .typing-area {
       display: flex;
       flex-direction: column;
@@ -715,10 +586,19 @@
       background: var(--bg-card);
       color: var(--text-primary);
     }
-    .typing-feedback {
-      font-size: 0.85rem;
-      text-align: center;
+    .voice-input-btn {
+      background: var(--accent);
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.2s;
     }
+    .voice-input-btn:hover { transform: scale(1.05); background: var(--accent-hover); }
+    .typing-feedback { font-size: 0.85rem; text-align: center; }
     .buddy-avatar {
       width: 60px;
       height: 60px;
@@ -731,20 +611,9 @@
       border: 2px solid var(--accent);
       cursor: pointer;
       transition: transform 0.1s;
-      position: relative;
-      z-index: 10;
     }
-    .buddy-avatar:active {
-      transform: scale(0.95);
-    }
-    .buddy-avatar img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-    }
-    .buddy-avatar span {
-      display: none;
-    }
+    .buddy-avatar:active { transform: scale(0.95); }
+    .buddy-avatar img { width: 50px; height: 50px; border-radius: 50%; }
     .footer-note {
       text-align: center;
       font-size: 0.75rem;
@@ -752,83 +621,53 @@
       margin-top: 1rem;
     }
     @media (max-width: 640px) {
-      .app-container {
-        padding: 1rem;
-      }
-      .chinese-word {
-        font-size: 1.6rem;
-      }
-      .title-section h1 {
-        font-size: 1.6rem;
-      }
-      .buddy-bubble {
-        width: 280px;
-      }
-      .letter-btn {
-        width: 34px;
-        height: 34px;
-        font-size: 0.8rem;
-      }
-      .floating-eye {
-        width: 40px;
-        height: 40px;
-        top: 10px;
-        right: 10px;
-      }
+      .app-container { padding: 1rem; }
+      .chinese-word { font-size: 1.6rem; }
+      .title-section h1 { font-size: 1.6rem; }
+      .buddy-bubble { width: 280px; }
+      .letter-btn { width: 34px; height: 34px; font-size: 0.8rem; }
+      .floating-eye, .go-to-top { width: 40px; height: 40px; }
     }
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
   </style>
   <script src="words_hsk6.js"></script>
 </head>
-<body class="light">
-<!-- Floating Study Mode Eye -->
-<div id="floatingEye" class="floating-eye">
-  <i class="fas fa-eye-slash"></i>
-</div>
-
+<body class="light theme-indigo">
+<div id="floatingEye" class="floating-eye"><i class="fas fa-eye-slash"></i></div>
+<div id="goToTop" class="go-to-top"><i class="fas fa-arrow-up"></i></div>
 <div class="app-container">
   <div class="header">
     <div class="logo-area">
-      <div class="logo-svg">
-        <svg width="42" height="42" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="800" height="800" rx="200" fill="#0a2942"/>
-          <g transform="translate(200, 200) scale(0.8)">
-            <path d="M192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v25.6C69.5 68.4 16 127.1 16 200v32c0 101.7 82.3 184 184 184h64c101.7 0 184-82.3 184-184v-32c0-72.9-53.5-131.6-128-142.4V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V32zM48 200c0-63.1 48-115.4 109.5-126.9 4.2-.7 8.5-1.1 12.8-1.1h31.5c4.3 0 8.6 .4 12.8 1.1C288 84.6 336 136.9 336 200v32c0 75.1-60.9 136-136 136h-64c-75.1 0-136-60.9-136-136v-32zm320 240c0-8.8-7.2-16-16-16H32c-8.8 0-16 7.2-16 16v48c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16v-48z" fill="#ffd966"/>
-          </g>
-        </svg>
-      </div>
-      <div class="title-section">
-        <h1>HSK 6 · 词汇大师</h1>
-        <div class="badge"><i class="fas fa-crown"></i> 2500 words</div>
-      </div>
+      <div class="logo-svg"><svg width="42" height="42" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="800" height="800" rx="200" fill="#0a2942"/><g transform="translate(200, 200) scale(0.8)"><path d="M192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v25.6C69.5 68.4 16 127.1 16 200v32c0 101.7 82.3 184 184 184h64c101.7 0 184-82.3 184-184v-32c0-72.9-53.5-131.6-128-142.4V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V32zM48 200c0-63.1 48-115.4 109.5-126.9 4.2-.7 8.5-1.1 12.8-1.1h31.5c4.3 0 8.6 .4 12.8 1.1C288 84.6 336 136.9 336 200v32c0 75.1-60.9 136-136 136h-64c-75.1 0-136-60.9-136-136v-32zm320 240c0-8.8-7.2-16-16-16H32c-8.8 0-16 7.2-16 16v48c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16v-48z" fill="#ffd966"/></g></svg></div>
+      <div class="title-section"><h1>HSK 6 · 词汇大师</h1><div class="badge"><i class="fas fa-crown"></i> 2500 words</div></div>
     </div>
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="🔍 Search...">
-      <button id="searchBtn">Search</button>
-    </div>
+    <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search..."><button id="searchBtn">Search</button></div>
   </div>
 
   <div class="settings-bar">
     <button id="darkModeToggle" class="icon-btn"><i class="fas fa-moon"></i> Dark Mode</button>
-    <button id="toggleStatsBtn" class="icon-btn"><i class="fas fa-chart-line"></i> Show Stats</button>
+    <button id="toggleStatsBtn" class="icon-btn"><i class="fas fa-chart-line"></i> Stats</button>
+    <select id="themeSelect" class="icon-btn"><option value="indigo">Theme: Indigo</option><option value="green">Theme: Green</option><option value="amber">Theme: Amber</option><option value="blue">Theme: Blue</option><option value="purple">Theme: Purple</option><option value="red">Theme: Red</option></select>
     <button id="shuffleBtn" class="icon-btn"><i class="fas fa-random"></i> Shuffle</button>
-    <button id="fullVocabBtn" class="icon-btn"><i class="fas fa-list-ul"></i> Full Vocabulary</button>
-    <button id="exportFavBtn" class="icon-btn"><i class="fas fa-download"></i> Export Favorites</button>
-    <button id="importFavBtn" class="icon-btn"><i class="fas fa-upload"></i> Import Favorites</button>
-    <input type="file" id="importFavFile" style="display:none" accept=".json">
+    <button id="fullVocabBtn" class="icon-btn"><i class="fas fa-list-ul"></i> Full List</button>
+    <button id="exportProgressBtn" class="icon-btn"><i class="fas fa-download"></i> Export Progress</button>
+    <button id="importProgressBtn" class="icon-btn"><i class="fas fa-upload"></i> Import Progress</button>
+    <input type="file" id="importProgressFile" style="display:none" accept=".json">
+    <button id="shareProgressBtn" class="icon-btn"><i class="fas fa-share-alt"></i> Share Progress</button>
+    <button id="autoRefreshToggle" class="icon-btn"><i class="fas fa-sync-alt"></i> Auto-refresh: OFF</button>
   </div>
 
   <div id="statsPanel" class="stats-panel hidden">
-    <div class="stat"><i class="fas fa-heart"></i> Favorites: <span id="favCount">0</span></div>
+    <div class="stat"><i class="fas fa-heart"></i> Fav: <span id="favCount">0</span></div>
     <div class="stat"><i class="fas fa-eye"></i> Studied: <span id="studiedCount">0</span> / <span id="totalWordsStat">0</span></div>
     <div class="stat"><i class="fas fa-check-circle"></i> Mastery: <span id="masteryPercent">0</span>%</div>
-    <button id="resetProgressBtn" class="icon-btn" style="font-size:0.8rem;"><i class="fas fa-trash-alt"></i> Reset Progress</button>
+    <div class="stat"><i class="fas fa-calendar-day"></i> Daily Goal: <input type="number" id="dailyGoalInput" value="20" style="width:50px;"> <button id="setGoalBtn">Set</button></div>
+    <div class="stat"><i class="fas fa-fire"></i> Streak: <span id="streakCount">0</span> days</div>
+    <div class="stat"><i class="fas fa-chart-line"></i> Today: <span id="todayStudied">0</span> / <span id="dailyGoalDisplay">20</span></div>
+    <button id="resetProgressBtn" class="icon-btn" style="font-size:0.8rem;"><i class="fas fa-trash-alt"></i> Reset All</button>
   </div>
 
   <div class="letter-filter" id="letterFilter"></div>
-
   <div class="categories" id="categoryTabs">
     <button class="cat-btn active" data-cat="all">All (2500)</button>
     <button class="cat-btn" data-cat="1-625">1–625</button>
@@ -838,101 +677,45 @@
     <button class="cat-btn" data-cat="favorites"><i class="fas fa-heart"></i> Favorites</button>
   </div>
 
-  <div class="stats-bar">
-    <div class="word-counter">📄 Showing <span id="shownCount">0</span> / <span id="totalCount">2500</span> words</div>
-    <div class="pagination-controls" id="paginationContainer"></div>
-  </div>
-
+  <div class="stats-bar"><div class="word-counter">📄 <span id="shownCount">0</span> / <span id="totalCount">2500</span></div><div class="pagination-controls" id="paginationContainer"></div></div>
   <div id="vocabGrid" class="card-grid"></div>
-
-  <div class="bottom-pagination" id="bottomPagination">
-    <button id="prevPageBottom"><i class="fas fa-chevron-left"></i> Previous</button>
-    <span id="pageInfo">Page 1 / 1</span>
-    <button id="nextPageBottom">Next <i class="fas fa-chevron-right"></i></button>
-  </div>
-
-  <div class="footer-note">
-    <span><i class="fas fa-heart"></i> Favorite</span>
-    <span><i class="fas fa-volume-up"></i> Click to hear</span>
-    <span><i class="fas fa-robot"></i> AI Assistant</span>
-    <span><i class="fas fa-random"></i> Shuffle</span>
-    <span><i class="fas fa-list-ul"></i> Full list</span>
-  </div>
+  <div class="bottom-pagination" id="bottomPagination"><button id="prevPageBottom"><i class="fas fa-chevron-left"></i> Prev</button><span id="pageInfo">Page 1 / 1</span><button id="nextPageBottom">Next <i class="fas fa-chevron-right"></i></button></div>
+  <div class="footer-note"><span><i class="fas fa-heart"></i> Favorite</span><span><i class="fas fa-volume-up"></i> Click to hear</span><span><i class="fas fa-robot"></i> Assistant</span><span><i class="fas fa-random"></i> Shuffle</span><span><i class="fas fa-list-ul"></i> Full list</span><span><i class="fas fa-microphone"></i> Voice typing</span></div>
 </div>
 
-<!-- Modal for full vocabulary -->
-<div id="vocabModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Complete HSK 6 Vocabulary (2500 words)</h2>
-      <button class="modal-close" id="closeModal">&times;</button>
-    </div>
-    <div class="modal-tabs">
-      <button class="modal-tab active" data-tab="letter">By Pinyin (A–Z)</button>
-      <button class="modal-tab" data-tab="range">By Range (1–625, 626–1250, 1251–1875, 1876–2500)</button>
-    </div>
-    <div id="letterView" class="vocab-list"></div>
-    <div id="rangeView" class="vocab-list" style="display:none;"></div>
-  </div>
-</div>
+<div id="vocabModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>Complete HSK 6 Vocabulary (2500 words)</h2><button class="modal-close" id="closeModal">&times;</button></div><div class="modal-tabs"><button class="modal-tab active" data-tab="letter">By Pinyin (A–Z)</button><button class="modal-tab" data-tab="range">By Range (1–625, 626–1250, 1251–1875, 1876–2500)</button></div><div id="letterView" class="vocab-list"></div><div id="rangeView" class="vocab-list" style="display:none;"></div></div></div>
 
-<!-- Floating Assistant Buddy with favorite button inside -->
 <div class="buddy-container" id="buddyContainer">
   <div class="buddy-bubble hidden" id="buddyBubble">
-    <div class="buddy-header">
-      <span><i class="fas fa-robot"></i> Learning Assistant</span>
-      <button class="buddy-close" id="closeBuddy"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="buddy-tabs">
-      <button class="buddy-tab active" data-mode="quiz">📝 Quiz</button>
-      <button class="buddy-tab" data-mode="typing">⌨️ Typing</button>
-    </div>
-    <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-      <div id="buddyWordDisplay" class="buddy-word">?</div>
-      <button id="buddyFavoriteBtn" class="buddy-favorite"><i class="far fa-heart"></i></button>
-    </div>
-    <div class="buddy-controls">
-      <button id="speakBuddyWord"><i class="fas fa-volume-up"></i> Speak</button>
-      <button id="newBuddyWord"><i class="fas fa-random"></i> Random</button>
-    </div>
+    <div class="buddy-header"><span><i class="fas fa-robot"></i> Assistant</span><button class="buddy-close" id="closeBuddy"><i class="fas fa-times"></i></button></div>
+    <div class="buddy-tabs"><button class="buddy-tab active" data-mode="quiz">Quiz</button><button class="buddy-tab" data-mode="typing">Typing</button></div>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px;"><div id="buddyWordDisplay" class="buddy-word">?</div><button id="buddyFavoriteBtn" class="buddy-favorite"><i class="far fa-heart"></i></button></div>
+    <div class="buddy-controls"><button id="speakBuddyWord"><i class="fas fa-volume-up"></i> Speak</button><button id="newBuddyWord"><i class="fas fa-random"></i> Random</button></div>
     <div id="quizPanel" class="quiz-options"></div>
-    <div id="typingPanel" class="typing-area" style="display:none;">
-      <input type="text" id="typingInput" class="typing-input" placeholder="Type English meaning...">
-      <button id="submitTyping" class="buddy-tab" style="background:#4f46e5; color:white;">Submit</button>
-      <div id="typingFeedbackMsg" class="typing-feedback"></div>
-    </div>
+    <div id="typingPanel" class="typing-area" style="display:none;"><input type="text" id="typingInput" placeholder="Type meaning..."><button id="submitTyping">Submit</button><button id="voiceInputBtn" class="voice-input-btn"><i class="fas fa-microphone"></i></button><div id="typingFeedbackMsg"></div></div>
   </div>
-  <div class="buddy-avatar" id="buddyAvatar">
-    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%234f46e5'/%3E%3Ccircle cx='35' cy='40' r='5' fill='white'/%3E%3Ccircle cx='65' cy='40' r='5' fill='white'/%3E%3Cpath d='M35 65 Q50 80 65 65' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="buddy">
-  </div>
+  <div class="buddy-avatar" id="buddyAvatar"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%234f46e5'/%3E%3Ccircle cx='35' cy='40' r='5' fill='white'/%3E%3Ccircle cx='65' cy='40' r='5' fill='white'/%3E%3Cpath d='M35 65 Q50 80 65 65' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="buddy"></div>
 </div>
 
 <script>
   // ========== SPEECH MODULE ==========
-  (function() {
-    if (!window.speechSynthesis) {
-      window.speakText = function(t) { console.log(t); };
-      return;
-    }
-    window.speakText = function(text) {
-      if (!text) return;
-      try {
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = 'zh-CN';
-        u.rate = 0.9;
-        window.speechSynthesis.speak(u);
-      } catch(e) { console.error(e); }
-    };
-  })();
+  (function() { if (!window.speechSynthesis) { window.speakText = function(t) { console.log(t); }; return; } window.speakText = function(text) { if (!text) return; try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'zh-CN'; u.rate = 0.9; window.speechSynthesis.speak(u); } catch(e) { console.error(e); } }; })();
 
   const wordList = window.HSK6_WORDS || [];
   if (wordList.length === 0) alert('words_hsk6.js missing!');
 
+  // State
   let currentFilter = 'all', currentLetter = null, filteredWords = [...wordList], currentPage = 1, pageSize = 20;
   let favorites = new Set(JSON.parse(localStorage.getItem('hsk6_favorites') || '[]'));
   let studiedWords = new Set(JSON.parse(localStorage.getItem('hsk6_studied') || '[]'));
   let studyMode = localStorage.getItem('hsk6_studyMode') === 'true';
+  let srsData = JSON.parse(localStorage.getItem('hsk6_srs') || '{}'); // { word: { correct: count, incorrect: count, lastReview: timestamp, dueDate: timestamp } }
+  let dailyGoal = parseInt(localStorage.getItem('hsk6_dailyGoal') || '20');
+  let streak = parseInt(localStorage.getItem('hsk6_streak') || '0');
+  let lastStudyDate = localStorage.getItem('hsk6_lastStudyDate') || '';
+  let todayStudied = 0;
+  let autoRefreshEnabled = localStorage.getItem('hsk6_autoRefresh') === 'true';
+  let refreshTimer = null;
 
   // DOM elements
   const grid = document.getElementById('vocabGrid');
@@ -951,40 +734,182 @@
   const masteryPercentSpan = document.getElementById('masteryPercent');
   const statsPanel = document.getElementById('statsPanel');
   const toggleStatsBtn = document.getElementById('toggleStatsBtn');
-  const exportFavBtn = document.getElementById('exportFavBtn');
-  const importFavBtn = document.getElementById('importFavBtn');
-  const importFavFile = document.getElementById('importFavFile');
   const resetProgressBtn = document.getElementById('resetProgressBtn');
   const darkModeToggle = document.getElementById('darkModeToggle');
   const letterFilterDiv = document.getElementById('letterFilter');
-  const shuffleBtn = document.getElementById('shuffleBtn');
-  const fullVocabBtn = document.getElementById('fullVocabBtn');
-  const modal = document.getElementById('vocabModal');
-  const closeModal = document.getElementById('closeModal');
-  const letterView = document.getElementById('letterView');
-  const rangeView = document.getElementById('rangeView');
-  const modalTabs = document.querySelectorAll('.modal-tab');
   const floatingEye = document.getElementById('floatingEye');
-  const studyModeIcon = floatingEye.querySelector('i');
+  const goToTop = document.getElementById('goToTop');
+  const themeSelect = document.getElementById('themeSelect');
+  const exportProgressBtn = document.getElementById('exportProgressBtn');
+  const importProgressBtn = document.getElementById('importProgressBtn');
+  const importProgressFile = document.getElementById('importProgressFile');
+  const shareProgressBtn = document.getElementById('shareProgressBtn');
+  const autoRefreshToggle = document.getElementById('autoRefreshToggle');
+  const dailyGoalInput = document.getElementById('dailyGoalInput');
+  const setGoalBtn = document.getElementById('setGoalBtn');
+  const streakSpan = document.getElementById('streakCount');
+  const todayStudiedSpan = document.getElementById('todayStudied');
+  const dailyGoalDisplay = document.getElementById('dailyGoalDisplay');
 
-  // Buddy elements
-  const buddyBubble = document.getElementById('buddyBubble');
-  const buddyAvatar = document.getElementById('buddyAvatar');
-  const closeBuddy = document.getElementById('closeBuddy');
-  const newBuddyWord = document.getElementById('newBuddyWord');
-  const speakBuddyWord = document.getElementById('speakBuddyWord');
-  const buddyWordDisplay = document.getElementById('buddyWordDisplay');
-  const buddyFavoriteBtn = document.getElementById('buddyFavoriteBtn');
-  const quizPanelElem = document.getElementById('quizPanel');
-  const typingPanelElem = document.getElementById('typingPanel');
-  const typingInputElem = document.getElementById('typingInput');
-  const submitTyping = document.getElementById('submitTyping');
-  const typingFeedbackMsg = document.getElementById('typingFeedbackMsg');
-  const tabs = document.querySelectorAll('.buddy-tab');
+  // SRS helper functions
+  function updateSRS(word, isCorrect) {
+    if (!srsData[word]) srsData[word] = { correct: 0, incorrect: 0, lastReview: Date.now(), dueDate: Date.now() };
+    if (isCorrect) srsData[word].correct++;
+    else srsData[word].incorrect++;
+    srsData[word].lastReview = Date.now();
+    // Simple due date: if correct, due in 1 day; if incorrect, due in 1 hour
+    srsData[word].dueDate = Date.now() + (isCorrect ? 86400000 : 3600000);
+    localStorage.setItem('hsk6_srs', JSON.stringify(srsData));
+  }
+  function getDueWords() {
+    const now = Date.now();
+    return wordList.filter(w => srsData[w.word] && srsData[w.word].dueDate <= now).map(w => w.word);
+  }
+  // Daily goal & streak
+  function updateDailyProgress() {
+    const today = new Date().toDateString();
+    if (lastStudyDate !== today) {
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      if (lastStudyDate === yesterday && todayStudied >= dailyGoal) streak++;
+      else if (lastStudyDate !== yesterday) streak = 0;
+      lastStudyDate = today;
+      todayStudied = 0;
+      localStorage.setItem('hsk6_lastStudyDate', lastStudyDate);
+      localStorage.setItem('hsk6_streak', streak);
+    }
+    // todayStudied is incremented when marking words studied (in markWordsStudied)
+    streakSpan.innerText = streak;
+    dailyGoalDisplay.innerText = dailyGoal;
+    todayStudiedSpan.innerText = todayStudied;
+  }
+  function incrementTodayStudied() { todayStudied++; localStorage.setItem('hsk6_todayStudied', todayStudied); updateDailyProgress(); }
+  function setDailyGoal() { dailyGoal = parseInt(dailyGoalInput.value); if (isNaN(dailyGoal) || dailyGoal < 1) dailyGoal = 20; localStorage.setItem('hsk6_dailyGoal', dailyGoal); dailyGoalDisplay.innerText = dailyGoal; updateDailyProgress(); }
+  setGoalBtn.addEventListener('click', setDailyGoal);
+  dailyGoalInput.value = dailyGoal;
+  // Auto-refresh
+  function startAutoRefresh() {
+    if (refreshTimer) clearInterval(refreshTimer);
+    if (autoRefreshEnabled) refreshTimer = setInterval(() => { location.reload(); }, 300000);
+  }
+  function toggleAutoRefresh() {
+    autoRefreshEnabled = !autoRefreshEnabled;
+    localStorage.setItem('hsk6_autoRefresh', autoRefreshEnabled);
+    autoRefreshToggle.innerHTML = `<i class="fas fa-sync-alt"></i> Auto-refresh: ${autoRefreshEnabled ? 'ON' : 'OFF'}`;
+    startAutoRefresh();
+  }
+  autoRefreshToggle.addEventListener('click', toggleAutoRefresh);
+  autoRefreshToggle.innerHTML = `<i class="fas fa-sync-alt"></i> Auto-refresh: ${autoRefreshEnabled ? 'ON' : 'OFF'}`;
+  startAutoRefresh();
 
-  let currentMode = 'quiz', currentBuddyWord = null, buddyVisible = false;
+  // Theme selector
+  function setTheme(theme) {
+    const bodyClass = document.body.classList;
+    bodyClass.remove('theme-indigo', 'theme-green', 'theme-amber', 'theme-blue', 'theme-purple', 'theme-red');
+    bodyClass.add(`theme-${theme}`);
+    localStorage.setItem('hsk6_theme', theme);
+  }
+  themeSelect.addEventListener('change', (e) => setTheme(e.target.value));
+  const savedTheme = localStorage.getItem('hsk6_theme') || 'indigo';
+  setTheme(savedTheme);
+  themeSelect.value = savedTheme;
 
-  // Helper: update stats display
+  // Export/Import Progress
+  function exportProgress() {
+    const data = {
+      favorites: [...favorites],
+      studiedWords: [...studiedWords],
+      srsData: srsData,
+      dailyGoal, streak, lastStudyDate, todayStudied
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'hsk6_progress.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  function importProgress(file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const data = JSON.parse(e.target.result);
+        favorites = new Set(data.favorites || []);
+        studiedWords = new Set(data.studiedWords || []);
+        srsData = data.srsData || {};
+        dailyGoal = data.dailyGoal || 20;
+        streak = data.streak || 0;
+        lastStudyDate = data.lastStudyDate || '';
+        todayStudied = data.todayStudied || 0;
+        localStorage.setItem('hsk6_favorites', JSON.stringify([...favorites]));
+        localStorage.setItem('hsk6_studied', JSON.stringify([...studiedWords]));
+        localStorage.setItem('hsk6_srs', JSON.stringify(srsData));
+        localStorage.setItem('hsk6_dailyGoal', dailyGoal);
+        localStorage.setItem('hsk6_streak', streak);
+        localStorage.setItem('hsk6_lastStudyDate', lastStudyDate);
+        localStorage.setItem('hsk6_todayStudied', todayStudied);
+        updateStats();
+        updateDailyProgress();
+        if (currentFilter === 'favorites') applyFilter();
+        render();
+        alert('Progress imported!');
+      } catch(err) { alert('Invalid file'); }
+    };
+    reader.readAsText(file);
+  }
+  exportProgressBtn.addEventListener('click', exportProgress);
+  importProgressBtn.addEventListener('click', () => importProgressFile.click());
+  importProgressFile.addEventListener('change', e => { if (e.target.files[0]) importProgress(e.target.files[0]); importProgressFile.value = ''; });
+
+  // Share Progress as image
+  shareProgressBtn.addEventListener('click', () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 600;
+    canvas.height = 400;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = document.body.classList.contains('dark') ? '#1e293b' : '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = document.body.classList.contains('dark') ? '#e2e8f0' : '#1e1b4b';
+    ctx.font = 'bold 24px "Inter"';
+    ctx.fillText('HSK 6 Progress', 20, 50);
+    ctx.font = '18px "Inter"';
+    ctx.fillText(`Favorites: ${favorites.size}`, 20, 100);
+    ctx.fillText(`Studied: ${studiedWords.size} / ${wordList.length}`, 20, 140);
+    ctx.fillText(`Mastery: ${Math.round((studiedWords.size / wordList.length) * 100)}%`, 20, 180);
+    ctx.fillText(`Streak: ${streak} days`, 20, 220);
+    ctx.fillText(`Daily Goal: ${dailyGoal} | Today: ${todayStudied}`, 20, 260);
+    const link = document.createElement('a');
+    link.download = 'hsk6_progress.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+
+  // State persistence
+  function saveState() {
+    localStorage.setItem('hsk6_currentFilter', currentFilter);
+    localStorage.setItem('hsk6_currentLetter', currentLetter || '');
+    localStorage.setItem('hsk6_searchTerm', searchInput.value);
+    localStorage.setItem('hsk6_currentPage', currentPage);
+    localStorage.setItem('hsk6_studyMode', studyMode);
+  }
+  function loadState() {
+    const savedFilter = localStorage.getItem('hsk6_currentFilter');
+    if (savedFilter && ['all','1-625','626-1250','1251-1875','1876-2500','favorites'].includes(savedFilter)) currentFilter = savedFilter;
+    const savedLetter = localStorage.getItem('hsk6_currentLetter');
+    if (savedLetter && savedLetter !== '') currentLetter = savedLetter;
+    const savedSearch = localStorage.getItem('hsk6_searchTerm');
+    if (savedSearch) searchInput.value = savedSearch;
+    const savedPage = parseInt(localStorage.getItem('hsk6_currentPage'));
+    if (!isNaN(savedPage) && savedPage > 0) currentPage = savedPage;
+    studyMode = localStorage.getItem('hsk6_studyMode') === 'true';
+    if (studyMode) document.body.classList.add('study-mode-active');
+    else document.body.classList.remove('study-mode-active');
+    const eyeIcon = floatingEye.querySelector('i');
+    if (studyMode) { eyeIcon.classList.remove('fa-eye-slash'); eyeIcon.classList.add('fa-eye'); }
+    else { eyeIcon.classList.remove('fa-eye'); eyeIcon.classList.add('fa-eye-slash'); }
+  }
+
+  // Helper functions
   function updateStats() {
     favCountSpan.innerText = favorites.size;
     studiedCountSpan.innerText = studiedWords.size;
@@ -993,11 +918,15 @@
   }
   function markWordsStudied(words) {
     let changed = false;
-    words.forEach(w => { if (!studiedWords.has(w.word)) { studiedWords.add(w.word); changed = true; } });
+    words.forEach(w => {
+      if (!studiedWords.has(w.word)) {
+        studiedWords.add(w.word);
+        changed = true;
+        incrementTodayStudied();
+      }
+    });
     if (changed) { localStorage.setItem('hsk6_studied', JSON.stringify([...studiedWords])); updateStats(); }
   }
-  function refreshAds() {} // no ads
-
   function applyFilter() {
     const searchTerm = searchInput.value.trim().toLowerCase();
     let base = wordList;
@@ -1007,7 +936,8 @@
       base = wordList.slice(s,e);
     }
     if (currentLetter) base = base.filter(w => w.pinyin.trim().toLowerCase().charAt(0) === currentLetter);
-    filteredWords = searchTerm ? base.filter(w => w.word.includes(searchTerm) || w.pinyin.toLowerCase().includes(searchTerm) || w.meaning.toLowerCase().includes(searchTerm)) : [...base];
+    if (searchTerm) filteredWords = base.filter(w => w.word.includes(searchTerm) || w.pinyin.toLowerCase().includes(searchTerm) || w.meaning.toLowerCase().includes(searchTerm));
+    else filteredWords = [...base];
     currentPage = 1;
   }
   function saveFavorites() { localStorage.setItem('hsk6_favorites', JSON.stringify([...favorites])); updateStats(); }
@@ -1017,11 +947,7 @@
     saveFavorites();
     if (currentFilter === 'favorites') applyFilter();
     render();
-    refreshAds();
-    // Update buddy favorite icon if the current buddy word matches
-    if (currentBuddyWord && currentBuddyWord.word === word) {
-      updateBuddyFavoriteIcon();
-    }
+    if (currentBuddyWord && currentBuddyWord.word === word) updateBuddyFavoriteIcon();
   }
   function updateBuddyFavoriteIcon() {
     if (currentBuddyWord && favorites.has(currentBuddyWord.word)) {
@@ -1031,6 +957,18 @@
       buddyFavoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
       buddyFavoriteBtn.classList.remove('active');
     }
+  }
+  let popupTimeout = null, popupDiv = null;
+  function showPopup(x, y, content) {
+    if (popupDiv) popupDiv.remove();
+    popupDiv = document.createElement('div');
+    popupDiv.className = 'study-popup';
+    popupDiv.innerHTML = content;
+    popupDiv.style.left = (x + 10) + 'px';
+    popupDiv.style.top = (y - 30) + 'px';
+    document.body.appendChild(popupDiv);
+    if (popupTimeout) clearTimeout(popupTimeout);
+    popupTimeout = setTimeout(() => { if (popupDiv) popupDiv.remove(); popupDiv = null; }, 2000);
   }
   function render() {
     const pageWords = filteredWords.slice((currentPage-1)*pageSize, currentPage*pageSize);
@@ -1043,24 +981,18 @@
         html += `<div class="vocab-card">
           <div class="word-header">
             <span class="chinese-word" data-word="${item.word}" data-pinyin="${item.pinyin}" data-meaning="${item.meaning}" data-example="${item.example || ''}">${item.word}</span>
-            <div>
-              <button class="favorite-btn ${isFav ? 'active' : ''}" data-word="${item.word}"><i class="${isFav ? 'fas' : 'far'} fa-heart"></i></button>
-              <button class="speaker-btn" data-word="${item.word}"><i class="fas fa-volume-up"></i></button>
-            </div>
+            <div><button class="favorite-btn ${isFav ? 'active' : ''}" data-word="${item.word}"><i class="${isFav ? 'fas' : 'far'} fa-heart"></i></button><button class="speaker-btn" data-word="${item.word}"><i class="fas fa-volume-up"></i></button></div>
           </div>
           <div class="pinyin">${item.pinyin}</div>
-          <div class="meaning">${item.meaning}</div>
-          ${exampleHtml}
+          <div class="meaning">${item.meaning}</div>${exampleHtml}
         </div>`;
       });
       grid.innerHTML = html;
       markWordsStudied(pageWords);
     }
-    // Attach event listeners
     document.querySelectorAll('.speaker-btn').forEach(btn => btn.addEventListener('click', () => window.speakText(btn.dataset.word)));
     document.querySelectorAll('.example-speaker').forEach(btn => btn.addEventListener('click', () => window.speakText(btn.dataset.example)));
     document.querySelectorAll('.favorite-btn').forEach(btn => btn.addEventListener('click', () => { toggleFavorite(btn.dataset.word); const icon = btn.querySelector('i'); if (favorites.has(btn.dataset.word)) { icon.classList.remove('far'); icon.classList.add('fas'); btn.classList.add('active'); } else { icon.classList.remove('fas'); icon.classList.add('far'); btn.classList.remove('active'); } }));
-    // Study mode click on word: show popup with meaning and example
     if (studyMode) {
       document.querySelectorAll('.chinese-word').forEach(wordSpan => {
         wordSpan.style.cursor = 'pointer';
@@ -1076,32 +1008,13 @@
         });
       });
     } else {
-      document.querySelectorAll('.chinese-word').forEach(wordSpan => {
-        wordSpan.style.cursor = 'default';
-        // remove old listeners? we'll just override; but to avoid duplicates, we can clone? simpler: removeEventListener not needed, we'll just not add new ones. The listener will still be there but condition prevents? Actually we add conditionally each render. So we should remove previous ones? For simplicity, we'll just re-attach conditionally. The old ones remain but they also check studyMode? No, they were added with condition studyMode. So when studyMode is false, we don't add new ones. But old ones still exist. So we need to remove them. Let's do a more robust method: remove all existing click listeners by cloning? Instead, we'll add a class and use event delegation. Better: use event listener on grid with target check. But to keep it simple, we'll remove listeners by setting onclick = null for all .chinese-word.
-        wordSpan.onclick = null;
-      });
+      document.querySelectorAll('.chinese-word').forEach(wordSpan => { wordSpan.style.cursor = 'default'; wordSpan.onclick = null; });
     }
     shownSpan.innerText = filteredWords.length;
     renderPagination();
     if (studyMode) document.body.classList.add('study-mode-active'); else document.body.classList.remove('study-mode-active');
-  }
-  // Popup helper
-  let popupTimeout = null;
-  let popupDiv = null;
-  function showPopup(x, y, content) {
-    if (popupDiv) popupDiv.remove();
-    popupDiv = document.createElement('div');
-    popupDiv.className = 'study-popup';
-    popupDiv.innerHTML = content;
-    popupDiv.style.left = (x + 10) + 'px';
-    popupDiv.style.top = (y - 30) + 'px';
-    document.body.appendChild(popupDiv);
-    if (popupTimeout) clearTimeout(popupTimeout);
-    popupTimeout = setTimeout(() => {
-      if (popupDiv) popupDiv.remove();
-      popupDiv = null;
-    }, 2000);
+    updateDailyProgress();
+    saveState();
   }
   function renderPagination() {
     const totalPages = Math.ceil(filteredWords.length / pageSize);
@@ -1110,9 +1023,9 @@
       for (let i=1; i<=totalPages; i++) btns += `<button class="page-btn ${i===currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
       btns += `<button class="page-btn" id="nextPageTop" ${currentPage===totalPages?'disabled':''}><i class="fas fa-chevron-right"></i></button>`;
       paginationDiv.innerHTML = btns;
-      document.querySelectorAll('.page-btn[data-page]').forEach(btn => btn.addEventListener('click', () => { currentPage = parseInt(btn.dataset.page); render(); refreshAds(); }));
-      document.getElementById('prevPageTop')?.addEventListener('click', () => { if (currentPage > 1) { currentPage--; render(); refreshAds(); } });
-      document.getElementById('nextPageTop')?.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; render(); refreshAds(); } });
+      document.querySelectorAll('.page-btn[data-page]').forEach(btn => btn.addEventListener('click', () => { currentPage = parseInt(btn.dataset.page); render(); }));
+      document.getElementById('prevPageTop')?.addEventListener('click', () => { if (currentPage > 1) { currentPage--; render(); } });
+      document.getElementById('nextPageTop')?.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; render(); } });
       bottomPrev.disabled = (currentPage === 1); bottomNext.disabled = (currentPage === totalPages);
       pageInfoSpan.innerText = `Page ${currentPage} / ${totalPages}`;
     }
@@ -1120,177 +1033,132 @@
   function buildLetterFilter() {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     letterFilterDiv.innerHTML = '<button class="letter-btn all-letters" data-letter="">All</button>';
-    letters.forEach(l => { const btn = document.createElement('button'); btn.className = 'letter-btn'; btn.textContent = l; btn.dataset.letter = l.toLowerCase(); btn.addEventListener('click', () => { document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentLetter = l.toLowerCase(); applyFilter(); render(); refreshAds(); }); letterFilterDiv.appendChild(btn); });
-    const allBtn = document.querySelector('.letter-btn.all-letters'); if (allBtn) allBtn.addEventListener('click', () => { document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active')); allBtn.classList.add('active'); currentLetter = null; applyFilter(); render(); refreshAds(); });
+    letters.forEach(l => { const btn = document.createElement('button'); btn.className = 'letter-btn'; btn.textContent = l; btn.dataset.letter = l.toLowerCase(); btn.addEventListener('click', () => { document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentLetter = l.toLowerCase(); applyFilter(); render(); }); letterFilterDiv.appendChild(btn); });
+    const allBtn = document.querySelector('.letter-btn.all-letters'); if (allBtn) allBtn.addEventListener('click', () => { document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active')); allBtn.classList.add('active'); currentLetter = null; applyFilter(); render(); });
   }
-  categoryBtns.forEach(btn => btn.addEventListener('click', () => { categoryBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.cat; applyFilter(); render(); refreshAds(); }));
-  function handleSearch() { applyFilter(); render(); refreshAds(); }
+  categoryBtns.forEach(btn => btn.addEventListener('click', () => { categoryBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.cat; applyFilter(); render(); }));
+  function handleSearch() { applyFilter(); render(); }
   searchBtn.addEventListener('click', handleSearch); searchInput.addEventListener('keyup', e => e.key === 'Enter' && handleSearch());
-  bottomPrev.addEventListener('click', () => { if (currentPage > 1) { currentPage--; render(); refreshAds(); } });
-  bottomNext.addEventListener('click', () => { if (currentPage < Math.ceil(filteredWords.length / pageSize)) { currentPage++; render(); refreshAds(); } });
-  toggleStatsBtn.addEventListener('click', () => { statsPanel.classList.toggle('hidden'); localStorage.setItem('hsk6_stats_visible', (!statsPanel.classList.contains('hidden')).toString()); refreshAds(); });
+  bottomPrev.addEventListener('click', () => { if (currentPage > 1) { currentPage--; render(); } });
+  bottomNext.addEventListener('click', () => { if (currentPage < Math.ceil(filteredWords.length / pageSize)) { currentPage++; render(); } });
+  toggleStatsBtn.addEventListener('click', () => { statsPanel.classList.toggle('hidden'); localStorage.setItem('hsk6_stats_visible', (!statsPanel.classList.contains('hidden')).toString()); });
   if (localStorage.getItem('hsk6_stats_visible') === 'true') statsPanel.classList.remove('hidden'); else statsPanel.classList.add('hidden');
-  darkModeToggle.addEventListener('click', () => { const isDark = document.body.classList.contains('dark'); if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk6_theme', 'light'); darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode'; } else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk6_theme', 'dark'); darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode'; } refreshAds(); });
-  exportFavBtn.addEventListener('click', () => { const data = JSON.stringify([...favorites], null, 2); const blob = new Blob([data], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'hsk6_favorites.json'; a.click(); URL.revokeObjectURL(url); });
-  importFavBtn.addEventListener('click', () => importFavFile.click());
-  importFavFile.addEventListener('change', e => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = ev => { try { const imported = JSON.parse(ev.target.result); if (Array.isArray(imported)) { favorites = new Set(imported); saveFavorites(); if (currentFilter === 'favorites') { applyFilter(); render(); } else render(); updateStats(); alert('Favorites imported!'); refreshAds(); } else alert('Invalid file'); } catch(err) { alert('Parse error'); } importFavFile.value = ''; }; reader.readAsText(file); });
-  resetProgressBtn.addEventListener('click', () => { if (confirm('Reset progress?')) { studiedWords.clear(); localStorage.setItem('hsk6_studied', JSON.stringify([])); updateStats(); alert('Progress reset'); refreshAds(); } });
+  darkModeToggle.addEventListener('click', () => { const isDark = document.body.classList.contains('dark'); if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk6_theme', 'light'); darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode'; } else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk6_theme', 'dark'); darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode'; } });
+  resetProgressBtn.addEventListener('click', () => { if (confirm('Reset all progress?')) { studiedWords.clear(); favorites.clear(); srsData = {}; localStorage.setItem('hsk6_studied', JSON.stringify([])); localStorage.setItem('hsk6_favorites', JSON.stringify([])); localStorage.setItem('hsk6_srs', JSON.stringify({})); updateStats(); if (currentFilter === 'favorites') applyFilter(); render(); } });
 
-  // Study Mode toggle via floating eye
+  // Study Mode floating eye
   function setStudyMode(enabled) {
     studyMode = enabled;
     localStorage.setItem('hsk6_studyMode', studyMode);
-    if (studyMode) {
-      document.body.classList.add('study-mode-active');
-      studyModeIcon.classList.remove('fa-eye-slash');
-      studyModeIcon.classList.add('fa-eye');
-    } else {
-      document.body.classList.remove('study-mode-active');
-      studyModeIcon.classList.remove('fa-eye');
-      studyModeIcon.classList.add('fa-eye-slash');
-    }
-    render(); // re-render to attach click listeners on words
-    refreshAds();
+    const icon = floatingEye.querySelector('i');
+    if (studyMode) { icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); } else { icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); }
+    render();
   }
-  floatingEye.addEventListener('click', () => {
-    setStudyMode(!studyMode);
-  });
-  if (studyMode) {
-    document.body.classList.add('study-mode-active');
-    studyModeIcon.classList.remove('fa-eye-slash');
-    studyModeIcon.classList.add('fa-eye');
-  } else {
-    studyModeIcon.classList.remove('fa-eye');
-    studyModeIcon.classList.add('fa-eye-slash');
-  }
+  floatingEye.addEventListener('click', () => setStudyMode(!studyMode));
 
   // Shuffle
-  function shuffleArray(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-  shuffleBtn.addEventListener('click', () => {
-    if (filteredWords.length > 0) {
-      filteredWords = shuffleArray([...filteredWords]);
-      currentPage = 1;
-      render();
-      refreshAds();
-    }
-  });
+  function shuffleArray(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+  document.getElementById('shuffleBtn').addEventListener('click', () => { if (filteredWords.length > 0) { filteredWords = shuffleArray([...filteredWords]); currentPage = 1; render(); } });
 
   // Full Vocabulary Modal
   function buildLetterView() {
     const groups = {};
-    wordList.forEach(w => {
-      const first = w.pinyin.trim().toLowerCase().charAt(0);
-      if (!groups[first]) groups[first] = [];
-      groups[first].push(w);
-    });
+    wordList.forEach(w => { const first = w.pinyin.trim().toLowerCase().charAt(0); if (!groups[first]) groups[first] = []; groups[first].push(w); });
     let html = '';
     for (let l of 'abcdefghijklmnopqrstuvwxyz') {
       if (groups[l]) {
         html += `<div class="letter-group"><h3>${l.toUpperCase()}</h3>`;
-        groups[l].forEach(w => {
-          html += `<div class="word-item" data-word="${w.word}" data-pinyin="${w.pinyin}" data-meaning="${w.meaning}">${w.word}</div>`;
-        });
+        groups[l].forEach(w => html += `<div class="word-item" data-word="${w.word}">${w.word}</div>`);
         html += `</div>`;
       }
     }
     letterView.innerHTML = html;
-    document.querySelectorAll('#letterView .word-item').forEach(el => {
-      el.addEventListener('click', () => {
-        modal.style.display = 'none';
-        searchInput.value = el.dataset.word;
-        handleSearch();
-      });
-    });
+    document.querySelectorAll('#letterView .word-item').forEach(el => { el.addEventListener('click', () => { modal.style.display = 'none'; searchInput.value = el.dataset.word; handleSearch(); }); });
   }
   function buildRangeView() {
-    const ranges = [
-      { name: "1–625", start: 0, end: 625 },
-      { name: "626–1250", start: 625, end: 1250 },
-      { name: "1251–1875", start: 1250, end: 1875 },
-      { name: "1876–2500", start: 1875, end: 2500 }
-    ];
+    const ranges = [[0,625,"1–625"],[625,1250,"626–1250"],[1250,1875,"1251–1875"],[1875,2500,"1876–2500"]];
     let html = '';
-    ranges.forEach(range => {
-      const words = wordList.slice(range.start, range.end);
-      html += `<div class="range-group"><h4>${range.name} (${words.length} words)</h4>`;
-      words.forEach(w => {
-        html += `<div class="word-item" data-word="${w.word}" data-pinyin="${w.pinyin}" data-meaning="${w.meaning}">${w.word}</div>`;
-      });
-      html += `</div>`;
-    });
+    ranges.forEach(([s,e,name]) => { const words = wordList.slice(s,e); html += `<div class="range-group"><h4>${name} (${words.length} words)</h4>`; words.forEach(w => html += `<div class="word-item" data-word="${w.word}">${w.word}</div>`); html += `</div>`; });
     rangeView.innerHTML = html;
-    document.querySelectorAll('#rangeView .word-item').forEach(el => {
-      el.addEventListener('click', () => {
-        modal.style.display = 'none';
-        searchInput.value = el.dataset.word;
-        handleSearch();
-      });
-    });
+    document.querySelectorAll('#rangeView .word-item').forEach(el => { el.addEventListener('click', () => { modal.style.display = 'none'; searchInput.value = el.dataset.word; handleSearch(); }); });
   }
-  fullVocabBtn.addEventListener('click', () => {
-    buildLetterView();
-    buildRangeView();
-    modal.style.display = 'block';
-  });
-  closeModal.addEventListener('click', () => { modal.style.display = 'none'; });
+  const modal = document.getElementById('vocabModal');
+  const closeModal = document.getElementById('closeModal');
+  const letterView = document.getElementById('letterView');
+  const rangeView = document.getElementById('rangeView');
+  const modalTabs = document.querySelectorAll('.modal-tab');
+  document.getElementById('fullVocabBtn').addEventListener('click', () => { buildLetterView(); buildRangeView(); modal.style.display = 'block'; });
+  closeModal.addEventListener('click', () => modal.style.display = 'none');
   window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-  modalTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      modalTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      if (tab.dataset.tab === 'letter') {
-        letterView.style.display = 'block';
-        rangeView.style.display = 'none';
-      } else {
-        letterView.style.display = 'none';
-        rangeView.style.display = 'block';
-      }
-    });
-  });
-  letterView.style.display = 'block';
-  rangeView.style.display = 'none';
+  modalTabs.forEach(tab => tab.addEventListener('click', () => { modalTabs.forEach(t => t.classList.remove('active')); tab.classList.add('active'); if (tab.dataset.tab === 'letter') { letterView.style.display = 'block'; rangeView.style.display = 'none'; } else { letterView.style.display = 'none'; rangeView.style.display = 'block'; } }));
+  letterView.style.display = 'block'; rangeView.style.display = 'none';
 
-  // Buddy assistant logic
+  // Buddy assistant
+  const buddyBubble = document.getElementById('buddyBubble');
+  const buddyAvatar = document.getElementById('buddyAvatar');
+  const closeBuddy = document.getElementById('closeBuddy');
+  const newBuddyWord = document.getElementById('newBuddyWord');
+  const speakBuddyWord = document.getElementById('speakBuddyWord');
+  const buddyWordDisplay = document.getElementById('buddyWordDisplay');
+  const buddyFavoriteBtn = document.getElementById('buddyFavoriteBtn');
+  const quizPanelElem = document.getElementById('quizPanel');
+  const typingPanelElem = document.getElementById('typingPanel');
+  const typingInputElem = document.getElementById('typingInput');
+  const submitTyping = document.getElementById('submitTyping');
+  const typingFeedbackMsg = document.getElementById('typingFeedbackMsg');
+  const voiceInputBtn = document.getElementById('voiceInputBtn');
+  const tabsBuddy = document.querySelectorAll('.buddy-tab');
+  let currentMode = 'quiz', currentBuddyWord = null, buddyVisible = false;
+
+  // Voice input
+  if ('webkitSpeechRecognition' in window) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.continuous = false;
+    voiceInputBtn.addEventListener('click', () => {
+      recognition.start();
+      voiceInputBtn.style.opacity = '0.5';
+    });
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      typingInputElem.value = transcript;
+      voiceInputBtn.style.opacity = '1';
+    };
+    recognition.onerror = () => { voiceInputBtn.style.opacity = '1'; };
+  } else { voiceInputBtn.style.display = 'none'; }
+
   function getRandomWordFromFiltered() { if (filteredWords.length === 0) return null; return filteredWords[Math.floor(Math.random() * filteredWords.length)]; }
-  function updateBuddyWord(wordObj) {
-    currentBuddyWord = wordObj;
-    if (!wordObj) {
-      buddyWordDisplay.innerText = '?';
-      buddyFavoriteBtn.style.display = 'none';
-    } else {
-      buddyWordDisplay.innerText = wordObj.word;
-      buddyFavoriteBtn.style.display = 'inline-block';
-      updateBuddyFavoriteIcon();
-      if (currentMode === 'quiz') generateQuiz(wordObj);
-    }
-  }
-  function generateQuiz(wordObj) { if (!wordObj) return; const correct = wordObj.meaning; let options = [correct]; while (options.length < 4) { const rand = wordList[Math.floor(Math.random() * wordList.length)]; if (!options.includes(rand.meaning) && rand.meaning !== correct) options.push(rand.meaning); } options = options.sort(() => Math.random() - 0.5); quizPanelElem.innerHTML = ''; options.forEach(opt => { const btn = document.createElement('div'); btn.className = 'quiz-opt'; btn.innerText = opt; btn.addEventListener('click', () => { document.querySelectorAll('.quiz-opt').forEach(el => el.style.pointerEvents = 'none'); if (opt === correct) btn.classList.add('correct'); else { btn.classList.add('wrong'); document.querySelectorAll('.quiz-opt').forEach(el => { if (el.innerText === correct) el.classList.add('correct'); }); } }); quizPanelElem.appendChild(btn); }); }
+  function updateBuddyWord(wordObj) { currentBuddyWord = wordObj; if (!wordObj) { buddyWordDisplay.innerText = '?'; buddyFavoriteBtn.style.display = 'none'; } else { buddyWordDisplay.innerText = wordObj.word; buddyFavoriteBtn.style.display = 'inline-block'; updateBuddyFavoriteIcon(); if (currentMode === 'quiz') generateQuiz(wordObj); } }
+  function generateQuiz(wordObj) { if (!wordObj) return; const correct = wordObj.meaning; let options = [correct]; while (options.length < 4) { const rand = wordList[Math.floor(Math.random() * wordList.length)]; if (!options.includes(rand.meaning) && rand.meaning !== correct) options.push(rand.meaning); } options = options.sort(() => Math.random() - 0.5); quizPanelElem.innerHTML = ''; options.forEach(opt => { const btn = document.createElement('div'); btn.className = 'quiz-opt'; btn.innerText = opt; btn.addEventListener('click', () => { document.querySelectorAll('.quiz-opt').forEach(el => el.style.pointerEvents = 'none'); if (opt === correct) { btn.classList.add('correct'); updateSRS(wordObj.word, true); } else { btn.classList.add('wrong'); document.querySelectorAll('.quiz-opt').forEach(el => { if (el.innerText === correct) el.classList.add('correct'); }); updateSRS(wordObj.word, false); } }); quizPanelElem.appendChild(btn); }); }
   function showTypingPanel() { typingPanelElem.style.display = 'flex'; quizPanelElem.style.display = 'none'; }
   function showQuizPanel() { typingPanelElem.style.display = 'none'; quizPanelElem.style.display = 'flex'; }
   function switchMode(mode) { currentMode = mode; if (mode === 'quiz') { showQuizPanel(); if (currentBuddyWord) generateQuiz(currentBuddyWord); } else showTypingPanel(); }
   function handleNewWord() { const newWordObj = getRandomWordFromFiltered(); if (newWordObj) { updateBuddyWord(newWordObj); if (currentMode === 'typing') { typingInputElem.value = ''; typingFeedbackMsg.innerHTML = ''; } } else buddyWordDisplay.innerText = 'No words'; }
-  function handleTypingSubmit() { if (!currentBuddyWord) return; const userAns = typingInputElem.value.trim().toLowerCase(); const correct = currentBuddyWord.meaning.toLowerCase(); typingFeedbackMsg.innerHTML = (userAns === correct) ? '<span style="color:#38a169;">✓ Correct!</span>' : `<span style="color:#e53e3e;">✗ Wrong. Correct: ${currentBuddyWord.meaning}</span>`; }
+  function handleTypingSubmit() { if (!currentBuddyWord) return; const userAns = typingInputElem.value.trim().toLowerCase(); const correct = currentBuddyWord.meaning.toLowerCase(); if (userAns === correct) { typingFeedbackMsg.innerHTML = '<span style="color:#38a169;">✓ Correct!</span>'; updateSRS(currentBuddyWord.word, true); } else { typingFeedbackMsg.innerHTML = `<span style="color:#e53e3e;">✗ Wrong. Correct: ${currentBuddyWord.meaning}</span>`; updateSRS(currentBuddyWord.word, false); } }
   buddyAvatar.addEventListener('click', () => { if (buddyVisible) { buddyBubble.classList.add('hidden'); buddyVisible = false; } else { buddyBubble.classList.remove('hidden'); buddyVisible = true; if (!currentBuddyWord) handleNewWord(); } });
   closeBuddy.addEventListener('click', () => { buddyBubble.classList.add('hidden'); buddyVisible = false; });
   newBuddyWord.addEventListener('click', handleNewWord);
   speakBuddyWord.addEventListener('click', () => { if (currentBuddyWord) window.speakText(currentBuddyWord.word); });
   submitTyping.addEventListener('click', handleTypingSubmit);
   typingInputElem.addEventListener('keyup', e => { if (e.key === 'Enter') handleTypingSubmit(); });
-  buddyFavoriteBtn.addEventListener('click', () => {
-    if (currentBuddyWord) {
-      toggleFavorite(currentBuddyWord.word);
-    }
-  });
-  tabs.forEach(tab => tab.addEventListener('click', () => { tabs.forEach(t => t.classList.remove('active')); tab.classList.add('active'); switchMode(tab.dataset.mode); }));
+  buddyFavoriteBtn.addEventListener('click', () => { if (currentBuddyWord) toggleFavorite(currentBuddyWord.word); });
+  tabsBuddy.forEach(tab => tab.addEventListener('click', () => { tabsBuddy.forEach(t => t.classList.remove('active')); tab.classList.add('active'); switchMode(tab.dataset.mode); }));
 
-  const savedTheme = localStorage.getItem('hsk6_theme'); if (savedTheme === 'dark') { document.body.classList.add('dark'); darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode'; } else { document.body.classList.add('light'); darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode'; }
-  buildLetterFilter(); applyFilter(); render(); updateStats(); refreshAds();
+  // Go to top
+  window.addEventListener('scroll', () => { if (window.scrollY > 300) goToTop.classList.add('show'); else goToTop.classList.remove('show'); });
+  goToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // Initial load
+  loadState();
+  buildLetterFilter();
+  applyFilter();
+  render();
+  updateStats();
+  updateDailyProgress();
+  const savedTodayStudied = parseInt(localStorage.getItem('hsk6_todayStudied') || '0');
+  todayStudied = savedTodayStudied;
+  updateDailyProgress();
 </script>
 </body>
 </html>
