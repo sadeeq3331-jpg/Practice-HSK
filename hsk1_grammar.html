@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HSK 1 Grammar</title>
+  <title>HSK 1 Learning Hub</title>
+  <!-- Ad code -->
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
   (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
@@ -12,61 +13,53 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body.light { background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%); --bg-card: #ffffff; --bg-header: rgba(255,255,255,0.7); --text-primary: #1e1b4b; --text-secondary: #4f46e5; --border-light: #c7d2fe; --accent: #4f46e5; }
-    body.dark { background: linear-gradient(145deg, #0f172a 0%, #0b1120 100%); --bg-card: #1e293b; --bg-header: rgba(30,41,59,0.8); --text-primary: #e2e8f0; --text-secondary: #a5b4fc; --border-light: #334155; --accent: #818cf8; }
-    body { padding: 1.2rem; display: flex; flex-direction: column; align-items: center; background: var(--bg-header); }
-    .container { max-width: 1000px; width: 100%; background: var(--bg-header); backdrop-filter: blur(12px); border-radius: 2rem; padding: 1.5rem; }
-    h1 { font-size: 2rem; background: linear-gradient(135deg, var(--text-secondary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; text-align: center; margin-bottom: 1rem; }
-    .grammar-grid { display: grid; gap: 1rem; margin: 1rem 0; }
-    .grammar-card { background: var(--bg-card); border-radius: 1rem; padding: 1rem; border: 1px solid var(--border-light); }
-    .grammar-title { font-size: 1.2rem; font-weight: 600; color: var(--accent); }
-    .grammar-structure { font-family: monospace; background: rgba(0,0,0,0.05); padding: 0.2rem 0.5rem; border-radius: 0.5rem; display: inline-block; margin: 0.5rem 0; }
-    .grammar-example { padding-left: 0.5rem; border-left: 3px solid var(--accent); margin: 0.5rem 0; font-style: italic; }
-    .back-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem; }
+    body { background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%); min-height: 100vh; padding: 2rem; display: flex; align-items: center; justify-content: center; }
+    .container { max-width: 1000px; width: 100%; background: rgba(255,255,255,0.6); backdrop-filter: blur(12px); border-radius: 2rem; padding: 2rem; text-align: center; }
+    h1 { font-size: 2.5rem; background: linear-gradient(135deg, #1e1b4b, #4f46e5); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem; }
+    .sub { color: #4f46e5; margin-bottom: 2rem; }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin: 2rem 0; }
+    .card { background: white; border-radius: 1rem; padding: 1rem; text-decoration: none; color: #1e1b4b; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: 0.2s; border: 1px solid #c7d2fe; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px rgba(79,70,229,0.15); border-color: #4f46e5; }
+    .card i { font-size: 2rem; color: #4f46e5; margin-bottom: 0.5rem; }
+    .card h2 { font-size: 1.2rem; margin-bottom: 0.3rem; }
+    .card p { font-size: 0.7rem; color: #6c8ea0; }
+    .note { margin-top: 1rem; font-size: 0.8rem; color: #4f46e5; }
   </style>
 </head>
-<body class="light">
+<body>
 <div class="container">
-  <h1>📐 HSK 1 Grammar Points</h1>
-  <div class="grammar-grid" id="grammarList"></div>
-  <button class="back-btn" onclick="window.location.href='hsk1.html'"><i class="fas fa-arrow-left"></i> Back to Hub</button>
+  <h1>📚 HSK 1 Learning Hub</h1>
+  <div class="sub">Choose a module to start learning</div>
+  <div class="card-grid">
+    <a class="card" href="hsk1.html">
+      <i class="fas fa-book-open"></i>
+      <h2>📖 Vocabulary</h2>
+      <p>150 words with audio, favorites, study mode</p>
+    </a>
+    <a class="card" href="hsk1_grammar.html">
+      <i class="fas fa-language"></i>
+      <h2>📐 Grammar</h2>
+      <p>Key grammar points with examples</p>
+    </a>
+    <a class="card" href="hsk1_exam.html">
+      <i class="fas fa-clipboard-list"></i>
+      <h2>📝 Mock Exam</h2>
+      <p>Timed quiz with real HSK1 questions</p>
+    </a>
+    <a class="card" href="hsk1_challenge.html">
+      <i class="fas fa-calendar-alt"></i>
+      <h2>🎯 Daily Challenge</h2>
+      <p>Random word quiz – keep your streak!</p>
+    </a>
+    <a class="card" href="hsk1_badges.html">
+      <i class="fas fa-medal"></i>
+      <h2>🏆 Badges & Progress</h2>
+      <p>Track your achievements and stats</p>
+    </a>
+  </div>
+  <div class="note">
+    💡 All progress is saved automatically. Your existing vocabulary page (<strong>hsk1.html</strong>) works as before.
+  </div>
 </div>
-<script>
-  const grammarData = [
-    { title: "Subject + 是 + Object", structure: "S + 是 + O", examples: ["我是学生。", "她是医生。"], explanation: "Used to identify or equate." },
-    { title: "Subject + 有 + Object", structure: "S + 有 + O", examples: ["我有一本书。", "他有一个哥哥。"], explanation: "Indicates possession." },
-    { title: "Adverb 很 (very)", structure: "S + 很 + Adj", examples: ["她很高兴。", "今天很热。"], explanation: "Used before adjectives; often omits 'very' meaning." },
-    { title: "Question particle 吗", structure: "Statement + 吗", examples: ["你是学生吗？", "他来了吗？"], explanation: "Turns a statement into a yes/no question." },
-    { title: "Measure words", structure: "Numeral + MW + Noun", examples: ["一个人", "三本书"], explanation: "Measure words are used between numbers and nouns." },
-    { title: "Time expressions", structure: "Time + Subject + Verb", examples: ["我明天去北京。", "他早上八点起床。"], explanation: "Time phrase comes before the verb." },
-    { title: "Negation 不", structure: "Subject + 不 + Verb/Adj", examples: ["我不喜欢喝茶。", "他不高。"], explanation: "Negates present or future actions/states." },
-    { title: "Negation 没", structure: "Subject + 没 + Verb", examples: ["我没吃饭。", "他没来。"], explanation: "Negates past actions or 'have not'." }
-  ];
-  const container = document.getElementById('grammarList');
-  let html = '';
-  grammarData.forEach(g => {
-    html += `<div class="grammar-card">
-      <div class="grammar-title">${g.title}</div>
-      <div class="grammar-structure">${g.structure}</div>
-      <div class="grammar-example">${g.examples.map(e => `“${e}”`).join(' · ')}</div>
-      <div style="font-size:0.85rem; margin-top:0.3rem;">${g.explanation}</div>
-    </div>`;
-  });
-  container.innerHTML = html;
-  // Dark mode toggle (optional)
-  const darkToggle = document.createElement('button');
-  darkToggle.innerHTML = '<i class="fas fa-moon"></i> Dark';
-  darkToggle.style.position = 'fixed'; darkToggle.style.bottom = '20px'; darkToggle.style.right = '20px';
-  darkToggle.style.background = 'var(--accent)'; darkToggle.style.color = 'white'; darkToggle.style.border = 'none'; darkToggle.style.borderRadius = '30px'; darkToggle.style.padding = '0.4rem 1rem'; darkToggle.style.cursor = 'pointer';
-  darkToggle.onclick = () => {
-    const isDark = document.body.classList.contains('dark');
-    if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk1_grammar_theme', 'light'); }
-    else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk1_grammar_theme', 'dark'); }
-  };
-  document.body.appendChild(darkToggle);
-  const savedTheme = localStorage.getItem('hsk1_grammar_theme');
-  if (savedTheme === 'dark') { document.body.classList.add('dark'); document.body.classList.remove('light'); }
-  else { document.body.classList.add('light'); document.body.classList.remove('dark'); }
-</script>
 </body>
 </html>
