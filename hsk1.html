@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HSK 1 Learning Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>HSK 1 Vocabulary Master</title>
+  <!-- Ad code (as requested) -->
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
   (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
@@ -11,110 +12,1074 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    /* ========== HSK 1 THEME: Green/Teal ========== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    body.light {
+      background: linear-gradient(145deg, #e6f7f0 0%, #cce8e0 100%);
+      --bg-card: #ffffff;
+      --bg-header: rgba(255,255,255,0.7);
+      --text-primary: #0f3b2c;
+      --text-secondary: #2b7a4b;
+      --border-light: #b8e0cc;
+      --shadow: 0 20px 40px rgba(43,122,75,0.1);
+      --accent: #2b7a4b;
+      --accent-hover: #1e5a38;
+    }
+    body.dark {
+      background: linear-gradient(145deg, #1a2e25 0%, #0f1f18 100%);
+      --bg-card: #2a3e34;
+      --bg-header: rgba(30,45,38,0.8);
+      --text-primary: #d4f5e8;
+      --text-secondary: #8fd0b0;
+      --border-light: #4a6e5a;
+      --shadow: 0 20px 40px rgba(0,0,0,0.3);
+      --accent: #4c9f70;
+      --accent-hover: #2b7a4b;
     }
     body {
-      background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%);
-      min-height: 100vh;
-      padding: 2rem;
+      padding: 1.2rem;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      background: var(--bg-header);
     }
-    .container {
-      max-width: 1200px;
+    .app-container {
+      max-width: 1400px;
       width: 100%;
-      background: rgba(255,255,255,0.6);
+      background: var(--bg-header);
       backdrop-filter: blur(12px);
       border-radius: 2rem;
-      padding: 2rem;
-      box-shadow: 0 30px 50px rgba(0,20,40,0.15);
-      text-align: center;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.2);
+      margin-bottom: 4.5rem;
     }
-    h1 {
-      font-size: 2.5rem;
-      background: linear-gradient(135deg, #1e1b4b, #4f46e5);
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .logo-svg {
+      width: 42px;
+      height: 42px;
+    }
+    .title-section h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--text-secondary), var(--accent));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      margin-bottom: 0.5rem;
     }
-    .sub {
-      color: #4f46e5;
-      margin-bottom: 2rem;
+    .badge {
+      background: var(--accent);
+      color: white;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      display: inline-block;
+    }
+    .search-box {
+      display: flex;
+      background: var(--bg-card);
+      border-radius: 50px;
+      padding: 0.2rem 0.2rem 0.2rem 1.2rem;
+      border: 1px solid var(--border-light);
+      min-width: 250px;
+    }
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      padding: 0.6rem 0;
+      background: transparent;
+      color: var(--text-primary);
+    }
+    .search-box input::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
+    .search-box button {
+      background: var(--accent);
+      border: none;
+      color: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.1s, background 0.2s;
+    }
+    .search-box button:hover {
+      background: var(--accent-hover);
+      transform: scale(1.02);
+    }
+    .settings-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .icon-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 30px;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .icon-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .stats-panel {
+      background: var(--bg-card);
+      border-radius: 1.5rem;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      border: 1px solid var(--border-light);
+    }
+    .stats-panel .stat {
+      font-weight: 500;
+    }
+    .stats-panel.hidden {
+      display: none;
+    }
+    .letter-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0 0.5rem;
+      justify-content: center;
+    }
+    .letter-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      width: 38px;
+      height: 38px;
+      border-radius: 20px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .letter-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.05);
+    }
+    .letter-btn.active {
+      background: var(--accent);
+      color: white;
+    }
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    .cat-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 0.4rem 1rem;
+      border-radius: 30px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .cat-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-2px);
+    }
+    .cat-btn.active {
+      background: var(--accent);
+      color: white;
+    }
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 1rem 0 1.2rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .word-counter {
+      background: var(--bg-card);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .pagination-controls {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .page-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 17px;
+      border: none;
+      background: var(--bg-card);
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .page-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.05);
+    }
+    .page-btn.active {
+      background: var(--accent);
+      color: white;
+    }
+    .bottom-pagination {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+    .bottom-pagination button {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      color: var(--text-primary);
+      transition: all 0.2s;
+    }
+    .bottom-pagination button:hover {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.02);
     }
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin: 2rem 0;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
     }
-    .card {
-      background: white;
+    .vocab-card {
+      background: var(--bg-card);
       border-radius: 1.5rem;
-      padding: 1.5rem;
-      text-decoration: none;
-      color: #1e1b4b;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.05);
-      transition: all 0.2s;
-      border: 1px solid #c7d2fe;
+      padding: 1.2rem 1rem;
+      border: 1px solid var(--border-light);
+      transition: 0.2s;
     }
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 35px rgba(79,70,229,0.15);
-      border-color: #4f46e5;
+    .vocab-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     }
-    .card i {
-      font-size: 2.5rem;
-      color: #4f46e5;
-      margin-bottom: 0.8rem;
+    .word-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .card h2 {
+    .chinese-word {
+      font-size: 1.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .favorite-btn {
+      background: none;
+      border: none;
       font-size: 1.5rem;
-      margin-bottom: 0.5rem;
+      cursor: pointer;
+      color: #cbd5e0;
+      transition: transform 0.1s;
     }
-    .card p {
+    .favorite-btn:hover {
+      transform: scale(1.1);
+    }
+    .favorite-btn.active {
+      color: #e53e3e;
+    }
+    .speaker-btn {
+      background: rgba(43,122,75,0.1);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      margin-left: 0.5rem;
+      transition: all 0.2s;
+    }
+    .speaker-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.05);
+    }
+    .pinyin {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      background: rgba(43,122,75,0.1);
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      display: inline-block;
+      margin: 0.6rem 0 0.4rem;
+    }
+    .meaning {
+      font-size: 0.9rem;
+      background: rgba(43,122,75,0.05);
+      padding: 0.4rem 0.8rem;
+      border-radius: 1rem;
+      border: 1px dashed var(--border-light);
+      color: var(--text-primary);
+    }
+    .example-container {
+      margin-top: 0.6rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: rgba(43,122,75,0.05);
+      border-radius: 1rem;
+      padding: 0.4rem 0.8rem;
+      border-left: 3px solid var(--accent);
+    }
+    .example-text {
       font-size: 0.85rem;
-      color: #6c8ea0;
+      font-style: italic;
+      flex: 1;
+      color: var(--text-primary);
+    }
+    .example-speaker {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .example-speaker:hover {
+      transform: scale(1.1);
+    }
+    .study-mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 40px;
+      padding: 0.3rem 1rem;
+      margin-left: 1rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .study-mode-toggle:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .study-mode-active .pinyin,
+    .study-mode-active .meaning,
+    .study-mode-active .example-container {
+      display: none !important;
+    }
+    .floating-eye {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1100;
+      background: var(--accent);
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.2s;
+      border: 2px solid white;
+    }
+    .go-to-top {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      z-index: 1100;
+      background: var(--accent);
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.2s;
+      border: 2px solid white;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .go-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .study-popup {
+      position: fixed;
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 8px 12px;
+      max-width: 300px;
+      z-index: 2000;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+    .buddy-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .buddy-bubble {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      background: var(--bg-card);
+      border-radius: 24px 24px 12px 24px;
+      padding: 1rem;
+      width: 300px;
+      max-width: 85vw;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.25);
+      border: 1px solid var(--accent);
+      transition: 0.2s;
+      transform-origin: bottom right;
+      visibility: visible;
+      opacity: 1;
+    }
+    .buddy-bubble.hidden {
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .buddy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 6px;
+    }
+    .buddy-header span {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .buddy-close {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #8aa9b8;
+      transition: transform 0.1s;
+    }
+    .buddy-close:hover {
+      transform: scale(1.1);
+    }
+    .buddy-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .buddy-tab {
+      background: rgba(43,122,75,0.1);
+      border: none;
+      padding: 6px 12px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 500;
+      flex: 1;
+      text-align: center;
+      color: var(--text-primary);
+      transition: all 0.2s;
+    }
+    .buddy-tab:hover {
+      background: var(--accent);
+      color: white;
+    }
+    .buddy-tab.active {
+      background: var(--accent);
+      color: white;
+    }
+    .buddy-word {
+      font-size: 1.8rem;
+      font-weight: 600;
+      text-align: center;
+      margin: 8px 0;
+    }
+    .buddy-controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 8px 0;
+    }
+    .buddy-controls button {
+      background: rgba(43,122,75,0.1);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: all 0.2s;
+    }
+    .buddy-controls button:hover {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.02);
+    }
+    .buddy-favorite {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #cbd5e0;
+      transition: transform 0.1s;
+      margin-left: 8px;
+    }
+    .buddy-favorite.active {
+      color: #e53e3e;
+    }
+    .buddy-favorite:hover {
+      transform: scale(1.1);
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .quiz-opt {
+      background: rgba(43,122,75,0.05);
+      border: 1px solid var(--border-light);
+      border-radius: 30px;
+      padding: 8px 12px;
+      cursor: pointer;
+      text-align: center;
+      color: var(--text-primary);
+      transition: all 0.1s;
+    }
+    .quiz-opt:hover {
+      background: var(--accent);
+      color: white;
+    }
+    .quiz-opt.correct {
+      background: #c6f6d5;
+      border-color: #38a169;
+      color: #2d3748;
+    }
+    .quiz-opt.wrong {
+      background: #fed7d7;
+      border-color: #e53e3e;
+      color: #2d3748;
+    }
+    .typing-area {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .typing-input {
+      padding: 10px;
+      border-radius: 40px;
+      border: 1px solid var(--border-light);
+      width: 100%;
+      background: var(--bg-card);
+      color: var(--text-primary);
+    }
+    .voice-input-btn {
+      background: var(--accent);
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.2s;
+    }
+    .voice-input-btn:hover {
+      transform: scale(1.05);
+      background: var(--accent-hover);
+    }
+    .typing-feedback {
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    .buddy-avatar {
+      width: 60px;
+      height: 60px;
+      background: var(--bg-card);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      border: 2px solid var(--accent);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .buddy-avatar:active {
+      transform: scale(0.95);
+    }
+    .buddy-avatar img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+    .footer-note {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 1rem;
+    }
+    @media (max-width: 640px) {
+      .app-container {
+        padding: 1rem;
+      }
+      .chinese-word {
+        font-size: 1.6rem;
+      }
+      .title-section h1 {
+        font-size: 1.6rem;
+      }
+      .buddy-bubble {
+        width: 280px;
+      }
+      .letter-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 0.8rem;
+      }
+      .floating-eye, .go-to-top {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    .hidden {
+      display: none;
     }
   </style>
+  <script src="words_hsk1.js"></script>
 </head>
-<body>
-<div class="container">
-  <h1>📚 HSK 1 Learning Hub</h1>
-  <div class="sub">Choose a module to start learning</div>
-  <div class="card-grid">
-    <a class="card" href="hsk1_vocab.html">
-      <i class="fas fa-book-open"></i>
-      <h2>📖 Vocabulary</h2>
-      <p>150 words with audio, favorites, study mode</p>
-    </a>
-    <a class="card" href="hsk1_grammar.html">
-      <i class="fas fa-language"></i>
-      <h2>📐 Grammar</h2>
-      <p>Key grammar points with examples</p>
-    </a>
-    <a class="card" href="hsk1_exam.html">
-      <i class="fas fa-clipboard-list"></i>
-      <h2>📝 Mock Exam</h2>
-      <p>Timed quiz with real HSK1 questions</p>
-    </a>
-    <a class="card" href="hsk1_challenge.html">
-      <i class="fas fa-calendar-alt"></i>
-      <h2>🎯 Daily Challenge</h2>
-      <p>Random word quiz – keep your streak!</p>
-    </a>
-    <a class="card" href="hsk1_badges.html">
-      <i class="fas fa-medal"></i>
-      <h2>🏆 Badges & Progress</h2>
-      <p>Track your achievements and stats</p>
-    </a>
+<body class="light">
+<div id="floatingEye" class="floating-eye"><i class="fas fa-eye-slash"></i></div>
+<div id="goToTop" class="go-to-top"><i class="fas fa-arrow-up"></i></div>
+<div class="app-container">
+  <div class="header">
+    <div class="logo-area">
+      <div class="logo-svg"><svg width="42" height="42" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="800" height="800" rx="200" fill="#0a2942"/><g transform="translate(200, 200) scale(0.8)"><path d="M192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v25.6C69.5 68.4 16 127.1 16 200v32c0 101.7 82.3 184 184 184h64c101.7 0 184-82.3 184-184v-32c0-72.9-53.5-131.6-128-142.4V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V32zM48 200c0-63.1 48-115.4 109.5-126.9 4.2-.7 8.5-1.1 12.8-1.1h31.5c4.3 0 8.6 .4 12.8 1.1C288 84.6 336 136.9 336 200v32c0 75.1-60.9 136-136 136h-64c-75.1 0-136-60.9-136-136v-32zm320 240c0-8.8-7.2-16-16-16H32c-8.8 0-16 7.2-16 16v48c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16v-48z" fill="#ffd966"/></g></svg></div>
+      <div class="title-section"><h1>HSK 1 · 词汇大师</h1><div class="badge"><i class="fas fa-leaf"></i> 150 words</div></div>
+    </div>
+    <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search..."><button id="searchBtn">Search</button></div>
   </div>
-  <p class="sub">All progress is saved in your browser – no account needed!</p>
+
+  <div class="settings-bar">
+    <button id="darkModeToggle" class="icon-btn"><i class="fas fa-moon"></i> Dark Mode</button>
+    <button id="toggleStatsBtn" class="icon-btn"><i class="fas fa-chart-line"></i> Stats</button>
+    <button id="shuffleBtn" class="icon-btn"><i class="fas fa-random"></i> Shuffle</button>
+    <button id="fullVocabBtn" class="icon-btn"><i class="fas fa-list-ul"></i> Full List</button>
+    <button id="exportFavBtn" class="icon-btn"><i class="fas fa-download"></i> Export Favorites</button>
+    <button id="importFavBtn" class="icon-btn"><i class="fas fa-upload"></i> Import Favorites</button>
+    <input type="file" id="importFavFile" style="display:none" accept=".json">
+  </div>
+
+  <div id="statsPanel" class="stats-panel hidden">
+    <div class="stat"><i class="fas fa-heart"></i> Favorites: <span id="favCount">0</span></div>
+    <div class="stat"><i class="fas fa-eye"></i> Studied: <span id="studiedCount">0</span> / <span id="totalWordsStat">0</span></div>
+    <div class="stat"><i class="fas fa-check-circle"></i> Mastery: <span id="masteryPercent">0</span>%</div>
+    <button id="resetProgressBtn" class="icon-btn" style="font-size:0.8rem;"><i class="fas fa-trash-alt"></i> Reset Progress</button>
+  </div>
+
+  <div class="letter-filter" id="letterFilter"></div>
+  <div class="categories" id="categoryTabs">
+    <button class="cat-btn active" data-cat="all">All (150)</button>
+    <button class="cat-btn" data-cat="1-50">1–50</button>
+    <button class="cat-btn" data-cat="51-100">51–100</button>
+    <button class="cat-btn" data-cat="101-150">101–150</button>
+    <button class="cat-btn" data-cat="favorites"><i class="fas fa-heart"></i> Favorites</button>
+  </div>
+
+  <div class="stats-bar"><div class="word-counter">📄 <span id="shownCount">0</span> / <span id="totalCount">150</span></div><div class="pagination-controls" id="paginationContainer"></div></div>
+  <div id="vocabGrid" class="card-grid"></div>
+  <div class="bottom-pagination" id="bottomPagination"><button id="prevPageBottom"><i class="fas fa-chevron-left"></i> Prev</button><span id="pageInfo">Page 1 / 1</span><button id="nextPageBottom">Next <i class="fas fa-chevron-right"></i></button></div>
+  <div class="footer-note"><span><i class="fas fa-heart"></i> Favorite</span><span><i class="fas fa-volume-up"></i> Click to hear</span><span><i class="fas fa-robot"></i> Assistant</span><span><i class="fas fa-random"></i> Shuffle</span><span><i class="fas fa-list-ul"></i> Full list</span><span><i class="fas fa-microphone"></i> Voice typing</span></div>
 </div>
+
+<!-- Modal for full vocabulary -->
+<div id="vocabModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>Complete HSK 1 Vocabulary (150 words)</h2><button class="modal-close" id="closeModal">&times;</button></div><div class="modal-tabs"><button class="modal-tab active" data-tab="letter">By Pinyin (A–Z)</button><button class="modal-tab" data-tab="range">By Range (1–50, 51–100, 101–150)</button></div><div id="letterView" class="vocab-list"></div><div id="rangeView" class="vocab-list" style="display:none;"></div></div></div>
+
+<div class="buddy-container" id="buddyContainer">
+  <div class="buddy-bubble hidden" id="buddyBubble">
+    <div class="buddy-header"><span><i class="fas fa-robot"></i> Assistant</span><button class="buddy-close" id="closeBuddy"><i class="fas fa-times"></i></button></div>
+    <div class="buddy-tabs"><button class="buddy-tab active" data-mode="quiz">Quiz</button><button class="buddy-tab" data-mode="typing">Typing</button></div>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px;"><div id="buddyWordDisplay" class="buddy-word">?</div><button id="buddyFavoriteBtn" class="buddy-favorite"><i class="far fa-heart"></i></button></div>
+    <div class="buddy-controls"><button id="speakBuddyWord"><i class="fas fa-volume-up"></i> Speak</button><button id="newBuddyWord"><i class="fas fa-random"></i> Random</button></div>
+    <div id="quizPanel" class="quiz-options"></div>
+    <div id="typingPanel" class="typing-area" style="display:none;"><input type="text" id="typingInput" placeholder="Type meaning..."><button id="submitTyping">Submit</button><button id="voiceInputBtn" class="voice-input-btn"><i class="fas fa-microphone"></i></button><div id="typingFeedbackMsg"></div></div>
+  </div>
+  <div class="buddy-avatar" id="buddyAvatar"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232b7a4b'/%3E%3Ccircle cx='35' cy='40' r='5' fill='white'/%3E%3Ccircle cx='65' cy='40' r='5' fill='white'/%3E%3Cpath d='M35 65 Q50 80 65 65' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="buddy"></div>
+</div>
+
+<script>
+  // ========== SPEECH MODULE ==========
+  (function() { if (!window.speechSynthesis) { window.speakText = function(t) { console.log(t); }; return; } window.speakText = function(text) { if (!text) return; try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'zh-CN'; u.rate = 0.9; window.speechSynthesis.speak(u); } catch(e) { console.error(e); } }; })();
+
+  const wordList = window.HSK1_WORDS || [];
+  if (wordList.length === 0) alert('words_hsk1.js missing!');
+
+  // State
+  let currentFilter = 'all', currentLetter = null, filteredWords = [...wordList], currentPage = 1, pageSize = 20;
+  let favorites = new Set(JSON.parse(localStorage.getItem('hsk1_favorites') || '[]'));
+  let studiedWords = new Set(JSON.parse(localStorage.getItem('hsk1_studied') || '[]'));
+  let studyMode = localStorage.getItem('hsk1_studyMode') === 'true';
+
+  // DOM elements
+  const grid = document.getElementById('vocabGrid');
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const shownSpan = document.getElementById('shownCount');
+  const totalSpan = document.getElementById('totalCount');
+  const paginationDiv = document.getElementById('paginationContainer');
+  const bottomPrev = document.getElementById('prevPageBottom');
+  const bottomNext = document.getElementById('nextPageBottom');
+  const pageInfoSpan = document.getElementById('pageInfo');
+  const categoryBtns = document.querySelectorAll('.cat-btn');
+  const favCountSpan = document.getElementById('favCount');
+  const studiedCountSpan = document.getElementById('studiedCount');
+  const totalWordsStatSpan = document.getElementById('totalWordsStat');
+  const masteryPercentSpan = document.getElementById('masteryPercent');
+  const statsPanel = document.getElementById('statsPanel');
+  const toggleStatsBtn = document.getElementById('toggleStatsBtn');
+  const resetProgressBtn = document.getElementById('resetProgressBtn');
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const letterFilterDiv = document.getElementById('letterFilter');
+  const floatingEye = document.getElementById('floatingEye');
+  const goToTop = document.getElementById('goToTop');
+  const exportFavBtn = document.getElementById('exportFavBtn');
+  const importFavBtn = document.getElementById('importFavBtn');
+  const importFavFile = document.getElementById('importFavFile');
+  const shuffleBtn = document.getElementById('shuffleBtn');
+  const fullVocabBtn = document.getElementById('fullVocabBtn');
+  const modal = document.getElementById('vocabModal');
+  const closeModal = document.getElementById('closeModal');
+  const letterView = document.getElementById('letterView');
+  const rangeView = document.getElementById('rangeView');
+  const modalTabs = document.querySelectorAll('.modal-tab');
+
+  // Buddy elements
+  const buddyBubble = document.getElementById('buddyBubble');
+  const buddyAvatar = document.getElementById('buddyAvatar');
+  const closeBuddy = document.getElementById('closeBuddy');
+  const newBuddyWord = document.getElementById('newBuddyWord');
+  const speakBuddyWord = document.getElementById('speakBuddyWord');
+  const buddyWordDisplay = document.getElementById('buddyWordDisplay');
+  const buddyFavoriteBtn = document.getElementById('buddyFavoriteBtn');
+  const quizPanelElem = document.getElementById('quizPanel');
+  const typingPanelElem = document.getElementById('typingPanel');
+  const typingInputElem = document.getElementById('typingInput');
+  const submitTyping = document.getElementById('submitTyping');
+  const typingFeedbackMsg = document.getElementById('typingFeedbackMsg');
+  const voiceInputBtn = document.getElementById('voiceInputBtn');
+  const tabsBuddy = document.querySelectorAll('.buddy-tab');
+
+  let currentMode = 'quiz', currentBuddyWord = null, buddyVisible = false;
+
+  // Voice input
+  if ('webkitSpeechRecognition' in window) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.continuous = false;
+    voiceInputBtn.addEventListener('click', () => {
+      recognition.start();
+      voiceInputBtn.style.opacity = '0.5';
+    });
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      typingInputElem.value = transcript;
+      voiceInputBtn.style.opacity = '1';
+    };
+    recognition.onerror = () => { voiceInputBtn.style.opacity = '1'; };
+  } else { voiceInputBtn.style.display = 'none'; }
+
+  // Helper functions
+  function updateStats() {
+    favCountSpan.innerText = favorites.size;
+    studiedCountSpan.innerText = studiedWords.size;
+    totalWordsStatSpan.innerText = wordList.length;
+    masteryPercentSpan.innerText = wordList.length ? Math.round((studiedWords.size / wordList.length) * 100) : 0;
+  }
+  function markWordsStudied(words) {
+    let changed = false;
+    words.forEach(w => { if (!studiedWords.has(w.word)) { studiedWords.add(w.word); changed = true; } });
+    if (changed) { localStorage.setItem('hsk1_studied', JSON.stringify([...studiedWords])); updateStats(); }
+  }
+  function applyFilter() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    let base = wordList;
+    if (currentFilter === 'favorites') base = wordList.filter(w => favorites.has(w.word));
+    else if (currentFilter !== 'all') {
+      const [s,e] = currentFilter === '1-50' ? [0,50] : currentFilter === '51-100' ? [50,100] : [100,150];
+      base = wordList.slice(s,e);
+    }
+    if (currentLetter) base = base.filter(w => w.pinyin.trim().toLowerCase().charAt(0) === currentLetter);
+    filteredWords = searchTerm ? base.filter(w => w.word.includes(searchTerm) || w.pinyin.toLowerCase().includes(searchTerm) || w.meaning.toLowerCase().includes(searchTerm)) : [...base];
+    currentPage = 1;
+  }
+  function saveFavorites() { localStorage.setItem('hsk1_favorites', JSON.stringify([...favorites])); updateStats(); }
+  function toggleFavorite(word) {
+    if (favorites.has(word)) favorites.delete(word);
+    else favorites.add(word);
+    saveFavorites();
+    if (currentFilter === 'favorites') applyFilter();
+    render();
+    if (currentBuddyWord && currentBuddyWord.word === word) updateBuddyFavoriteIcon();
+  }
+  function updateBuddyFavoriteIcon() {
+    if (currentBuddyWord && favorites.has(currentBuddyWord.word)) {
+      buddyFavoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
+      buddyFavoriteBtn.classList.add('active');
+    } else {
+      buddyFavoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
+      buddyFavoriteBtn.classList.remove('active');
+    }
+  }
+  let popupTimeout = null, popupDiv = null;
+  function showPopup(x, y, content) {
+    if (popupDiv) popupDiv.remove();
+    popupDiv = document.createElement('div');
+    popupDiv.className = 'study-popup';
+    popupDiv.innerHTML = content;
+    popupDiv.style.left = (x + 10) + 'px';
+    popupDiv.style.top = (y - 30) + 'px';
+    document.body.appendChild(popupDiv);
+    if (popupTimeout) clearTimeout(popupTimeout);
+    popupTimeout = setTimeout(() => { if (popupDiv) popupDiv.remove(); popupDiv = null; }, 2000);
+  }
+  function render() {
+    const pageWords = filteredWords.slice((currentPage-1)*pageSize, currentPage*pageSize);
+    if (pageWords.length === 0) grid.innerHTML = '<div class="empty-state" style="text-align:center;padding:2rem;">✨ No words found</div>';
+    else {
+      let html = '';
+      pageWords.forEach(item => {
+        const isFav = favorites.has(item.word);
+        const exampleHtml = item.example ? `<div class="example-container"><span class="example-text">📌 ${item.example}</span><button class="example-speaker" data-example="${item.example}"><i class="fas fa-volume-up"></i></button></div>` : '';
+        html += `<div class="vocab-card">
+          <div class="word-header">
+            <span class="chinese-word" data-word="${item.word}" data-pinyin="${item.pinyin}" data-meaning="${item.meaning}" data-example="${item.example || ''}">${item.word}</span>
+            <div><button class="favorite-btn ${isFav ? 'active' : ''}" data-word="${item.word}"><i class="${isFav ? 'fas' : 'far'} fa-heart"></i></button><button class="speaker-btn" data-word="${item.word}"><i class="fas fa-volume-up"></i></button></div>
+          </div>
+          <div class="pinyin">${item.pinyin}</div>
+          <div class="meaning">${item.meaning}</div>${exampleHtml}
+        </div>`;
+      });
+      grid.innerHTML = html;
+      markWordsStudied(pageWords);
+    }
+    document.querySelectorAll('.speaker-btn').forEach(btn => btn.addEventListener('click', () => window.speakText(btn.dataset.word)));
+    document.querySelectorAll('.example-speaker').forEach(btn => btn.addEventListener('click', () => window.speakText(btn.dataset.example)));
+    document.querySelectorAll('.favorite-btn').forEach(btn => btn.addEventListener('click', () => { toggleFavorite(btn.dataset.word); const icon = btn.querySelector('i'); if (favorites.has(btn.dataset.word)) { icon.classList.remove('far'); icon.classList.add('fas'); btn.classList.add('active'); } else { icon.classList.remove('fas'); icon.classList.add('far'); btn.classList.remove('active'); } }));
+    if (studyMode) {
+      document.querySelectorAll('.chinese-word').forEach(wordSpan => {
+        wordSpan.style.cursor = 'pointer';
+        wordSpan.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const word = wordSpan.dataset.word;
+          const pinyin = wordSpan.dataset.pinyin;
+          const meaning = wordSpan.dataset.meaning;
+          const example = wordSpan.dataset.example;
+          let content = `<strong>${word}</strong> (${pinyin})<br>${meaning}`;
+          if (example) content += `<br><em>📌 ${example}</em>`;
+          showPopup(e.clientX, e.clientY, content);
+        });
+      });
+    } else {
+      document.querySelectorAll('.chinese-word').forEach(wordSpan => { wordSpan.style.cursor = 'default'; wordSpan.onclick = null; });
+    }
+    shownSpan.innerText = filteredWords.length;
+    renderPagination();
+    if (studyMode) document.body.classList.add('study-mode-active'); else document.body.classList.remove('study-mode-active');
+    saveState();
+  }
+  function renderPagination() {
+    const totalPages = Math.ceil(filteredWords.length / pageSize);
+    if (totalPages <= 1) { paginationDiv.innerHTML = ''; bottomPrev.disabled = true; bottomNext.disabled = true; pageInfoSpan.innerText = 'Page 1 / 1'; } else {
+      let btns = `<button class="page-btn" id="prevPageTop" ${currentPage===1?'disabled':''}><i class="fas fa-chevron-left"></i></button>`;
+      for (let i=1; i<=totalPages; i++) btns += `<button class="page-btn ${i===currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+      btns += `<button class="page-btn" id="nextPageTop" ${currentPage===totalPages?'disabled':''}><i class="fas fa-chevron-right"></i></button>`;
+      paginationDiv.innerHTML = btns;
+      document.querySelectorAll('.page-btn[data-page]').forEach(btn => btn.addEventListener('click', () => { currentPage = parseInt(btn.dataset.page); render(); }));
+      document.getElementById('prevPageTop')?.addEventListener('click', () => { if (currentPage > 1) { currentPage--; render(); } });
+      document.getElementById('nextPageTop')?.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; render(); } });
+      bottomPrev.disabled = (currentPage === 1); bottomNext.disabled = (currentPage === totalPages);
+      pageInfoSpan.innerText = `Page ${currentPage} / ${totalPages}`;
+    }
+  }
+  function buildLetterFilter() {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    letterFilterDiv.innerHTML = '<button class="letter-btn all-letters" data-letter="">All</button>';
+    letters.forEach(l => { const btn = document.createElement('button'); btn.className = 'letter-btn'; btn.textContent = l; btn.dataset.letter = l.toLowerCase(); btn.addEventListener('click', () => { document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentLetter = l.toLowerCase(); applyFilter(); render(); }); letterFilterDiv.appendChild(btn); });
+    const allBtn = document.querySelector('.letter-btn.all-letters'); if (allBtn) allBtn.addEventListener('click', () => { document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active')); allBtn.classList.add('active'); currentLetter = null; applyFilter(); render(); });
+  }
+  categoryBtns.forEach(btn => btn.addEventListener('click', () => { categoryBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.cat; applyFilter(); render(); }));
+  function handleSearch() { applyFilter(); render(); }
+  searchBtn.addEventListener('click', handleSearch); searchInput.addEventListener('keyup', e => e.key === 'Enter' && handleSearch());
+  bottomPrev.addEventListener('click', () => { if (currentPage > 1) { currentPage--; render(); } });
+  bottomNext.addEventListener('click', () => { if (currentPage < Math.ceil(filteredWords.length / pageSize)) { currentPage++; render(); } });
+  toggleStatsBtn.addEventListener('click', () => { statsPanel.classList.toggle('hidden'); localStorage.setItem('hsk1_stats_visible', (!statsPanel.classList.contains('hidden')).toString()); });
+  if (localStorage.getItem('hsk1_stats_visible') === 'true') statsPanel.classList.remove('hidden'); else statsPanel.classList.add('hidden');
+  darkModeToggle.addEventListener('click', () => { const isDark = document.body.classList.contains('dark'); if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk1_theme', 'light'); darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode'; } else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk1_theme', 'dark'); darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode'; } });
+  exportFavBtn.addEventListener('click', () => { const data = JSON.stringify([...favorites], null, 2); const blob = new Blob([data], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'hsk1_favorites.json'; a.click(); URL.revokeObjectURL(url); });
+  importFavBtn.addEventListener('click', () => importFavFile.click());
+  importFavFile.addEventListener('change', e => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = ev => { try { const imported = JSON.parse(ev.target.result); if (Array.isArray(imported)) { favorites = new Set(imported); saveFavorites(); if (currentFilter === 'favorites') { applyFilter(); render(); } else render(); updateStats(); alert('Favorites imported!'); } else alert('Invalid file'); } catch(err) { alert('Parse error'); } importFavFile.value = ''; }; reader.readAsText(file); });
+  resetProgressBtn.addEventListener('click', () => { if (confirm('Reset progress?')) { studiedWords.clear(); favorites.clear(); localStorage.setItem('hsk1_studied', JSON.stringify([])); localStorage.setItem('hsk1_favorites', JSON.stringify([])); updateStats(); if (currentFilter === 'favorites') applyFilter(); render(); } });
+
+  // Study Mode floating eye
+  function setStudyMode(enabled) {
+    studyMode = enabled;
+    localStorage.setItem('hsk1_studyMode', studyMode);
+    const icon = floatingEye.querySelector('i');
+    if (studyMode) { icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); } else { icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); }
+    render();
+  }
+  floatingEye.addEventListener('click', () => setStudyMode(!studyMode));
+  if (studyMode) { document.body.classList.add('study-mode-active'); floatingEye.querySelector('i').classList.remove('fa-eye-slash'); floatingEye.querySelector('i').classList.add('fa-eye'); }
+
+  // Shuffle
+  function shuffleArray(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+  shuffleBtn.addEventListener('click', () => { if (filteredWords.length > 0) { filteredWords = shuffleArray([...filteredWords]); currentPage = 1; render(); } });
+
+  // Full Vocabulary Modal
+  function buildLetterView() {
+    const groups = {};
+    wordList.forEach(w => { const first = w.pinyin.trim().toLowerCase().charAt(0); if (!groups[first]) groups[first] = []; groups[first].push(w); });
+    let html = '';
+    for (let l of 'abcdefghijklmnopqrstuvwxyz') {
+      if (groups[l]) {
+        html += `<div class="letter-group"><h3>${l.toUpperCase()}</h3>`;
+        groups[l].forEach(w => html += `<div class="word-item" data-word="${w.word}">${w.word}</div>`);
+        html += `</div>`;
+      }
+    }
+    letterView.innerHTML = html;
+    document.querySelectorAll('#letterView .word-item').forEach(el => { el.addEventListener('click', () => { modal.style.display = 'none'; searchInput.value = el.dataset.word; handleSearch(); }); });
+  }
+  function buildRangeView() {
+    const ranges = [[0,50,"1–50"],[50,100,"51–100"],[100,150,"101–150"]];
+    let html = '';
+    ranges.forEach(([s,e,name]) => { const words = wordList.slice(s,e); html += `<div class="range-group"><h4>${name} (${words.length} words)</h4>`; words.forEach(w => html += `<div class="word-item" data-word="${w.word}">${w.word}</div>`); html += `</div>`; });
+    rangeView.innerHTML = html;
+    document.querySelectorAll('#rangeView .word-item').forEach(el => { el.addEventListener('click', () => { modal.style.display = 'none'; searchInput.value = el.dataset.word; handleSearch(); }); });
+  }
+  fullVocabBtn.addEventListener('click', () => { buildLetterView(); buildRangeView(); modal.style.display = 'block'; });
+  closeModal.addEventListener('click', () => modal.style.display = 'none');
+  window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+  modalTabs.forEach(tab => tab.addEventListener('click', () => { modalTabs.forEach(t => t.classList.remove('active')); tab.classList.add('active'); if (tab.dataset.tab === 'letter') { letterView.style.display = 'block'; rangeView.style.display = 'none'; } else { letterView.style.display = 'none'; rangeView.style.display = 'block'; } }));
+  letterView.style.display = 'block'; rangeView.style.display = 'none';
+
+  // Buddy assistant logic
+  function getRandomWordFromFiltered() { if (filteredWords.length === 0) return null; return filteredWords[Math.floor(Math.random() * filteredWords.length)]; }
+  function updateBuddyWord(wordObj) { currentBuddyWord = wordObj; if (!wordObj) { buddyWordDisplay.innerText = '?'; buddyFavoriteBtn.style.display = 'none'; } else { buddyWordDisplay.innerText = wordObj.word; buddyFavoriteBtn.style.display = 'inline-block'; updateBuddyFavoriteIcon(); if (currentMode === 'quiz') generateQuiz(wordObj); } }
+  function generateQuiz(wordObj) { if (!wordObj) return; const correct = wordObj.meaning; let options = [correct]; while (options.length < 4) { const rand = wordList[Math.floor(Math.random() * wordList.length)]; if (!options.includes(rand.meaning) && rand.meaning !== correct) options.push(rand.meaning); } options = options.sort(() => Math.random() - 0.5); quizPanelElem.innerHTML = ''; options.forEach(opt => { const btn = document.createElement('div'); btn.className = 'quiz-opt'; btn.innerText = opt; btn.addEventListener('click', () => { document.querySelectorAll('.quiz-opt').forEach(el => el.style.pointerEvents = 'none'); if (opt === correct) btn.classList.add('correct'); else { btn.classList.add('wrong'); document.querySelectorAll('.quiz-opt').forEach(el => { if (el.innerText === correct) el.classList.add('correct'); }); } }); quizPanelElem.appendChild(btn); }); }
+  function showTypingPanel() { typingPanelElem.style.display = 'flex'; quizPanelElem.style.display = 'none'; }
+  function showQuizPanel() { typingPanelElem.style.display = 'none'; quizPanelElem.style.display = 'flex'; }
+  function switchMode(mode) { currentMode = mode; if (mode === 'quiz') { showQuizPanel(); if (currentBuddyWord) generateQuiz(currentBuddyWord); } else showTypingPanel(); }
+  function handleNewWord() { const newWordObj = getRandomWordFromFiltered(); if (newWordObj) { updateBuddyWord(newWordObj); if (currentMode === 'typing') { typingInputElem.value = ''; typingFeedbackMsg.innerHTML = ''; } } else buddyWordDisplay.innerText = 'No words'; }
+  function handleTypingSubmit() { if (!currentBuddyWord) return; const userAns = typingInputElem.value.trim().toLowerCase(); const correct = currentBuddyWord.meaning.toLowerCase(); if (userAns === correct) { typingFeedbackMsg.innerHTML = '<span style="color:#38a169;">✓ Correct!</span>'; } else { typingFeedbackMsg.innerHTML = `<span style="color:#e53e3e;">✗ Wrong. Correct: ${currentBuddyWord.meaning}</span>`; } }
+  buddyAvatar.addEventListener('click', () => { if (buddyVisible) { buddyBubble.classList.add('hidden'); buddyVisible = false; } else { buddyBubble.classList.remove('hidden'); buddyVisible = true; if (!currentBuddyWord) handleNewWord(); } });
+  closeBuddy.addEventListener('click', () => { buddyBubble.classList.add('hidden'); buddyVisible = false; });
+  newBuddyWord.addEventListener('click', handleNewWord);
+  speakBuddyWord.addEventListener('click', () => { if (currentBuddyWord) window.speakText(currentBuddyWord.word); });
+  submitTyping.addEventListener('click', handleTypingSubmit);
+  typingInputElem.addEventListener('keyup', e => { if (e.key === 'Enter') handleTypingSubmit(); });
+  buddyFavoriteBtn.addEventListener('click', () => { if (currentBuddyWord) toggleFavorite(currentBuddyWord.word); });
+  tabsBuddy.forEach(tab => tab.addEventListener('click', () => { tabsBuddy.forEach(t => t.classList.remove('active')); tab.classList.add('active'); switchMode(tab.dataset.mode); }));
+
+  // Go to top
+  window.addEventListener('scroll', () => { if (window.scrollY > 300) goToTop.classList.add('show'); else goToTop.classList.remove('show'); });
+  goToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // State persistence
+  function saveState() {
+    localStorage.setItem('hsk1_currentFilter', currentFilter);
+    localStorage.setItem('hsk1_currentLetter', currentLetter || '');
+    localStorage.setItem('hsk1_searchTerm', searchInput.value);
+    localStorage.setItem('hsk1_currentPage', currentPage);
+    localStorage.setItem('hsk1_studyMode', studyMode);
+  }
+  function loadState() {
+    const savedFilter = localStorage.getItem('hsk1_currentFilter');
+    if (savedFilter && ['all','1-50','51-100','101-150','favorites'].includes(savedFilter)) currentFilter = savedFilter;
+    const savedLetter = localStorage.getItem('hsk1_currentLetter');
+    if (savedLetter && savedLetter !== '') currentLetter = savedLetter;
+    const savedSearch = localStorage.getItem('hsk1_searchTerm');
+    if (savedSearch) searchInput.value = savedSearch;
+    const savedPage = parseInt(localStorage.getItem('hsk1_currentPage'));
+    if (!isNaN(savedPage) && savedPage > 0) currentPage = savedPage;
+    studyMode = localStorage.getItem('hsk1_studyMode') === 'true';
+    if (studyMode) document.body.classList.add('study-mode-active');
+    else document.body.classList.remove('study-mode-active');
+    const eyeIcon = floatingEye.querySelector('i');
+    if (studyMode) { eyeIcon.classList.remove('fa-eye-slash'); eyeIcon.classList.add('fa-eye'); }
+    else { eyeIcon.classList.remove('fa-eye'); eyeIcon.classList.add('fa-eye-slash'); }
+  }
+
+  // ========== AUTO REFRESH EVERY 5 MINUTES (to show new ads) ==========
+  // Reload the page after 5 minutes, preserving state via localStorage
+  setTimeout(() => {
+    // Save current state before reload
+    saveState();
+    location.reload();
+  }, 300000); // 5 minutes = 300,000 ms
+
+  // Initial load
+  loadState();
+  buildLetterFilter();
+  applyFilter();
+  render();
+  updateStats();
+</script>
 </body>
 </html>
