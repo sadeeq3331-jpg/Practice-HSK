@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSK 2 Grammar</title>
+  <!-- Ad code (same) -->
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
+  /*]]>/* */
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>/* same style as HSK1 grammar */</style>
+</head>
+<body class="light">
+<div class="container">
+  <h1>📐 HSK 2 Grammar Points</h1>
+  <div class="grammar-grid" id="grammarList"></div>
+  <a href="hsk2_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+</div>
+<script>
+  const grammarData = [
+    { title: "1. Comparative sentence with '比'", structure: "A + 比 + B + Adjective", examples: ["我比他高。", "今天比昨天热。"], explanation: "Used to compare two things." },
+    { title: "2. '正在' for ongoing action", structure: "Subject + 正在 + Verb", examples: ["我正在吃饭。", "他在看书。"], explanation: "Indicates an action in progress." },
+    { title: "3. '要...了' for imminent action", structure: "Subject + 要 + Verb + 了", examples: ["我要走了。", "天要下雨了。"], explanation: "Something is about to happen." },
+    { title: "4. '虽然...但是...'", structure: "虽然 + clause, 但是 + clause", examples: ["虽然很累，但是很开心。", "虽然下雨，但是我还是去了。"], explanation: "Although... but..." },
+    { title: "5. '把' sentence", structure: "Subject + 把 + Object + Verb + 了", examples: ["我把作业做完了。", "请把门关上。"], explanation: "Emphasizes the handling of an object." },
+    { title: "6. '从' to indicate starting point", structure: "从 + place/time + Verb", examples: ["我从北京来。", "从早上八点开始。"], explanation: "Indicates the origin." }
+  ];
+  const container = document.getElementById('grammarList');
+  let html = '';
+  grammarData.forEach(g => {
+    html += `<div class="grammar-card">
+      <div class="grammar-title">${g.title}</div>
+      <div class="grammar-structure">${g.structure}</div>
+      <div class="grammar-example">${g.examples.map(e => `“${e}”`).join(' · ')}</div>
+      <div>${g.explanation}</div>
+    </div>`;
+  });
+  container.innerHTML = html;
+  // Dark mode (same as HSK1)
+</script>
+</body>
+</html>
