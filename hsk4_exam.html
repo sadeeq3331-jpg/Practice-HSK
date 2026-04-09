@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HSK 4 Official Exam Simulation</title>
+  <title>HSK 4 Official Exam Simulation · 正式样卷</title>
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
   (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
@@ -54,71 +54,71 @@
   <a href="hsk4_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</a>
 </div>
 <script>
-  // ==================== HSK 4 OFFICIAL EXAM DATA ====================
+  // ==================== HSK 4 OFFICIAL EXAM DATA (STRICTLY FOLLOWS FORMAT) ====================
   // Listening: 45 questions (3 parts)
   const listeningQuestions = [
-    // Part 1 (Q1-10): True/False statements (判断对错)
-    { type: "part1", sentence: "现在我很少看电视，其中一个原因是，广告太多了，不管什么时间，也不管什么节目，只要你打开电视，总能看到那么多的广告，浪费我的时间。", statement: "他喜欢看电视广告。", correct: false },
-    { type: "part1", sentence: "我和他是在朋友家里认识的，虽然第一次见面的时候没怎么聊天儿，但是他给我的印象很深。后来我们进了同一家公司，每天一起工作，才慢慢熟悉起来。", statement: "他们俩是在公司认识的。", correct: false },
-    { type: "part1", sentence: "妻子们大多都希望自己的丈夫能记住他们是哪天结婚的，而且能在每年的那一天看到丈夫送她的礼物。", statement: "妻子希望丈夫天天送她礼物。", correct: false },
-    { type: "part1", sentence: "踢足球不是一个人的运动，即使你踢得很好，没有其他球员的努力，比赛也不会好看。", statement: "踢足球需要球员们一起努力。", correct: true },
-    { type: "part1", sentence: "怎么样才能找到适合自己的人？两个人共同生活，不仅需要浪漫的爱情，更需要性格上互相吸引，最重要的是，两个人都要想着好好照顾家人。", statement: "爱情不需要浪漫。", correct: false },
-    { type: "part1", sentence: "我们总是羡慕别人有个好工作、有个好妻子，但是常常忘记了自己已经有的幸福。", statement: "不要总是羡慕别人。", correct: true },
-    { type: "part1", sentence: "为了让自己更健康，他每天都去跑步。", statement: "他喜欢跑步。", correct: true },
-    { type: "part1", sentence: "昨天我去了图书馆，借了三本书。", statement: "他借了五本书。", correct: false },
-    { type: "part1", sentence: "周末我和朋友去看电影了，电影很有意思。", statement: "他觉得电影很无聊。", correct: false },
-    { type: "part1", sentence: "我的手机坏了，需要买一个新的。", statement: "他的手机还可以用。", correct: false },
-    // Part 2 (Q11-25): Short dialogue -> multiple choice (3 options)
-    { type: "part2", dialogue: "女：该加油了，去机场的路上有加油站吗？男：有，你放心吧。", question: "男的主要是什么意思？", options: ["去机场", "快到了", "油是满的", "有加油站"], correct: 3 },
-    { type: "part2", dialogue: "女：什么时候让我们见见你的女朋友？男：没问题。姐，我们正想下个周末请家里人一起吃个饭呢。", question: "说话人是什么关系？", options: ["姐弟", "兄妹", "父女", "同学"], correct: 0 },
-    { type: "part2", dialogue: "男：王老师，我下个月十号就要结婚了。女：你不是在开玩笑吧？你们才认识一个月呀。", question: "女的觉得怎么样？", options: ["结婚太早", "结婚太晚", "男的在开玩笑", "两个人很合适"], correct: 2 },
-    { type: "part2", dialogue: "女：我希望我的男朋友又高又帅，还要非常幽默。男：你说的是我吗？", question: "根据对话，可以知道男的怎么样？", options: ["又高又帅", "非常幽默", "很生气", "不幽默"], correct: 0 },
-    { type: "part2", dialogue: "女：小李，我给你介绍个女朋友吧，说说你有什么要求。男：我啊，喜欢可爱的女孩子，漂亮不漂亮没关系。", question: "男的觉得哪种女孩子比较好？", options: ["漂亮的", "可爱的", "聪明的", "幽默的"], correct: 1 },
-    { type: "part2", dialogue: "女：这个电影讲了一个爱情故事，很浪漫，特别让人感动。男：你们女孩子就是喜欢看这种电影。", question: "他们在谈论什么？", options: ["小说", "电影", "电视剧", "女朋友"], correct: 1 },
-    { type: "part2", dialogue: "女：好几年没见，你还是这么爱开玩笑。男：没有，我说的是真的，你真的比以前更年轻、更漂亮了。", question: "男的觉得女的怎么样？", options: ["爱开玩笑", "老了", "更漂亮了", "很生气"], correct: 2 },
-    { type: "part2", dialogue: "男：你家里怎么有这么多关于法律的书？你大学学的就是法律吗？女：哪儿啊？我大学读的是数学，只是我最近对法律特别感兴趣。", question: "女的上大学时是学什么的？", options: ["法律", "数学", "经济", "中文"], correct: 1 },
-    { type: "part2", dialogue: "女：你喝茶还是咖啡？男：我喝茶，咖啡太苦了。", question: "男的喜欢喝什么？", options: ["茶", "咖啡", "果汁"], correct: 0 },
-    { type: "part2", dialogue: "男：你明天去北京吗？女：不，我后天去。", question: "女的什么时候去北京？", options: ["明天", "后天", "今天"], correct: 1 },
-    { type: "part2", dialogue: "女：你妈妈是做什么工作的？男：她是医生。", question: "男的妈妈做什么工作？", options: ["老师", "医生", "护士"], correct: 1 },
-    { type: "part2", dialogue: "男：这件衣服多少钱？女：原价200，现在打八折。", question: "现在多少钱？", options: ["160元", "200元", "240元"], correct: 0 },
-    { type: "part2", dialogue: "女：你几点下班？男：通常六点，今天要加班到八点。", question: "今天几点下班？", options: ["六点", "七点", "八点"], correct: 2 },
-    { type: "part2", dialogue: "男：你早饭吃了什么？女：面包和牛奶。", question: "女的没吃什么？", options: ["面包", "牛奶", "米饭"], correct: 2 },
-    { type: "part2", dialogue: "女：你觉得电影怎么样？男：很有意思。", question: "男的觉得电影怎么样？", options: ["有意思", "无聊", "太长"], correct: 0 },
-    // Part 3 (Q26-45): Longer dialogue/passage -> multiple choice (3 options)
-    { type: "part3", dialogue: "男：把这个文件复印五份，一会儿拿到会议室发给大家。女：好的。会议是下午三点吗？男：改了。三点半，推迟了半个小时。女：好，602会议室没变吧？男：对，没变。", question: "会议几点开始？", options: ["两点", "3点", "3点半"], correct: 2 },
-    { type: "part3", dialogue: "女：明天的电影你想不想看？男：我当然想看，可是票早就卖完了。女：我朋友多给了我一张，那到时候一起去吧。男：真的吗？你不是在开玩笑吧？女：怎么会呢？明晚七点南门见。", question: "明天晚上他们要去干什么？", options: ["看电影", "吃饭", "开会"], correct: 0 },
-    { type: "part3", dialogue: "女：你最近忙吗？哪天有时间？男：怎么了？又想让我陪你吃饭呀？女：我的笔记本电脑太旧了，我想买个新的。男：那十七号周六我和你去看看。", question: "男的哪天有时间？", options: ["今天", "明天", "十七号周六"], correct: 2 },
-    { type: "part3", dialogue: "男：今天我去不了了，我明天晚上去吧。女：不会又要加班吧？男：没办法，同事们都在公司忙呢。女：好的，那就明天晚上。", question: "男的今天为什么去不了？", options: ["生病了", "加班", "有约会"], correct: 1 },
-    { type: "part3", dialogue: "女：打了一下午羽毛球，肚子有点儿饿了。真香，今天吃什么？男：你鼻子真好，今晚我们吃饺子。再等一会儿，饭马上就好。", question: "关于女的，可以知道什么？", options: ["饿了", "不饿", "吃了饺子"], correct: 0 },
-    { type: "part3", dialogue: "男：你最近瘦了很多，是不是工作太辛苦了？女：不是，我最近在减肥，每天都去健身房。男：效果很明显啊，要继续坚持。女：谢谢！我觉得身体也变好了。", question: "女的为什么瘦了？", options: ["工作辛苦", "生病了", "在减肥"], correct: 2 },
-    { type: "part3", dialogue: "男：你喜欢吃什么？女：我喜欢吃辣的，尤其是四川菜。男：那我带你去吃火锅吧。女：太好了！", question: "女的喜欢吃什么？", options: ["甜的", "辣的", "酸的"], correct: 1 },
-    { type: "part3", dialogue: "男：你今天怎么这么高兴？女：我男朋友送了我一束花。男：怪不得。", question: "女的为什么高兴？", options: ["男朋友送花了", "涨工资了", "放假了"], correct: 0 },
-    { type: "part3", dialogue: "男：你觉得这家餐厅怎么样？女：菜很好吃，但是服务态度不太好。", question: "女的觉得餐厅怎么样？", options: ["菜好吃", "服务好", "价格贵"], correct: 0 },
-    { type: "part3", dialogue: "男：周末我们去爬山吧。女：好啊，但是天气预报说可能会下雨。男：没关系，我们带上雨伞。", question: "他们周末打算做什么？", options: ["爬山", "看电影", "在家休息"], correct: 0 },
-    { type: "part3", dialogue: "男：你喜欢喝什么饮料？女：我喜欢喝橙汁，不喜欢喝可乐。男：那我们要两杯橙汁。", question: "女的喜欢喝什么？", options: ["可乐", "橙汁", "茶"], correct: 1 },
-    { type: "part3", dialogue: "男：你今天下午有空吗？女：我下午要开会，大概五点结束。男：那我们六点见面吧。", question: "他们几点见面？", options: ["五点", "六点", "七点"], correct: 1 },
-    { type: "part3", dialogue: "男：你昨天为什么没来上班？女：我感冒了，去医院了。", question: "女的昨天为什么没来？", options: ["生病了", "有事", "忘了"], correct: 0 },
-    { type: "part3", dialogue: "男：你会做饭吗？女：会一点儿，但是做得不好。", question: "关于女的，可以知道什么？", options: ["不会做饭", "做饭很好吃", "会做饭但做得不好"], correct: 2 },
-    { type: "part3", dialogue: "男：你学汉语多久了？女：两年了。", question: "女的学汉语多久了？", options: ["一年", "两年", "三年"], correct: 1 },
-    { type: "part3", dialogue: "男：你觉得这件衣服怎么样？女：颜色很好看，但是有点儿贵。", question: "女的觉得衣服怎么样？", options: ["颜色好看", "便宜", "不好看"], correct: 0 },
-    { type: "part3", dialogue: "男：你经常锻炼身体吗？女：是的，我每天早上都跑步。", question: "女的经常做什么？", options: ["跑步", "游泳", "打球"], correct: 0 },
-    { type: "part3", dialogue: "男：你周末一般做什么？女：有时候在家看书，有时候和朋友出去玩儿。", question: "女的周末一般做什么？", options: ["看书或出去玩", "加班", "睡觉"], correct: 0 },
-    { type: "part3", dialogue: "男：你喜欢什么颜色？女：我最喜欢蓝色。", question: "女的喜欢什么颜色？", options: ["红色", "蓝色", "绿色"], correct: 1 },
-    { type: "part3", dialogue: "男：你觉得这个城市怎么样？女：很漂亮，但是人太多了。", question: "女的觉得这个城市怎么样？", options: ["漂亮但人多", "很安静", "不好看"], correct: 0 }
+    // Part 1 (Q1-10): True/False (判断对错) – 包含您指定的“他喜欢看电视广告”格式
+    { type: "part1", sentence: "现在我很少看电视，其中一个原因是，广告太多了，不管什么时间，也不管什么节目，只要你打开电视，总能看到那么多的广告，浪费我的时间。", statement: "★ 他喜欢看电视广告。", correct: false },
+    { type: "part1", sentence: "他每天都花一个小时去锻炼身体。", statement: "★ 他希望自己很健康。", correct: true },
+    { type: "part1", sentence: "今天我想早点儿回家。看了看手表，才5点。过了一会儿再看表，还是5点，我这才发现我的手表不走了。", statement: "★ 那块儿手表不是他的。", correct: false },
+    { type: "part1", sentence: "这几天你总是不爱吃东西，是不是不舒服啊？", statement: "★ 这几天他吃得很少。", correct: true },
+    { type: "part1", sentence: "他又聪明又努力，老师的问题他都会回答。", statement: "★ 他学习很好。", correct: true },
+    { type: "part1", sentence: "妈妈很热情，总是帮助人，所以大家有问题，都会来找她。", statement: "★ 妈妈现在有问题。", correct: false },
+    { type: "part1", sentence: "这次调查发现，超过70％的儿童更愿意让爸爸给自己读书。", statement: "★ 大多数孩子喜欢爸爸给他读书。", correct: true },
+    { type: "part1", sentence: "等车的时候，我随便买了本杂志，看了没几页，就看到一个小故事，虽然这个故事不长，但是写得却很好，让我很感动。", statement: "★ 他被那个故事感动了。", correct: true },
+    { type: "part1", sentence: "多与人交流当然有很多好处。通过交流，你不但可以增加对别人的了解，而且可以从不同的人那里得到不同的知识、经验、快乐等。", statement: "★ 要多跟人交流。", correct: true },
+    { type: "part1", sentence: "经过这段时间的学习，他的汉语水平提高了不少，不但可以听懂一些较短的句子，还可以进行简单的交流。", statement: "★ 他现在是翻译。", correct: false },
+    // Part 2 (Q11-25): Short dialogue -> multiple choice (3 options) (听短对话选答案)
+    { type: "part2", dialogue: "女：该加油了，去机场的路上有加油站吗？男：有，你放心吧。", question: "男的主要是什么意思？", options: ["A. 去机场", "B. 快到了", "C. 油是满的", "D. 有加油站"], correct: 3 },
+    { type: "part2", dialogue: "女：什么时候让我们见见你的女朋友？男：没问题。姐，我们正想下个周末请家里人一起吃个饭呢。", question: "说话人是什么关系？", options: ["A. 姐弟", "B. 兄妹", "C. 父女", "D. 同学"], correct: 0 },
+    { type: "part2", dialogue: "男：王老师，我下个月十号就要结婚了。女：你不是在开玩笑吧？你们才认识一个月呀。", question: "女的觉得怎么样？", options: ["A. 结婚太早", "B. 结婚太晚", "C. 男的在开玩笑", "D. 两个人很合适"], correct: 2 },
+    { type: "part2", dialogue: "女：我希望我的男朋友又高又帅，还要非常幽默。男：你说的是我吗？", question: "根据对话，可以知道男的怎么样？", options: ["A. 又高又帅", "B. 非常幽默", "C. 很生气", "D. 不幽默"], correct: 1 },
+    { type: "part2", dialogue: "女：小李，我给你介绍个女朋友吧，说说你有什么要求。男：我啊，喜欢可爱的女孩子，漂亮不漂亮没关系。", question: "男的觉得哪种女孩子比较好？", options: ["A. 漂亮的", "B. 可爱的", "C. 聪明的", "D. 幽默的"], correct: 1 },
+    { type: "part2", dialogue: "女：这个电影讲了一个爱情故事，很浪漫，特别让人感动。男：你们女孩子就是喜欢看这种电影。", question: "他们在谈论什么？", options: ["A. 小说", "B. 电影", "C. 电视剧", "D. 女朋友"], correct: 1 },
+    { type: "part2", dialogue: "女：好几年没见，你还是这么爱开玩笑。男：没有，我说的是真的，你真的比以前更年轻、更漂亮了。", question: "男的觉得女的怎么样？", options: ["A. 爱开玩笑", "B. 老了", "C. 更漂亮了", "D. 很生气"], correct: 2 },
+    { type: "part2", dialogue: "男：你家里怎么有这么多关于法律的书？你大学学的就是法律吗？女：哪儿啊？我大学读的是数学，只是我最近对法律特别感兴趣。", question: "女的上大学时是学什么的？", options: ["A. 法律", "B. 数学", "C. 经济", "D. 中文"], correct: 1 },
+    { type: "part2", dialogue: "女：你喝茶还是咖啡？男：我喝茶，咖啡太苦了。", question: "男的喜欢喝什么？", options: ["A. 茶", "B. 咖啡", "C. 果汁", "D. 可乐"], correct: 0 },
+    { type: "part2", dialogue: "男：你明天去北京吗？女：不，我后天去。", question: "女的什么时候去北京？", options: ["A. 明天", "B. 后天", "C. 今天", "D. 昨天"], correct: 1 },
+    { type: "part2", dialogue: "女：你妈妈是做什么工作的？男：她是医生。", question: "男的妈妈做什么工作？", options: ["A. 老师", "B. 医生", "C. 护士", "D. 律师"], correct: 1 },
+    { type: "part2", dialogue: "男：这件衣服多少钱？女：原价200，现在打八折。", question: "现在多少钱？", options: ["A. 160元", "B. 200元", "C. 240元", "D. 80元"], correct: 0 },
+    { type: "part2", dialogue: "女：你几点下班？男：通常六点，今天要加班到八点。", question: "今天几点下班？", options: ["A. 六点", "B. 七点", "C. 八点", "D. 九点"], correct: 2 },
+    { type: "part2", dialogue: "男：你早饭吃了什么？女：面包和牛奶。", question: "女的没吃什么？", options: ["A. 面包", "B. 牛奶", "C. 米饭", "D. 鸡蛋"], correct: 2 },
+    { type: "part2", dialogue: "女：你觉得电影怎么样？男：很有意思。", question: "男的觉得电影怎么样？", options: ["A. 有意思", "B. 无聊", "C. 太长", "D. 太短"], correct: 0 },
+    // Part 3 (Q26-45): Longer dialogue/passage -> multiple choice (3 options) (听长对话选答案)
+    { type: "part3", dialogue: "男：把这个文件复印五份，一会儿拿到会议室发给大家。女：好的。会议是下午三点吗？男：改了。三点半，推迟了半个小时。女：好，602会议室没变吧？男：对，没变。", question: "会议几点开始？", options: ["A. 两点", "B. 3点", "C. 3点半", "D. 4点"], correct: 2 },
+    { type: "part3", dialogue: "女：明天的电影你想不想看？男：我当然想看，可是票早就卖完了。女：我朋友多给了我一张，那到时候一起去吧。男：真的吗？你不是在开玩笑吧？女：怎么会呢？明晚七点南门见。", question: "明天晚上他们要去干什么？", options: ["A. 看电影", "B. 吃饭", "C. 开会", "D. 唱歌"], correct: 0 },
+    { type: "part3", dialogue: "女：你最近忙吗？哪天有时间？男：怎么了？又想让我陪你吃饭呀？女：我的笔记本电脑太旧了，我想买个新的。男：那十七号周六我和你去看看。", question: "男的哪天有时间？", options: ["A. 今天", "B. 明天", "C. 十七号周六", "D. 十八号周日"], correct: 2 },
+    { type: "part3", dialogue: "男：今天我去不了了，我明天晚上去吧。女：不会又要加班吧？男：没办法，同事们都在公司忙呢。女：好的，那就明天晚上。", question: "男的今天为什么去不了？", options: ["A. 生病了", "B. 加班", "C. 有约会", "D. 出差"], correct: 1 },
+    { type: "part3", dialogue: "女：打了一下午羽毛球，肚子有点儿饿了。真香，今天吃什么？男：你鼻子真好，今晚我们吃饺子。再等一会儿，饭马上就好。", question: "关于女的，可以知道什么？", options: ["A. 饿了", "B. 不饿", "C. 吃了饺子", "D. 在做饭"], correct: 0 },
+    { type: "part3", dialogue: "男：你最近瘦了很多，是不是工作太辛苦了？女：不是，我最近在减肥，每天都去健身房。男：效果很明显啊，要继续坚持。女：谢谢！我觉得身体也变好了。", question: "女的为什么瘦了？", options: ["A. 工作辛苦", "B. 生病了", "C. 在减肥", "D. 心情不好"], correct: 2 },
+    { type: "part3", dialogue: "男：你喜欢吃什么？女：我喜欢吃辣的，尤其是四川菜。男：那我带你去吃火锅吧。女：太好了！", question: "女的喜欢吃什么？", options: ["A. 甜的", "B. 辣的", "C. 酸的", "D. 咸的"], correct: 1 },
+    { type: "part3", dialogue: "男：你今天怎么这么高兴？女：我男朋友送了我一束花。男：怪不得。", question: "女的为什么高兴？", options: ["A. 男朋友送花了", "B. 涨工资了", "C. 放假了", "D. 考试考好了"], correct: 0 },
+    { type: "part3", dialogue: "男：你觉得这家餐厅怎么样？女：菜很好吃，但是服务态度不太好。", question: "女的觉得餐厅怎么样？", options: ["A. 菜好吃", "B. 服务好", "C. 价格贵", "D. 环境差"], correct: 0 },
+    { type: "part3", dialogue: "男：周末我们去爬山吧。女：好啊，但是天气预报说可能会下雨。男：没关系，我们带上雨伞。", question: "他们周末打算做什么？", options: ["A. 爬山", "B. 看电影", "C. 在家休息", "D. 去公园"], correct: 0 },
+    { type: "part3", dialogue: "男：你喜欢喝什么饮料？女：我喜欢喝橙汁，不喜欢喝可乐。男：那我们要两杯橙汁。", question: "女的喜欢喝什么？", options: ["A. 可乐", "B. 橙汁", "C. 茶", "D. 咖啡"], correct: 1 },
+    { type: "part3", dialogue: "男：你今天下午有空吗？女：我下午要开会，大概五点结束。男：那我们六点见面吧。", question: "他们几点见面？", options: ["A. 五点", "B. 六点", "C. 七点", "D. 八点"], correct: 1 },
+    { type: "part3", dialogue: "男：你昨天为什么没来上班？女：我感冒了，去医院了。", question: "女的昨天为什么没来？", options: ["A. 生病了", "B. 有事", "C. 忘了", "D. 堵车"], correct: 0 },
+    { type: "part3", dialogue: "男：你会做饭吗？女：会一点儿，但是做得不好。", question: "关于女的，可以知道什么？", options: ["A. 不会做饭", "B. 做饭很好吃", "C. 会做饭但做得不好", "D. 不喜欢做饭"], correct: 2 },
+    { type: "part3", dialogue: "男：你学汉语多久了？女：两年了。", question: "女的学汉语多久了？", options: ["A. 一年", "B. 两年", "C. 三年", "D. 四年"], correct: 1 },
+    { type: "part3", dialogue: "男：你觉得这件衣服怎么样？女：颜色很好看，但是有点儿贵。", question: "女的觉得衣服怎么样？", options: ["A. 颜色好看", "B. 便宜", "C. 不好看", "D. 质量差"], correct: 0 },
+    { type: "part3", dialogue: "男：你经常锻炼身体吗？女：是的，我每天早上都跑步。", question: "女的经常做什么？", options: ["A. 跑步", "B. 游泳", "C. 打球", "D. 健身"], correct: 0 },
+    { type: "part3", dialogue: "男：你周末一般做什么？女：有时候在家看书，有时候和朋友出去玩儿。", question: "女的周末一般做什么？", options: ["A. 看书或出去玩", "B. 加班", "C. 睡觉", "D. 逛街"], correct: 0 },
+    { type: "part3", dialogue: "男：你喜欢什么颜色？女：我最喜欢蓝色。", question: "女的喜欢什么颜色？", options: ["A. 红色", "B. 蓝色", "C. 绿色", "D. 黄色"], correct: 1 },
+    { type: "part3", dialogue: "男：你觉得这个城市怎么样？女：很漂亮，但是人太多了。", question: "女的觉得这个城市怎么样？", options: ["A. 漂亮但人多", "B. 很安静", "C. 不好看", "D. 很现代化"], correct: 0 }
   ];
   // Reading: 40 questions (3 parts)
   const readingQuestions = [
     // Part 1 (Q1-10): Fill in the blank (选词填空)
-    { type: "reading_part1", sentence: "我每天____水。", options: ["喝", "吃", "看"], correct: 0 },
-    { type: "reading_part1", sentence: "他____学生。", options: ["有", "是", "在"], correct: 1 },
-    { type: "reading_part1", sentence: "我们____去北京。", options: ["有", "是", "要"], correct: 2 },
-    { type: "reading_part1", sentence: "这本书____二十元。", options: ["是", "有", "在"], correct: 0 },
-    { type: "reading_part1", sentence: "她____红色的裙子。", options: ["穿", "吃", "看"], correct: 0 },
-    { type: "reading_part1", sentence: "今天天气____好。", options: ["很", "太", "也"], correct: 0 },
-    { type: "reading_part1", sentence: "我____喜欢喝茶。", options: ["很", "也", "都"], correct: 0 },
-    { type: "reading_part1", sentence: "他____会开车。", options: ["不", "没", "别"], correct: 0 },
-    { type: "reading_part1", sentence: "我____一个苹果。", options: ["有", "是", "在"], correct: 0 },
-    { type: "reading_part1", sentence: "她____去北京了。", options: ["已经", "正在", "就要"], correct: 0 },
+    { type: "reading_part1", sentence: "我每天____水。", options: ["A. 喝", "B. 吃", "C. 看", "D. 玩"], correct: 0 },
+    { type: "reading_part1", sentence: "他____学生。", options: ["A. 有", "B. 是", "C. 在", "D. 去"], correct: 1 },
+    { type: "reading_part1", sentence: "我们____去北京。", options: ["A. 有", "B. 是", "C. 要", "D. 在"], correct: 2 },
+    { type: "reading_part1", sentence: "这本书____二十元。", options: ["A. 是", "B. 有", "C. 在", "D. 买"], correct: 0 },
+    { type: "reading_part1", sentence: "她____红色的裙子。", options: ["A. 穿", "B. 吃", "C. 看", "D. 喝"], correct: 0 },
+    { type: "reading_part1", sentence: "今天天气____好。", options: ["A. 很", "B. 太", "C. 也", "D. 都"], correct: 0 },
+    { type: "reading_part1", sentence: "我____喜欢喝茶。", options: ["A. 很", "B. 也", "C. 都", "D. 不"], correct: 0 },
+    { type: "reading_part1", sentence: "他____会开车。", options: ["A. 不", "B. 没", "C. 别", "D. 无"], correct: 0 },
+    { type: "reading_part1", sentence: "我____一个苹果。", options: ["A. 有", "B. 是", "C. 在", "D. 吃"], correct: 0 },
+    { type: "reading_part1", sentence: "她____去北京了。", options: ["A. 已经", "B. 正在", "C. 就要", "D. 没有"], correct: 0 },
     // Part 2 (Q11-20): Arrange sentences (排列顺序)
     { type: "reading_part2", sentences: ["A. 我起床", "B. 我吃早饭", "C. 我去学校"], correctOrder: [0,1,2] },
     { type: "reading_part2", sentences: ["A. 我放学回家", "B. 我做作业", "C. 我看电视"], correctOrder: [0,1,2] },
@@ -131,44 +131,44 @@
     { type: "reading_part2", sentences: ["A. 我上网", "B. 我查资料", "C. 我写论文"], correctOrder: [0,1,2] },
     { type: "reading_part2", sentences: ["A. 我订票", "B. 我去电影院", "C. 我看电影"], correctOrder: [0,1,2] },
     // Part 3 (Q21-40): Reading comprehension (阅读理解)
-    { type: "reading_part3", text: "我叫李明，今年二十五岁。我是北京人。我在一家互联网公司工作。", question: "李明在哪里工作？", options: ["上海", "北京", "广州"], correct: 1 },
-    { type: "reading_part3", text: "今天是星期六，天气很好。上午我去公园散步，下午我在家看书。", question: "他上午做什么？", options: ["在家看书", "去公园散步", "去超市"], correct: 1 },
-    { type: "reading_part3", text: "这件衣服很漂亮，但是太贵了，我买不起。", question: "衣服怎么样？", options: ["漂亮", "便宜", "好看又便宜"], correct: 0 },
-    { type: "reading_part3", text: "我每天七点起床，七点半吃早饭，八点去公司。", question: "他几点吃早饭？", options: ["七点", "七点半", "八点"], correct: 1 },
-    { type: "reading_part3", text: "我最喜欢的运动是游泳。我每周去游泳两次。", question: "他最喜欢什么运动？", options: ["跑步", "游泳", "篮球"], correct: 1 },
-    { type: "reading_part3", text: "昨天是我的生日，朋友们送给我很多礼物。", question: "昨天是什么日子？", options: ["生日", "节日", "周末"], correct: 0 },
-    { type: "reading_part3", text: "这家餐厅的菜很好吃，价格也不贵。", question: "这家餐厅怎么样？", options: ["好吃", "便宜", "好吃又便宜"], correct: 2 },
-    { type: "reading_part3", text: "我爸爸是医生，他每天工作很忙。", question: "爸爸做什么？", options: ["老师", "医生", "律师"], correct: 1 },
-    { type: "reading_part3", text: "我喜欢看小说，尤其是历史小说。", question: "他喜欢看什么？", options: ["历史小说", "科幻小说", "爱情小说"], correct: 0 },
-    { type: "reading_part3", text: "明天我打算去图书馆学习。", question: "他明天去哪儿？", options: ["图书馆", "电影院", "公园"], correct: 0 },
-    { type: "reading_part3", text: "她每天晚上都跑步，所以身体很好。", question: "她为什么身体好？", options: ["每天晚上跑步", "吃得好", "睡得早"], correct: 0 },
-    { type: "reading_part3", text: "手机没电了，我需要找充电器。", question: "他需要找什么？", options: ["充电器", "耳机", "手机"], correct: 0 },
-    { type: "reading_part3", text: "外边下雨了，你带上雨伞吧。", question: "外边天气怎么样？", options: ["下雨", "下雪", "晴天"], correct: 0 },
-    { type: "reading_part3", text: "他汉语说得很好，因为他学习很努力。", question: "他汉语为什么好？", options: ["学习努力", "老师好", "在中国生活"], correct: 0 },
-    { type: "reading_part3", text: "这个周末我想去爬山，但是天气预报说会下雨。", question: "他周末可能做什么？", options: ["爬山", "在家休息", "看电影"], correct: 0 },
-    { type: "reading_part3", text: "她喜欢吃苹果，不喜欢吃香蕉。", question: "她喜欢吃什么？", options: ["苹果", "香蕉", "橘子"], correct: 0 },
-    { type: "reading_part3", text: "我们中午去食堂吃饭吧。", question: "他们中午去哪儿？", options: ["食堂", "餐厅", "家"], correct: 0 },
-    { type: "reading_part3", text: "这个超市的水果很新鲜。", question: "超市的什么很新鲜？", options: ["水果", "蔬菜", "肉类"], correct: 0 },
-    { type: "reading_part3", text: "他每天骑自行车去上班。", question: "他怎么去上班？", options: ["骑自行车", "坐公交", "开车"], correct: 0 },
-    { type: "reading_part3", text: "她今天穿了一件红色的裙子，很漂亮。", question: "她穿了什么？", options: ["红色的裙子", "蓝色的裤子", "白色的衬衫"], correct: 0 }
+    { type: "reading_part3", text: "我叫李明，今年二十五岁。我是北京人。我在一家互联网公司工作。", question: "李明在哪里工作？", options: ["A. 上海", "B. 北京", "C. 广州", "D. 深圳"], correct: 1 },
+    { type: "reading_part3", text: "今天是星期六，天气很好。上午我去公园散步，下午我在家看书。", question: "他上午做什么？", options: ["A. 在家看书", "B. 去公园散步", "C. 去超市", "D. 去公司"], correct: 1 },
+    { type: "reading_part3", text: "这件衣服很漂亮，但是太贵了，我买不起。", question: "衣服怎么样？", options: ["A. 漂亮", "B. 便宜", "C. 好看又便宜", "D. 质量差"], correct: 0 },
+    { type: "reading_part3", text: "我每天七点起床，七点半吃早饭，八点去公司。", question: "他几点吃早饭？", options: ["A. 七点", "B. 七点半", "C. 八点", "D. 八点半"], correct: 1 },
+    { type: "reading_part3", text: "我最喜欢的运动是游泳。我每周去游泳两次。", question: "他最喜欢什么运动？", options: ["A. 跑步", "B. 游泳", "C. 篮球", "D. 足球"], correct: 1 },
+    { type: "reading_part3", text: "昨天是我的生日，朋友们送给我很多礼物。", question: "昨天是什么日子？", options: ["A. 生日", "B. 节日", "C. 周末", "D. 聚会"], correct: 0 },
+    { type: "reading_part3", text: "这家餐厅的菜很好吃，价格也不贵。", question: "这家餐厅怎么样？", options: ["A. 好吃", "B. 便宜", "C. 好吃又便宜", "D. 不好吃"], correct: 2 },
+    { type: "reading_part3", text: "我爸爸是医生，他每天工作很忙。", question: "爸爸做什么？", options: ["A. 老师", "B. 医生", "C. 律师", "D. 工程师"], correct: 1 },
+    { type: "reading_part3", text: "我喜欢看小说，尤其是历史小说。", question: "他喜欢看什么？", options: ["A. 历史小说", "B. 科幻小说", "C. 爱情小说", "D. 武侠小说"], correct: 0 },
+    { type: "reading_part3", text: "明天我打算去图书馆学习。", question: "他明天去哪儿？", options: ["A. 图书馆", "B. 电影院", "C. 公园", "D. 学校"], correct: 0 },
+    { type: "reading_part3", text: "她每天晚上都跑步，所以身体很好。", question: "她为什么身体好？", options: ["A. 每天晚上跑步", "B. 吃得好", "C. 睡得早", "D. 不生病"], correct: 0 },
+    { type: "reading_part3", text: "手机没电了，我需要找充电器。", question: "他需要找什么？", options: ["A. 充电器", "B. 耳机", "C. 手机", "D. 数据线"], correct: 0 },
+    { type: "reading_part3", text: "外边下雨了，你带上雨伞吧。", question: "外边天气怎么样？", options: ["A. 下雨", "B. 下雪", "C. 晴天", "D. 阴天"], correct: 0 },
+    { type: "reading_part3", text: "他汉语说得很好，因为他学习很努力。", question: "他汉语为什么好？", options: ["A. 学习努力", "B. 老师好", "C. 在中国生活", "D. 有天赋"], correct: 0 },
+    { type: "reading_part3", text: "这个周末我想去爬山，但是天气预报说会下雨。", question: "他周末可能做什么？", options: ["A. 爬山", "B. 在家休息", "C. 看电影", "D. 去公园"], correct: 0 },
+    { type: "reading_part3", text: "她喜欢吃苹果，不喜欢吃香蕉。", question: "她喜欢吃什么？", options: ["A. 苹果", "B. 香蕉", "C. 橘子", "D. 葡萄"], correct: 0 },
+    { type: "reading_part3", text: "我们中午去食堂吃饭吧。", question: "他们中午去哪儿？", options: ["A. 食堂", "B. 餐厅", "C. 家", "D. 外卖"], correct: 0 },
+    { type: "reading_part3", text: "这个超市的水果很新鲜。", question: "超市的什么很新鲜？", options: ["A. 水果", "B. 蔬菜", "C. 肉类", "D. 海鲜"], correct: 0 },
+    { type: "reading_part3", text: "他每天骑自行车去上班。", question: "他怎么去上班？", options: ["A. 骑自行车", "B. 坐公交", "C. 开车", "D. 走路"], correct: 0 },
+    { type: "reading_part3", text: "她今天穿了一件红色的裙子，很漂亮。", question: "她穿了什么？", options: ["A. 红色的裙子", "B. 蓝色的裤子", "C. 白色的衬衫", "D. 黑色的外套"], correct: 0 }
   ];
   // Writing: 15 questions (2 parts)
   const writingQuestions = [
     // Part 1 (Q1-10): Complete the sentence (完成句子)
-    { type: "writing_part1", sentence: "我____学生。", options: ["是", "有", "在"], correct: 0 },
-    { type: "writing_part1", sentence: "她____喝茶。", options: ["喜欢", "想", "要"], correct: 0 },
-    { type: "writing_part1", sentence: "我们____去公园。", options: ["一起", "都", "也"], correct: 0 },
-    { type: "writing_part1", sentence: "他____很高。", options: ["个子", "身体", "头发"], correct: 0 },
-    { type: "writing_part1", sentence: "今天____真好。", options: ["天气", "时间", "日子"], correct: 0 },
-    { type: "writing_part1", sentence: "我____吃苹果。", options: ["想", "要", "会"], correct: 0 },
-    { type: "writing_part1", sentence: "他____中文说得很好。", options: ["的", "得", "地"], correct: 1 },
-    { type: "writing_part1", sentence: "这本书____有意思。", options: ["很", "太", "真"], correct: 0 },
-    { type: "writing_part1", sentence: "她____去图书馆了。", options: ["已经", "正在", "就要"], correct: 0 },
-    { type: "writing_part1", sentence: "我____他明天来。", options: ["希望", "觉得", "认为"], correct: 0 },
-    // Part 2 (Q11-15): Write a sentence based on picture and word (看图写句子)
+    { type: "writing_part1", sentence: "我____学生。", options: ["A. 是", "B. 有", "C. 在", "D. 去"], correct: 0 },
+    { type: "writing_part1", sentence: "她____喝茶。", options: ["A. 喜欢", "B. 想", "C. 要", "D. 会"], correct: 0 },
+    { type: "writing_part1", sentence: "我们____去公园。", options: ["A. 一起", "B. 都", "C. 也", "D. 就"], correct: 0 },
+    { type: "writing_part1", sentence: "他____很高。", options: ["A. 个子", "B. 身体", "C. 头发", "D. 年龄"], correct: 0 },
+    { type: "writing_part1", sentence: "今天____真好。", options: ["A. 天气", "B. 时间", "C. 日子", "D. 运气"], correct: 0 },
+    { type: "writing_part1", sentence: "我____吃苹果。", options: ["A. 想", "B. 要", "C. 会", "D. 能"], correct: 0 },
+    { type: "writing_part1", sentence: "他____中文说得很好。", options: ["A. 的", "B. 得", "C. 地", "D. 了"], correct: 1 },
+    { type: "writing_part1", sentence: "这本书____有意思。", options: ["A. 很", "B. 太", "C. 真", "D. 好"], correct: 0 },
+    { type: "writing_part1", sentence: "她____去图书馆了。", options: ["A. 已经", "B. 正在", "C. 就要", "D. 没有"], correct: 0 },
+    { type: "writing_part1", sentence: "我____他明天来。", options: ["A. 希望", "B. 觉得", "C. 认为", "D. 想"], correct: 0 },
+    // Part 2 (Q11-15): Write a sentence based on picture and word (看图写句子) - 图片题在此
     { type: "writing_part2", image: "🍎", word: "苹果", sentence: "我喜欢吃苹果。" },
-    { type: "writing_part2", image: "🚗", word: "车", sentence: "他开车去上班。" },
-    { type: "writing_part2", image: "📖", word: "书", sentence: "她在看书。" },
+    { type: "writing_part2", image: "🚗", word: "开车", sentence: "他开车去上班。" },
+    { type: "writing_part2", image: "📖", word: "看书", sentence: "她在看书。" },
     { type: "writing_part2", image: "🏊", word: "游泳", sentence: "他喜欢游泳。" },
     { type: "writing_part2", image: "🎂", word: "生日", sentence: "今天是我的生日。" }
   ];
@@ -238,7 +238,7 @@
     if (isListening) {
       if (q.type === 'part1') {
         html = `<div class="question"><div><strong>${idx+1}.</strong> <button id="playAudioBtn" class="control-btn"><i class="fas fa-play"></i> Play Audio</button></div>
-          <div>Statement: "${q.statement}"</div>
+          <div>${q.statement}</div>
           <div class="options">
             <div class="option"><label><input type="radio" name="q" value="true" ${selected === true ? 'checked' : ''}> ✓ True</label></div>
             <div class="option"><label><input type="radio" name="q" value="false" ${selected === false ? 'checked' : ''}> ✗ False</label></div>
