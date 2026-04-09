@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>🏆 HSK 5 语法闯关 · 游戏化学习</title>
+  <!-- 广告代码 -->
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
+  /*]]>/* */
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
+    body.light { background: linear-gradient(145deg, #fdf6e3 0%, #f5e6d3 100%); --bg-card: #ffffff; --bg-header: rgba(255,255,255,0.8); --text-primary: #4a3728; --text-secondary: #c44536; --border-light: #d4b59a; --accent: #c44536; --accent-soft: #fce4d6; }
+    body.dark { background: linear-gradient(145deg, #2c1e16 0%, #1a120c 100%); --bg-card: #3a2a1e; --bg-header: rgba(40,30,20,0.9); --text-primary: #f0d5b5; --text-secondary: #e8956f; --border-light: #6b4e3a; --accent: #d46a4e; --accent-soft: #4a2e22; }
+    body { padding: 1.2rem; display: flex; flex-direction: column; align-items: center; background: var(--bg-header); }
+    .container { max-width: 1200px; width: 100%; background: var(--bg-header); backdrop-filter: blur(12px); border-radius: 2rem; padding: 1.5rem; }
+    h1 { text-align: center; margin-bottom: 0.2rem; background: linear-gradient(135deg, var(--text-secondary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 2.5rem; }
+    .subtitle { text-align: center; margin-bottom: 1.5rem; color: var(--text-primary); }
+    /* 进度条 & 成就 */
+    .progress-section { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; background: var(--bg-card); padding: 0.8rem 1.5rem; border-radius: 3rem; border: 1px solid var(--border-light); }
+    .mastery-bar { flex: 3; min-width: 200px; }
+    .mastery-text { display: flex; justify-content: space-between; margin-bottom: 4px; font-weight: 500; color: var(--text-primary); }
+    .progress-bg { height: 12px; background: var(--border-light); border-radius: 20px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 20px; transition: width 0.3s; }
+    .badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .badge { background: var(--accent-soft); padding: 0.3rem 1rem; border-radius: 30px; font-size: 0.8rem; font-weight: 600; color: var(--accent); border: 1px solid var(--accent); }
+    .badge.unlocked { background: var(--accent); color: white; }
+    /* 分类标签 */
+    .category-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0 1rem; justify-content: center; }
+    .cat-btn { background: var(--bg-card); border: 1px solid var(--border-light); padding: 0.5rem 1.2rem; border-radius: 3rem; font-weight: 500; color: var(--text-primary); cursor: pointer; transition: all 0.2s; }
+    .cat-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .cat-btn i { margin-right: 6px; }
+    /* 语法卡片网格 */
+    .grammar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.2rem; margin: 1.5rem 0; }
+    .grammar-card { background: var(--bg-card); border-radius: 1.5rem; padding: 1.2rem; border: 1px solid var(--border-light); transition: 0.2s; display: flex; flex-direction: column; }
+    .grammar-card:hover { transform: translateY(-3px); box-shadow: 0 12px 20px rgba(0,0,0,0.05); }
+    .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.8rem; }
+    .card-header i { font-size: 1.8rem; color: var(--accent); }
+    .card-header h3 { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); }
+    .structure { background: var(--accent-soft); padding: 0.3rem 0.8rem; border-radius: 20px; font-family: monospace; font-size: 0.9rem; display: inline-block; margin-bottom: 0.6rem; color: var(--accent); border: 1px dashed var(--accent); }
+    .example-box { background: rgba(0,0,0,0.02); padding: 0.6rem 1rem; border-radius: 1rem; margin: 0.6rem 0; border-left: 4px solid var(--accent); }
+    .example { font-style: italic; color: var(--text-primary); }
+    .translation { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.2rem; }
+    .explanation { font-size: 0.85rem; color: var(--text-primary); opacity: 0.9; margin: 0.4rem 0; }
+    .card-footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 0.6rem; }
+    .check-btn { background: none; border: 1px solid var(--border-light); border-radius: 30px; padding: 0.3rem 1rem; font-size: 0.75rem; cursor: pointer; color: var(--text-primary); transition: 0.2s; }
+    .check-btn.completed { background: var(--accent); color: white; border-color: var(--accent); }
+    .check-btn i { margin-right: 4px; }
+    .quiz-hint { font-size: 0.7rem; color: var(--text-secondary); }
+    /* 小测验浮层 */
+    .quiz-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 2000; visibility: hidden; opacity: 0; transition: 0.2s; }
+    .quiz-modal.show { visibility: visible; opacity: 1; }
+    .quiz-content { background: var(--bg-card); max-width: 450px; width: 90%; border-radius: 2rem; padding: 1.8rem; text-align: center; border: 1px solid var(--accent); }
+    .quiz-question { font-size: 1.5rem; margin: 1rem 0; color: var(--text-primary); }
+    .quiz-options { display: flex; flex-direction: column; gap: 0.6rem; margin: 1rem 0; }
+    .quiz-opt { background: var(--bg-header); border: 1px solid var(--border-light); padding: 0.8rem; border-radius: 3rem; cursor: pointer; color: var(--text-primary); }
+    .quiz-opt:hover { background: var(--accent-soft); }
+    .quiz-feedback { margin: 0.8rem 0; font-weight: 500; }
+    .quiz-close { margin-top: 0.8rem; background: var(--accent); color: white; border: none; padding: 0.5rem 2rem; border-radius: 3rem; cursor: pointer; }
+    .back-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1.2rem; border-radius: 2rem; cursor: pointer; margin-top: 1.5rem; display: inline-block; text-decoration: none; }
+    .reset-progress { background: none; border: 1px solid var(--border-light); padding: 0.3rem 1rem; border-radius: 30px; color: var(--text-primary); cursor: pointer; margin-left: 0.5rem; }
+    .footer { display: flex; justify-content: center; margin-top: 1rem; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body class="light">
+<div class="container">
+  <h1><i class="fas fa-puzzle-piece"></i> HSK 5 语法闯关</h1>
+  <div class="subtitle">掌握五大板块 · 收集成就勋章</div>
+
+  <!-- 进度条 & 勋章 -->
+  <div class="progress-section">
+    <div class="mastery-bar">
+      <div class="mastery-text"><span>📊 总体掌握度</span> <span id="masteryPercent">0%</span></div>
+      <div class="progress-bg"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="badges" id="badgeContainer"></div>
+  </div>
+
+  <!-- 分类标签 -->
+  <div class="category-tabs" id="categoryTabs">
+    <button class="cat-btn active" data-cat="all"><i class="fas fa-th-large"></i>全部</button>
+    <button class="cat-btn" data-cat="complement"><i class="fas fa-arrow-right"></i>补语</button>
+    <button class="cat-btn" data-cat="complex"><i class="fas fa-link"></i>复句·关联词</button>
+    <button class="cat-btn" data-cat="words"><i class="fas fa-tags"></i>词类·固定格式</button>
+    <button class="cat-btn" data-cat="sentence"><i class="fas fa-quote-right"></i>特殊句型</button>
+    <button class="cat-btn" data-cat="morpheme"><i class="fas fa-cubes"></i>语素构词</button>
+  </div>
+
+  <!-- 卡片区域 -->
+  <div id="grammarGrid" class="grammar-grid"></div>
+
+  <!-- 底部重置/返回 -->
+  <div class="footer">
+    <button id="resetProgressBtn" class="reset-progress"><i class="fas fa-undo-alt"></i> 重置学习进度</button>
+  </div>
+  <a href="hsk5_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> 返回中心</a>
+</div>
+
+<!-- 测验浮层 -->
+<div class="quiz-modal" id="quizModal">
+  <div class="quiz-content">
+    <h3><i class="fas fa-question-circle"></i> 语法小测验</h3>
+    <div id="quizQuestion" class="quiz-question">选择正确的翻译或填空</div>
+    <div id="quizOptions" class="quiz-options"></div>
+    <div id="quizFeedback" class="quiz-feedback"></div>
+    <button class="quiz-close" id="closeQuizBtn">继续</button>
+  </div>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // ---------- HSK 5 完整语法数据 (五大板块, 涵盖所有要点) ----------
+    const grammarData = [
+      // 1. 补语 (程度补语·可能补语·趋向补语引申)
+      { category: 'complement', title: 'Adj. + 得不得了', structure: 'Adj. + 得不得了', examples: ['爸爸气得不得了，你要倒霉啦。'], translation: 'Dad is extremely angry, you\'re in trouble.', explanation: '表示程度极高，带有夸张语气。' },
+      { category: 'complement', title: 'Adj. + 得很', structure: 'Adj. + 得很', examples: ['这个题目简单得很。'], translation: 'This question is very simple.', explanation: '同样表示程度很高，多用于口语。' },
+      { category: 'complement', title: 'Adj. / V + 得不行', structure: '...得不行', examples: ['我累得不行。'], translation: 'I\'m extremely tired.', explanation: '表示程度达到无法忍受的地步。' },
+      { category: 'complement', title: 'V + 得/不 + 起', structure: 'V + 得/不 + 起', examples: ['我买不起这个包。'], translation: 'I cannot afford this bag.', explanation: '表示是否有经济能力或条件做某事。' },
+      { category: 'complement', title: 'V + 得/不 + 动', structure: 'V + 得/不 + 动', examples: ['箱子太重，我搬不动。'], translation: 'The box is too heavy, I can\'t move it.', explanation: '表示是否有体力移动某物。' },
+      { category: 'complement', title: 'V + 得/不 + 了 (liǎo)', structure: 'V + 得/不 + 了', examples: ['我吃不了这么多饭。'], translation: 'I can\'t eat so much food.', explanation: '主观或客观上能否完成。' },
+      { category: 'complement', title: 'V + 起来 (引申)', structure: 'V + 起来', examples: ['这个歌听起来不错。'], translation: 'This song sounds good.', explanation: '表示评价或开始并持续。' },
+      { category: 'complement', title: 'V + 下来 (引申)', structure: 'V + 下来', examples: ['请把黑板上的字记下来。'], translation: 'Please write down the words on the board.', explanation: '表示动作完成或固定。' },
+      { category: 'complement', title: 'V + 下去 (引申)', structure: 'V + 下去', examples: ['请你说下去。'], translation: 'Please continue talking.', explanation: '动作已经并将继续进行。' },
+      // 2. 复句与关联词
+      { category: 'complex', title: '与其...不如...', structure: '与其 A，不如 B', examples: ['与其在这里等，不如我们先去找个地方坐坐。'], translation: 'Rather than waiting here, let\'s find a place to sit.', explanation: '比较后选择后者。' },
+      { category: 'complex', title: '不但不/没...反而...', structure: '不但不/没...，反而...', examples: ['雨不但没停，反而下得更大了。'], translation: 'Not only did the rain not stop, it got heavier.', explanation: '情况与预期相反并更进一步。' },
+      { category: 'complex', title: '除非...才...', structure: '除非...，才...', examples: ['除非你答应我的条件，我才会帮你。'], translation: 'Only if you agree to my conditions will I help you.', explanation: '强调唯一条件。' },
+      { category: 'complex', title: '万一...(就)...', structure: '万一...，(就)...', examples: ['万一下雨了，比赛就会取消。'], translation: 'If it rains, the match will be cancelled.', explanation: '假设极小可能的不利情况。' },
+      { category: 'complex', title: '由于...因此/所以...', structure: '由于...，因此/所以...', examples: ['由于他工作努力，因此得到了大家的认可。'], translation: 'Because he works hard, he is recognized by everyone.', explanation: '强调客观原因，书面语。' },
+      { category: 'complex', title: '...，因而...', structure: '...，因而...', examples: ['他的建议很合理，因而被公司采纳了。'], translation: 'His suggestion is reasonable, hence it was adopted.', explanation: '同“因此”，书面语。' },
+      { category: 'complex', title: '既然...就/那...', structure: '既然...，就/那...', examples: ['既然大家都到了，那我们就开始吧。'], translation: 'Since everyone is here, let\'s begin.', explanation: '根据已知事实推出结论。' },
+      { category: 'complex', title: '尽管...但是/可是/却...', structure: '尽管...，但是/却...', examples: ['尽管遇到很多困难，他却从未放弃过。'], translation: 'Despite many difficulties, he never gave up.', explanation: '先承认事实，后转折。' },
+      // 3. 词类与固定格式
+      { category: 'words', title: '对于', structure: '对于 + N/NP', examples: ['对于这个问题，大家的意见是一致的。'], translation: 'Regarding this issue, everyone\'s opinion is the same.', explanation: '介词，引出对象。' },
+      { category: 'words', title: '自', structure: '自 + 地点/时间', examples: ['他毕业于北京大学。'], translation: 'He graduated from Peking University.', explanation: '“从”，书面语。' },
+      { category: 'words', title: '沿(着) / 顺(着)', structure: '沿/顺 + 路线', examples: ['顺着这条路一直往前走。'], translation: 'Go straight along this road.', explanation: '表示动作经过的路线。' },
+      { category: 'words', title: '凭', structure: '凭 + N/V', examples: ['凭这张票就可以入场。'], translation: 'You can enter with this ticket.', explanation: '依靠、根据。' },
+      { category: 'words', title: '曾经', structure: '曾经 + V', examples: ['我曾经去过北京。'], translation: 'I have been to Beijing before.', explanation: '强调过去发生某事。' },
+      { category: 'words', title: '毕竟', structure: '毕竟 + 原因', examples: ['别怪他了，毕竟他还小。'], translation: 'Don\'t blame him; after all, he is still young.', explanation: '强调最重要的原因。' },
+      { category: 'words', title: '居然', structure: '居然 + V/Adj', examples: ['他居然连这么简单的题都不会。'], translation: 'He actually doesn\'t know such a simple question.', explanation: '表示出乎意料。' },
+      { category: 'words', title: '以及', structure: 'A、B 以及 C', examples: ['我买了苹果、香蕉以及一些橘子。'], translation: 'I bought apples, bananas and some oranges.', explanation: '书面化的“和”。' },
+      { category: 'words', title: '此外', structure: '此外，...', examples: ['他会说英语，此外还会一点法语。'], translation: 'He speaks English; besides, he knows a little French.', explanation: '除此之外。' },
+      { category: 'words', title: '...似的', structure: '像...似的', examples: ['她笑得像花儿似的。'], translation: 'She smiles like a flower.', explanation: '比喻或相似。' },
+      { category: 'words', title: '所 + V + 的', structure: '所 + V + 的 (名词化)', examples: ['我理解你所说的。'], translation: 'I understand what you said.', explanation: '将动词短语变为名词短语。' },
+      { category: 'words', title: '...以来', structure: '自...以来', examples: ['自2000年以来，这个城市发生了很大变化。'], translation: 'Since 2000, the city has changed a lot.', explanation: '从过去某时到现在。' },
+      { category: 'words', title: '以...为中心', structure: '以 A 为中心', examples: ['这个公园以湖为中心。'], translation: 'This park is centered around the lake.', explanation: '以某物为核心。' },
+      { category: 'words', title: '拿...来说', structure: '拿...来说', examples: ['他的脾气不太好，拿昨天的事来说，他就发了好大的火。'], translation: 'Take yesterday for example, he got very angry.', explanation: '用于举例。' },
+      { category: 'words', title: '...，说不定...', structure: '...，说不定...', examples: ['天这么阴，说不定一会儿要下雨。'], translation: 'It\'s so cloudy; maybe it will rain soon.', explanation: '推测可能性很大。' },
+      // 4. 特殊句型
+      { category: 'sentence', title: '为...所...', structure: '为 + N + 所 + V', examples: ['他的英雄事迹为世人所传颂。'], translation: 'His heroic deeds are praised by the world.', explanation: '书面化被动。' },
+      { category: 'sentence', title: '被动“给”', structure: '给 + (N) + V', examples: ['我的手机给小偷偷走了。'], translation: 'My phone was stolen by a thief.', explanation: '口语被动。' },
+      { category: 'sentence', title: '何不...？', structure: '何不 + V ?', examples: ['时间还早，你何不再坐一会儿？'], translation: 'It\'s still early, why not stay a bit longer?', explanation: '反问，为什么不…呢？' },
+      { category: 'sentence', title: '...才是', structure: '...才是', examples: ['小孩子要听大人的话才是。'], translation: 'Children should listen to adults.', explanation: '…才是对的/好的。' },
+      { category: 'sentence', title: '把 + O + 给 + V', structure: '把 + O + 给 + V', examples: ['我把这事给忘了。'], translation: 'I forgot about this matter.', explanation: '口语加强版“把”字句。' },
+      { category: 'sentence', title: '被 + O + V + 补语/宾语', structure: '被 + O + V + 补语/宾语', examples: ['他被公司派到上海工作了。'], translation: 'He was sent by the company to work in Shanghai.', explanation: '被动句动词带宾语/补语。' },
+      { category: 'sentence', title: '是...的 (强调)', structure: '是 + 时间/地点/方式 + V + 的', examples: ['他是去年来的中国。'], translation: 'He came to China last year.', explanation: '强调动作发生的时间/地点/方式。' },
+      // 5. 语素构词 (前缀·后缀)
+      { category: 'morpheme', title: '前缀：第~', structure: '第 + 数字', examples: ['第一', '第二'], translation: 'first, second', explanation: '表示序数。' },
+      { category: 'morpheme', title: '前缀：老~', structure: '老 + 姓', examples: ['老周', '老李'], translation: 'Lao Zhou, Lao Li', explanation: '用于称呼，表亲切。' },
+      { category: 'morpheme', title: '前缀：小~', structure: '小 + 姓/名', examples: ['小王', '小明'], translation: 'Xiao Wang, Xiao Ming', explanation: '亲切称呼。' },
+      { category: 'morpheme', title: '前缀：初~', structure: '初 + 数字', examples: ['初一', '初二'], translation: 'first day of lunar month', explanation: '农历日期。' },
+      { category: 'morpheme', title: '后缀：~们', structure: '人称 + 们', examples: ['队员们', '朋友们'], translation: 'team members, friends', explanation: '复数。' },
+      { category: 'morpheme', title: '后缀：~儿', structure: '词根 + 儿', examples: ['座儿', '花儿'], translation: 'seat, flower', explanation: '名词标记，儿化音。' },
+      { category: 'morpheme', title: '后缀：~头', structure: '词根 + 头', examples: ['前头', '甜头'], translation: 'front, benefit', explanation: '名词标记。' },
+      { category: 'morpheme', title: '后缀：~子', structure: '词根 + 子', examples: ['盖子', '孩子'], translation: 'lid, child', explanation: '名词标记。' },
+      { category: 'morpheme', title: '后缀：~家', structure: '领域 + 家', examples: ['歌唱家', '科学家'], translation: 'singer, scientist', explanation: '专家。' },
+      { category: 'morpheme', title: '后缀：~化', structure: '名词/形容词 + 化', examples: ['工业化', '现代化'], translation: 'industrialization, modernization', explanation: '变化过程。' },
+      { category: 'morpheme', title: '后缀：~性', structure: '名词/形容词 + 性', examples: ['传染性', '重要性'], translation: 'infectiousness, importance', explanation: '性质或特性。' },
+      { category: 'morpheme', title: '后缀：~学', structure: '领域 + 学', examples: ['心理学', '经济学'], translation: 'psychology, economics', explanation: '学科。' },
+      { category: 'morpheme', title: '后缀：~者', structure: '动词/名词 + 者', examples: ['爱好者', '作者'], translation: 'enthusiast, author', explanation: '…的人。' },
+      { category: 'morpheme', title: '后缀：~度', structure: '形容词 + 度', examples: ['长度', '高度'], translation: 'length, height', explanation: '程度或度量。' }
+    ];
+
+    // ---------- 游戏化状态 ----------
+    let mastered = new Set(JSON.parse(localStorage.getItem('hsk5_grammar_mastered') || '[]'));
+    let currentCategory = 'all';
+    let currentQuizItem = null;
+    let quizResolve = null;
+
+    // DOM 元素
+    const grid = document.getElementById('grammarGrid');
+    const progressFill = document.getElementById('progressFill');
+    const masteryPercentSpan = document.getElementById('masteryPercent');
+    const badgeContainer = document.getElementById('badgeContainer');
+    const catBtns = document.querySelectorAll('.cat-btn');
+    const resetBtn = document.getElementById('resetProgressBtn');
+    const modal = document.getElementById('quizModal');
+    const quizQuestion = document.getElementById('quizQuestion');
+    const quizOptions = document.getElementById('quizOptions');
+    const quizFeedback = document.getElementById('quizFeedback');
+    const closeQuizBtn = document.getElementById('closeQuizBtn');
+
+    // 勋章定义
+    const badges = [
+      { name: '补语大师', icon: 'fa-arrow-right', condition: () => masteredCount('complement') >= 5 },
+      { name: '复句专家', icon: 'fa-link', condition: () => masteredCount('complex') >= 6 },
+      { name: '词类高手', icon: 'fa-tags', condition: () => masteredCount('words') >= 10 },
+      { name: '句型达人', icon: 'fa-quote-right', condition: () => masteredCount('sentence') >= 5 },
+      { name: '构词先锋', icon: 'fa-cubes', condition: () => masteredCount('morpheme') >= 8 },
+      { name: '全语法王', icon: 'fa-crown', condition: () => mastered.size >= 30 }
+    ];
+
+    function masteredCount(cat) {
+      return grammarData.filter(g => g.category === cat && mastered.has(g.title)).length;
+    }
+
+    function totalCount(cat) {
+      return grammarData.filter(g => g.category === cat).length;
+    }
+
+    function updateProgress() {
+      const percent = Math.round((mastered.size / grammarData.length) * 100);
+      masteryPercentSpan.innerText = percent + '%';
+      progressFill.style.width = percent + '%';
+      renderBadges();
+    }
+
+    function renderBadges() {
+      let html = '';
+      badges.forEach(b => {
+        const unlocked = b.condition();
+        html += `<div class="badge ${unlocked ? 'unlocked' : ''}"><i class="fas ${b.icon}"></i> ${b.name}</div>`;
+      });
+      badgeContainer.innerHTML = html;
+    }
+
+    function saveMastered() {
+      localStorage.setItem('hsk5_grammar_mastered', JSON.stringify([...mastered]));
+    }
+
+    // 渲染卡片
+    function renderCards() {
+      const filtered = currentCategory === 'all' ? grammarData : grammarData.filter(g => g.category === currentCategory);
+      let html = '';
+      filtered.forEach(item => {
+        const isMastered = mastered.has(item.title);
+        const exampleHtml = item.examples.map((ex, i) => `
+          <div class="example-box">
+            <div class="example">📌 ${ex}</div>
+            <div class="translation">💬 ${item.translation}</div>
+          </div>
+        `).join('');
+        html += `
+          <div class="grammar-card" data-title="${item.title}">
+            <div class="card-header">
+              <i class="fas fa-bookmark"></i>
+              <h3>${item.title}</h3>
+            </div>
+            <div class="structure">${item.structure}</div>
+            <div class="explanation">📘 ${item.explanation}</div>
+            ${exampleHtml}
+            <div class="card-footer">
+              <button class="check-btn ${isMastered ? 'completed' : ''}" data-title="${item.title}">
+                <i class="fas ${isMastered ? 'fa-check-circle' : 'fa-circle'}"></i> ${isMastered ? '已掌握' : '标记掌握'}
+              </button>
+              <span class="quiz-hint"><i class="fas fa-dice"></i> 测验</span>
+            </div>
+          </div>
+        `;
+      });
+      grid.innerHTML = html;
+
+      // 绑定标记按钮
+      document.querySelectorAll('.check-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const title = btn.dataset.title;
+          if (mastered.has(title)) {
+            mastered.delete(title);
+            btn.classList.remove('completed');
+            btn.innerHTML = '<i class="fas fa-circle"></i> 标记掌握';
+          } else {
+            mastered.add(title);
+            btn.classList.add('completed');
+            btn.innerHTML = '<i class="fas fa-check-circle"></i> 已掌握';
+          }
+          saveMastered();
+          updateProgress();
+        });
+      });
+
+      // 卡片点击触发小测验 (除了按钮)
+      document.querySelectorAll('.grammar-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.check-btn')) return;
+          const title = card.dataset.title;
+          const item = grammarData.find(g => g.title === title);
+          if (item) startQuiz(item);
+        });
+      });
+    }
+
+    // ---------- 游戏化小测验 ----------
+    function startQuiz(item) {
+      currentQuizItem = item;
+      // 生成一个简单测验: 给出英文/解释选结构
+      const questions = [
+        { q: `“${item.structure}” 最适合描述哪一项？`, options: [item.explanation, '表示过去', '表示将来', '表示否定'], correct: 0 },
+        { q: `下列哪个例句使用了“${item.title}”？`, options: [item.examples[0], '我今天很高兴。', '他去学校了。', '这本书很有意思。'], correct: 0 },
+        { q: `“${item.title}” 的英文解释最接近？`, options: [item.translation, 'very good', 'not bad', 'how are you'], correct: 0 }
+      ];
+      const selectedQ = questions[Math.floor(Math.random() * questions.length)];
+      quizQuestion.innerText = selectedQ.q;
+      quizOptions.innerHTML = '';
+      selectedQ.options.forEach((opt, idx) => {
+        const optDiv = document.createElement('div');
+        optDiv.className = 'quiz-opt';
+        optDiv.innerText = opt;
+        optDiv.addEventListener('click', () => {
+          document.querySelectorAll('.quiz-opt').forEach(o => o.style.background = '');
+          if (idx === selectedQ.correct) {
+            optDiv.style.background = 'var(--accent-soft)';
+            quizFeedback.innerHTML = '<span style="color:green">✅ 正确！很棒！</span>';
+            if (!mastered.has(item.title)) {
+              mastered.add(item.title);
+              saveMastered();
+              updateProgress();
+              renderCards(); // 刷新按钮状态
+            }
+          } else {
+            optDiv.style.background = '#f8d7da';
+            quizFeedback.innerHTML = `<span style="color:#c44536">❌ 再想想。正确答案是：${selectedQ.options[selectedQ.correct]}</span>`;
+          }
+        });
+        quizOptions.appendChild(optDiv);
+      });
+      quizFeedback.innerHTML = '';
+      modal.classList.add('show');
+    }
+
+    closeQuizBtn.addEventListener('click', () => {
+      modal.classList.remove('show');
+    });
+
+    // 分类切换
+    catBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        catBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.cat;
+        renderCards();
+      });
+    });
+
+    // 重置进度
+    resetBtn.addEventListener('click', () => {
+      if (confirm('确定要重置所有语法学习进度吗？')) {
+        mastered.clear();
+        saveMastered();
+        updateProgress();
+        renderCards();
+      }
+    });
+
+    // 深色模式切换
+    const darkBtn = document.createElement('button');
+    darkBtn.innerHTML = '<i class="fas fa-moon"></i>';
+    darkBtn.style.position = 'fixed'; darkBtn.style.bottom = '20px'; darkBtn.style.right = '20px';
+    darkBtn.style.background = 'var(--accent)'; darkBtn.style.color = 'white'; darkBtn.style.border = 'none';
+    darkBtn.style.borderRadius = '50%'; darkBtn.style.width = '50px'; darkBtn.style.height = '50px'; darkBtn.style.cursor = 'pointer';
+    darkBtn.style.zIndex = '1500';
+    darkBtn.onclick = () => {
+      const isDark = document.body.classList.contains('dark');
+      if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk5_grammar_theme', 'light'); }
+      else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk5_grammar_theme', 'dark'); }
+    };
+    document.body.appendChild(darkBtn);
+    const savedTheme = localStorage.getItem('hsk5_grammar_theme');
+    if (savedTheme === 'dark') { document.body.classList.add('dark'); document.body.classList.remove('light'); }
+
+    // 初始化
+    updateProgress();
+    renderCards();
+  })();
+</script>
+</body>
+</html>
