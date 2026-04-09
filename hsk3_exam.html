@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HSK 3 Exam </title>
+  <title>HSK 3 Official Exam Simulation</title>
   <!-- Ad code -->
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
@@ -16,14 +16,20 @@
     body.light { background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%); --bg-card: #ffffff; --bg-header: rgba(255,255,255,0.7); --text-primary: #1e1b4b; --text-secondary: #4f46e5; --border-light: #c7d2fe; --accent: #4f46e5; }
     body.dark { background: linear-gradient(145deg, #0f172a 0%, #0b1120 100%); --bg-card: #1e293b; --bg-header: rgba(30,41,59,0.8); --text-primary: #e2e8f0; --text-secondary: #a5b4fc; --border-light: #334155; --accent: #818cf8; }
     body { padding: 1.2rem; display: flex; flex-direction: column; align-items: center; background: var(--bg-header); }
-    .container { max-width: 900px; width: 100%; background: var(--bg-header); backdrop-filter: blur(12px); border-radius: 2rem; padding: 1.5rem; }
+    .container { max-width: 950px; width: 100%; background: var(--bg-header); backdrop-filter: blur(12px); border-radius: 2rem; padding: 1.5rem; }
     h1 { text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--text-secondary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .timer { text-align: right; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem; color: var(--accent); }
     .section-header { font-size: 1.4rem; margin: 0.5rem 0; font-weight: 600; }
     .question { background: var(--bg-card); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; border: 1px solid var(--border-light); }
+    .image-row { display: flex; justify-content: center; gap: 2rem; margin: 1rem 0; flex-wrap: wrap; }
+    .image-option { text-align: center; cursor: pointer; padding: 0.5rem; border-radius: 0.8rem; transition: 0.1s; width: 100px; }
+    .image-option:hover { background: var(--accent); color: white; transform: scale(1.02); }
+    .image-option.selected { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .image-emoji { font-size: 3rem; display: block; margin-bottom: 0.3rem; }
     .options { margin: 0.5rem 0 0 1rem; }
     .option { margin: 0.3rem 0; display: flex; align-items: center; gap: 0.5rem; }
     .control-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 2rem; cursor: pointer; margin: 0.5rem; }
+    .control-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .result { margin-top: 1rem; text-align: center; font-size: 1.1rem; }
     .back-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem; display: inline-block; text-decoration: none; }
     .hidden { display: none; }
@@ -31,14 +37,14 @@
 </head>
 <body class="light">
 <div class="container">
-  <h1>📝 HSK 3 Real Exam Simulation</h1>
+  <h1>📝 HSK 3 Official Exam Simulation</h1>
   <div id="startScreen">
-    <p style="margin: 1rem 0;">This simulation follows the official HSK 3 format:</p>
+    <p style="margin: 1rem 0;">Official HSK 3 format:</p>
     <ul style="margin-left: 2rem;">
       <li>Listening: 40 questions (4 parts) – ~35 minutes</li>
       <li>Reading: 30 questions (3 parts) – 30 minutes</li>
-      <li>Audio plays automatically for each listening question.</li>
-      <li>You will have 5 seconds to answer after each audio.</li>
+      <li>Audio plays automatically for each listening question</li>
+      <li>For picture questions, click on the image that matches the conversation</li>
     </ul>
     <button id="startBtn" class="control-btn">Start Exam</button>
   </div>
@@ -54,44 +60,45 @@
   <a href="hsk3_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</a>
 </div>
 <script>
-  // ---------- HSK 3 EXAM DATA ----------
+  // ==================== HSK 3 OFFICIAL EXAM DATA ====================
   // Listening: 40 questions (4 parts)
   const listeningQuestions = [
-    // Part 1 (Q1-10): True/False with image (simplified, we use text only)
-    { type: "part1", text: "苹果很甜。", correct: true },
-    { type: "part1", text: "猫会游泳。", correct: false },
-    { type: "part1", text: "书在桌子上。", correct: true },
-    { type: "part1", text: "妈妈是医生。", correct: true },
-    { type: "part1", text: "火车比汽车快。", correct: true },
-    { type: "part1", text: "冬天很热。", correct: false },
-    { type: "part1", text: "她喜欢吃面条。", correct: true },
-    { type: "part1", text: "今天是星期一。", correct: true },
-    { type: "part1", text: "他住在北京。", correct: true },
-    { type: "part1", text: "大象很小。", correct: false },
-    // Part 2 (Q11-20): Dialogue -> choose picture (simplified to text options)
-    { type: "part2", dialogue: "A: 你叫什么名字？B: 我叫李明。", options: ["李明", "王芳", "张伟"], correct: 0 },
-    { type: "part2", dialogue: "A: 这是什么？B: 这是一个苹果。", options: ["苹果", "香蕉", "橘子"], correct: 0 },
-    { type: "part2", dialogue: "A: 你几岁了？B: 我八岁了。", options: ["五岁", "八岁", "十岁"], correct: 1 },
-    { type: "part2", dialogue: "A: 你家有几口人？B: 三口人。", options: ["两口", "三口", "四口"], correct: 1 },
-    { type: "part2", dialogue: "A: 你去哪儿？B: 我去学校。", options: ["医院", "学校", "超市"], correct: 1 },
-    { type: "part2", dialogue: "A: 你喝什么？B: 我喝茶。", options: ["咖啡", "茶", "果汁"], correct: 1 },
-    { type: "part2", dialogue: "A: 你明天去北京吗？B: 是的。", options: ["去上海", "去北京", "去广州"], correct: 1 },
-    { type: "part2", dialogue: "A: 你妈妈是老师吗？B: 不，她是医生。", options: ["老师", "医生", "护士"], correct: 1 },
-    { type: "part2", dialogue: "A: 这件衣服多少钱？B: 一百元。", options: ["50元", "100元", "150元"], correct: 1 },
-    { type: "part2", dialogue: "A: 你几点回家？B: 五点。", options: ["三点", "四点", "五点"], correct: 2 },
-    // Part 3 (Q21-30): Short dialogue -> choose answer (3 options)
-    { type: "part3", dialogue: "A: 你喝什么？B: 我喝茶。", question: "他喝什么？", options: ["茶", "咖啡", "水"], correct: 0 },
-    { type: "part3", dialogue: "A: 你明天去北京吗？B: 不，后天去。", question: "他什么时候去北京？", options: ["明天", "后天", "今天"], correct: 1 },
-    { type: "part3", dialogue: "A: 你妈妈是做什么的？B: 她是医生。", question: "他妈妈做什么？", options: ["老师", "医生", "律师"], correct: 1 },
-    { type: "part3", dialogue: "A: 这件衣服多少钱？B: 原价200，打八折。", question: "现在多少钱？", options: ["160元", "200元", "240元"], correct: 0 },
-    { type: "part3", dialogue: "A: 你几点下班？B: 通常六点，今天加班到八点。", question: "今天几点下班？", options: ["六点", "七点", "八点"], correct: 2 },
-    { type: "part3", dialogue: "A: 你早饭吃了什么？B: 面包和牛奶。", question: "他没吃什么？", options: ["面包", "牛奶", "米饭"], correct: 2 },
-    { type: "part3", dialogue: "A: 你觉得电影怎么样？B: 很有意思。", question: "他觉得电影怎么样？", options: ["有意思", "无聊", "太长"], correct: 0 },
-    { type: "part3", dialogue: "A: 你哥哥学什么专业？B: 计算机。", question: "他哥哥学什么？", options: ["计算机", "经济", "法律"], correct: 0 },
-    { type: "part3", dialogue: "A: 昨天为什么没来？B: 感冒了。", question: "他为什么没来？", options: ["生病", "旅游", "工作"], correct: 0 },
-    { type: "part3", dialogue: "A: 你学汉语多久了？B: 一年半。", question: "他学汉语多久？", options: ["半年", "一年", "一年半"], correct: 2 },
-    // Part 4 (Q31-40): Longer passage -> choose answer
-    { type: "part4", passage: "我叫王芳，今年二十岁。我是学生。我喜欢吃苹果。", question: "王芳几岁？", options: ["18", "19", "20"], correct: 2 },
+    // Part 1 (Q1-10): Picture selection (5 questions only, but we'll simulate)
+    { type: "part1", dialogue: "女：你去做什么？男：我去看足球比赛。", imgA: "⚽", imgADesc: "足球比赛", imgB: "🏀", imgBDesc: "篮球比赛", imgC: "🎾", imgCDesc: "网球比赛", correct: 0 },
+    { type: "part1", dialogue: "男：那两个笑着看照片的女孩是谁？女：那是我妹妹和她的好朋友。", imgA: "👧", imgADesc: "一个女孩", imgB: "👧👧", imgBDesc: "两个女孩", imgC: "👨👩", imgCDesc: "一男一女", correct: 1 },
+    { type: "part1", dialogue: "女：我太饿了，我想吃块儿蛋糕。男：别吃了，我们去吃饭吧。", imgA: "🍰", imgADesc: "蛋糕", imgB: "🍚", imgBDesc: "米饭", imgC: "🍜", imgCDesc: "面条", correct: 0 },
+    { type: "part1", dialogue: "男：你怎么总是站着？快坐吧。女：我吃了两块蛋糕，现在不想坐着。", imgA: "🧍", imgADesc: "站着", imgB: "🪑", imgBDesc: "坐着", imgC: "🏃", imgCDesc: "跑步", correct: 0 },
+    { type: "part1", dialogue: "女：我记得那家超市的西瓜又甜又新鲜，我们去看看吧。男：好，走吧。", imgA: "🍉", imgADesc: "西瓜", imgB: "🍎", imgBDesc: "苹果", imgC: "🍌", imgCDesc: "香蕉", correct: 0 },
+    // Part 1 continued (Q6-10)
+    { type: "part1", dialogue: "男：你喜欢喝什么？女：我喜欢喝茶，不喜欢喝咖啡。", imgA: "☕", imgADesc: "咖啡", imgB: "🍵", imgBDesc: "茶", imgC: "🥤", imgCDesc: "饮料", correct: 1 },
+    { type: "part1", dialogue: "女：你的自行车在哪里？男：在楼下的停车场里。", imgA: "🏢", imgADesc: "大楼", imgB: "🅿️", imgBDesc: "停车场", imgC: "🏪", imgCDesc: "商店", correct: 1 },
+    { type: "part1", dialogue: "男：你弟弟喜欢什么运动？女：他最喜欢游泳。", imgA: "🏊", imgADesc: "游泳", imgB: "🏃", imgBDesc: "跑步", imgC: "🚴", imgCDesc: "骑车", correct: 0 },
+    { type: "part1", dialogue: "女：你爸爸是做什么工作的？男：他是医生。", imgA: "👨‍⚕️", imgADesc: "医生", imgB: "👨‍🏫", imgBDesc: "老师", imgC: "👨‍🍳", imgCDesc: "厨师", correct: 0 },
+    { type: "part1", dialogue: "男：你妈妈在哪儿？女：她在厨房做饭呢。", imgA: "🛏️", imgADesc: "卧室", imgB: "🍳", imgBDesc: "厨房", imgC: "🚽", imgCDesc: "卫生间", correct: 1 },
+    // Part 2 (Q11-20): True/False
+    { type: "part2", sentence: "他每天都花一个小时去锻炼身体。", statement: "他希望自己很健康。", correct: true },
+    { type: "part2", sentence: "今天我想早点儿回家。看了看手表，才5点。过了一会儿再看表，还是5点，我这才发现我的手表不走了。", statement: "那块儿手表不是他的。", correct: false },
+    { type: "part2", sentence: "这几天你总是不爱吃东西，是不是不舒服啊？", statement: "这几天他吃得很少。", correct: true },
+    { type: "part2", sentence: "他又聪明又努力，老师的问题他都会回答。", statement: "他学习很好。", correct: true },
+    { type: "part2", sentence: "妈妈很热情，总是帮助人，所以大家有问题，都会来找她。", statement: "妈妈现在有问题。", correct: false },
+    { type: "part2", sentence: "为了让自己更健康，他每天都去跑步。", statement: "他喜欢跑步。", correct: true },
+    { type: "part2", sentence: "昨天我去了图书馆，借了三本书。", statement: "他借了五本书。", correct: false },
+    { type: "part2", sentence: "周末我和朋友去看电影了，电影很有意思。", statement: "他觉得电影很无聊。", correct: false },
+    { type: "part2", sentence: "我的手机坏了，需要买一个新的。", statement: "他的手机还可以用。", correct: false },
+    { type: "part2", sentence: "今天我七点起床，七点半吃早饭，八点去公司。", statement: "他七点半吃早饭。", correct: true },
+    // Part 3 (Q21-30): Short dialogue -> multiple choice (3 options)
+    { type: "part3", dialogue: "女：你喝茶还是咖啡？男：我喝茶，咖啡太苦了。", question: "他喜欢喝什么？", options: ["茶", "咖啡", "果汁"], correct: 0 },
+    { type: "part3", dialogue: "男：你明天去北京吗？女：不，我后天去。", question: "她什么时候去北京？", options: ["明天", "后天", "今天"], correct: 1 },
+    { type: "part3", dialogue: "女：你妈妈是做什么工作的？男：她是医生。", question: "他妈妈做什么工作？", options: ["老师", "医生", "护士"], correct: 1 },
+    { type: "part3", dialogue: "男：这件衣服多少钱？女：原价200，现在打八折。", question: "现在多少钱？", options: ["160元", "200元", "240元"], correct: 0 },
+    { type: "part3", dialogue: "女：你几点下班？男：通常六点，今天要加班到八点。", question: "今天几点下班？", options: ["六点", "七点", "八点"], correct: 2 },
+    { type: "part3", dialogue: "男：你早饭吃了什么？女：面包和牛奶。", question: "她没吃什么？", options: ["面包", "牛奶", "米饭"], correct: 2 },
+    { type: "part3", dialogue: "女：你觉得电影怎么样？男：很有意思。", question: "他觉得电影怎么样？", options: ["有意思", "无聊", "太长"], correct: 0 },
+    { type: "part3", dialogue: "男：你哥哥学什么专业？女：计算机。", question: "他哥哥学什么？", options: ["计算机", "经济", "法律"], correct: 0 },
+    { type: "part3", dialogue: "女：昨天为什么没来？男：感冒了。", question: "他为什么没来？", options: ["生病", "旅游", "工作"], correct: 0 },
+    { type: "part3", dialogue: "男：你学汉语多久了？女：一年半。", question: "她学汉语多久？", options: ["半年", "一年", "一年半"], correct: 2 },
+    // Part 4 (Q31-40): Longer passage -> multiple choice (3 options)
+    { type: "part4", passage: "我叫王芳，今年二十岁。我是学生。我喜欢吃苹果。", question: "王芳几岁？", options: ["18岁", "19岁", "20岁"], correct: 2 },
     { type: "part4", passage: "我家有四口人，爸爸、妈妈、我和妹妹。", question: "他家有几口人？", options: ["三口", "四口", "五口"], correct: 1 },
     { type: "part4", passage: "今天天气很好。上午我去公园散步。", question: "他上午去哪儿？", options: ["学校", "公园", "医院"], correct: 1 },
     { type: "part4", passage: "昨天我吃了米饭和鱼。", question: "他昨天吃了什么？", options: ["米饭", "鱼", "米饭和鱼"], correct: 2 },
@@ -104,43 +111,43 @@
   ];
   // Reading: 30 questions (3 parts)
   const readingQuestions = [
-    // Part 1 (Q1-10): Match sentence with picture (simplified to text options)
-    { type: "reading_part1", sentence: "她在喝水。", options: ["喝水", "吃饭", "睡觉"], correct: 0 },
-    { type: "reading_part1", sentence: "他坐车去学校。", options: ["坐车", "骑车", "走路"], correct: 0 },
-    { type: "reading_part1", sentence: "她喜欢唱歌。", options: ["唱歌", "跳舞", "读书"], correct: 0 },
-    { type: "reading_part1", sentence: "他是一名老师。", options: ["老师", "医生", "警察"], correct: 0 },
-    { type: "reading_part1", sentence: "这是一只猫。", options: ["猫", "狗", "鸟"], correct: 0 },
-    { type: "reading_part1", sentence: "他在跑步。", options: ["跑步", "游泳", "骑车"], correct: 0 },
-    { type: "reading_part1", sentence: "她在看书。", options: ["看书", "写字", "画画"], correct: 0 },
-    { type: "reading_part1", sentence: "他喜欢游泳。", options: ["游泳", "打球", "跑步"], correct: 0 },
-    { type: "reading_part1", sentence: "她是一个学生。", options: ["学生", "老师", "医生"], correct: 0 },
-    { type: "reading_part1", sentence: "他在打电话。", options: ["打电话", "发短信", "上网"], correct: 0 },
-    // Part 2 (Q11-20): Short text -> choose answer (3 options)
-    { type: "reading_part2", text: "我叫李明，今年二十五岁。我是北京人。我在一家互联网公司工作。", question: "李明在哪里工作？", options: ["上海", "北京", "广州"], correct: 1 },
-    { type: "reading_part2", text: "今天是星期六，天气很好。上午我去公园散步，下午我在家看书。", question: "他上午做什么？", options: ["在家看书", "去公园散步", "去超市"], correct: 1 },
-    { type: "reading_part2", text: "这件衣服很漂亮，但是太贵了，我买不起。", question: "衣服怎么样？", options: ["漂亮", "便宜", "好看又便宜"], correct: 0 },
-    { type: "reading_part2", text: "我每天七点起床，七点半吃早饭，八点去公司。", question: "他几点吃早饭？", options: ["七点", "七点半", "八点"], correct: 1 },
-    { type: "reading_part2", text: "我最喜欢的运动是游泳。我每周去游泳两次。", question: "他最喜欢什么运动？", options: ["跑步", "游泳", "篮球"], correct: 1 },
-    { type: "reading_part2", text: "昨天是我的生日，朋友们送给我很多礼物。", question: "昨天是什么日子？", options: ["生日", "节日", "周末"], correct: 0 },
-    { type: "reading_part2", text: "这家餐厅的菜很好吃，价格也不贵。", question: "这家餐厅怎么样？", options: ["好吃", "便宜", "好吃又便宜"], correct: 2 },
-    { type: "reading_part2", text: "我爸爸是医生，他每天工作很忙。", question: "爸爸做什么？", options: ["老师", "医生", "律师"], correct: 1 },
-    { type: "reading_part2", text: "我喜欢看小说，尤其是历史小说。", question: "他喜欢看什么？", options: ["历史小说", "科幻小说", "爱情小说"], correct: 0 },
-    { type: "reading_part2", text: "明天我打算去图书馆学习。", question: "他明天去哪儿？", options: ["图书馆", "电影院", "公园"], correct: 0 },
-    // Part 3 (Q21-30): Fill in the blank (choose correct word)
-    { type: "reading_part3", sentence: "我每天____水。", options: ["喝", "吃", "看"], correct: 0 },
-    { type: "reading_part3", sentence: "他____学生。", options: ["有", "是", "在"], correct: 1 },
-    { type: "reading_part3", sentence: "我们____去北京。", options: ["有", "是", "要"], correct: 2 },
-    { type: "reading_part3", sentence: "这本书____二十元。", options: ["是", "有", "在"], correct: 0 },
-    { type: "reading_part3", sentence: "她____红色的裙子。", options: ["穿", "吃", "看"], correct: 0 },
-    { type: "reading_part3", sentence: "今天天气____好。", options: ["很", "太", "也"], correct: 0 },
-    { type: "reading_part3", sentence: "我____喜欢喝茶。", options: ["很", "也", "都"], correct: 0 },
-    { type: "reading_part3", sentence: "他____会开车。", options: ["不", "没", "别"], correct: 0 },
-    { type: "reading_part3", sentence: "我____一个苹果。", options: ["有", "是", "在"], correct: 0 },
-    { type: "reading_part3", sentence: "她____去北京了。", options: ["已经", "正在", "就要"], correct: 0 }
+    // Part 1 (Q1-10): Sentence matching
+    { type: "reading_part1", left: "今天天气很冷。", right: "多穿点儿衣服吧。", matchIndex: 0 },
+    { type: "reading_part1", left: "你什么时候去北京？", right: "下个星期。", matchIndex: 1 },
+    { type: "reading_part1", left: "这本书多少钱？", right: "五十元。", matchIndex: 2 },
+    { type: "reading_part1", left: "你妈妈是医生吗？", right: "不，她是老师。", matchIndex: 3 },
+    { type: "reading_part1", left: "你几点起床？", right: "我七点起床。", matchIndex: 4 },
+    { type: "reading_part1", left: "你哥哥在哪儿？", right: "他在北京工作。", matchIndex: 5 },
+    { type: "reading_part1", left: "你喜欢什么运动？", right: "我喜欢游泳。", matchIndex: 6 },
+    { type: "reading_part1", left: "你吃饭了吗？", right: "还没，你呢？", matchIndex: 7 },
+    { type: "reading_part1", left: "这件衣服怎么样？", right: "很漂亮，但是太贵了。", matchIndex: 8 },
+    { type: "reading_part1", left: "你周末去哪儿？", right: "我去公园散步。", matchIndex: 9 },
+    // Part 2 (Q11-20): Fill in the blank
+    { type: "reading_part2", sentence: "我每天____水。", options: ["喝", "吃", "看"], correct: 0 },
+    { type: "reading_part2", sentence: "他____学生。", options: ["有", "是", "在"], correct: 1 },
+    { type: "reading_part2", sentence: "我们____去北京。", options: ["有", "是", "要"], correct: 2 },
+    { type: "reading_part2", sentence: "这本书____二十元。", options: ["是", "有", "在"], correct: 0 },
+    { type: "reading_part2", sentence: "她____红色的裙子。", options: ["穿", "吃", "看"], correct: 0 },
+    { type: "reading_part2", sentence: "今天天气____好。", options: ["很", "太", "也"], correct: 0 },
+    { type: "reading_part2", sentence: "我____喜欢喝茶。", options: ["很", "也", "都"], correct: 0 },
+    { type: "reading_part2", sentence: "他____会开车。", options: ["不", "没", "别"], correct: 0 },
+    { type: "reading_part2", sentence: "我____一个苹果。", options: ["有", "是", "在"], correct: 0 },
+    { type: "reading_part2", sentence: "她____去北京了。", options: ["已经", "正在", "就要"], correct: 0 },
+    // Part 3 (Q21-30): Reading comprehension
+    { type: "reading_part3", text: "我叫李明，今年二十五岁。我是北京人。我在一家互联网公司工作。", question: "李明在哪里工作？", options: ["上海", "北京", "广州"], correct: 1 },
+    { type: "reading_part3", text: "今天是星期六，天气很好。上午我去公园散步，下午我在家看书。", question: "他上午做什么？", options: ["在家看书", "去公园散步", "去超市"], correct: 1 },
+    { type: "reading_part3", text: "这件衣服很漂亮，但是太贵了，我买不起。", question: "衣服怎么样？", options: ["漂亮", "便宜", "好看又便宜"], correct: 0 },
+    { type: "reading_part3", text: "我每天七点起床，七点半吃早饭，八点去公司。", question: "他几点吃早饭？", options: ["七点", "七点半", "八点"], correct: 1 },
+    { type: "reading_part3", text: "我最喜欢的运动是游泳。我每周去游泳两次。", question: "他最喜欢什么运动？", options: ["跑步", "游泳", "篮球"], correct: 1 },
+    { type: "reading_part3", text: "昨天是我的生日，朋友们送给我很多礼物。", question: "昨天是什么日子？", options: ["生日", "节日", "周末"], correct: 0 },
+    { type: "reading_part3", text: "这家餐厅的菜很好吃，价格也不贵。", question: "这家餐厅怎么样？", options: ["好吃", "便宜", "好吃又便宜"], correct: 2 },
+    { type: "reading_part3", text: "我爸爸是医生，他每天工作很忙。", question: "爸爸做什么？", options: ["老师", "医生", "律师"], correct: 1 },
+    { type: "reading_part3", text: "我喜欢看小说，尤其是历史小说。", question: "他喜欢看什么？", options: ["历史小说", "科幻小说", "爱情小说"], correct: 0 },
+    { type: "reading_part3", text: "明天我打算去图书馆学习。", question: "他明天去哪儿？", options: ["图书馆", "电影院", "公园"], correct: 0 }
   ];
 
   let examState = {
-    section: 'listening', // 'listening' or 'reading'
+    section: 'listening',
     currentQuestionIndex: 0,
     answers: new Array(listeningQuestions.length + readingQuestions.length).fill(-1),
     listeningTimer: 35 * 60,
@@ -151,7 +158,6 @@
     started: false
   };
 
-  // DOM elements
   const startScreen = document.getElementById('startScreen');
   const examArea = document.getElementById('examArea');
   const resultArea = document.getElementById('resultArea');
@@ -192,32 +198,74 @@
     const globalIdx = isListening ? idx : listeningQuestions.length + idx;
     const selected = examState.answers[globalIdx];
     let html = '';
+    
     if (isListening) {
       if (q.type === 'part1') {
-        html = `<div class="question"><div><strong>${idx+1}.</strong> <button id="playAudioBtn" class="control-btn" style="margin-right:1rem;"><i class="fas fa-play"></i> Play Audio</button></div>
-          <div class="options">${q.options ? q.options.map((opt, i) => `<div class="option"><input type="radio" name="q" value="${i}" ${selected===i ? 'checked' : ''}> ${opt}</div>`).join('') : 
-          `<div class="option"><label><input type="radio" name="q" value="true"> ✓ True</label></div>
-           <div class="option"><label><input type="radio" name="q" value="false"> ✗ False</label></div>`}</div></div>`;
-      } else {
-        html = `<div class="question"><div><strong>${idx+1}.</strong> <button id="playAudioBtn" class="control-btn" style="margin-right:1rem;"><i class="fas fa-play"></i> Play Audio</button></div>
-          <div>${q.question || ''}</div>
-          <div class="options">${q.options.map((opt, i) => `<div class="option"><input type="radio" name="q" value="${i}" ${selected===i ? 'checked' : ''}> ${opt}</div>`).join('')}</div></div>`;
+        html = `<div class="question"><div><strong>${idx+1}.</strong> <button id="playAudioBtn" class="control-btn"><i class="fas fa-play"></i> Play Audio</button></div>
+          <div class="image-row">
+            <div class="image-option ${selected === 0 ? 'selected' : ''}" data-val="0">
+              <div class="image-emoji">${q.imgA}</div>
+              <div>A. ${q.imgADesc}</div>
+            </div>
+            <div class="image-option ${selected === 1 ? 'selected' : ''}" data-val="1">
+              <div class="image-emoji">${q.imgB}</div>
+              <div>B. ${q.imgBDesc}</div>
+            </div>
+            <div class="image-option ${selected === 2 ? 'selected' : ''}" data-val="2">
+              <div class="image-emoji">${q.imgC}</div>
+              <div>C. ${q.imgCDesc}</div>
+            </div>
+          </div>
+        </div>`;
+      } else if (q.type === 'part2') {
+        html = `<div class="question"><div><strong>${idx+1}.</strong> <button id="playAudioBtn" class="control-btn"><i class="fas fa-play"></i> Play Audio</button></div>
+          <div>Statement: "${q.statement}"</div>
+          <div class="options">
+            <div class="option"><label><input type="radio" name="q" value="true" ${selected === true ? 'checked' : ''}> ✓ True</label></div>
+            <div class="option"><label><input type="radio" name="q" value="false" ${selected === false ? 'checked' : ''}> ✗ False</label></div>
+          </div>
+        </div>`;
+      } else if (q.type === 'part3' || q.type === 'part4') {
+        html = `<div class="question"><div><strong>${idx+1}.</strong> <button id="playAudioBtn" class="control-btn"><i class="fas fa-play"></i> Play Audio</button></div>
+          <div>${q.question}</div>
+          <div class="options">${q.options.map((opt, i) => `<div class="option"><label><input type="radio" name="q" value="${i}" ${selected === i ? 'checked' : ''}> ${opt}</label></div>`).join('')}</div>
+        </div>`;
       }
     } else {
-      // reading question
+      // reading section
       if (q.type === 'reading_part1') {
-        html = `<div class="question"><div><strong>${idx+1}.</strong> Sentence: "${q.sentence}"</div>
-          <div class="options">${q.options.map((opt, i) => `<div class="option"><input type="radio" name="q" value="${i}" ${selected===i ? 'checked' : ''}> ${opt}</div>`).join('')}</div></div>`;
+        html = `<div class="question"><div><strong>${idx+1}.</strong> ${q.left}</div>
+          <div class="options">${readingQuestions.slice(0,10).map((rq, i) => `<div class="option"><label><input type="radio" name="q" value="${i}" ${selected === i ? 'checked' : ''}> ${rq.right}</label></div>`).join('')}</div>
+        </div>`;
       } else if (q.type === 'reading_part2') {
-        html = `<div class="question"><div><strong>${idx+1}.</strong> ${q.text}</div>
-          <div>${q.question}</div><div class="options">${q.options.map((opt, i) => `<div class="option"><input type="radio" name="q" value="${i}" ${selected===i ? 'checked' : ''}> ${opt}</div>`).join('')}</div></div>`;
-      } else {
         html = `<div class="question"><div><strong>${idx+1}.</strong> ${q.sentence}</div>
-          <div class="options">${q.options.map((opt, i) => `<div class="option"><input type="radio" name="q" value="${i}" ${selected===i ? 'checked' : ''}> ${opt}</div>`).join('')}</div></div>`;
+          <div class="options">${q.options.map((opt, i) => `<div class="option"><label><input type="radio" name="q" value="${i}" ${selected === i ? 'checked' : ''}> ${opt}</label></div>`).join('')}</div>
+        </div>`;
+      } else {
+        html = `<div class="question"><div><strong>${idx+1}.</strong> ${q.text}</div>
+          <div>${q.question}</div><div class="options">${q.options.map((opt, i) => `<div class="option"><label><input type="radio" name="q" value="${i}" ${selected === i ? 'checked' : ''}> ${opt}</label></div>`).join('')}</div>
+        </div>`;
       }
     }
     questionContainer.innerHTML = html;
-    // attach radio change event
+    
+    // Attach event listeners
+    if (isListening && q.type === 'part1') {
+      document.querySelectorAll('.image-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          const val = parseInt(opt.dataset.val);
+          examState.answers[globalIdx] = val;
+          // Update visual selection
+          document.querySelectorAll('.image-option').forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+          if (!examState.audioPlaying) {
+            if (examState.answerTimeout) clearTimeout(examState.answerTimeout);
+            examState.answerTimeout = setTimeout(() => { nextQuestion(); }, 800);
+          }
+        });
+      });
+    }
+    
     const radios = document.querySelectorAll('input[name="q"]');
     radios.forEach(radio => {
       radio.addEventListener('change', (e) => {
@@ -226,32 +274,26 @@
         else if (val === 'false') val = false;
         else val = parseInt(val);
         examState.answers[globalIdx] = val;
-        // after answering, move to next question automatically after short delay (for listening)
         if (isListening && !examState.audioPlaying) {
           if (examState.answerTimeout) clearTimeout(examState.answerTimeout);
-          examState.answerTimeout = setTimeout(() => {
-            nextQuestion();
-          }, 1000);
+          examState.answerTimeout = setTimeout(() => { nextQuestion(); }, 800);
         }
       });
     });
-    // auto-play audio for listening
+    
     if (isListening) {
       const playBtn = document.getElementById('playAudioBtn');
       if (playBtn) {
         playBtn.addEventListener('click', () => {
           if (!examState.audioPlaying) {
             let audioText = '';
-            if (q.type === 'part1') audioText = q.text;
-            else if (q.type === 'part2') audioText = q.dialogue;
+            if (q.type === 'part1') audioText = q.dialogue;
+            else if (q.type === 'part2') audioText = q.sentence;
             else if (q.type === 'part3') audioText = q.dialogue;
             else if (q.type === 'part4') audioText = q.passage;
-            speak(audioText, () => {
-              // after audio ends, if answer already selected, auto-advance will happen; otherwise wait
-            });
+            speak(audioText, () => {});
           }
         });
-        // auto-play on load
         setTimeout(() => {
           if (!examState.audioPlaying && document.getElementById('playAudioBtn')) {
             document.getElementById('playAudioBtn').click();
@@ -259,7 +301,7 @@
         }, 500);
       }
     }
-    // update progress
+    
     const total = isListening ? listeningQuestions.length : readingQuestions.length;
     progressInfo.innerText = `Question ${idx+1} of ${total}`;
     sectionHeader.innerText = isListening ? `🎧 Listening (${idx+1}/${total})` : `📖 Reading (${idx+1}/${total})`;
@@ -274,19 +316,15 @@
       examState.currentQuestionIndex++;
       renderCurrentQuestion();
     } else {
-      // end of current section
       if (isListening) {
-        // switch to reading
         examState.section = 'reading';
         examState.currentQuestionIndex = 0;
-        // stop listening timer, start reading timer
         if (examState.timerInterval) clearInterval(examState.timerInterval);
         startReadingTimer();
         renderCurrentQuestion();
         timerEl.innerText = `Reading Section: ${Math.floor(examState.readingTimer/60)}:${(examState.readingTimer%60).toString().padStart(2,'0')}`;
         sectionHeader.innerText = `📖 Reading (1/${readingQuestions.length})`;
       } else {
-        // exam finished
         finishExam();
       }
     }
@@ -301,7 +339,6 @@
         if (examState.listeningTimer <= 0) {
           clearInterval(examState.timerInterval);
           alert("Listening section time's up! Moving to reading.");
-          // force move to reading
           examState.section = 'reading';
           examState.currentQuestionIndex = 0;
           startReadingTimer();
@@ -330,7 +367,6 @@
 
   function finishExam() {
     clearInterval(examState.timerInterval);
-    // calculate score
     let totalCorrect = 0;
     for (let i=0; i<listeningQuestions.length; i++) {
       if (examState.answers[i] === listeningQuestions[i].correct) totalCorrect++;
@@ -348,9 +384,7 @@
       <p>Your score: ${totalCorrect}/${totalQuestions} (${percent}%)</p>
       <p>${passed ? '🎉 Congratulations! You passed HSK 3!' : '😢 Keep practicing! You can retake the exam.'}</p>
       <button id="restartExamBtn" class="control-btn">Restart Exam</button></div>`;
-    document.getElementById('restartExamBtn').addEventListener('click', () => {
-      location.reload();
-    });
+    document.getElementById('restartExamBtn').addEventListener('click', () => { location.reload(); });
   }
 
   startBtn.addEventListener('click', () => {
@@ -360,6 +394,21 @@
     startListeningTimer();
     renderCurrentQuestion();
   });
+
+  // Dark mode toggle
+  const darkBtn = document.createElement('button');
+  darkBtn.innerHTML = '<i class="fas fa-moon"></i> Dark';
+  darkBtn.style.position = 'fixed'; darkBtn.style.bottom = '20px'; darkBtn.style.right = '20px';
+  darkBtn.style.background = 'var(--accent)'; darkBtn.style.color = 'white'; darkBtn.style.border = 'none'; darkBtn.style.borderRadius = '30px'; darkBtn.style.padding = '0.4rem 1rem'; darkBtn.style.cursor = 'pointer';
+  darkBtn.onclick = () => {
+    const isDark = document.body.classList.contains('dark');
+    if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk3_exam_theme', 'light'); }
+    else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk3_exam_theme', 'dark'); }
+  };
+  document.body.appendChild(darkBtn);
+  const savedTheme = localStorage.getItem('hsk3_exam_theme');
+  if (savedTheme === 'dark') { document.body.classList.add('dark'); document.body.classList.remove('light'); }
+  else { document.body.classList.add('light'); document.body.classList.remove('dark'); }
 </script>
 </body>
 </html>
