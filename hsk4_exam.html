@@ -12,7 +12,6 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Same exam styles as HSK3 */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body.light { background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%); --bg-card: #ffffff; --bg-header: rgba(255,255,255,0.7); --text-primary: #1e1b4b; --text-secondary: #4f46e5; --border-light: #c7d2fe; --accent: #4f46e5; }
     body.dark { background: linear-gradient(145deg, #0f172a 0%, #0b1120 100%); --bg-card: #1e293b; --bg-header: rgba(30,41,59,0.8); --text-primary: #e2e8f0; --text-secondary: #a5b4fc; --border-light: #334155; --accent: #818cf8; }
@@ -33,7 +32,7 @@
 </head>
 <body class="light">
 <div class="container">
-  <h1>📝 HSK 4 Realistic Mock Exam</h1>
+  <h1>📝 HSK 4 Mock Exam</h1>
   <div class="timer" id="timer">Listening Section: 30:00</div>
   <div id="questionsContainer"></div>
   <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
@@ -45,30 +44,30 @@
   <a href="hsk4_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</a>
 </div>
 <script>
-  // ==================== HSK 4 REALISTIC EXAM DATA ====================
+  // ==================== HSK 4 EXAM DATA ====================
   // Listening: 25 questions (4 parts)
   const listeningQuestions = [
     // Part 1 (Q1-5): True/False with image (longer sentences)
-    { type: "part1", text: "这个苹果又大又红。", img: "🍎", correct: true },
-    { type: "part1", text: "小狗在椅子上睡觉。", img: "🐶", correct: true },
-    { type: "part1", text: "她正在教室里读书。", img: "📖", correct: true },
-    { type: "part1", text: "妈妈在厨房里做饭。", img: "👩‍🍳", correct: true },
-    { type: "part1", text: "飞机在天上飞。", img: "✈️", correct: true },
-    // Part 2 (Q6-10): Dialogue -> choose correct picture (more complex)
-    { type: "part2", dialogue: "A: 你叫什么名字？B: 我叫李明。A: 你是学生吗？B: 是的，我在北京大学学习。", imgOptions: ["👨‍🎓 学生", "👨‍🏫 老师", "👨‍⚕️ 医生", "👨‍💼 经理"], correct: 0 },
-    { type: "part2", dialogue: "A: 这是什么水果？B: 这是一个苹果，又甜又脆。", imgOptions: ["🍎", "🍌", "🍊", "🍇"], correct: 0 },
-    { type: "part2", dialogue: "A: 你多大了？B: 我今年二十五岁。", imgOptions: ["🎂 20岁", "🎂 25岁", "🎂 30岁", "🎂 35岁"], correct: 1 },
-    { type: "part2", dialogue: "A: 你家有几口人？B: 我家有四口人，爸爸、妈妈、我和妹妹。", imgOptions: ["👨‍👩‍👧‍👦 (4人)", "👨‍👩‍👧 (3人)", "👨‍👧 (2人)", "👩‍👦 (2人)"], correct: 0 },
-    { type: "part2", dialogue: "A: 你周末去哪儿了？B: 我和朋友一起去爬山了。", imgOptions: ["🏞️ 爬山", "🏊 游泳", "🏀 打球", "📖 看书"], correct: 0 },
+    { type: "part1", text: "这个苹果又大又红，看起来很新鲜。", img: "🍎", correct: true },
+    { type: "part1", text: "小狗在沙发上睡觉，样子很可爱。", img: "🐶", correct: true },
+    { type: "part1", text: "她正在图书馆里认真地看书。", img: "📖", correct: true },
+    { type: "part1", text: "妈妈在厨房里忙着做晚饭。", img: "👩‍🍳", correct: true },
+    { type: "part1", text: "飞机在蓝天上飞翔，速度很快。", img: "✈️", correct: true },
+    // Part 2 (Q6-10): Dialogue -> choose correct picture (4 options)
+    { type: "part2", dialogue: "A: 你叫什么名字？B: 我叫李明。A: 你是学生吗？B: 是的，我在北京大学学习计算机专业。", imgOptions: ["👨‍🎓 大学生", "👨‍🏫 老师", "👨‍⚕️ 医生", "👨‍💼 经理"], correct: 0 },
+    { type: "part2", dialogue: "A: 这是什么水果？B: 这是一种热带水果，外面是绿色的，里面是黄色的。", imgOptions: ["🥝 猕猴桃", "🍍 菠萝", "🥭 芒果", "🍌 香蕉"], correct: 2 },
+    { type: "part2", dialogue: "A: 你多大了？B: 我今年二十八岁，已经工作五年了。", imgOptions: ["🎂 25岁", "🎂 28岁", "🎂 30岁", "🎂 35岁"], correct: 1 },
+    { type: "part2", dialogue: "A: 你家有几口人？B: 我家有四口人，爸爸、妈妈、我和妹妹。妹妹比我小三岁。", imgOptions: ["👨‍👩‍👧‍👦 (4人)", "👨‍👩‍👧 (3人)", "👨‍👧 (2人)", "👩‍👦 (2人)"], correct: 0 },
+    { type: "part2", dialogue: "A: 你周末去哪儿了？B: 我和朋友一起去郊外爬山了，山上的风景很美。", imgOptions: ["🏞️ 爬山", "🏊 游泳", "🏀 打球", "📖 看书"], correct: 0 },
     // Part 3 (Q11-20): Short dialogue -> choose correct answer (3 options)
-    { type: "part3", dialogue: "A: 你喝茶还是咖啡？B: 我喝茶，咖啡太苦了。", question: "他喜欢喝什么？", options: ["茶", "咖啡", "果汁"], correct: 0 },
-    { type: "part3", dialogue: "A: 你明天去北京吗？B: 不，我后天去。", question: "他什么时候去北京？", options: ["明天", "后天", "今天"], correct: 1 },
-    { type: "part3", dialogue: "A: 你妈妈是做什么工作的？B: 她是医生，在医院工作。", question: "他妈妈做什么？", options: ["老师", "医生", "律师"], correct: 1 },
-    { type: "part3", dialogue: "A: 这件衣服多少钱？B: 原价两百元，现在打八折。", question: "衣服现在多少钱？", options: ["160元", "200元", "240元"], correct: 0 },
+    { type: "part3", dialogue: "A: 你喝茶还是咖啡？B: 我喝茶，咖啡太苦了，我喝不惯。", question: "他喜欢喝什么？", options: ["茶", "咖啡", "果汁"], correct: 0 },
+    { type: "part3", dialogue: "A: 你明天去北京吗？B: 不，我后天去，明天的机票已经卖完了。", question: "他什么时候去北京？", options: ["明天", "后天", "今天"], correct: 1 },
+    { type: "part3", dialogue: "A: 你妈妈是做什么工作的？B: 她是医生，在一家三甲医院工作。", question: "他妈妈做什么工作？", options: ["老师", "医生", "律师"], correct: 1 },
+    { type: "part3", dialogue: "A: 这件衣服多少钱？B: 原价两百元，现在打八折，只要一百六十元。", question: "衣服现在多少钱？", options: ["160元", "200元", "240元"], correct: 0 },
     { type: "part3", dialogue: "A: 你几点下班？B: 我通常六点下班，但今天要加班到八点。", question: "他今天几点下班？", options: ["六点", "七点", "八点"], correct: 2 },
     { type: "part3", dialogue: "A: 你早饭吃了什么？B: 我吃了面包和牛奶，还吃了一个鸡蛋。", question: "他早饭没吃什么？", options: ["面包", "牛奶", "米饭"], correct: 2 },
-    { type: "part3", dialogue: "A: 你觉得这部电影怎么样？B: 很有意思，不过有点长。", question: "他觉得电影怎么样？", options: ["有意思", "太短", "太无聊"], correct: 0 },
-    { type: "part3", dialogue: "A: 你哥哥在哪所大学学习？B: 他在清华大学学习计算机专业。", question: "他哥哥学什么专业？", options: ["计算机", "经济", "法律"], correct: 0 },
+    { type: "part3", dialogue: "A: 你觉得这部电影怎么样？B: 很有意思，虽然有点长，但是情节很吸引人。", question: "他觉得电影怎么样？", options: ["有意思", "太短", "太无聊"], correct: 0 },
+    { type: "part3", dialogue: "A: 你哥哥在哪所大学学习？B: 他在清华大学学习计算机专业，明年毕业。", question: "他哥哥学什么专业？", options: ["计算机", "经济", "法律"], correct: 0 },
     { type: "part3", dialogue: "A: 你昨天为什么没来上课？B: 我感冒了，去医院看病了。", question: "他昨天为什么没来？", options: ["生病了", "去旅游", "有事情"], correct: 0 },
     { type: "part3", dialogue: "A: 你学汉语多久了？B: 我学了一年半，已经能看懂报纸了。", question: "他学汉语多久了？", options: ["半年", "一年", "一年半"], correct: 2 },
     // Part 4 (Q21-25): Longer passage -> choose correct answer (3 options)
@@ -81,16 +80,16 @@
   // Reading: 20 questions (3 parts)
   const readingQuestions = [
     // Part 1 (Q1-10): Match sentence with picture (10 sentences)
-    { type: "reading_part1", sentence: "她在喝水。", imgOptions: ["🥤喝水", "🍚吃饭", "😴睡觉", "🏃跑步"], correct: 0 },
-    { type: "reading_part1", sentence: "他坐车去学校。", imgOptions: ["🚗坐车", "🚲骑车", "🚶走路", "🏃跑步"], correct: 0 },
-    { type: "reading_part1", sentence: "她喜欢唱歌。", imgOptions: ["🎤唱歌", "💃跳舞", "📖读书", "✍️写字"], correct: 0 },
-    { type: "reading_part1", sentence: "他是一名老师。", imgOptions: ["👨‍🏫", "👩‍⚕️", "👨‍🍳", "👮‍♂️"], correct: 0 },
-    { type: "reading_part1", sentence: "这是一只猫。", imgOptions: ["🐱", "🐶", "🐭", "🐰"], correct: 0 },
-    { type: "reading_part1", sentence: "他在跑步。", imgOptions: ["🏃", "🚴", "🏊", "🧘"], correct: 0 },
-    { type: "reading_part1", sentence: "她在看书。", imgOptions: ["📖", "📺", "🎮", "🎵"], correct: 0 },
-    { type: "reading_part1", sentence: "他喜欢游泳。", imgOptions: ["🏊", "🏀", "⚽", "🎾"], correct: 0 },
-    { type: "reading_part1", sentence: "她是一个学生。", imgOptions: ["👩‍🎓", "👩‍🏫", "👩‍⚕️", "👩‍💼"], correct: 0 },
-    { type: "reading_part1", sentence: "他在打电话。", imgOptions: ["📱", "💻", "📺", "🎧"], correct: 0 },
+    { type: "reading_part1", sentence: "她在喝水。", imgOptions: ["🥤 喝水", "🍚 吃饭", "😴 睡觉", "🏃 跑步"], correct: 0 },
+    { type: "reading_part1", sentence: "他坐车去学校。", imgOptions: ["🚗 坐车", "🚲 骑车", "🚶 走路", "🏃 跑步"], correct: 0 },
+    { type: "reading_part1", sentence: "她喜欢唱歌。", imgOptions: ["🎤 唱歌", "💃 跳舞", "📖 读书", "✍️ 写字"], correct: 0 },
+    { type: "reading_part1", sentence: "他是一名老师。", imgOptions: ["👨‍🏫 老师", "👩‍⚕️ 医生", "👨‍🍳 厨师", "👮‍♂️ 警察"], correct: 0 },
+    { type: "reading_part1", sentence: "这是一只猫。", imgOptions: ["🐱 猫", "🐶 狗", "🐭 老鼠", "🐰 兔子"], correct: 0 },
+    { type: "reading_part1", sentence: "他在跑步。", imgOptions: ["🏃 跑步", "🚴 骑车", "🏊 游泳", "🧘 瑜伽"], correct: 0 },
+    { type: "reading_part1", sentence: "她在看书。", imgOptions: ["📖 看书", "📺 看电视", "🎮 玩游戏", "🎵 听音乐"], correct: 0 },
+    { type: "reading_part1", sentence: "他喜欢游泳。", imgOptions: ["🏊 游泳", "🏀 篮球", "⚽ 足球", "🎾 网球"], correct: 0 },
+    { type: "reading_part1", sentence: "她是一个学生。", imgOptions: ["👩‍🎓 学生", "👩‍🏫 老师", "👩‍⚕️ 医生", "👩‍💼 职员"], correct: 0 },
+    { type: "reading_part1", sentence: "他在打电话。", imgOptions: ["📱 打电话", "💻 用电脑", "📺 看电视", "🎧 听音乐"], correct: 0 },
     // Part 2 (Q11-15): Short text -> choose correct answer (3 options)
     { type: "reading_part2", text: "我叫李明，今年二十五岁。我是北京人。我在一家互联网公司工作。", question: "李明在哪里工作？", options: ["上海", "北京", "广州"], correct: 1 },
     { type: "reading_part2", text: "今天是星期六，天气很好。上午我去公园散步，下午我在家看书。", question: "他上午做什么？", options: ["在家看书", "去公园散步", "去超市"], correct: 1 },
