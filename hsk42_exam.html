@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>HSK 4 · 全真模拟试卷（第二套·全新）</title>
+  <title>HSK 4 · 全真模拟试卷（第二套·阅读修复）</title>
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
   (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
@@ -41,7 +41,7 @@
 </head>
 <body class="light">
 <div class="container">
-  <h1>📝 HSK 4 全真模拟试卷（第二套·全新）</h1>
+  <h1>📝 HSK 4 全真模拟试卷（第二套·阅读修复）</h1>
   <div id="startScreen">
     <p style="margin: 1rem 0;">官方HSK四级格式（100题）：</p>
     <ul style="margin-left: 2rem;">
@@ -123,23 +123,21 @@
     });
 
     // ==================== 阅读部分 (40题·全新) ====================
+    // 选词填空：每道题只显示当前需要填空的句子，不显示整篇短文
     const readingQuestions = [
-      // 第一部分：选词填空 (10题) —— 全新篇章，无重复索引
-      { type: "part1", text: "什么是真正的朋友？不同的人会有不同的理解。真正的朋友，就是在你需要帮助时，会毫不犹豫地（1）出双手；在你遇到困难时，会主动帮你（2）办法；在你获得成功时，会真心地为你感到（3）；在你伤心难过时，会耐心地（4）在你身边。这样的朋友，值得我们用心去（5）。", blanks: [
-        { options: ["A. 伸", "B. 想", "C. 高兴", "D. 陪", "E. 珍惜"], correct: 0 },
-        { options: ["A. 伸", "B. 想", "C. 高兴", "D. 陪", "E. 珍惜"], correct: 1 },
-        { options: ["A. 伸", "B. 想", "C. 高兴", "D. 陪", "E. 珍惜"], correct: 2 },
-        { options: ["A. 伸", "B. 想", "C. 高兴", "D. 陪", "E. 珍惜"], correct: 3 },
-        { options: ["A. 伸", "B. 想", "C. 高兴", "D. 陪", "E. 珍惜"], correct: 4 }
-      ] },
-      { type: "part1", text: "如何才能保持健康的身体？首先，我们应该养成（6）的生活习惯，比如早睡早起、按时吃饭等。其次，适当的体育锻炼也是非常有（7）的，每周至少运动三次。另外，保持（8）的心情也很重要，不要给自己太大（9）。最后，别忘了定期去医院（10）身体。", blanks: [
-        { options: ["A. 规律", "B. 必要", "C. 愉快", "D. 压力", "E. 检查"], correct: 0 },
-        { options: ["A. 规律", "B. 必要", "C. 愉快", "D. 压力", "E. 检查"], correct: 1 },
-        { options: ["A. 规律", "B. 必要", "C. 愉快", "D. 压力", "E. 检查"], correct: 2 },
-        { options: ["A. 规律", "B. 必要", "C. 愉快", "D. 压力", "E. 检查"], correct: 3 },
-        { options: ["A. 规律", "B. 必要", "C. 愉快", "D. 压力", "E. 检查"], correct: 4 }
-      ] },
-      // 第二部分：排列顺序 (10题) —— 全新题目
+      // 第一部分：选词填空 (10题) —— 每道题独立的句子
+      { type: "part1", sentence: "真正的朋友，就是在你需要帮助时，会毫不犹豫地______出双手。", options: ["A. 伸", "B. 想", "C. 高兴", "D. 陪", "E. 珍惜"], correct: 0 },
+      { type: "part1", sentence: "真正的朋友，在你遇到困难时，会主动帮你______办法。", options: ["A. 伸", "B. 想", "C. 高兴", "D. 陪", "E. 珍惜"], correct: 1 },
+      { type: "part1", sentence: "真正的朋友，在你获得成功时，会真心地为你感到______。", options: ["A. 伸", "B. 想", "C. 高兴", "D. 陪", "E. 珍惜"], correct: 2 },
+      { type: "part1", sentence: "真正的朋友，在你伤心难过时，会耐心地______在你身边。", options: ["A. 伸", "B. 想", "C. 高兴", "D. 陪", "E. 珍惜"], correct: 3 },
+      { type: "part1", sentence: "这样的朋友，值得我们用心去______。", options: ["A. 伸", "B. 想", "C. 高兴", "D. 陪", "E. 珍惜"], correct: 4 },
+      { type: "part1", sentence: "我们应该养成______的生活习惯，比如早睡早起、按时吃饭等。", options: ["A. 规律", "B. 必要", "C. 愉快", "D. 压力", "E. 检查"], correct: 0 },
+      { type: "part1", sentence: "适当的体育锻炼也是非常______的，每周至少运动三次。", options: ["A. 规律", "B. 必要", "C. 愉快", "D. 压力", "E. 检查"], correct: 1 },
+      { type: "part1", sentence: "保持______的心情也很重要，不要给自己太大压力。", options: ["A. 规律", "B. 必要", "C. 愉快", "D. 压力", "E. 检查"], correct: 2 },
+      { type: "part1", sentence: "不要给自己太大______。", options: ["A. 规律", "B. 必要", "C. 愉快", "D. 压力", "E. 检查"], correct: 3 },
+      { type: "part1", sentence: "别忘了定期去医院______身体。", options: ["A. 规律", "B. 必要", "C. 愉快", "D. 压力", "E. 检查"], correct: 4 },
+      
+      // 第二部分：排列顺序 (10题)
       { type: "part2", sentences: ["A. 因此，现在越来越多的人开始学习汉语", "B. 随着中国经济的快速发展", "C. 汉语在国际上的地位也越来越重要"], correctOrder: [1,2,0] },
       { type: "part2", sentences: ["A. 可是仔细一想，又觉得有些不对劲", "B. 我本来觉得他说得很有道理", "C. 于是决定再找他好好谈一谈"], correctOrder: [1,0,2] },
       { type: "part2", sentences: ["A. 不仅价格便宜，而且质量也不错", "B. 这家超市的东西种类很多", "C. 所以每天都有很多人来购物"], correctOrder: [1,0,2] },
@@ -150,7 +148,8 @@
       { type: "part2", sentences: ["A. 然而，事情的发展却出乎所有人的意料", "B. 他本来以为自己一定能赢", "C. 最后竟然输给了新手"], correctOrder: [1,0,2] },
       { type: "part2", sentences: ["A. 其实，幸福往往就在我们身边", "B. 很多人都在追求幸福", "C. 只是我们没有用心去发现而已"], correctOrder: [1,0,2] },
       { type: "part2", sentences: ["A. 你最好还是亲自去一趟", "B. 电话里一时半会儿说不清楚", "C. 这件事关系重大"], correctOrder: [2,1,0] },
-      // 第三部分：阅读理解 (20题) —— 全新短文
+      
+      // 第三部分：阅读理解 (20题)
       { type: "part3", passage: "一个人是否成熟，不是看他的年龄，而是看他能否控制自己的情绪。成熟的人，在遇到问题时，会先冷静下来，认真思考解决的办法，而不是冲动地做出让自己后悔的事情。", questions: [{ q: "成熟的人遇到问题时，首先会：", options: ["A. 很冲动", "B. 冷静思考", "C. 后悔", "D. 放弃"], correct: 1 }] },
       { type: "part3", passage: "地铁里不允许吃东西，这是大家都知道的。但是总有一些人，为了节省时间，在地铁上吃早饭。这样做不仅影响他人，而且对自己的健康也不利。", questions: [{ q: "作者对在地铁上吃早饭是什么态度？", options: ["A. 支持", "B. 反对", "C. 无所谓", "D. 没有态度"], correct: 1 }] },
       { type: "part3", passage: "今天是王老师60岁的生日，也是他在学校工作的最后一天。下个星期他就要退休了。学生们都很舍不得他，给他举办了一个非常感人的欢送会。", questions: [{ q: "下个星期王老师要：", options: ["A. 过生日", "B. 退休", "C. 开欢送会", "D. 去旅游"], correct: 1 }] },
@@ -165,13 +164,12 @@
 
     const flatReading = [];
     readingQuestions.forEach(q => {
-      if (q.type === 'part1') {
-        q.blanks.forEach((blank, i) => flatReading.push({ type: 'part1', text: q.text, blankIdx: i+1, options: blank.options, correct: blank.correct }));
-      } else if (q.type === 'part2') flatReading.push(q);
+      if (q.type === 'part1') flatReading.push(q);
+      else if (q.type === 'part2') flatReading.push(q);
       else if (q.type === 'part3') q.questions.forEach(sq => flatReading.push({ ...sq, type: 'part3', passage: q.passage }));
     });
 
-    // ==================== 书写部分 (15题·全新) ====================
+    // ==================== 书写部分 (15题) ====================
     const writingQuestions = [
       { type: "part1", words: ["那座桥", "800年的", "历史", "有", "了"], correct: "那座桥有800年的历史了" },
       { type: "part1", words: ["提前", "我们", "完成了", "这次任务"], correct: "我们提前完成了这次任务" },
@@ -190,7 +188,7 @@
       { type: "part2", image: "🎂", word: "生日", sentence: "今天是我的生日。" }
     ];
 
-    // ==================== 考试状态 (与第一套逻辑相同) ====================
+    // ==================== 考试状态 ====================
     let examState = {
       section: 'listening', currentQuestionIndex: 0,
       answers: new Array(flatListening.length + flatReading.length + writingQuestions.length).fill(null),
@@ -236,9 +234,13 @@
         else html += `<div>${q.q||q.question}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div>`;
         html += `</div>`;
       } else if (examState.section === 'reading') {
-        if (q.type === 'part1') html = `<div class="question"><div><strong>${idx+1}.</strong> 选词填空</div><div>${q.text}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`;
-        else if (q.type === 'part2') html = `<div class="question"><div><strong>${idx+1}.</strong> 排列顺序</div><div>${q.sentences.map((s,i)=>`<div>${String.fromCharCode(65+i)}. ${s}</div>`).join('')}</div><div class="options">${['A B C','A C B','B A C','B C A','C A B','C B A'].map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`;
-        else html = `<div class="question"><div><strong>${idx+1}.</strong> ${q.passage}</div><div>${q.q}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`;
+        if (q.type === 'part1') {
+          html = `<div class="question"><div><strong>${idx+1}.</strong> 选词填空</div><div style="margin:1rem 0; font-size:1.1rem;">${q.sentence}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`;
+        } else if (q.type === 'part2') {
+          html = `<div class="question"><div><strong>${idx+1}.</strong> 排列顺序</div><div>${q.sentences.map((s,i)=>`<div>${String.fromCharCode(65+i)}. ${s}</div>`).join('')}</div><div class="options">${['A B C','A C B','B A C','B C A','C A B','C B A'].map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`;
+        } else {
+          html = `<div class="question"><div><strong>${idx+1}.</strong> 阅读理解</div><div>${q.passage}</div><div style="margin-top:1rem;">${q.q}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`;
+        }
       } else if (examState.section === 'writing') {
         if (q.type === 'part1') {
           const shuffled = [...q.words].sort(()=>Math.random()-0.5);
