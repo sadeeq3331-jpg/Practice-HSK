@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSK 3 Grammar</title>
+  <!-- Ad code (same as before) -->
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
+  /*]]>/* */
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Same style as HSK2 grammar */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body.light { background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%); --bg-card: #ffffff; --bg-header: rgba(255,255,255,0.7); --text-primary: #1e1b4b; --text-secondary: #4f46e5; --border-light: #c7d2fe; --accent: #4f46e5; }
+    body.dark { background: linear-gradient(145deg, #0f172a 0%, #0b1120 100%); --bg-card: #1e293b; --bg-header: rgba(30,41,59,0.8); --text-primary: #e2e8f0; --text-secondary: #a5b4fc; --border-light: #334155; --accent: #818cf8; }
+    body { padding: 1.2rem; display: flex; flex-direction: column; align-items: center; background: var(--bg-header); }
+    .container { max-width: 1000px; width: 100%; background: var(--bg-header); backdrop-filter: blur(12px); border-radius: 2rem; padding: 1.5rem; }
+    h1 { text-align: center; margin-bottom: 1rem; background: linear-gradient(135deg, var(--text-secondary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .grammar-grid { display: grid; gap: 1rem; margin: 1rem 0; }
+    .grammar-card { background: var(--bg-card); border-radius: 1rem; padding: 1rem; border: 1px solid var(--border-light); }
+    .grammar-title { font-size: 1.2rem; font-weight: 600; color: var(--accent); }
+    .grammar-structure { font-family: monospace; background: rgba(0,0,0,0.05); padding: 0.2rem 0.5rem; border-radius: 0.5rem; display: inline-block; margin: 0.5rem 0; }
+    .grammar-example { padding-left: 0.5rem; border-left: 3px solid var(--accent); margin: 0.5rem 0; font-style: italic; }
+    .back-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem; display: inline-block; text-decoration: none; }
+  </style>
+</head>
+<body class="light">
+<div class="container">
+  <h1>📐 HSK 3 Grammar Points</h1>
+  <div class="grammar-grid" id="grammarList"></div>
+  <a href="hsk3_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+</div>
+<script>
+  const grammarData = [
+    { title: "1. 把 sentence", structure: "S + 把 + O + V + 了/结果补语", examples: ["我把作业做完了。", "请把门关上。"], explanation: "Used to emphasize the handling or result of an object." },
+    { title: "2. 被 sentence (passive)", structure: "S + 被 + (doer) + V + 了", examples: ["书被他拿走了。", "窗户被风吹开了。"], explanation: "Indicates passive voice." },
+    { title: "3. 除了...以外, 还/也...", structure: "除了 + A + 以外, 还/也 + B", examples: ["除了英语以外，他还会汉语。", "除了苹果，我也喜欢香蕉。"], explanation: "Besides A, also B." },
+    { title: "4. 不但...而且...", structure: "不但 + A, 而且 + B", examples: ["他不但聪明，而且很努力。", "这里不但风景美，而且空气好。"], explanation: "Not only A, but also B." },
+    { title: "5. 越...越...", structure: "越 + A + 越 + B", examples: ["他越说越激动。", "越多越好。"], explanation: "The more... the more..." },
+    { title: "6. 一边...一边...", structure: "一边 + V1, 一边 + V2", examples: ["他一边走路一边听音乐。", "一边吃饭一边看电视。"], explanation: "Do two actions simultaneously." },
+    { title: "7. 又...又...", structure: "又 + Adj1 + 又 + Adj2", examples: ["他又高又帅。", "这个苹果又大又红。"], explanation: "Both A and B (positive qualities)." },
+    { title: "8. 一...就...", structure: "一 + V1 + 就 + V2", examples: ["我一回家就做作业。", "他一说我就明白了。"], explanation: "As soon as... then..." },
+    { title: "9. 连...都/也...", structure: "连 + N + 都/也 + V", examples: ["他连饭都不吃。", "连小孩子都知道。"], explanation: "Even... (emphatic)." },
+    { title: "10. 疑问代词虚指", structure: "谁/什么/哪儿 + 都/也", examples: ["他什么都懂。", "哪儿都不想去。"], explanation: "Indefinite reference (everyone/anything/anywhere)." }
+  ];
+  const container = document.getElementById('grammarList');
+  let html = '';
+  grammarData.forEach(g => {
+    html += `<div class="grammar-card">
+      <div class="grammar-title">${g.title}</div>
+      <div class="grammar-structure">${g.structure}</div>
+      <div class="grammar-example">${g.examples.map(e => `“${e}”`).join(' · ')}</div>
+      <div style="font-size:0.85rem; margin-top:0.3rem;">${g.explanation}</div>
+    </div>`;
+  });
+  container.innerHTML = html;
+  // Dark mode (same as before)
+  const darkBtn = document.createElement('button');
+  darkBtn.innerHTML = '<i class="fas fa-moon"></i> Dark';
+  darkBtn.style.position = 'fixed'; darkBtn.style.bottom = '20px'; darkBtn.style.right = '20px';
+  darkBtn.style.background = 'var(--accent)'; darkBtn.style.color = 'white'; darkBtn.style.border = 'none'; darkBtn.style.borderRadius = '30px'; darkBtn.style.padding = '0.4rem 1rem'; darkBtn.style.cursor = 'pointer';
+  darkBtn.onclick = () => {
+    const isDark = document.body.classList.contains('dark');
+    if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk3_grammar_theme', 'light'); }
+    else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk3_grammar_theme', 'dark'); }
+  };
+  document.body.appendChild(darkBtn);
+  const savedTheme = localStorage.getItem('hsk3_grammar_theme');
+  if (savedTheme === 'dark') { document.body.classList.add('dark'); document.body.classList.remove('light'); }
+  else { document.body.classList.add('light'); document.body.classList.remove('dark'); }
+</script>
+</body>
+</html>
