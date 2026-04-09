@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSK 3 Daily Challenge</title>
+  <!-- Ad code (same) -->
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
+  /*]]>/* */
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>/* same as HSK2 challenge */</style>
+  <script src="words_hsk3.js"></script>
+</head>
+<body class="light">
+<div class="container">
+  <h1>🎯 HSK 3 Daily Challenge</h1>
+  <div class="streak" id="streakDisplay">🔥 Streak: 0 days</div>
+  <div id="challengeArea"></div>
+  <a href="hsk3_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+</div>
+<script>
+  const wordBank = window.HSK3_WORDS;
+  if (!wordBank || wordBank.length === 0) alert('words_hsk3.js not loaded!');
+  else {
+    let currentWord = null, currentOptions = [], streak = parseInt(localStorage.getItem('hsk3_challenge_streak') || '0');
+    let lastChallengeDate = localStorage.getItem('hsk3_challenge_last') || '';
+    function updateStreakDisplay() { document.getElementById('streakDisplay').innerHTML = `🔥 Streak: ${streak} days`; }
+    function getRandomWord() { return wordBank[Math.floor(Math.random() * wordBank.length)]; }
+    function generateOptions(correctMeaning) {
+      let opts = [correctMeaning];
+      while (opts.length < 4) {
+        const rand = wordBank[Math.floor(Math.random() * wordBank.length)];
+        if (!opts.includes(rand.meaning)) opts.push(rand.meaning);
+      }
+      return opts.sort(() => Math.random() - 0.5);
+    }
+    function loadNewChallenge() { currentWord = getRandomWord(); currentOptions = generateOptions(currentWord.meaning); renderChallenge(); }
+    function renderChallenge() {
+      const area = document.getElementById('challengeArea');
+      area.innerHTML = `<div class="word-card"><div class="chinese">${currentWord.word}</div><div class="options" id="optionsContainer"></div><div class="feedback" id="feedbackMsg"></div><button id="nextChallengeBtn" class="next-btn" style="display:none;">Next Challenge</button></div>`;
+      const optsDiv = document.getElementById('optionsContainer');
+      currentOptions.forEach(opt => {
+        const btn = document.createElement('div'); btn.className = 'option-btn'; btn.innerText = opt;
+        btn.addEventListener('click', () => checkAnswer(opt, btn));
+        optsDiv.appendChild(btn);
+      });
+      document.getElementById('nextChallengeBtn').addEventListener('click', () => { document.getElementById('feedbackMsg').innerHTML = ''; loadNewChallenge(); });
+    }
+    function checkAnswer(selected, btnElement) {
+      const feedback = document.getElementById('feedbackMsg');
+      const allOptions = document.querySelectorAll('.option-btn');
+      if (selected === currentWord.meaning) {
+        feedback.innerHTML = '✅ Correct! +1 streak'; feedback.style.color = '#38a169';
+        const today = new Date().toDateString();
+        if (lastChallengeDate !== today) { streak++; localStorage.setItem('hsk3_challenge_streak', streak); lastChallengeDate = today; localStorage.setItem('hsk3_challenge_last', lastChallengeDate); updateStreakDisplay(); }
+        else feedback.innerHTML = '✅ Correct! (You already earned your streak today)';
+        allOptions.forEach(btn => btn.style.pointerEvents = 'none');
+        document.getElementById('nextChallengeBtn').style.display = 'block';
+      } else {
+        feedback.innerHTML = `❌ Wrong. The correct meaning is: ${currentWord.meaning}`; feedback.style.color = '#e53e3e';
+        allOptions.forEach(btn => { if (btn.innerText === currentWord.meaning) btn.style.background = 'var(--accent)'; btn.style.pointerEvents = 'none'; });
+        document.getElementById('nextChallengeBtn').style.display = 'block';
+      }
+    }
+    updateStreakDisplay(); loadNewChallenge();
+  }
+  // Dark mode (same as before)
+  const darkBtn = document.createElement('button');
+  darkBtn.innerHTML = '<i class="fas fa-moon"></i> Dark';
+  darkBtn.style.position = 'fixed'; darkBtn.style.bottom = '20px'; darkBtn.style.right = '20px';
+  darkBtn.style.background = 'var(--accent)'; darkBtn.style.color = 'white'; darkBtn.style.border = 'none'; darkBtn.style.borderRadius = '30px'; darkBtn.style.padding = '0.4rem 1rem'; darkBtn.style.cursor = 'pointer';
+  darkBtn.onclick = () => {
+    const isDark = document.body.classList.contains('dark');
+    if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk3_challenge_theme', 'light'); }
+    else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk3_challenge_theme', 'dark'); }
+  };
+  document.body.appendChild(darkBtn);
+  const savedTheme = localStorage.getItem('hsk3_challenge_theme');
+  if (savedTheme === 'dark') { document.body.classList.add('dark'); document.body.classList.remove('light'); }
+  else { document.body.classList.add('light'); document.body.classList.remove('dark'); }
+</script>
+</body>
+</html>
