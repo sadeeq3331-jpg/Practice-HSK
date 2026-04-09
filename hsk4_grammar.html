@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSK 4 Grammar</title>
+  <!-- Ad code -->
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
+  /*]]>/* */
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Same grammar styles as HSK3 */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body.light { background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%); --bg-card: #ffffff; --bg-header: rgba(255,255,255,0.7); --text-primary: #1e1b4b; --text-secondary: #4f46e5; --border-light: #c7d2fe; --accent: #4f46e5; }
+    body.dark { background: linear-gradient(145deg, #0f172a 0%, #0b1120 100%); --bg-card: #1e293b; --bg-header: rgba(30,41,59,0.8); --text-primary: #e2e8f0; --text-secondary: #a5b4fc; --border-light: #334155; --accent: #818cf8; }
+    body { padding: 1.2rem; display: flex; flex-direction: column; align-items: center; background: var(--bg-header); }
+    .container { max-width: 1000px; width: 100%; background: var(--bg-header); backdrop-filter: blur(12px); border-radius: 2rem; padding: 1.5rem; }
+    h1 { text-align: center; margin-bottom: 1rem; background: linear-gradient(135deg, var(--text-secondary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .grammar-grid { display: grid; gap: 1rem; margin: 1rem 0; }
+    .grammar-card { background: var(--bg-card); border-radius: 1rem; padding: 1rem; border: 1px solid var(--border-light); }
+    .grammar-title { font-size: 1.2rem; font-weight: 600; color: var(--accent); }
+    .grammar-structure { font-family: monospace; background: rgba(0,0,0,0.05); padding: 0.2rem 0.5rem; border-radius: 0.5rem; display: inline-block; margin: 0.5rem 0; }
+    .grammar-example { padding-left: 0.5rem; border-left: 3px solid var(--accent); margin: 0.5rem 0; font-style: italic; }
+    .back-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem; display: inline-block; text-decoration: none; }
+  </style>
+</head>
+<body class="light">
+<div class="container">
+  <h1>📐 HSK 4 Grammar Points</h1>
+  <div class="grammar-grid" id="grammarList"></div>
+  <a href="hsk4_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+</div>
+<script>
+  const grammarData = [
+    { title: "1. 不仅...而且...", structure: "不仅 + A, 而且 + B", examples: ["他不仅聪明，而且很努力。", "这里不仅风景美，而且空气好。"], explanation: "Not only A, but also B." },
+    { title: "2. 即使...也...", structure: "即使 + A, 也 + B", examples: ["即使下雨，我也要去。", "即使再难，也要坚持。"], explanation: "Even if... still..." },
+    { title: "3. 只要...就...", structure: "只要 + A, 就 + B", examples: ["只要你努力，就能成功。", "只要不下雨，我们就去。"], explanation: "As long as... then..." },
+    { title: "4. 无论...都...", structure: "无论 + A, 都 + B", examples: ["无论天气如何，我都去。", "无论多贵，我都买。"], explanation: "No matter... always..." },
+    { title: "5. 与其...不如...", structure: "与其 + A, 不如 + B", examples: ["与其坐等，不如行动。", "与其羡慕别人，不如自己努力。"], explanation: "Rather than A, better to B." },
+    { title: "6. 宁可...也不...", structure: "宁可 + A, 也不 + B", examples: ["宁可站着死，也不跪着生。", "宁可自己吃亏，也不占便宜。"], explanation: "Would rather A than B." },
+    { title: "7. 由于...因此...", structure: "由于 + A, 因此 + B", examples: ["由于下雨，因此比赛取消。", "由于努力，因此成功。"], explanation: "Because of A, therefore B." },
+    { title: "8. 随着...越来越...", structure: "随着 + A, + 越来越 + B", examples: ["随着经济发展，生活越来越好。", "随着时间推移，感情越来越深。"], explanation: "As A, B becomes more and more." },
+    { title: "9. 把字句的扩展", structure: "S + 把 + O + V + 结果/方向/状态", examples: ["把房间打扫干净。", "把书放在桌子上。"], explanation: "Extended 把 sentence with result/direction complement." },
+    { title: "10. 被字句的扩展", structure: "S + 被 + (doer) + V + 了/结果", examples: ["杯子被他打破了。", "钱包被小偷偷走了。"], explanation: "Extended passive sentence." }
+  ];
+  const container = document.getElementById('grammarList');
+  let html = '';
+  grammarData.forEach(g => {
+    html += `<div class="grammar-card">
+      <div class="grammar-title">${g.title}</div>
+      <div class="grammar-structure">${g.structure}</div>
+      <div class="grammar-example">${g.examples.map(e => `“${e}”`).join(' · ')}</div>
+      <div style="font-size:0.85rem; margin-top:0.3rem;">${g.explanation}</div>
+    </div>`;
+  });
+  container.innerHTML = html;
+  // Dark mode toggle
+  const darkBtn = document.createElement('button');
+  darkBtn.innerHTML = '<i class="fas fa-moon"></i> Dark';
+  darkBtn.style.position = 'fixed'; darkBtn.style.bottom = '20px'; darkBtn.style.right = '20px';
+  darkBtn.style.background = 'var(--accent)'; darkBtn.style.color = 'white'; darkBtn.style.border = 'none'; darkBtn.style.borderRadius = '30px'; darkBtn.style.padding = '0.4rem 1rem'; darkBtn.style.cursor = 'pointer';
+  darkBtn.onclick = () => {
+    const isDark = document.body.classList.contains('dark');
+    if (isDark) { document.body.classList.remove('dark'); document.body.classList.add('light'); localStorage.setItem('hsk4_grammar_theme', 'light'); }
+    else { document.body.classList.remove('light'); document.body.classList.add('dark'); localStorage.setItem('hsk4_grammar_theme', 'dark'); }
+  };
+  document.body.appendChild(darkBtn);
+  const savedTheme = localStorage.getItem('hsk4_grammar_theme');
+  if (savedTheme === 'dark') { document.body.classList.add('dark'); document.body.classList.remove('light'); }
+  else { document.body.classList.add('light'); document.body.classList.remove('dark'); }
+</script>
+</body>
+</html>
