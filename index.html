@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HSK Vocabulary Master</title>
+  <!-- 您的听诊器 Logo 作为网站图标 (Favicon) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='800' height='800' viewBox='0 0 800 800' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='800' height='800' rx='200' fill='%230a2942'/%3E%3Cg transform='translate(200, 200) scale(0.8)'%3E%3Cpath d='M192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v25.6C69.5 68.4 16 127.1 16 200v32c0 101.7 82.3 184 184 184h64c101.7 0 184-82.3 184-184v-32c0-72.9-53.5-131.6-128-142.4V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V32zM48 200c0-63.1 48-115.4 109.5-126.9 4.2-.7 8.5-1.1 12.8-1.1h31.5c4.3 0 8.6 .4 12.8 1.1C288 84.6 336 136.9 336 200v32c0 75.1-60.9 136-136 136h-64c-75.1 0-136-60.9-136-136v-32zm320 240c0-8.8-7.2-16-16-16H32c-8.8 0-16 7.2-16 16v48c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16v-48z' fill='%23ffd966'/%3E%3C/g%3E%3C/svg%3E">
   <!-- Ad code (same as before) -->
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
@@ -15,7 +17,8 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { background: linear-gradient(145deg, #f0f5fa 0%, #e6edf4 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
     .container { max-width: 1200px; width: 100%; background: rgba(255,255,255,0.6); backdrop-filter: blur(12px); border-radius: 3rem; padding: 3rem 2.5rem; box-shadow: 0 30px 50px rgba(0,20,40,0.15); border: 1px solid rgba(255,255,255,0.6); text-align: center; }
-    h1 { font-size: 3.2rem; background: linear-gradient(135deg, #1D3557, #457B9D); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 1rem; }
+    h1 { font-size: 3.2rem; background: linear-gradient(135deg, #1D3557, #457B9D); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.8rem; }
+    .logo-svg { width: 60px; height: 60px; display: inline-block; }
     .sub { color: #2b4a6f; font-size: 1.2rem; margin-bottom: 2.5rem; }
     .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
     .level-card { background: white; border-radius: 2rem; padding: 1.5rem 1rem; text-decoration: none; color: #1D3557; box-shadow: 0 12px 28px rgba(0,30,50,0.1); transition: 0.2s; border: 1px solid rgba(150,190,220,0.4); }
@@ -30,7 +33,18 @@
 </head>
 <body>
 <div class="container">
-  <h1>📚 HSK Vocabulary Master</h1>
+  <h1>
+    <span class="logo-svg">
+      <!-- 页面内 Logo (与 Favicon 相同) -->
+      <svg viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="800" height="800" rx="200" fill="#0a2942"/>
+        <g transform="translate(200, 200) scale(0.8)">
+          <path d="M192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v25.6C69.5 68.4 16 127.1 16 200v32c0 101.7 82.3 184 184 184h64c101.7 0 184-82.3 184-184v-32c0-72.9-53.5-131.6-128-142.4V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V32zM48 200c0-63.1 48-115.4 109.5-126.9 4.2-.7 8.5-1.1 12.8-1.1h31.5c4.3 0 8.6 .4 12.8 1.1C288 84.6 336 136.9 336 200v32c0 75.1-60.9 136-136 136h-64c-75.1 0-136-60.9-136-136v-32zm320 240c0-8.8-7.2-16-16-16H32c-8.8 0-16 7.2-16 16v48c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16v-48z" fill="#ffd966"/>
+        </g>
+      </svg>
+    </span>
+    HSK Vocabulary Master
+  </h1>
   <div class="sub">Complete learning suite for HSK levels 1–6</div>
   <div class="card-grid">
     <a class="level-card" href="hsk1_hub.html"><h2>HSK 1</h2><p>150 words</p><small>Vocabulary · Grammar · Exam · Challenge · Badges</small></a>
