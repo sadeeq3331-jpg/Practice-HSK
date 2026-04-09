@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +16,7 @@
     body.light { background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%); --bg-card: #ffffff; --bg-header: rgba(255,255,255,0.7); --text-primary: #1e1b4b; --text-secondary: #4f46e5; --border-light: #c7d2fe; --accent: #4f46e5; }
     body.dark { background: linear-gradient(145deg, #0f172a 0%, #0b1120 100%); --bg-card: #1e293b; --bg-header: rgba(30,41,59,0.8); --text-primary: #e2e8f0; --text-secondary: #a5b4fc; --border-light: #334155; --accent: #818cf8; }
     body { padding: 1.2rem; display: flex; flex-direction: column; align-items: center; background: var(--bg-header); }
-    .container { max-width: 800px; width: 100%; background: var(--bg-header); backdrop-filter: blur(12px); border-radius: 2rem; padding: 1.5rem; }
+    .container { max-width: 900px; width: 100%; background: var(--bg-header); backdrop-filter: blur(12px); border-radius: 2rem; padding: 1.5rem; }
     h1 { text-align: center; margin-bottom: 1rem; background: linear-gradient(135deg, var(--text-secondary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .timer { text-align: right; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem; color: var(--accent); }
     .question { background: var(--bg-card); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; border: 1px solid var(--border-light); }
@@ -25,35 +24,45 @@
     .option { margin: 0.3rem 0; display: flex; align-items: center; gap: 0.5rem; }
     .submit-btn, .reset-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 2rem; cursor: pointer; margin-right: 1rem; }
     .result { margin-top: 1rem; text-align: center; font-size: 1.1rem; }
-    .back-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem; }
+    .back-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem; display: inline-block; text-decoration: none; }
   </style>
 </head>
 <body class="light">
 <div class="container">
   <h1>📝 HSK 1 Mock Exam</h1>
-  <div class="timer" id="timer">Time left: 10:00</div>
+  <div class="timer" id="timer">Time left: 15:00</div>
   <div id="questionsContainer"></div>
   <div style="display: flex; gap: 1rem; justify-content: center;">
     <button id="submitBtn" class="submit-btn">Submit Exam</button>
     <button id="resetBtn" class="reset-btn">Reset</button>
   </div>
   <div id="result" class="result"></div>
-  <button class="back-btn" onclick="window.location.href='hsk1_hub.html'"><i class="fas fa-arrow-left"></i> Back to Hub</button>
+  <a href="hsk1_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</a>
 </div>
 <script>
   const questions = [
-    { text: "“你好” means?", options: ["Good morning", "Hello", "Goodbye", "Thank you"], correct: 1 },
-    { text: "What is 3 in Chinese?", options: ["三", "四", "五", "六"], correct: 0 },
-    { text: "“老师” means?", options: ["Student", "Teacher", "Doctor", "Driver"], correct: 1 },
-    { text: "Choose the correct translation: 'I am a student.'", options: ["我是学生。", "你是学生。", "他是学生。", "她是学生。"], correct: 0 },
-    { text: "What is the pinyin for '谢谢'?", options: ["xièxie", "xiexie", "xièxiè", "xìexìe"], correct: 0 },
-    { text: "“喝水” means?", options: ["Eat rice", "Drink water", "Sleep", "Run"], correct: 1 },
-    { text: "Which means 'big'?", options: ["大", "小", "多", "少"], correct: 0 },
-    { text: "“你好吗？” is a question about?", options: ["Your name", "Your age", "How are you", "Where you live"], correct: 2 },
-    { text: "The measure word for people is?", options: ["个", "只", "条", "张"], correct: 0 },
-    { text: "“再见” means?", options: ["Hello", "Good morning", "Goodbye", "Thank you"], correct: 2 }
+    { text: "你叫什么名字？ means?", options: ["How old are you?", "Where are you from?", "What is your name?", "How are you?"], correct: 2 },
+    { text: "Choose the correct pinyin for '老师'.", options: ["lǎoshī", "lǎoshì", "lǎoshí", "lāoshī"], correct: 0 },
+    { text: "“我很高兴” means?", options: ["I am sad", "I am happy", "I am tired", "I am angry"], correct: 1 },
+    { text: "What is the measure word for people?", options: ["个", "只", "条", "本"], correct: 0 },
+    { text: "“他是医生” means?", options: ["He is a student", "He is a teacher", "He is a doctor", "He is a driver"], correct: 2 },
+    { text: "Choose the correct translation: 'I have a cat.'", options: ["我有一只猫。", "我有一个猫。", "我是猫。", "我有猫。"], correct: 0 },
+    { text: "“请喝茶” means?", options: ["Please drink tea", "Please eat", "Please sit", "Please come in"], correct: 0 },
+    { text: "What is the negation of '我去北京'?", options: ["我没去北京", "我不去北京", "我去不北京", "我去北京没"], correct: 1 },
+    { text: "“明天见” means?", options: ["Good morning", "Good night", "See you tomorrow", "Goodbye"], correct: 2 },
+    { text: "Which word means 'to eat'?", options: ["喝", "吃", "睡", "走"], correct: 1 },
+    { text: "“对不起” means?", options: ["Thank you", "Sorry", "Hello", "Goodbye"], correct: 1 },
+    { text: "Choose the correct sentence: 'She is a student.'", options: ["她是学生。", "他是学生。", "我是学生。", "你是学生。"], correct: 0 },
+    { text: "“一杯水” - the measure word '杯' is for?", options: ["Cup", "Bottle", "Glass", "Bowl"], correct: 0 },
+    { text: "What does '多' mean?", options: ["Few", "Many", "One", "Two"], correct: 1 },
+    { text: "“你妈妈好吗？” is asking about?", options: ["Your father", "Your mother", "Your health", "Your name"], correct: 1 },
+    { text: "Which is the correct pinyin for '中国'?", options: ["Zhōngguó", "Zhōngguǒ", "Zhōnguó", "Zhōnguǒ"], correct: 0 },
+    { text: "“他在家” means?", options: ["He is at home", "He is at school", "He is at work", "He is outside"], correct: 0 },
+    { text: "What is the opposite of '大'?", options: ["小", "多", "少", "长"], correct: 0 },
+    { text: "“今天星期几？” asks for?", options: ["Date", "Day of the week", "Month", "Year"], correct: 1 },
+    { text: "Which means 'to drink'?", options: ["吃", "喝", "睡", "走"], correct: 1 }
   ];
-  let timeLeft = 600; // 10 minutes in seconds
+  let timeLeft = 900; // 15 minutes
   let timerInterval = null;
   let userAnswers = new Array(questions.length).fill(-1);
   function renderQuestions() {
@@ -107,12 +116,13 @@
   document.getElementById('resetBtn').addEventListener('click', () => {
     userAnswers.fill(-1);
     renderQuestions();
-    timeLeft = 600;
+    timeLeft = 900;
     startTimer();
     document.getElementById('result').innerHTML = '';
   });
   renderQuestions();
   startTimer();
+
   // Dark mode
   const darkBtn = document.createElement('button');
   darkBtn.innerHTML = '<i class="fas fa-moon"></i> Dark';
