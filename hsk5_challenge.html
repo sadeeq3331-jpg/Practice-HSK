@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>HSK 5 · Daily Challenge</title>
+  <!-- 广告代码 -->
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
+  /*]]>/* */
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- 加载 HSK 5 词汇库 -->
+  <script src="words_hsk5.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
+    body.light { background: linear-gradient(145deg, #fdf6e3 0%, #f5e6d3 100%); --bg-card: #ffffff; --bg-header: rgba(255,255,255,0.8); --text-primary: #4a3728; --text-secondary: #c44536; --border-light: #d4b59a; --accent: #c44536; --accent-soft: #fce4d6; }
+    body.dark { background: linear-gradient(145deg, #2c1e16 0%, #1a120c 100%); --bg-card: #3a2a1e; --bg-header: rgba(40,30,20,0.9); --text-primary: #f0d5b5; --text-secondary: #e8956f; --border-light: #6b4e3a; --accent: #d46a4e; --accent-soft: #4a2e22; }
+    body { padding: 1.2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg-header); }
+    .container { max-width: 700px; width: 100%; background: var(--bg-header); backdrop-filter: blur(12px); border-radius: 2.5rem; padding: 2rem 1.8rem; box-shadow: 0 25px 45px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.3); text-align: center; }
+    h1 { font-size: 2.3rem; background: linear-gradient(135deg, var(--text-secondary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .streak-container { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; background: var(--bg-card); padding: 0.5rem 1.5rem; border-radius: 60px; border: 1px solid var(--border-light); width: fit-content; margin-left: auto; margin-right: auto; }
+    .streak-icon { color: #f59e0b; font-size: 1.5rem; }
+    .streak-value { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); }
+    .streak-label { font-size: 0.9rem; color: var(--text-secondary); }
+    .challenge-card { background: var(--bg-card); border-radius: 2rem; padding: 2rem 1.5rem; margin: 1.5rem 0; border: 2px solid var(--accent); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+    .chinese-word { font-size: 4rem; font-weight: 700; color: var(--text-primary); line-height: 1.2; margin-bottom: 1.5rem; word-break: break-word; }
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 1.5rem 0; }
+    .option-btn { background: var(--bg-header); border: 1.5px solid var(--border-light); border-radius: 60px; padding: 1rem 0.5rem; font-size: 1rem; font-weight: 500; color: var(--text-primary); cursor: pointer; transition: all 0.15s; text-align: center; }
+    .option-btn:hover { background: var(--accent-soft); border-color: var(--accent); }
+    .option-btn.correct { background: #38a169; border-color: #38a169; color: white; }
+    .option-btn.wrong { background: #e53e3e; border-color: #e53e3e; color: white; }
+    .option-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+    .feedback { margin: 1rem 0; min-height: 2.5rem; font-weight: 500; }
+    .feedback .correct-msg { color: #38a169; }
+    .feedback .wrong-msg { color: #e53e3e; }
+    .next-btn { background: var(--accent); color: white; border: none; padding: 0.8rem 2.5rem; border-radius: 60px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(196,69,54,0.3); }
+    .next-btn:hover { background: var(--accent-hover, #a83a2e); transform: scale(1.02); }
+    .next-btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+    .action-bar { display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem; }
+    .back-btn { background: var(--bg-card); border: 1px solid var(--border-light); color: var(--text-primary); padding: 0.6rem 1.5rem; border-radius: 60px; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; }
+    .back-btn:hover { background: var(--accent-soft); }
+    .loading-error { color: #e53e3e; padding: 2rem; }
+    .word-count-info { font-size: 0.8rem; color: var(--text-secondary); margin-top: 1rem; }
+  </style>
+</head>
+<body class="light">
+<div class="container">
+  <h1>
+    <i class="fas fa-calendar-check"></i> 
+    Daily Challenge
+  </h1>
+  
+  <!-- 连胜显示 -->
+  <div class="streak-container">
+    <i class="fas fa-fire streak-icon"></i>
+    <span class="streak-value" id="streakDisplay">0</span>
+    <span class="streak-label">day streak</span>
+  </div>
+
+  <!-- 主挑战区域 -->
+  <div id="challengeArea">
+    <!-- 动态加载 -->
+  </div>
+
+  <!-- 返回中心 -->
+  <a href="hsk5_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+  <div class="word-count-info" id="wordCountInfo"></div>
+</div>
+
+<script>
+  (function() {
+    "use strict";
+
+    // ---------- 词汇数据 ----------
+    const wordBank = window.HSK5_WORDS;
+    
+    // DOM 元素
+    const challengeArea = document.getElementById('challengeArea');
+    const streakDisplay = document.getElementById('streakDisplay');
+    const wordCountInfo = document.getElementById('wordCountInfo');
+
+    // 状态变量
+    let currentWord = null;
+    let currentOptions = [];
+    let answered = false;
+    let streak = 0;
+    let lastChallengeDate = '';
+
+    // 初始化连胜
+    function loadStreak() {
+      streak = parseInt(localStorage.getItem('hsk5_challenge_streak') || '0');
+      lastChallengeDate = localStorage.getItem('hsk5_challenge_last') || '';
+      updateStreakDisplay();
+    }
+    
+    function updateStreakDisplay() {
+      streakDisplay.textContent = streak;
+    }
+
+    // 检查是否加载词汇
+    if (!wordBank || wordBank.length === 0) {
+      challengeArea.innerHTML = `
+        <div class="challenge-card">
+          <div class="loading-error">
+            <i class="fas fa-exclamation-triangle"></i> 
+            Error: words_hsk5.js not loaded or empty.
+          </div>
+        </div>
+      `;
+      wordCountInfo.textContent = '⚠️ Vocabulary unavailable';
+      loadStreak();
+    } else {
+      // 显示词库数量
+      wordCountInfo.textContent = `📚 ${wordBank.length} words available · HSK 5`;
+      loadStreak();
+      initChallenge();
+    }
+
+    // 工具函数：随机打乱数组
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // 随机获取一个单词
+    function getRandomWord() {
+      return wordBank[Math.floor(Math.random() * wordBank.length)];
+    }
+
+    // 生成选项 (正确答案 + 3个随机不同干扰项)
+    function generateOptions(correctMeaning) {
+      let opts = [correctMeaning];
+      while (opts.length < 4) {
+        const randWord = wordBank[Math.floor(Math.random() * wordBank.length)];
+        const randMeaning = randWord.meaning;
+        // 避免重复选项，且不能与正确答案相同
+        if (!opts.includes(randMeaning) && randMeaning !== correctMeaning) {
+          opts.push(randMeaning);
+        }
+      }
+      return shuffleArray(opts);
+    }
+
+    // 加载新挑战
+    function loadNewChallenge() {
+      currentWord = getRandomWord();
+      currentOptions = generateOptions(currentWord.meaning);
+      answered = false;
+      renderChallenge();
+    }
+
+    // 渲染挑战界面
+    function renderChallenge() {
+      const optionsHtml = currentOptions.map(opt => 
+        `<button class="option-btn" data-meaning="${opt}">${opt}</button>`
+      ).join('');
+
+      challengeArea.innerHTML = `
+        <div class="challenge-card">
+          <div class="chinese-word">${currentWord.word}</div>
+          <div class="options-grid" id="optionsContainer">
+            ${optionsHtml}
+          </div>
+          <div class="feedback" id="feedbackMsg"></div>
+          <div class="action-bar">
+            <button class="next-btn" id="nextChallengeBtn" disabled>Next Word</button>
+          </div>
+        </div>
+      `;
+
+      // 绑定选项点击事件
+      const optionBtns = document.querySelectorAll('.option-btn');
+      const feedbackDiv = document.getElementById('feedbackMsg');
+      const nextBtn = document.getElementById('nextChallengeBtn');
+
+      optionBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          if (answered) return; // 已经回答过
+          
+          const selectedMeaning = btn.dataset.meaning;
+          const isCorrect = (selectedMeaning === currentWord.meaning);
+          
+          // 视觉反馈
+          optionBtns.forEach(b => {
+            b.disabled = true;
+            if (b.dataset.meaning === currentWord.meaning) {
+              b.classList.add('correct');
+            } else if (b.dataset.meaning === selectedMeaning && !isCorrect) {
+              b.classList.add('wrong');
+            }
+          });
+
+          // 文字反馈 (包含正确答案)
+          if (isCorrect) {
+            feedbackDiv.innerHTML = `<span class="correct-msg"><i class="fas fa-check-circle"></i> Correct! +1 streak</span>`;
+            handleCorrect();
+          } else {
+            feedbackDiv.innerHTML = `<span class="wrong-msg"><i class="fas fa-times-circle"></i> Wrong. Correct meaning: <strong>${currentWord.meaning}</strong></span>`;
+          }
+
+          answered = true;
+          nextBtn.disabled = false;
+        });
+      });
+
+      // 下一题按钮
+      nextBtn.addEventListener('click', () => {
+        loadNewChallenge();
+      });
+    }
+
+    // 处理回答正确：更新连胜 (每天只计一次)
+    function handleCorrect() {
+      const today = new Date().toDateString();
+      
+      if (lastChallengeDate !== today) {
+        // 新的一天，增加连胜
+        streak++;
+        lastChallengeDate = today;
+        localStorage.setItem('hsk5_challenge_streak', streak);
+        localStorage.setItem('hsk5_challenge_last', lastChallengeDate);
+        updateStreakDisplay();
+      } else {
+        // 同一天再次答对，不增加连胜，但可给予提示
+        const feedbackDiv = document.getElementById('feedbackMsg');
+        const existingText = feedbackDiv.innerHTML;
+        if (!existingText.includes('already earned')) {
+          feedbackDiv.innerHTML = existingText + '<br><small style="opacity:0.8;">(You already earned today\'s streak)</small>';
+        }
+      }
+      
+      // 同时，将该单词标记为“已学” (与词汇页面联动)
+      try {
+        const studiedKey = 'hsk5_studied';
+        const studied = new Set(JSON.parse(localStorage.getItem(studiedKey) || '[]'));
+        if (!studied.has(currentWord.word)) {
+          studied.add(currentWord.word);
+          localStorage.setItem(studiedKey, JSON.stringify([...studied]));
+        }
+      } catch (e) {}
+    }
+
+    // 初始化挑战 (第一次加载)
+    function initChallenge() {
+      loadNewChallenge();
+    }
+
+    // ---------- 深色模式切换 ----------
+    const darkBtn = document.createElement('button');
+    darkBtn.innerHTML = '<i class="fas fa-moon"></i>';
+    darkBtn.style.position = 'fixed'; 
+    darkBtn.style.bottom = '20px'; 
+    darkBtn.style.right = '20px';
+    darkBtn.style.background = 'var(--accent)'; 
+    darkBtn.style.color = 'white'; 
+    darkBtn.style.border = 'none';
+    darkBtn.style.borderRadius = '50%'; 
+    darkBtn.style.width = '50px'; 
+    darkBtn.style.height = '50px'; 
+    darkBtn.style.cursor = 'pointer';
+    darkBtn.style.zIndex = '1500';
+    darkBtn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+    
+    darkBtn.onclick = () => {
+      const isDark = document.body.classList.contains('dark');
+      if (isDark) {
+        document.body.classList.remove('dark');
+        document.body.classList.add('light');
+        localStorage.setItem('hsk5_challenge_theme', 'light');
+        darkBtn.innerHTML = '<i class="fas fa-moon"></i>';
+      } else {
+        document.body.classList.remove('light');
+        document.body.classList.add('dark');
+        localStorage.setItem('hsk5_challenge_theme', 'dark');
+        darkBtn.innerHTML = '<i class="fas fa-sun"></i>';
+      }
+    };
+    document.body.appendChild(darkBtn);
+    
+    const savedTheme = localStorage.getItem('hsk5_challenge_theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.remove('light');
+      document.body.classList.add('dark');
+      darkBtn.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+      document.body.classList.add('light');
+      document.body.classList.remove('dark');
+    }
+
+  })();
+</script>
+</body>
+</html>
