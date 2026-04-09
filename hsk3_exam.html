@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HSK 3 Official Exam Simulation</title>
-  <!-- Ad code -->
+  <!-- Ad code (your provided script) -->
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
   (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
@@ -39,7 +39,7 @@
 <div class="container">
   <h1>📝 HSK 3 Official Exam Simulation</h1>
   <div id="startScreen">
-    <p style="margin: 1rem 0;">Official HSK 3 format:</p>
+    <p style="margin: 1rem 0;">Official HSK 3 format (70 questions):</p>
     <ul style="margin-left: 2rem;">
       <li>Listening: 40 questions (4 parts) – ~35 minutes</li>
       <li>Reading: 30 questions (3 parts) – 30 minutes</li>
@@ -60,16 +60,15 @@
   <a href="hsk3_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</a>
 </div>
 <script>
-  // ==================== HSK 3 OFFICIAL EXAM DATA ====================
-  // Listening: 40 questions (4 parts)
+  // ==================== HSK 3 EXAM DATA (Official Format) ====================
+  // Listening: 40 questions
   const listeningQuestions = [
-    // Part 1 (Q1-10): Picture selection (5 questions only, but we'll simulate)
+    // Part 1 (Q1-10): Picture selection (A/B/C)
     { type: "part1", dialogue: "女：你去做什么？男：我去看足球比赛。", imgA: "⚽", imgADesc: "足球比赛", imgB: "🏀", imgBDesc: "篮球比赛", imgC: "🎾", imgCDesc: "网球比赛", correct: 0 },
     { type: "part1", dialogue: "男：那两个笑着看照片的女孩是谁？女：那是我妹妹和她的好朋友。", imgA: "👧", imgADesc: "一个女孩", imgB: "👧👧", imgBDesc: "两个女孩", imgC: "👨👩", imgCDesc: "一男一女", correct: 1 },
     { type: "part1", dialogue: "女：我太饿了，我想吃块儿蛋糕。男：别吃了，我们去吃饭吧。", imgA: "🍰", imgADesc: "蛋糕", imgB: "🍚", imgBDesc: "米饭", imgC: "🍜", imgCDesc: "面条", correct: 0 },
     { type: "part1", dialogue: "男：你怎么总是站着？快坐吧。女：我吃了两块蛋糕，现在不想坐着。", imgA: "🧍", imgADesc: "站着", imgB: "🪑", imgBDesc: "坐着", imgC: "🏃", imgCDesc: "跑步", correct: 0 },
     { type: "part1", dialogue: "女：我记得那家超市的西瓜又甜又新鲜，我们去看看吧。男：好，走吧。", imgA: "🍉", imgADesc: "西瓜", imgB: "🍎", imgBDesc: "苹果", imgC: "🍌", imgCDesc: "香蕉", correct: 0 },
-    // Part 1 continued (Q6-10)
     { type: "part1", dialogue: "男：你喜欢喝什么？女：我喜欢喝茶，不喜欢喝咖啡。", imgA: "☕", imgADesc: "咖啡", imgB: "🍵", imgBDesc: "茶", imgC: "🥤", imgCDesc: "饮料", correct: 1 },
     { type: "part1", dialogue: "女：你的自行车在哪里？男：在楼下的停车场里。", imgA: "🏢", imgADesc: "大楼", imgB: "🅿️", imgBDesc: "停车场", imgC: "🏪", imgCDesc: "商店", correct: 1 },
     { type: "part1", dialogue: "男：你弟弟喜欢什么运动？女：他最喜欢游泳。", imgA: "🏊", imgADesc: "游泳", imgB: "🏃", imgBDesc: "跑步", imgC: "🚴", imgCDesc: "骑车", correct: 0 },
@@ -109,7 +108,7 @@
     { type: "part4", passage: "我的梦想是成为一名医生。", question: "他的梦想是什么？", options: ["老师", "医生", "工程师"], correct: 1 },
     { type: "part4", passage: "周末我经常和朋友一起看电影。", question: "他周末经常做什么？", options: ["看电影", "爬山", "逛街"], correct: 0 }
   ];
-  // Reading: 30 questions (3 parts)
+  // Reading: 30 questions
   const readingQuestions = [
     // Part 1 (Q1-10): Sentence matching
     { type: "reading_part1", left: "今天天气很冷。", right: "多穿点儿衣服吧。", matchIndex: 0 },
@@ -234,8 +233,10 @@
     } else {
       // reading section
       if (q.type === 'reading_part1') {
+        // For matching, we show all possible right answers as radio buttons
+        const rightOptions = readingQuestions.slice(0,10).map((rq, i) => rq.right);
         html = `<div class="question"><div><strong>${idx+1}.</strong> ${q.left}</div>
-          <div class="options">${readingQuestions.slice(0,10).map((rq, i) => `<div class="option"><label><input type="radio" name="q" value="${i}" ${selected === i ? 'checked' : ''}> ${rq.right}</label></div>`).join('')}</div>
+          <div class="options">${rightOptions.map((opt, i) => `<div class="option"><label><input type="radio" name="q" value="${i}" ${selected === i ? 'checked' : ''}> ${String.fromCharCode(65+i)}. ${opt}</label></div>`).join('')}</div>
         </div>`;
       } else if (q.type === 'reading_part2') {
         html = `<div class="question"><div><strong>${idx+1}.</strong> ${q.sentence}</div>
@@ -249,13 +250,12 @@
     }
     questionContainer.innerHTML = html;
     
-    // Attach event listeners
+    // Attach event listeners for image clicks (part1) and radios
     if (isListening && q.type === 'part1') {
       document.querySelectorAll('.image-option').forEach(opt => {
         opt.addEventListener('click', () => {
           const val = parseInt(opt.dataset.val);
           examState.answers[globalIdx] = val;
-          // Update visual selection
           document.querySelectorAll('.image-option').forEach(o => o.classList.remove('selected'));
           opt.classList.add('selected');
           if (!examState.audioPlaying) {
@@ -294,6 +294,7 @@
             speak(audioText, () => {});
           }
         });
+        // Auto-play after a short delay
         setTimeout(() => {
           if (!examState.audioPlaying && document.getElementById('playAudioBtn')) {
             document.getElementById('playAudioBtn').click();
