@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>HSK 5 · 全真模拟试卷（第二套）</title>
+  <title>HSK 5 · 全真模拟试卷（第二套·修复）</title>
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
   (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
@@ -43,7 +43,7 @@
 </head>
 <body class="light">
 <div class="container">
-  <h1>📝 HSK 5 全真模拟试卷（第二套）</h1>
+  <h1>📝 HSK 5 全真模拟试卷（第二套·修复）</h1>
   <div id="startScreen">
     <p style="margin: 1rem 0;">官方HSK五级格式（100题）：</p>
     <ul style="margin-left: 2rem;">
@@ -74,7 +74,7 @@
 </div>
 <script>
   (function(){
-    // ==================== 听力部分 (45题·第二套全新) ====================
+    // ==================== 听力部分 (45题·第二套) ====================
     const listeningQuestions = [
       // 第一部分：短对话 (20题)
       { type: "part1", dialogue: "女：一个礼拜不见，你怎么变得这么黑？男：晒的，我和朋友去海南玩儿了几天。", question: "男的怎么了？", options: ["A. 晒黑了", "B. 过敏了", "C. 失眠了", "D. 后悔了"], correct: 0 },
@@ -132,9 +132,8 @@
       else if (q.type === 'part2') q.questions.forEach(sq => flatListening.push({ ...sq, type: 'part2', dialogue: q.dialogue }));
     });
 
-    // ==================== 阅读部分 (45题·第二套全新) ====================
+    // ==================== 阅读部分 (45题·第二套) ====================
     const readingQuestions = [
-      // 第一部分：选词填空 (15题)
       { type: "part1", passage: "在沙滩排球场上，半躺在沙滩椅中，头顶着蓝天，脚下踩着软软的细沙，吹着海风，享受那份惬意。阳光下，球场两边各有两名__1__着太阳眼镜、晒得一身古铜色__2__的运动员在网前争夺。满身的沙子，还有满身的汗水，在蓝天白云的衬托下，阳光的照射下，动感而__3__活力。", blanks: [
         { options: ["A. 穿", "B. 带", "C. 挂", "D. 戴"], correct: 3 },
         { options: ["A. 皮肤", "B. 身体", "C. 头发", "D. 胳膊"], correct: 0 },
@@ -160,8 +159,6 @@
       { type: "part1", passage: "微笑是一种神奇的力量。当你对别人微笑时，对方往往会回报你一个微笑，这就是__15__。", blanks: [
         { options: ["A. 礼貌", "B. 尊重", "C. 传染", "D. 友好"], correct: 2 }
       ] },
-      
-      // 第二部分：内容一致 (10题)
       { type: "part2", passage: "百货公司里有一台自动报体重的电子秤。一位胖女士责备道："我最恨它了！"朋友问："为什么？它大声说出你的体重了吗？"胖女士愤怒地说："没有！上次我刚一踩上去，它竟然说：一次只能站一个人。""", options: ["A. 电子秤坏了", "B. 胖女士对体重不满", "C. 朋友觉得电子秤很准", "D. 电子秤声音太小"], correct: 1 },
       { type: "part2", passage: "中国古人认为，"柳"与"留"发音相近，古人便折柳相赠，以表难舍之情。李白诗中"此夜曲中闻折柳，何人不起故园情"正是这一习俗的写照。", options: ["A. 柳树的种植范围广", "B. 折柳送别的习俗起源于唐代", "C. 折柳送别是中国古时的传统", "D. 李白的诗主要描写相聚的情景"], correct: 2 },
       { type: "part2", passage: "说到大海，人们首先想到的就是蓝色。不过千万别弄错，纯净的海水其实是无色的，只有在阳光的照耀下才呈现蓝色。", options: ["A. 海水本来就是蓝色的", "B. 纯净的海水是无色的", "C. 阳光让海水变成绿色", "D. 海水只有在晚上才是蓝色"], correct: 1 },
@@ -172,8 +169,6 @@
       { type: "part2", passage: "中国的春节，也就是农历新年，是中国最重要的传统节日。春节期间，人们会贴春联、放鞭炮、吃团圆饭、给晚辈发红包。无论离家多远，人们都会尽量赶回家与家人团聚。", options: ["A. 春节是公历新年", "B. 春节人们不吃团圆饭", "C. 春节是中国最重要的节日", "D. 春节人们不放鞭炮"], correct: 2 },
       { type: "part2", passage: "太极拳是一种中国传统武术，也是一种健身运动。太极拳的动作缓慢柔和，适合各个年龄段的人练习。练习太极拳不仅可以锻炼身体，还可以调节呼吸，放松心情。", options: ["A. 太极拳动作很快", "B. 太极拳只适合老年人", "C. 太极拳可以锻炼身体和放松心情", "D. 太极拳起源于日本"], correct: 2 },
       { type: "part2", passage: "中国古人认为，人的身体里有阴阳两种气。阴阳平衡，人就会健康；阴阳失调，人就会生病。中医治病的一个重要原则就是调整阴阳，使身体恢复平衡。", options: ["A. 阴阳平衡人就会健康", "B. 阴阳失调人更健康", "C. 中医不需要调整阴阳", "D. 人体只有阳气"], correct: 0 },
-      
-      // 第三部分：阅读理解 (20题)
       { type: "part3", passage: "北京的四合院是中国北方传统的民居形式。"四"指东西南北四面，"合"指合在一起，形成一个"口"字形。四合院的建筑格局体现了中国传统的家庭观念和等级制度。长辈住在正房，晚辈住在厢房。", questions: [{ q: "四合院的"四"指的是什么？", options: ["A. 四个房间", "B. 四个方向", "C. 四种颜色", "D. 四个季节"], correct: 1 },{ q: "长辈通常住在哪里？", options: ["A. 厢房", "B. 正房", "C. 客房", "D. 厨房"], correct: 1 }] },
       { type: "part3", passage: "中国有句俗话："饭后百步走，活到九十九。"意思是吃完饭后散散步，有助于身体健康。但现代医学研究表明，饭后立即散步并不科学。正确的做法是饭后休息半小时左右，然后再进行散步等轻度运动。", questions: [{ q: ""饭后百步走，活到九十九"是什么意思？", options: ["A. 饭后散步有益健康", "B. 饭后不能走路", "C. 活到九十九岁很容易", "D. 走一百步就能长寿"], correct: 0 },{ q: "现代医学认为饭后应该怎样？", options: ["A. 立即散步", "B. 马上睡觉", "C. 休息半小时再散步", "D. 立刻跑步"], correct: 2 }] },
       { type: "part3", passage: "大熊猫是中国的国宝，主要生活在四川、陕西和甘肃的山区。大熊猫以竹子为主要食物，每天要吃12到38公斤的竹子。由于栖息地减少和繁殖能力较低，大熊猫的数量一度非常稀少。经过多年的保护，大熊猫的数量有所恢复，但仍然属于易危物种。", questions: [{ q: "大熊猫主要吃什么？", options: ["A. 肉", "B. 竹子", "C. 水果", "D. 草"], correct: 1 },{ q: "大熊猫数量稀少的主要原因是什么？", options: ["A. 食物太多", "B. 栖息地减少", "C. 天敌太多", "D. 气候变化"], correct: 1 }] },
@@ -194,9 +189,8 @@
       else if (q.type === 'part3') q.questions.forEach(sq => flatReading.push({ ...sq, type: 'part3', passage: q.passage }));
     });
 
-    // ==================== 书写部分 (10题·第二套全新) ====================
+    // ==================== 书写部分 (10题·第二套) ====================
     const writingQuestions = [
-      // 第一部分：完成句子 (8题)
       { type: "part1", words: ["发表", "这篇论文", "什么时候", "是", "的"], correct: "这篇论文是什么时候发表的" },
       { type: "part1", words: ["他", "中国", "了", "已经", "三年", "在"], correct: "他在中国已经三年了" },
       { type: "part1", words: ["我", "北京", "去过", "一次", "只"], correct: "我只去过一次北京" },
@@ -205,7 +199,6 @@
       { type: "part1", words: ["今天", "比", "昨天", "冷", "多了"], correct: "今天比昨天冷多了" },
       { type: "part1", words: ["他", "被", "那本书", "吸引", "住了", "深深地"], correct: "他被那本书深深地吸引住了" },
       { type: "part1", words: ["我们", "把", "这件事", "处理好", "一定", "会"], correct: "我们一定会把这件事处理好" },
-      // 第二部分：短文写作 (2题)
       { type: "part2", style: "words", promptWords: ["旅行", "风景", "心情", "收获"], requirement: "请用以上词语写一篇80字左右的短文。" },
       { type: "part2", style: "image", image: "🏞️", imageDesc: "美丽的自然风景", requirement: "请结合图片写一篇80字左右的短文。" }
     ];
