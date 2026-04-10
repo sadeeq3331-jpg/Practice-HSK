@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>HSK 3 · 全真模拟试卷（第七套）</title>
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
+  /*]]>/* */
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body.light { background: linear-gradient(145deg, #e0f7fa 0%, #b2ebf2 100%); --bg-card: #ffffff; --bg-header: rgba(255,255,255,0.7); --text-primary: #004d40; --text-secondary: #00838f; --border-light: #80cbc4; --accent: #00acc1; }
+    body.dark { background: linear-gradient(145deg, #1a2c2e 0%, #0f1f20 100%); --bg-card: #2a3e40; --bg-header: rgba(30,45,45,0.8); --text-primary: #b2dfdb; --text-secondary: #80cbc4; --border-light: #4a6e6a; --accent: #26c6da; }
+    body { padding: 1.2rem; display: flex; flex-direction: column; align-items: center; background: var(--bg-header); }
+    .container { max-width: 950px; width: 100%; background: var(--bg-header); backdrop-filter: blur(12px); border-radius: 2rem; padding: 1.5rem; }
+    h1 { text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--text-secondary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .exam-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
+    .timer { font-size: 1.2rem; font-weight: bold; color: var(--accent); }
+    .pause-btn { background: var(--bg-card); border: 1px solid var(--border-light); padding: 0.4rem 1rem; border-radius: 2rem; cursor: pointer; color: var(--text-primary); }
+    .section-header { font-size: 1.4rem; margin: 0.5rem 0; font-weight: 600; }
+    .question { background: var(--bg-card); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; border: 1px solid var(--border-light); }
+    .options { margin: 0.5rem 0 0 1rem; }
+    .option { margin: 0.3rem 0; display: flex; align-items: center; gap: 0.5rem; }
+    .control-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 2rem; cursor: pointer; margin: 0.3rem; }
+    .control-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .word-tile { background: var(--bg-card); border: 1px solid var(--accent); border-radius: 2rem; padding: 0.4rem 1rem; cursor: pointer; display: inline-block; margin: 0.2rem; font-size: 1rem; color: var(--text-primary); }
+    .word-tile.selected { background: var(--accent); color: white; }
+    .sentence-builder { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.8rem 0; }
+    .sentence-preview { background: rgba(0,172,193,0.1); border-radius: 1rem; padding: 0.8rem; margin: 0.8rem 0; border: 1px dashed var(--accent); min-height: 2.8rem; }
+    .essay-area { width: 100%; padding: 0.8rem; border-radius: 1rem; border: 1px solid var(--border-light); background: var(--bg-card); color: var(--text-primary); resize: vertical; font-size: 1rem; margin: 0.8rem 0; }
+    .word-count { font-size: 0.8rem; color: var(--text-secondary); text-align: right; }
+    .nav-bar { display: flex; flex-wrap: wrap; gap: 0.2rem; margin: 1rem 0; justify-content: center; }
+    .nav-btn { width: 2rem; height: 2rem; border-radius: 50%; border: 1px solid var(--border-light); background: var(--bg-card); color: var(--text-primary); font-size: 0.7rem; cursor: pointer; }
+    .nav-btn.answered { background: var(--accent); color: white; }
+    .nav-btn.current { border: 2px solid var(--accent); font-weight: bold; }
+    .result { margin-top: 1rem; text-align: center; font-size: 1.1rem; }
+    .back-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem; display: inline-block; text-decoration: none; }
+    .hidden { display: none !important; }
+    .image-row { display: flex; justify-content: center; gap: 1.5rem; margin: 1rem 0; flex-wrap: wrap; }
+    .image-option { text-align: center; cursor: pointer; padding: 0.5rem; border-radius: 0.8rem; transition: 0.1s; width: 100px; border: 2px solid transparent; }
+    .image-option.selected { border-color: var(--accent); background: rgba(0,172,193,0.1); }
+    .image-emoji { font-size: 3rem; display: block; margin-bottom: 0.3rem; }
+  </style>
+</head>
+<body class="light">
+<div class="container">
+  <h1>📝 HSK 3 全真模拟试卷（第七套）</h1>
+  <div id="startScreen">
+    <p style="margin: 1rem 0;">Official HSK 3 format (80 questions):</p>
+    <ul style="margin-left: 2rem;">
+      <li>Listening: 40 questions (4 parts) – ~35 min</li>
+      <li>Reading: 30 questions (3 parts) – 30 min</li>
+      <li>Writing: 10 questions (2 parts) – 15 min</li>
+      <li>5 min answer sheet after listening</li>
+      <li>Total 300 points, pass at 180</li>
+    </ul>
+    <button id="startBtn" class="control-btn">Start Exam</button>
+  </div>
+  <div id="examArea" class="hidden">
+    <div class="exam-header">
+      <div class="timer" id="timer">Listening: 35:00</div>
+      <button id="pauseBtn" class="pause-btn"><i class="fas fa-pause"></i> Pause</button>
+    </div>
+    <div id="sectionHeader" class="section-header">🎧 Listening Part 1 (1/10)</div>
+    <div id="questionContainer"></div>
+    <div class="nav-bar" id="navBar"></div>
+    <div style="text-align: center; margin-top: 0.5rem;"><span id="progressInfo">Question 1 / 40</span></div>
+    <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem;">
+      <button id="prevBtn" class="control-btn"><i class="fas fa-chevron-left"></i> Previous</button>
+      <button id="nextBtn" class="control-btn">Next <i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+  <div id="resultArea" class="hidden"></div>
+  <a href="hsk3_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+</div>
+<script>
+  (function(){
+    // ==================== LISTENING (40 questions) ====================
+    const listeningQuestions = [
+      // Part 1: Picture matching (10 questions)
+      { type: "part1", dialogue: "女：你周末喜欢做什么？男：我喜欢骑自行车。", imgA: "🚴", imgADesc: "骑车", imgB: "🏃", imgBDesc: "跑步", imgC: "🏊", imgCDesc: "游泳", correct: 0 },
+      { type: "part1", dialogue: "男：你想买什么水果？女：我想买橙子。", imgA: "🍎", imgADesc: "苹果", imgB: "🍊", imgBDesc: "橙子", imgC: "🍌", imgCDesc: "香蕉", correct: 1 },
+      { type: "part1", dialogue: "女：你外公每天早上做什么？男：他去公园打太极拳。", imgA: "🧘", imgADesc: "太极拳", imgB: "💃", imgBDesc: "跳舞", imgC: "🏃", imgCDesc: "跑步", correct: 0 },
+      { type: "part1", dialogue: "男：今天天气怎么样？女：出太阳了，很暖和。", imgA: "☀️", imgADesc: "晴天", imgB: "☁️", imgBDesc: "多云", imgC: "🌧️", imgCDesc: "下雨", correct: 0 },
+      { type: "part1", dialogue: "女：你最喜欢的运动是什么？男：我最喜欢踢足球。", imgA: "🏀", imgADesc: "篮球", imgB: "⚽", imgBDesc: "足球", imgC: "🏈", imgCDesc: "橄榄球", correct: 1 },
+      { type: "part1", dialogue: "男：你妹妹在做什么？女：她在听音乐。", imgA: "🎧", imgADesc: "听音乐", imgB: "📖", imgBDesc: "看书", imgC: "🎮", imgCDesc: "玩游戏", correct: 0 },
+      { type: "part1", dialogue: "女：你午饭想吃什么？男：我想吃汉堡。", imgA: "🍕", imgADesc: "披萨", imgB: "🍔", imgBDesc: "汉堡", imgC: "🌮", imgCDesc: "塔可", correct: 1 },
+      { type: "part1", dialogue: "男：你姐姐在哪儿工作？女：她在一家律师事务所工作。", imgA: "🏥", imgADesc: "医院", imgB: "🏫", imgBDesc: "学校", imgC: "⚖️", imgCDesc: "律师事务所", correct: 2 },
+      { type: "part1", dialogue: "女：你养了什么宠物？男：我养了一只仓鼠。", imgA: "🐹", imgADesc: "仓鼠", imgB: "🐰", imgBDesc: "兔子", imgC: "🐱", imgCDesc: "猫", correct: 0 },
+      { type: "part1", dialogue: "男：你周末做什么了？女：我去博物馆了。", imgA: "🏛️", imgADesc: "博物馆", imgB: "🎨", imgBDesc: "美术馆", imgC: "🏟️", imgCDesc: "体育场", correct: 0 },
+      // Part 2: True/False (10 questions)
+      { type: "part2", sentence: "这个苹果很脆，很好吃。", statement: "★ 苹果很软。", correct: false },
+      { type: "part2", sentence: "他每天下午都去操场踢球。", statement: "★ 他喜欢踢球。", correct: true },
+      { type: "part2", sentence: "我昨天买的裙子太短了，穿不了。", statement: "★ 裙子很合适。", correct: false },
+      { type: "part2", sentence: "今天是我和妻子结婚五周年纪念日。", statement: "★ 今天不是纪念日。", correct: false },
+      { type: "part2", sentence: "外面下雪了，你最好戴上手套。", statement: "★ 外面天气很热。", correct: false },
+      { type: "part2", sentence: "他俄语说得很好，因为他以前在莫斯科留学。", statement: "★ 他在俄罗斯学习过。", correct: true },
+      { type: "part2", sentence: "我还没吃早饭，现在很饿。", statement: "★ 他吃过早饭了。", correct: false },
+      { type: "part2", sentence: "那个故事很感人，我差点哭了。", statement: "★ 故事很无聊。", correct: false },
+      { type: "part2", sentence: "他最近很轻松，因为项目结束了。", statement: "★ 他最近很忙。", correct: false },
+      { type: "part2", sentence: "这副眼镜只要八十块，太值了。", statement: "★ 眼镜很贵。", correct: false },
+      // Part 3: Short dialogues (10 questions)
+      { type: "part3", dialogue: "女：你什么时候去广州？男：下个星期四。", question: "他什么时候去广州？", options: ["A. 下周二", "B. 下周三", "C. 下周四"], correct: 2 },
+      { type: "part3", dialogue: "男：你喜欢吃苹果还是梨？女：苹果，梨太硬了。", question: "她喜欢吃什么？", options: ["A. 苹果", "B. 梨", "C. 香蕉"], correct: 0 },
+      { type: "part3", dialogue: "女：你姑父是教授吗？男：不，他是研究员。", question: "他姑父做什么工作？", options: ["A. 教授", "B. 研究员", "C. 医生"], correct: 1 },
+      { type: "part3", dialogue: "男：这台电脑多少钱？女：原价五千，现在打八五折。", question: "现在多少钱？", options: ["A. 4000元", "B. 4250元", "C. 4500元"], correct: 1 },
+      { type: "part3", dialogue: "女：你几点到家？男：平常五点半，今天堵车，六点二十才到。", question: "今天几点到家？", options: ["A. 五点半", "B. 六点", "C. 六点二十"], correct: 2 },
+      { type: "part3", dialogue: "男：你午饭带了什么？女：米饭和鸡肉。", question: "她没带什么？", options: ["A. 米饭", "B. 鸡肉", "C. 蔬菜"], correct: 2 },
+      { type: "part3", dialogue: "女：你觉得这个沙发怎么样？男：坐着很舒服，就是颜色有点儿暗。", question: "他觉得沙发怎么样？", options: ["A. 不舒服", "B. 颜色很亮", "C. 颜色有点儿暗"], correct: 2 },
+      { type: "part3", dialogue: "男：你妹妹学什么专业？女：她学新闻。", question: "他妹妹学什么？", options: ["A. 新闻", "B. 文学", "C. 历史"], correct: 0 },
+      { type: "part3", dialogue: "女：昨天怎么没来上班？男：我发烧了，请假在家。", question: "他为什么没来？", options: ["A. 生病", "B. 有事", "C. 忘了"], correct: 0 },
+      { type: "part3", dialogue: "男：你学画画多久了？女：从五岁开始，十五年了。", question: "她学画画多久？", options: ["A. 十年", "B. 十二年", "C. 十五年"], correct: 2 },
+      // Part 4: Longer dialogues / passages (10 questions)
+      { type: "part4", passage: "我叫宋佳，今年二十五岁，是杭州人。我在一家广告公司做设计师。我喜欢我的工作，因为可以发挥创意。", questions: [{ q: "宋佳做什么工作？", options: ["A. 设计师", "B. 老师", "C. 会计"], correct: 0 }] },
+      { type: "part4", passage: "我家有三口人：爸爸、妈妈和我。爸爸是出租车司机，妈妈是家庭主妇。我们一家人很和睦。", questions: [{ q: "他家有几口人？", options: ["A. 两口", "B. 三口", "C. 四口"], correct: 1 },{ q: "爸爸做什么工作？", options: ["A. 司机", "B. 厨师", "C. 工人"], correct: 0 }] },
+      { type: "part4", passage: "今天天气很热，气温有三十五度。我哪儿都没去，在家里吹空调、吃西瓜。", questions: [{ q: "今天天气怎么样？", options: ["A. 很冷", "B. 很热", "C. 很凉快"], correct: 1 }] },
+      { type: "part4", passage: "昨天我过得很开心。上午去逛街，买了一条裤子。下午和朋友喝咖啡聊天。晚上看了电影。", questions: [{ q: "他下午做什么了？", options: ["A. 逛街", "B. 喝咖啡聊天", "C. 看电影"], correct: 1 }] },
+      { type: "part4", passage: "男：请问，附近有医院吗？女：有，往前走到十字路口，然后往左拐，再走一百米就到了。男：好的，谢谢。", questions: [{ q: "医院怎么走？", options: ["A. 往前左拐", "B. 往前右拐", "C. 一直走"], correct: 0 },{ q: "大概有多远？", options: ["A. 五十米", "B. 一百米", "C. 两百米"], correct: 1 }] },
+      { type: "part4", passage: "女：你国庆节打算做什么？男：我想去四川旅游，看看九寨沟。", questions: [{ q: "他国庆想去哪儿？", options: ["A. 四川", "B. 云南", "C. 贵州"], correct: 0 }] },
+      { type: "part4", passage: "男：你觉得我送女朋友什么礼物好？女：送她一束花吧，女孩子都喜欢花。", questions: [{ q: "女的建议送什么？", options: ["A. 巧克力", "B. 花", "C. 首饰"], correct: 1 }] }
+    ];
+
+    const flatListening = [];
+    listeningQuestions.forEach(q => { if (q.type === 'part1' || q.type === 'part2' || q.type === 'part3') flatListening.push(q); else if (q.type === 'part4') q.questions.forEach(sq => flatListening.push({ ...sq, type: 'part4', passage: q.passage })); });
+
+    // ==================== READING (30 questions) ====================
+    const readingQuestions = [
+      // Part 1: Match dialogue (10 questions) - carefully designed options
+      { type: "reading_part1", left: "我肚子饿了。", options: ["A. 我们去吃点东西吧。", "B. 你最好多喝热水。", "C. 今天天气不错。"], correct: 0 },
+      { type: "reading_part1", left: "你什么时候毕业？", options: ["A. 明年六月。", "B. 我去年毕业的。", "C. 我不想毕业。"], correct: 0 },
+      { type: "reading_part1", left: "这个书包多少钱？", options: ["A. 九十块。", "B. 很结实。", "C. 我昨天买的。"], correct: 0 },
+      { type: "reading_part1", left: "你妹妹上大学了吗？", options: ["A. 上了，大一。", "B. 她在上海。", "C. 她喜欢画画。"], correct: 0 },
+      { type: "reading_part1", left: "你每天几点出门？", options: ["A. 我八点出门。", "B. 我坐地铁。", "C. 我早上很忙。"], correct: 0 },
+      { type: "reading_part1", left: "你同学在哪儿上学？", options: ["A. 他在清华大学。", "B. 他今年21岁。", "C. 他喜欢打游戏。"], correct: 0 },
+      { type: "reading_part1", left: "你喜欢什么颜色？", options: ["A. 我喜欢绿色。", "B. 我买了新衣服。", "C. 颜色很鲜艳。"], correct: 0 },
+      { type: "reading_part1", left: "你刷牙了吗？", options: ["A. 还没刷。", "B. 我用牙膏。", "C. 牙刷很软。"], correct: 0 },
+      { type: "reading_part1", left: "这个菜怎么样？", options: ["A. 有点儿咸。", "B. 我尝一下。", "C. 很烫。"], correct: 0 },
+      { type: "reading_part1", left: "你中秋节怎么过？", options: ["A. 我想吃月饼。", "B. 我中秋很忙。", "C. 我不喜欢过节。"], correct: 0 },
+      // Part 2: Fill in the blank (10 questions)
+      { type: "reading_part2", sentence: "我每天晚上____新闻。", options: ["A. 看", "B. 听", "C. 读"], correct: 0 },
+      { type: "reading_part2", sentence: "她____我的邻居。", options: ["A. 有", "B. 是", "C. 在"], correct: 1 },
+      { type: "reading_part2", sentence: "下周我们____去爬山。", options: ["A. 打算", "B. 可以", "C. 应该"], correct: 0 },
+      { type: "reading_part2", sentence: "这把伞____三十块。", options: ["A. 是", "B. 有", "C. 花"], correct: 0 },
+      { type: "reading_part2", sentence: "他____着一顶帽子。", options: ["A. 穿", "B. 戴", "C. 拿"], correct: 1 },
+      { type: "reading_part2", sentence: "今天的菜____辣。", options: ["A. 很", "B. 太", "C. 真"], correct: 0 },
+      { type: "reading_part2", sentence: "我____喜欢打篮球。", options: ["A. 很", "B. 也", "C. 都"], correct: 0 },
+      { type: "reading_part2", sentence: "他____去过香港。", options: ["A. 不", "B. 没", "C. 别"], correct: 1 },
+      { type: "reading_part2", sentence: "我____一个弟弟。", options: ["A. 有", "B. 是", "C. 在"], correct: 0 },
+      { type: "reading_part2", sentence: "他____洗澡呢。", options: ["A. 已经", "B. 正在", "C. 就要"], correct: 1 },
+      // Part 3: Reading comprehension (10 questions)
+      { type: "reading_part3", text: "我叫许晴，今年二十一岁，是学生。我在南京上大学，学习英语。", questions: [{ q: "许晴学习什么？", options: ["A. 英语", "B. 汉语", "C. 日语"], correct: 0 }] },
+      { type: "reading_part3", text: "明天是元宵节，我打算和家人一起吃汤圆、看花灯。", questions: [{ q: "他明天要做什么？", options: ["A. 上班", "B. 过节", "C. 旅游"], correct: 1 }] },
+      { type: "reading_part3", text: "这个水杯很保温，而且不贵，我决定买了。", questions: [{ q: "他买水杯了吗？", options: ["A. 买了", "B. 没买", "C. 不知道"], correct: 0 }] },
+      { type: "reading_part3", text: "我每天晚上十点半睡觉，早上六点半起床。", questions: [{ q: "他睡几个小时？", options: ["A. 七小时", "B. 八小时", "C. 九小时"], correct: 1 }] },
+      { type: "reading_part3", text: "她最喜欢的运动是滑冰，冬天每周去两次。", questions: [{ q: "她喜欢什么运动？", options: ["A. 滑雪", "B. 滑冰", "C. 游泳"], correct: 1 }] },
+      { type: "reading_part3", text: "下个月是哥哥的生日，我想送他一个钱包。", questions: [{ q: "他想送哥哥什么？", options: ["A. 皮带", "B. 钱包", "C. 手表"], correct: 1 }] },
+      { type: "reading_part3", text: "这个餐厅的环境很优雅，服务也很周到，我很喜欢。", questions: [{ q: "餐厅怎么样？", options: ["A. 环境差", "B. 服务差", "C. 环境服务都好"], correct: 2 }] },
+      { type: "reading_part3", text: "我阿姨是护士，她在儿童医院工作，很有爱心。", questions: [{ q: "阿姨做什么工作？", options: ["A. 医生", "B. 护士", "C. 老师"], correct: 1 }] },
+      { type: "reading_part3", text: "我不喜欢去人多的地方，觉得太吵了。", questions: [{ q: "他为什么不喜欢人多的地方？", options: ["A. 太挤", "B. 太吵", "C. 太热"], correct: 1 }] },
+      { type: "reading_part3", text: "我打算冬天去三亚旅游，那边冬天很暖和。", questions: [{ q: "他冬天想去哪儿？", options: ["A. 哈尔滨", "B. 三亚", "C. 昆明"], correct: 1 }] }
+    ];
+
+    const flatReading = [];
+    readingQuestions.forEach(q => { if (q.type === 'reading_part1' || q.type === 'reading_part2') flatReading.push(q); else if (q.type === 'reading_part3') q.questions.forEach(sq => flatReading.push({...sq, type:'reading_part3', text:q.text})); });
+
+    // ==================== WRITING (10 questions) ====================
+    const writingQuestions = [
+      { type: "part1", words: ["我", "的", "家", "在", "北京"], correct: "我的家在北京" },
+      { type: "part1", words: ["她", "很", "会", "做", "菜"], correct: "她很会做菜" },
+      { type: "part1", words: ["你", "知道", "他", "是", "谁", "吗"], correct: "你知道他是谁吗" },
+      { type: "part1", words: ["我", "在", "公园", "里", "散步"], correct: "我在公园里散步" },
+      { type: "part1", words: ["我们", "一起", "去", "打", "网球", "吧"], correct: "我们一起去打网球吧" },
+      { type: "part2", image: "💡", word: "灯", sentence: "房间里有一盏灯。" },
+      { type: "part2", image: "🍇", word: "葡萄", sentence: "葡萄是紫色的。" },
+      { type: "part2", image: "🐒", word: "猴子", sentence: "猴子喜欢吃香蕉。" },
+      { type: "part2", image: "🚲", word: "自行车", sentence: "我有一辆蓝色的自行车。" },
+      { type: "part2", image: "🌲", word: "树", sentence: "公园里有很多树。" }
+    ];
+
+    // ==================== EXAM STATE ====================
+    let examState = { section: 'listening', currentQuestionIndex: 0, answers: new Array(flatListening.length + flatReading.length + writingQuestions.length).fill(null), listeningTimer: 35*60, answerSheetTimer: 5*60, readingTimer: 30*60, writingTimer: 15*60, timerInterval: null, paused: false, started: false };
+    const startScreen = document.getElementById('startScreen'), examArea = document.getElementById('examArea'), resultArea = document.getElementById('resultArea'), timerEl = document.getElementById('timer'), sectionHeader = document.getElementById('sectionHeader'), questionContainer = document.getElementById('questionContainer'), progressInfo = document.getElementById('progressInfo'), navBar = document.getElementById('navBar'), startBtn = document.getElementById('startBtn'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn'), pauseBtn = document.getElementById('pauseBtn');
+
+    function getCurrentQuestions() { return examState.section==='listening'?flatListening:examState.section==='reading'?flatReading:writingQuestions; }
+    function getGlobalIndex() { let o=0; if(examState.section==='reading') o=flatListening.length; else if(examState.section==='writing') o=flatListening.length+flatReading.length; return o+examState.currentQuestionIndex; }
+    function formatTime(s) { return `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`; }
+    function speak(text, callback) { if(!text) return; try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang='zh-CN'; u.rate=0.9; u.onend=callback||null; speechSynthesis.speak(u); } catch(e) {} }
+
+    function render() {
+      const qs = getCurrentQuestions(), idx = examState.currentQuestionIndex, q = qs[idx], gIdx = getGlobalIndex(), selected = examState.answers[gIdx]; let html = '';
+      if (examState.section === 'answerSheet') { html = `<div class="question" style="text-align:center; padding:2rem;"><i class="fas fa-clock" style="font-size:3rem; color:var(--accent);"></i><h2>⏱️ Filling Answer Sheet</h2><p>You have 5 minutes to transfer your listening answers.</p><p style="margin:1rem 0; font-size:1.5rem;" id="answerSheetTimerDisplay">Time left: 05:00</p><button id="continueToReadingBtn" class="control-btn">Continue to Reading</button></div>`; }
+      else if (examState.section === 'listening') {
+        html = `<div class="question"><div><strong>${idx+1}.</strong> <button id="playAudioBtn" class="control-btn"><i class="fas fa-play"></i> Play Audio</button></div>`;
+        if (q.type === 'part1') {
+          html += `<div class="image-row">
+            <div class="image-option ${selected===0?'selected':''}" data-val="0"><span class="image-emoji">${q.imgA}</span>A. ${q.imgADesc}</div>
+            <div class="image-option ${selected===1?'selected':''}" data-val="1"><span class="image-emoji">${q.imgB}</span>B. ${q.imgBDesc}</div>
+            <div class="image-option ${selected===2?'selected':''}" data-val="2"><span class="image-emoji">${q.imgC}</span>C. ${q.imgCDesc}</div>
+          </div>`;
+        } else if (q.type === 'part2') {
+          html += `<div>${q.statement}</div><div class="options"><div class="option"><label><input type="radio" name="q" value="true" ${selected===true?'checked':''}> ✓ True</label></div><div class="option"><label><input type="radio" name="q" value="false" ${selected===false?'checked':''}> ✗ False</label></div></div>`;
+        } else if (q.type === 'part3') {
+          html += `<div>${q.question}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div>`;
+        } else {
+          html += `<div>${q.q}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div>`;
+        }
+        html += `</div>`;
+      } else if (examState.section === 'reading') {
+        if (q.type === 'reading_part1') {
+          html = `<div class="question"><div><strong>${idx+1}.</strong> ${q.left}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`;
+        } else if (q.type === 'reading_part2') {
+          html = `<div class="question"><div><strong>${idx+1}.</strong> ${q.sentence}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`;
+        } else {
+          html = `<div class="question"><div><strong>${idx+1}.</strong> ${q.text}</div><div>${q.q}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`;
+        }
+      } else if (examState.section === 'writing') {
+        if (q.type === 'part1') {
+          const shuffled = [...q.words].sort(()=>Math.random()-0.5);
+          html = `<div class="question"><div><strong>${idx+1}.</strong> Arrange words to form a sentence</div><div class="sentence-builder" id="wordTiles">${shuffled.map(w=>`<span class="word-tile" data-word="${w}">${w}</span>`).join('')}</div><div class="sentence-preview" id="sentencePreview">${selected||'Click words to arrange...'}</div><button id="clearBtn" class="control-btn">Clear</button><button id="checkBtn" class="control-btn">Check</button><div id="fb" style="margin-top:0.5rem;"></div></div>`;
+        } else {
+          html = `<div class="question"><div><strong>${idx+1}.</strong> Writing</div><span style="font-size:2rem;">${q.image}</span> ${q.word}<div>Write a sentence using the word:</div><textarea id="essayInput" class="essay-area" rows="2" placeholder="Write your sentence here...">${selected||''}</textarea><div class="word-count" id="wordCount">${selected?selected.length:0} characters</div><button id="saveBtn" class="control-btn">Save Answer</button></div>`;
+        }
+      }
+      questionContainer.innerHTML = html;
+      progressInfo.innerText = `Question ${idx+1} / ${qs.length}`;
+      sectionHeader.innerText = examState.section==='listening'?`🎧 Listening (${idx+1}/${qs.length})`:examState.section==='reading'?`📖 Reading (${idx+1}/${qs.length})`:examState.section==='writing'?`✍️ Writing (${idx+1}/${qs.length})`:`📝 Answer Sheet`;
+      renderNavBar();
+      if (examState.section === 'listening') {
+        if (q.type === 'part1') {
+          document.querySelectorAll('.image-option').forEach(opt => opt.addEventListener('click', ()=>{ const val = parseInt(opt.dataset.val); examState.answers[gIdx] = val; document.querySelectorAll('.image-option').forEach(o=>o.classList.remove('selected')); opt.classList.add('selected'); renderNavBar(); }));
+        }
+        const playBtn = document.getElementById('playAudioBtn'); if(playBtn) { playBtn.addEventListener('click', ()=>{ if (q.type==='part1'||q.type==='part2') speak(q.type==='part1'?q.dialogue:q.sentence); else if (q.type==='part3') speak(q.dialogue, ()=>{ setTimeout(()=>{ speak(q.question); }, 500); }); else speak(q.passage, ()=>{ setTimeout(()=>{ speak(q.q); }, 500); }); }); setTimeout(()=> playBtn.click(), 300); }
+      }
+      document.querySelectorAll('input[name="q"]').forEach(r=>r.addEventListener('change', e=>{ let v = e.target.value; if (v==='true') v=true; else if (v==='false') v=false; else v=parseInt(v); examState.answers[gIdx] = v; renderNavBar(); }));
+      if (examState.section==='writing' && q.type==='part1') { let selectedWords = []; document.querySelectorAll('.word-tile').forEach(t=>t.addEventListener('click', ()=>{ selectedWords.push(t.dataset.word); t.classList.add('selected'); t.style.pointerEvents='none'; document.getElementById('sentencePreview').innerText = selectedWords.join(''); })); document.getElementById('clearBtn').addEventListener('click', ()=>{ selectedWords=[]; document.querySelectorAll('.word-tile').forEach(t=>{ t.classList.remove('selected'); t.style.pointerEvents='auto'; }); document.getElementById('sentencePreview').innerText='Click words to arrange...'; }); document.getElementById('checkBtn').addEventListener('click', ()=>{ const s = selectedWords.join(''), fb = document.getElementById('fb'); fb.innerHTML = s===q.correct? '✅ Correct!' : `❌ Reference: ${q.correct}`; examState.answers[gIdx] = s; renderNavBar(); }); }
+      if (examState.section==='writing' && q.type==='part2') { const ta = document.getElementById('essayInput'); ta.addEventListener('input', ()=>{ document.getElementById('wordCount').innerText = ta.value.length + ' characters'; }); document.getElementById('saveBtn').addEventListener('click', ()=>{ examState.answers[gIdx]=ta.value; renderNavBar(); }); }
+      document.getElementById('continueToReadingBtn')?.addEventListener('click', ()=>{ examState.section='reading'; examState.currentQuestionIndex=0; clearInterval(examState.timerInterval); startReadingTimer(); render(); });
+    }
+
+    function renderNavBar() { const qs = getCurrentQuestions(); let h = ''; for(let i=0; i<qs.length; i++) { const g = getGlobalIndex() - examState.currentQuestionIndex + i; h += `<button class="nav-btn ${examState.answers[g]!==null?'answered':''} ${i===examState.currentQuestionIndex?'current':''}" data-index="${i}">${i+1}</button>`; } navBar.innerHTML = h; navBar.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click', ()=>{ examState.currentQuestionIndex = parseInt(b.dataset.index); render(); })); }
+    function nextQuestion() { const qs = getCurrentQuestions(); if (examState.currentQuestionIndex < qs.length-1) { examState.currentQuestionIndex++; render(); } else { if (examState.section==='listening') { examState.section='answerSheet'; examState.currentQuestionIndex=0; clearInterval(examState.timerInterval); startAnswerSheetTimer(); render(); } else if (examState.section==='reading') { examState.section='writing'; examState.currentQuestionIndex=0; clearInterval(examState.timerInterval); startWritingTimer(); render(); } else if (examState.section==='writing') finishExam(); } }
+    function startListeningTimer() { clearInterval(examState.timerInterval); examState.timerInterval = setInterval(() => { if (examState.paused) return; if (examState.section==='listening' && examState.listeningTimer>0) { examState.listeningTimer--; timerEl.innerText = `Listening: ${formatTime(examState.listeningTimer)}`; if (examState.listeningTimer<=0) { examState.section='answerSheet'; examState.currentQuestionIndex=0; clearInterval(examState.timerInterval); startAnswerSheetTimer(); render(); } } }, 1000); }
+    function startAnswerSheetTimer() { clearInterval(examState.timerInterval); examState.timerInterval = setInterval(() => { if (examState.paused) return; if (examState.section==='answerSheet' && examState.answerSheetTimer>0) { examState.answerSheetTimer--; timerEl.innerText = `Answer Sheet: ${formatTime(examState.answerSheetTimer)}`; const disp = document.getElementById('answerSheetTimerDisplay'); if (disp) disp.innerText = `Time left: ${formatTime(examState.answerSheetTimer)}`; if (examState.answerSheetTimer<=0) { examState.section='reading'; examState.currentQuestionIndex=0; clearInterval(examState.timerInterval); startReadingTimer(); render(); } } }, 1000); }
+    function startReadingTimer() { clearInterval(examState.timerInterval); examState.timerInterval = setInterval(() => { if (examState.paused) return; if (examState.section==='reading' && examState.readingTimer>0) { examState.readingTimer--; timerEl.innerText = `Reading: ${formatTime(examState.readingTimer)}`; if (examState.readingTimer<=0) { examState.section='writing'; examState.currentQuestionIndex=0; clearInterval(examState.timerInterval); startWritingTimer(); render(); } } }, 1000); }
+    function startWritingTimer() { clearInterval(examState.timerInterval); examState.timerInterval = setInterval(() => { if (examState.paused) return; if (examState.section==='writing' && examState.writingTimer>0) { examState.writingTimer--; timerEl.innerText = `Writing: ${formatTime(examState.writingTimer)}`; if (examState.writingTimer<=0) finishExam(); } }, 1000); }
+    function calculateScore() { let lc=0, rc=0, wc=0; for(let i=0; i<flatListening.length; i++) if(examState.answers[i]===flatListening[i].correct) lc++; for(let i=0; i<flatReading.length; i++) if(examState.answers[flatListening.length+i]===flatReading[i].correct) rc++; const wq = writingQuestions.filter(q=>q.type==='part1'); for(let i=0; i<wq.length; i++) if(examState.answers[flatListening.length+flatReading.length+i]===wq[i].correct) wc++; const ls=Math.round(lc/flatListening.length*100), rs=Math.round(rc/flatReading.length*100), ws=Math.round(wc/wq.length*100); return { ls, rs, ws, total: ls+rs+ws, passed: ls+rs+ws>=180 }; }
+    function finishExam() { clearInterval(examState.timerInterval); const s = calculateScore(); examArea.classList.add('hidden'); resultArea.classList.remove('hidden'); resultArea.innerHTML = `<div style="text-align:center;"><h2>Exam Completed</h2><div style="display:flex; justify-content:center; gap:2rem; margin:1rem 0;"><div>Listening<br><strong>${s.ls}/100</strong></div><div>Reading<br><strong>${s.rs}/100</strong></div><div>Writing<br><strong>${s.ws}/100</strong></div></div><p style="font-size:2rem;"><strong>Total: ${s.total}/300</strong></p><p style="font-size:1.5rem; color:${s.passed?'green':'red'};">${s.passed?'🎉 Congratulations! You passed HSK 3!':'😢 Keep practicing!'}</p><button id="restartBtn" class="control-btn">Restart Exam</button></div>`; document.getElementById('restartBtn').addEventListener('click', ()=>location.reload()); }
+
+    startBtn.addEventListener('click', ()=>{ startScreen.classList.add('hidden'); examArea.classList.remove('hidden'); examState.started = true; startListeningTimer(); render(); });
+    prevBtn.addEventListener('click', ()=>{ if(examState.currentQuestionIndex>0) { examState.currentQuestionIndex--; render(); } });
+    nextBtn.addEventListener('click', nextQuestion);
+    pauseBtn.addEventListener('click', function(){ examState.paused = !examState.paused; this.innerHTML = examState.paused ? '<i class="fas fa-play"></i> Continue' : '<i class="fas fa-pause"></i> Pause'; });
+    const darkBtn = document.createElement('button'); darkBtn.innerHTML='<i class="fas fa-moon"></i>'; darkBtn.style.cssText='position:fixed; bottom:20px; right:20px; background:var(--accent); color:white; border:none; border-radius:50%; width:50px; height:50px; cursor:pointer;'; darkBtn.onclick = ()=>{ const is = document.body.classList.contains('dark'); if(is) { document.body.classList.remove('dark'); document.body.classList.add('light'); } else { document.body.classList.remove('light'); document.body.classList.add('dark'); } }; document.body.appendChild(darkBtn);
+  })();
+</script>
+</body>
+</html>
