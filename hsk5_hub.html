@@ -22,7 +22,7 @@
       justify-content: center; 
     }
     .container { 
-      max-width: 1200px; 
+      max-width: 1300px; 
       width: 100%; 
       background: rgba(255,255,255,0.65); 
       backdrop-filter: blur(16px); 
@@ -150,6 +150,15 @@
     .exam-btn:hover i {
       color: white;
     }
+    .exam-btn.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      border-color: #aaa;
+      color: #aaa;
+    }
+    .exam-btn.disabled i {
+      color: #aaa;
+    }
     .exam-note {
       margin-top: 1.2rem;
       font-size: 0.8rem;
@@ -204,47 +213,40 @@
     </a>
   </div>
 
-  <!-- Mock exam section with 10 sets -->
+  <!-- Mock exam section with Sets 1-10 (active) + 11-20 (coming soon) -->
   <div class="exam-section">
     <div class="exam-title">
       <i class="fas fa-clipboard-list" style="color:#c44536;"></i> 
-      <span>📝 Full Mock Exams (10 Sets)</span>
+      <span>📝 Full Mock Exams (20 Sets)</span>
       <span style="font-size:0.8rem; background:#f5e6d3; padding:2px 10px; border-radius:20px; margin-left:8px;">Official format · Timed & Scored</span>
     </div>
     <div class="exam-buttons">
-      <a class="exam-btn" href="hsk5_exam.html">
-        <i class="fas fa-file-alt"></i> Set 1
-      </a>
-      <a class="exam-btn" href="hsk52_exam.html">
-        <i class="fas fa-file-alt"></i> Set 2
-      </a>
-      <a class="exam-btn" href="hsk53_exam.html">
-        <i class="fas fa-file-alt"></i> Set 3
-      </a>
-      <a class="exam-btn" href="hsk54_exam.html">
-        <i class="fas fa-file-alt"></i> Set 4
-      </a>
-      <a class="exam-btn" href="hsk55_exam.html">
-        <i class="fas fa-file-alt"></i> Set 5
-      </a>
-      <a class="exam-btn" href="hsk56_exam.html">
-        <i class="fas fa-file-alt"></i> Set 6
-      </a>
-      <a class="exam-btn" href="hsk57_exam.html">
-        <i class="fas fa-file-alt"></i> Set 7
-      </a>
-      <a class="exam-btn" href="hsk58_exam.html">
-        <i class="fas fa-file-alt"></i> Set 8
-      </a>
-      <a class="exam-btn" href="hsk59_exam.html">
-        <i class="fas fa-file-alt"></i> Set 9
-      </a>
-      <a class="exam-btn" href="hsk510_exam.html">
-        <i class="fas fa-file-alt"></i> Set 10
-      </a>
+      <!-- Sets 1-10 (Active) -->
+      <a class="exam-btn" href="hsk5_exam.html"><i class="fas fa-file-alt"></i> Set 1</a>
+      <a class="exam-btn" href="hsk52_exam.html"><i class="fas fa-file-alt"></i> Set 2</a>
+      <a class="exam-btn" href="hsk53_exam.html"><i class="fas fa-file-alt"></i> Set 3</a>
+      <a class="exam-btn" href="hsk54_exam.html"><i class="fas fa-file-alt"></i> Set 4</a>
+      <a class="exam-btn" href="hsk55_exam.html"><i class="fas fa-file-alt"></i> Set 5</a>
+      <a class="exam-btn" href="hsk56_exam.html"><i class="fas fa-file-alt"></i> Set 6</a>
+      <a class="exam-btn" href="hsk57_exam.html"><i class="fas fa-file-alt"></i> Set 7</a>
+      <a class="exam-btn" href="hsk58_exam.html"><i class="fas fa-file-alt"></i> Set 8</a>
+      <a class="exam-btn" href="hsk59_exam.html"><i class="fas fa-file-alt"></i> Set 9</a>
+      <a class="exam-btn" href="hsk510_exam.html"><i class="fas fa-file-alt"></i> Set 10</a>
+      <!-- Sets 11-20 (Coming Soon) -->
+      <span class="exam-btn disabled"><i class="fas fa-clock"></i> Set 11</span>
+      <span class="exam-btn disabled"><i class="fas fa-clock"></i> Set 12</span>
+      <span class="exam-btn disabled"><i class="fas fa-clock"></i> Set 13</span>
+      <span class="exam-btn disabled"><i class="fas fa-clock"></i> Set 14</span>
+      <span class="exam-btn disabled"><i class="fas fa-clock"></i> Set 15</span>
+      <span class="exam-btn disabled"><i class="fas fa-clock"></i> Set 16</span>
+      <span class="exam-btn disabled"><i class="fas fa-clock"></i> Set 17</span>
+      <span class="exam-btn disabled"><i class="fas fa-clock"></i> Set 18</span>
+      <span class="exam-btn disabled"><i class="fas fa-clock"></i> Set 19</span>
+      <span class="exam-btn disabled"><i class="fas fa-clock"></i> Set 20</span>
     </div>
     <div class="exam-note">
-      ⏱️ Each set: Listening 45 · Reading 45 · Writing 10 · Total 300 points · Pass at 180
+      ⏱️ Each set: Listening 45 · Reading 45 · Writing 10 · Total 300 points · Pass at 180<br>
+      <span style="opacity:0.7;">Sets 11-20 coming soon — stay tuned!</span>
     </div>
   </div>
 
