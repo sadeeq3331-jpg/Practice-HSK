@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>HSK 5 · 全真模拟试卷（第十九套）</title>
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
+  /*]]>/* */
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body.light { background: linear-gradient(145deg, #fdf6e3 0%, #f5e6d3 100%); --bg-card: #ffffff; --bg-header: rgba(255,255,255,0.8); --text-primary: #4a3728; --text-secondary: #c44536; --border-light: #d4b59a; --accent: #c44536; }
+    body.dark { background: linear-gradient(145deg, #2c1e16 0%, #1a120c 100%); --bg-card: #3a2a1e; --bg-header: rgba(40,30,20,0.9); --text-primary: #f0d5b5; --text-secondary: #e8956f; --border-light: #6b4e3a; --accent: #d46a4e; }
+    body { padding: 1.2rem; display: flex; flex-direction: column; align-items: center; background: var(--bg-header); }
+    .container { max-width: 950px; width: 100%; background: var(--bg-header); backdrop-filter: blur(12px); border-radius: 2rem; padding: 1.5rem; }
+    h1 { text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--text-secondary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .exam-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
+    .timer { font-size: 1.2rem; font-weight: bold; color: var(--accent); }
+    .pause-btn { background: var(--bg-card); border: 1px solid var(--border-light); padding: 0.4rem 1rem; border-radius: 2rem; cursor: pointer; color: var(--text-primary); }
+    .section-header { font-size: 1.4rem; margin: 0.5rem 0; font-weight: 600; }
+    .question { background: var(--bg-card); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; border: 1px solid var(--border-light); }
+    .options { margin: 0.5rem 0 0 1rem; }
+    .option { margin: 0.3rem 0; display: flex; align-items: center; gap: 0.5rem; }
+    .control-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 2rem; cursor: pointer; margin: 0.3rem; }
+    .control-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .word-tile { background: var(--bg-card); border: 1px solid var(--accent); border-radius: 2rem; padding: 0.4rem 1rem; cursor: pointer; display: inline-block; margin: 0.2rem; font-size: 1rem; color: var(--text-primary); }
+    .word-tile.selected { background: var(--accent); color: white; }
+    .sentence-builder { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.8rem 0; }
+    .sentence-preview { background: rgba(196,69,54,0.1); border-radius: 1rem; padding: 0.8rem; margin: 0.8rem 0; border: 1px dashed var(--accent); min-height: 2.8rem; }
+    .essay-area { width: 100%; padding: 0.8rem; border-radius: 1rem; border: 1px solid var(--border-light); background: var(--bg-card); color: var(--text-primary); resize: vertical; font-size: 1rem; margin: 0.8rem 0; }
+    .word-count { font-size: 0.8rem; color: var(--text-secondary); text-align: right; }
+    .nav-bar { display: flex; flex-wrap: wrap; gap: 0.2rem; margin: 1rem 0; justify-content: center; }
+    .nav-btn { width: 2rem; height: 2rem; border-radius: 50%; border: 1px solid var(--border-light); background: var(--bg-card); color: var(--text-primary); font-size: 0.7rem; cursor: pointer; }
+    .nav-btn.answered { background: var(--accent); color: white; }
+    .nav-btn.current { border: 2px solid var(--accent); font-weight: bold; }
+    .result { margin-top: 1rem; text-align: center; font-size: 1.1rem; }
+    .back-btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem; display: inline-block; text-decoration: none; }
+    .hidden { display: none !important; }
+    .passage-context { background: rgba(0,0,0,0.02); padding: 1rem; border-radius: 0.8rem; margin-bottom: 1rem; border-left: 3px solid var(--accent); line-height: 1.6; }
+    .blank-highlight { font-weight: 700; color: var(--accent); text-decoration: underline; }
+  </style>
+</head>
+<body class="light">
+<div class="container">
+  <h1>📝 HSK 5 全真模拟试卷（第十九套）</h1>
+  <div id="startScreen">
+    <p style="margin: 1rem 0;">Official HSK 5 format (100 questions):</p>
+    <ul style="margin-left: 2rem;">
+      <li>Listening: 45 questions (2 parts) – ~30 min</li>
+      <li>Reading: 45 questions (3 parts) – 45 min</li>
+      <li>Writing: 10 questions (2 parts) – 40 min</li>
+      <li>5 min answer sheet after listening</li>
+      <li>Total 300 points, pass at 180</li>
+    </ul>
+    <button id="startBtn" class="control-btn">Start Exam</button>
+  </div>
+  <div id="examArea" class="hidden">
+    <div class="exam-header">
+      <div class="timer" id="timer">Listening: 30:00</div>
+      <button id="pauseBtn" class="pause-btn"><i class="fas fa-pause"></i> Pause</button>
+    </div>
+    <div id="sectionHeader" class="section-header">🎧 Listening Part 1 (1/20)</div>
+    <div id="questionContainer"></div>
+    <div class="nav-bar" id="navBar"></div>
+    <div style="text-align: center; margin-top: 0.5rem;"><span id="progressInfo">Question 1 / 45</span></div>
+    <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem;">
+      <button id="prevBtn" class="control-btn"><i class="fas fa-chevron-left"></i> Previous</button>
+      <button id="nextBtn" class="control-btn">Next <i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+  <div id="resultArea" class="hidden"></div>
+  <a href="hsk5_hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+</div>
+<script>
+  (function(){
+    // ==================== LISTENING (45 questions) - ALL NEW ====================
+    const listeningQuestions = [
+      { type: "part1", dialogue: "女：你怎么又把水壶弄丢了？男：别提了，今天去健身房，走的时候忘拿了。", question: "男的怎么了？", options: ["A. 水壶丢了", "B. 水壶坏了", "C. 忘带水壶", "D. 水壶被偷了"], correct: 0 },
+      { type: "part1", dialogue: "男：你觉得这条裤子怎么样？女：款式挺好的，不过裤腿有点长，需要改一下。", question: "女的觉得裤子怎么样？", options: ["A. 款式不好", "B. 裤腿太长", "C. 价格太贵", "D. 很完美"], correct: 1 },
+      { type: "part1", dialogue: "女：周末我们去划船吧？男：好啊，不过我有点晕船，不知道会不会吐。", question: "男的什么意思？", options: ["A. 不想去", "B. 有点晕船", "C. 不会划船", "D. 没时间"], correct: 1 },
+      { type: "part1", dialogue: "男：听说你最近在学太极拳？女：是啊，练太极可以强身健体，还能修身养性。", question: "女的为什么学太极拳？", options: ["A. 工作需要", "B. 强身健体修身养性", "C. 朋友推荐", "D. 想当教练"], correct: 1 },
+      { type: "part1", dialogue: "女：你平时周末都怎么过？男：我一般上午陪孩子上兴趣班，下午在家看电影。", question: "男的周末喜欢做什么？", options: ["A. 加班", "B. 陪孩子和看电影", "C. 运动", "D. 旅游"], correct: 1 },
+      { type: "part1", dialogue: "男：你今天怎么没点咖啡？女：昨晚没睡好，今天不喝了，怕晚上又失眠。", question: "女的为什么不喝咖啡？", options: ["A. 不喜欢", "B. 怕失眠", "C. 太贵了", "D. 忘了"], correct: 1 },
+      { type: "part1", dialogue: "女：你吃牛油果吗？男：我吃，但觉得没什么味道，口感像肥皂。", question: "男的觉得牛油果怎么样？", options: ["A. 很好吃", "B. 没味道像肥皂", "C. 太贵了", "D. 很健康"], correct: 1 },
+      { type: "part1", dialogue: "男：你觉得新来的同事怎么样？女：挺热情的，就是有时候话太多，有点吵。", question: "女的觉得新同事怎么样？", options: ["A. 很冷漠", "B. 话太多有点吵", "C. 很安静", "D. 能力差"], correct: 1 },
+      { type: "part1", dialogue: "女：你看天气预报了吗？明天天气怎么样？男：看了，说是阵雨转阴，出门记得带伞。", question: "明天天气怎么样？", options: ["A. 晴天", "B. 阵雨转阴", "C. 大雨", "D. 大风"], correct: 1 },
+      { type: "part1", dialogue: "男：你打算什么时候去办护照？女：等下个月吧，这个月工作太忙了。", question: "女的为什么现在不去？", options: ["A. 不想去", "B. 工作太忙", "C. 没钱", "D. 不着急"], correct: 1 },
+      { type: "part1", dialogue: "女：这个WiFi密码是多少？男：我看看，贴在路由器上面了，八个八。", question: "男的是什么态度？", options: ["A. 不愿意帮忙", "B. 很热心", "C. 不耐烦", "D. 自己也不知道"], correct: 1 },
+      { type: "part1", dialogue: "男：你昨天怎么没来参加培训？女：我昨天家里水管爆了，在家等维修工。", question: "女的为什么没来？", options: ["A. 忘了", "B. 不想来", "C. 家里水管爆了", "D. 生病了"], correct: 2 },
+      { type: "part1", dialogue: "女：你觉得这两款台灯哪款更好？男：我觉得护眼的那款对视力好，装饰的那款更好看。", question: "男的觉得哪款对视力好？", options: ["A. 护眼的", "B. 装饰的", "C. 两款都好", "D. 两款都不好"], correct: 0 },
+      { type: "part1", dialogue: "男：听说你换工作了？女：对，现在这个工作虽然工资差不多，但不用出差了。", question: "女的为什么换工作？", options: ["A. 工资高", "B. 不用出差", "C. 离家近", "D. 被辞退了"], correct: 1 },
+      { type: "part1", dialogue: "女：你女儿多大了？男：今年十七岁，上高二了，明年高考。", question: "男的女儿几岁了？", options: ["A. 十五岁", "B. 十六岁", "C. 十七岁", "D. 十八岁"], correct: 2 },
+      { type: "part1", dialogue: "男：你怎么又买这么多米？女：超市搞活动，买一袋送一袋，反正要吃的。", question: "女的为什么买这么多？", options: ["A. 需要", "B. 活动囤货", "C. 送朋友", "D. 抽奖"], correct: 1 },
+      { type: "part1", dialogue: "女：你觉得这份工作怎么样？男：虽然有时候要加班，但能学到东西，值得。", question: "男的觉得工作怎么样？", options: ["A. 太累", "B. 能学东西值得", "C. 工资低", "D. 没前途"], correct: 1 },
+      { type: "part1", dialogue: "男：你每天晚上几点睡？女：我习惯十点睡，早上六点起。", question: "女的几点睡觉？", options: ["A. 九点", "B. 十点", "C. 十一点", "D. 十二点"], correct: 1 },
+      { type: "part1", dialogue: "女：你跟你外公长得像吗？男：有点神似，特别是眼睛。", question: "男的像谁？", options: ["A. 爸爸", "B. 妈妈", "C. 外公", "D. 外婆"], correct: 2 },
+      { type: "part1", dialogue: "男：你的牙疼好点了吗？女：吃了药好多了，就是不能吃甜的。", question: "女的现在怎么样了？", options: ["A. 完全好了", "B. 更严重了", "C. 好多了不能吃甜", "D. 没变化"], correct: 2 },
+      { type: "part2", dialogue: "女：小刘，这次去青岛出差感觉怎么样？男：挺好的，看了栈桥，还吃了海鲜。那边的海鲜真新鲜，就是啤酒喝得有点多。女：青岛啤酒确实有名。你哪天回来的？男：昨天下午的动车，今天就上班了。", questions: [{ q: "男的觉得青岛的什么有名？", options: ["A. 海鲜", "B. 啤酒", "C. 海鲜和啤酒", "D. 烧烤"], correct: 2 }] },
+      { type: "part2", dialogue: "男：妈，我想跟您商量个事儿。我想养一只蜗牛。女：蜗牛？那东西有什么好养的？而且爬得到处都是。男：有专门的饲养盒，不会跑出来的。女：还是算了吧，听着就起鸡皮疙瘩。", questions: [{ q: "妈妈为什么不同意养蜗牛？", options: ["A. 太贵了", "B. 觉得恶心", "C. 家里没地方", "D. 怕蜗牛"], correct: 1 }] },
+      { type: "part2", dialogue: "女：你看过《八角笼中》吗？男：看过，王宝强导演的，根据真实事件改编，很感人。女：是啊，那些孩子太不容易了。", questions: [{ q: "他们在谈论什么？", options: ["A. 一部电影", "B. 一部电视剧", "C. 一部纪录片", "D. 一本书"], correct: 0 },{ q: "男的觉得电影怎么样？", options: ["A. 很无聊", "B. 很感人", "C. 看不懂", "D. 很搞笑"], correct: 1 }] },
+      { type: "part2", dialogue: "男：请问，去最近的药店怎么走？女：你沿着这条路直走，过了一个路口，药店就在右手边，有个绿色的十字标志。男：走路大概要多久？女：五分钟吧。", questions: [{ q: "男的要去哪儿？", options: ["A. 超市", "B. 医院", "C. 药店", "D. 银行"], correct: 2 },{ q: "药店在哪个方向？", options: ["A. 左手边", "B. 右手边", "C. 对面", "D. 后面"], correct: 1 }] },
+      { type: "part2", dialogue: "女：大夫，我的眼睛特别痒，还流泪。男：这种情况多长时间了？女：大概有三四天了。男：你可能是过敏性结膜炎，我给你开点眼药水，别用手揉。", questions: [{ q: "女的怎么了？", options: ["A. 牙疼", "B. 胃疼", "C. 眼睛痒", "D. 头疼"], correct: 2 },{ q: "医生建议别做什么？", options: ["A. 用手揉", "B. 看电视", "C. 看书", "D. 出门"], correct: 0 }] },
+      { type: "part2", dialogue: "随着生活水平的提高，人们越来越重视精神生活。博物馆、美术馆、剧院等文化场所越来越受欢迎。", questions: [{ q: "这段话主要谈什么？", options: ["A. 物质生活", "B. 精神生活", "C. 博物馆", "D. 剧院"], correct: 1 }] },
+      { type: "part2", dialogue: "不积跬步，无以至千里。任何伟大的成就，都是由无数个微小的努力积累而成的。", questions: [{ q: "这段话主要想告诉我们什么？", options: ["A. 要一步登天", "B. 要注重积累", "C. 千里很远", "D. 跬步不重要"], correct: 1 }] },
+      { type: "part2", dialogue: "中秋节是中国传统节日，在农历八月十五。这一天人们会和家人团聚，吃月饼，赏月。月饼象征着团圆。", questions: [{ q: "中秋节吃什么？", options: ["A. 饺子", "B. 月饼", "C. 粽子", "D. 元宵"], correct: 1 },{ q: "月饼象征什么？", options: ["A. 幸福", "B. 团圆", "C. 健康", "D. 财富"], correct: 1 }] },
+      { type: "part2", dialogue: "各位旅客，欢迎入住本酒店。退房时间是中午十二点前，请保管好您的房卡。谢谢。", questions: [{ q: "退房时间是几点前？", options: ["A. 十点", "B. 十一点", "C. 十二点", "D. 一点"], correct: 2 }] },
+      { type: "part2", dialogue: "小孙最近迷上了健身，每天下班后都去健身房练一个小时。他说，健身后整个人都精神了。", questions: [{ q: "小孙最近有什么爱好？", options: ["A. 跑步", "B. 健身", "C. 游泳", "D. 打球"], correct: 1 }] },
+      { type: "part2", dialogue: "女：你怎么看起来这么困？男：别提了，昨晚打游戏打到凌晨，今天还要上班。女：你太拼了，赶紧喝杯咖啡吧。", questions: [{ q: "男的为什么困？", options: ["A. 工作太忙", "B. 打游戏熬夜", "C. 失眠", "D. 生病了"], correct: 1 }] },
+      { type: "part2", dialogue: "男：你觉得这两种方案哪个更可行？女：我觉得第一种方案虽然费时，但效果更好；第二种快，但容易出错。", questions: [{ q: "女的觉得第一种方案怎么样？", options: ["A. 快", "B. 效果好", "C. 容易出错", "D. 不可行"], correct: 1 }] },
+      { type: "part2", dialogue: "女：你平时喜欢看什么类型的节目？男：我比较喜欢看科普类和访谈类，不太喜欢看娱乐类。", questions: [{ q: "男的不喜欢什么节目？", options: ["A. 科普类", "B. 访谈类", "C. 娱乐类", "D. 新闻类"], correct: 2 }] },
+      { type: "part2", dialogue: "男：听说你要去三亚旅游？女：对，想去看看天涯海角，享受阳光沙滩。", questions: [{ q: "女的要去哪里？", options: ["A. 厦门", "B. 三亚", "C. 青岛", "D. 大连"], correct: 1 }] },
+      { type: "part2", dialogue: "女：你怎么又把厨房弄得这么乱？男：我刚才做饭来着，还没来得及收拾。女：那你现在赶紧收拾吧。", questions: [{ q: "女的让男的做什么？", options: ["A. 做饭", "B. 收拾厨房", "C. 吃饭", "D. 出门"], correct: 1 }] },
+      { type: "part2", dialogue: "男：你觉得我穿这件衬衫好看吗？女：挺合身的，不过我觉得浅蓝色的可能更显年轻。", questions: [{ q: "女的有什么建议？", options: ["A. 换深色", "B. 换浅蓝色", "C. 换款式", "D. 不用换"], correct: 1 }] },
+      { type: "part2", dialogue: "女：你看今天的新闻了吗？说是牛奶价格又降了。男：太好了，我正想去多买点牛奶呢。", questions: [{ q: "男的为什么觉得降价好？", options: ["A. 他是卖牛奶的", "B. 他想买牛奶", "C. 他刚买了", "D. 他不在乎"], correct: 1 }] },
+      { type: "part2", dialogue: "男：妈，这周末我请您和爸去逛超市吧。女：逛超市？好啊，正好要买点东西。", questions: [{ q: "儿子想请父母做什么？", options: ["A. 吃饭", "B. 看电影", "C. 逛超市", "D. 旅游"], correct: 2 }] },
+      { type: "part2", dialogue: "女：你学汉语多长时间了？男：两年了，不过阅读还是有点慢。女：多读就好了，慢慢来。", questions: [{ q: "男的学汉语多久了？", options: ["A. 一年", "B. 两年", "C. 三年", "D. 四年"], correct: 1 }] },
+      { type: "part2", dialogue: "男：你怎么这么早就睡了？女：明天要赶早班飞机，得早起。", questions: [{ q: "女的为什么早睡？", options: ["A. 生病了", "B. 明天赶飞机", "C. 心情不好", "D. 太累了"], correct: 1 }] }
+    ];
+
+    const flatListening = [];
+    listeningQuestions.forEach(q => { if (q.type === 'part1') flatListening.push(q); else if (q.type === 'part2') q.questions.forEach(sq => flatListening.push({ ...sq, type: 'part2', dialogue: q.dialogue })); });
+
+    // ==================== READING (45 questions) - ALL NEW ====================
+    const readingQuestions = [
+      { type: "part1", passage: "一个人的__1__决定了他的高度。心胸宽广的人，能容人容事，路越走越宽；心胸狭窄的人，斤斤计较，路越走越__2__。因此，我们要学会宽容，做一个__3__的人。", blanks: [
+        { options: ["A. 胸怀", "B. 胸襟", "C. 度量", "D. 气量"], correct: 1 },
+        { options: ["A. 窄", "B. 小", "C. 短", "D. 细"], correct: 0 },
+        { options: ["A. 大度", "B. 大方", "C. 大气", "D. 大器"], correct: 0 }] },
+      { type: "part1", passage: "随着科技的发展，电子产品更新换代的速度越来越快。很多人为了追求新款，频繁__4__手机、电脑。这不仅造成了资源__5__，也增加了经济负担。其实，理性消费，物尽其用，才是更__6__的选择。", blanks: [
+        { options: ["A. 更换", "B. 替换", "C. 置换", "D. 更新"], correct: 0 },
+        { options: ["A. 浪费", "B. 消耗", "C. 损失", "D. 短缺"], correct: 0 },
+        { options: ["A. 明智", "B. 聪明", "C. 合理", "D. 正确"], correct: 0 }] },
+      { type: "part1", passage: "我的家乡是一座古镇，有上千年的历史。镇上有许多__7__的建筑，青石板路，小桥流水。每逢节假日，游客__8__。虽然现在商业化气息浓了一些，但那份古朴的__9__依然存在。", blanks: [
+        { options: ["A. 古老", "B. 古代", "C. 陈旧", "D. 老式"], correct: 0 },
+        { options: ["A. 络绎不绝", "B. 人山人海", "C. 川流不息", "D. 熙熙攘攘"], correct: 0 },
+        { options: ["A. 韵味", "B. 风味", "C. 味道", "D. 气氛"], correct: 0 }] },
+      { type: "part1", passage: "感恩是一种生活态度。我们要感恩父母，是他们__10__我们长大；感恩老师，是他们__11__我们知识；感恩朋友，是他们给我们__12__。常怀感恩之心，生活会更加美好。", blanks: [
+        { options: ["A. 养育", "B. 抚养", "C. 培养", "D. 教育"], correct: 0 },
+        { options: ["A. 传授", "B. 教授", "C. 教给", "D. 教导"], correct: 0 },
+        { options: ["A. 帮助", "B. 支持", "C. 陪伴", "D. 鼓励"], correct: 2 }] },
+      { type: "part1", passage: "一个人的__13__决定了他的命运。习惯一旦养成，就很难改变。好的习惯让人受益终生，坏的习惯则可能__14__终生。因此，我们要从小培养好习惯，__15__坏习惯。", blanks: [
+        { options: ["A. 习惯", "B. 习性", "C. 行为", "D. 行动"], correct: 0 },
+        { options: ["A. 贻害", "B. 伤害", "C. 损害", "D. 危害"], correct: 0 },
+        { options: ["A. 改掉", "B. 改正", "C. 克服", "D. 纠正"], correct: 0 }] },
+      { type: "part2", passage: "在中国，人们喜欢用\"万事如意\"来祝福别人，意思是希望对方所有事情都能顺心如意。", options: ["A. 万事如意是祝福语", "B. 只有春节才能说", "C. 没人用这句话", "D. 这句话不吉利"], correct: 0 },
+      { type: "part2", passage: "研究表明，每天吃几颗核桃，可以补脑，提高记忆力。核桃富含不饱和脂肪酸，对大脑健康非常有益。", options: ["A. 吃核桃对身体不好", "B. 核桃没有营养", "C. 吃核桃有益大脑", "D. 不能吃核桃"], correct: 2 },
+      { type: "part2", passage: "黎锦是海南黎族的传统织锦，色彩艳丽，图案古朴，具有浓郁的民族特色，被列入非物质文化遗产。", options: ["A. 黎锦色彩暗淡", "B. 黎锦有民族特色", "C. 黎锦没有列入非遗", "D. 黎锦不用线"], correct: 1 },
+      { type: "part2", passage: "在中国，中秋节时，人们会吃月饼、赏月。月饼是圆形的，象征着团圆和美满。", options: ["A. 中秋节不吃月饼", "B. 月饼象征团圆", "C. 不赏月", "D. 没有这个习俗"], correct: 1 },
+      { type: "part2", passage: "在图书馆自习时，应该保持安静，手机调成静音。如果要讨论问题，请到讨论区。", options: ["A. 可以大声说话", "B. 手机要调静音", "C. 可以在座位上讨论", "D. 不用保持安静"], correct: 1 },
+      { type: "part2", passage: "中国有56个民族，各民族都有自己的传统节日。比如，京族的\"哈节\"，毛南族的\"分龙节\"，仫佬族的\"依饭节\"等。", options: ["A. 各民族节日都一样", "B. 京族有\"哈节\"", "C. 毛南族没有节日", "D. 节日不重要"], correct: 1 },
+      { type: "part2", passage: "常言道：\"只要功夫深，铁杵磨成针。\"意思是，只要有恒心，肯下功夫，再难的事情也能做成。", options: ["A. 铁杵很细", "B. 做事要有恒心", "C. 功夫不重要", "D. 针很难磨"], correct: 1 },
+      { type: "part2", passage: "长时间看电脑屏幕，容易导致眼睛干涩、疲劳。专家建议，每隔一小时就让眼睛休息几分钟，看看远处。", options: ["A. 看电脑对眼睛没影响", "B. 要让眼睛适当休息", "C. 不用休息", "D. 可以一直看"], correct: 1 },
+      { type: "part2", passage: "随着移动支付的普及，现在很多小店也支持扫码支付了。不带钱包出门已经成为很多人的习惯。", options: ["A. 移动支付不方便", "B. 小店不支持扫码", "C. 不带钱包成为习惯", "D. 没人用移动支付"], correct: 2 },
+      { type: "part2", passage: "俗话说：\"远亲不如近邻。\"意思是，住得远的亲戚不如近处的邻居，因为邻居可以随时帮忙。", options: ["A. 亲戚不重要", "B. 邻居比远亲更能帮忙", "C. 不要和邻居来往", "D. 远亲最好"], correct: 1 },
+      { type: "part3", passage: "艾窝窝是北京的传统小吃。用糯米粉做皮，包上豆沙馅，外面裹上椰蓉。吃起来软糯香甜，很受欢迎。", questions: [{ q: "这段话主要介绍什么？", options: ["A. 北京", "B. 艾窝窝", "C. 糯米粉", "D. 豆沙馅"], correct: 1 }] },
+      { type: "part3", passage: "很多人喜欢喝咖啡，但空腹喝咖啡容易刺激胃黏膜，导致胃酸过多。所以，最好饭后喝咖啡。", questions: [{ q: "空腹喝咖啡有什么坏处？", options: ["A. 提神", "B. 刺激胃", "C. 没有坏处", "D. 帮助消化"], correct: 1 }] },
+      { type: "part3", passage: "我的爷爷是一位老中医，他看病特别仔细，对病人也很有耐心。很多病人都是慕名而来。", questions: [{ q: "爷爷是什么职业？", options: ["A. 教师", "B. 医生", "C. 中医", "D. 护士"], correct: 2 }] },
+      { type: "part3", passage: "现在很多人喜欢在网上分享自己的穿搭，推荐好看的衣服。有人觉得这是分享时尚，有人觉得是在带货。", questions: [{ q: "关于网上分享穿搭，正确的说法是？", options: ["A. 所有人都支持", "B. 有人分享有人觉得带货", "C. 没人分享", "D. 只有女生分享"], correct: 1 }] },
+      { type: "part3", passage: "她是我的同事，我们一起工作五年了。她这个人最大的特点就是细心，经她手的文件从不出错。", questions: [{ q: "同事的特点是什么？", options: ["A. 马虎", "B. 细心", "C. 懒惰", "D. 幽默"], correct: 1 }] },
+      { type: "part3", passage: "丽江古城位于云南省，是一座没有城墙的古城。城内有光滑的石板路、木质结构的房屋、小桥流水。", questions: [{ q: "丽江古城位于哪里？", options: ["A. 四川", "B. 云南", "C. 贵州", "D. 广西"], correct: 1 },{ q: "丽江古城有什么特点？", options: ["A. 有城墙", "B. 没有城墙", "C. 现代建筑", "D. 全是高楼"], correct: 1 }] },
+      { type: "part3", passage: "俗话说：\"一分耕耘，一分收获。\"意思是，付出多少努力，就会得到多少回报。", questions: [{ q: "这句话告诉我们什么？", options: ["A. 不劳而获", "B. 付出才有回报", "C. 耕耘没用", "D. 收获很容易"], correct: 1 }] },
+      { type: "part3", passage: "昨天我在公交车上看到一个小伙子给老人让座，老人笑着说了声谢谢。这一幕让我觉得很温馨。", questions: [{ q: "说话人为什么觉得温馨？", options: ["A. 天气好", "B. 小伙子让座", "C. 公交车很新", "D. 老人很慈祥"], correct: 1 }] },
+      { type: "part3", passage: "很多人想减肥，但总是管不住嘴。其实，减肥不需要节食，关键是要控制总热量摄入，多吃蔬菜水果。", questions: [{ q: "这段话主要讲什么？", options: ["A. 如何节食", "B. 如何健康减肥", "C. 如何运动", "D. 如何吃水果"], correct: 1 }] },
+      { type: "part3", passage: "现在很多餐厅都有扫码点餐，用手机扫二维码就可以点菜，不用等服务员，非常方便。", questions: [{ q: "关于扫码点餐，下列哪项正确？", options: ["A. 不方便", "B. 需要服务员", "C. 手机扫码点菜", "D. 没人用"], correct: 2 }] }
+    ];
+
+    const flatReading = [];
+    readingQuestions.forEach(q => { if (q.type === 'part1') { q.blanks.forEach((b,i)=>flatReading.push({type:'part1',passage:q.passage,blankIdx:i+1,options:b.options,correct:b.correct})); } else if (q.type === 'part2') flatReading.push(q); else if (q.type === 'part3') q.questions.forEach(sq => flatReading.push({...sq,type:'part3',passage:q.passage})); });
+
+    // ==================== WRITING (10 questions) - ALL NEW ====================
+    const writingQuestions = [
+      { type: "part1", words: ["我", "把", "衣服", "叠", "好", "了"], correct: "我把衣服叠好了" },
+      { type: "part1", words: ["他", "比我", "算", "得", "快"], correct: "他比我算得快" },
+      { type: "part1", words: ["你", "最好", "再", "一遍", "核对"], correct: "你最好再核对一遍" },
+      { type: "part1", words: ["这个", "问题", "并", "难", "不"], correct: "这个问题并不难" },
+      { type: "part1", words: ["我", "重庆", "去过", "一次", "了"], correct: "我去过重庆一次了" },
+      { type: "part1", words: ["只要", "坚持", "就", "能", "胜利", "你"], correct: "只要你坚持就能胜利" },
+      { type: "part1", words: ["无论", "多忙", "他", "每天", "都", "会", "锻炼"], correct: "无论多忙他每天都会锻炼" },
+      { type: "part1", words: ["她", "不仅", "聪明", "而且", "漂亮", "很"], correct: "她不仅聪明而且很漂亮" },
+      { type: "part2", style: "words", promptWords: ["时间", "管理", "效率", "成功"], requirement: "请用以上词语写一篇80字左右的短文。" },
+      { type: "part2", style: "image", image: "🏞️", imageDesc: "山间小溪", requirement: "请结合图片写一篇80字左右的短文。" }
+    ];
+
+    // ==================== EXAM STATE ====================
+    let examState = { section: 'listening', currentQuestionIndex: 0, answers: new Array(flatListening.length + flatReading.length + writingQuestions.length).fill(null), listeningTimer: 30*60, answerSheetTimer: 5*60, readingTimer: 45*60, writingTimer: 40*60, timerInterval: null, paused: false, started: false };
+    const startScreen = document.getElementById('startScreen'), examArea = document.getElementById('examArea'), resultArea = document.getElementById('resultArea'), timerEl = document.getElementById('timer'), sectionHeader = document.getElementById('sectionHeader'), questionContainer = document.getElementById('questionContainer'), progressInfo = document.getElementById('progressInfo'), navBar = document.getElementById('navBar'), startBtn = document.getElementById('startBtn'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn'), pauseBtn = document.getElementById('pauseBtn');
+
+    function getCurrentQuestions() { return examState.section==='listening'?flatListening:examState.section==='reading'?flatReading:writingQuestions; }
+    function getGlobalIndex() { let o=0; if(examState.section==='reading') o=flatListening.length; else if(examState.section==='writing') o=flatListening.length+flatReading.length; return o+examState.currentQuestionIndex; }
+    function formatTime(s) { return `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`; }
+    function speak(text, callback) { if(!text) return; try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang='zh-CN'; u.rate=0.9; u.onend=callback||null; speechSynthesis.speak(u); } catch(e) {} }
+
+    function render() {
+      const qs = getCurrentQuestions(), idx = examState.currentQuestionIndex, q = qs[idx], gIdx = getGlobalIndex(), selected = examState.answers[gIdx]; let html = '';
+      if (examState.section === 'answerSheet') { html = `<div class="question" style="text-align:center; padding:2rem;"><i class="fas fa-clock" style="font-size:3rem; color:var(--accent);"></i><h2>⏱️ Filling Answer Sheet</h2><p>You have 5 minutes to transfer your listening answers.</p><p style="margin:1rem 0; font-size:1.5rem;" id="answerSheetTimerDisplay">Time left: 05:00</p><button id="continueToReadingBtn" class="control-btn">Continue to Reading</button></div>`; }
+      else if (examState.section === 'listening') { html = `<div class="question"><div><strong>${idx+1}.</strong> <button id="playAudioBtn" class="control-btn"><i class="fas fa-play"></i> Play Audio</button></div><div>${q.q||q.question}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`; }
+      else if (examState.section === 'reading') {
+        if (q.type === 'part1') {
+          const passageWithBlank = q.passage.replace(new RegExp(`__${q.blankIdx}__`, 'g'), '<span class="blank-highlight">______</span>');
+          html = `<div class="question"><div><strong>${idx+1}.</strong> Fill in the blank</div><div class="passage-context">${passageWithBlank}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`;
+        } else if (q.type === 'part2') {
+          html = `<div class="question"><div><strong>${idx+1}.</strong> Choose the statement that matches the text</div><div style="margin:0.8rem 0;">${q.passage}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`;
+        } else {
+          html = `<div class="question"><div><strong>${idx+1}.</strong> Reading comprehension</div><div style="margin:0.8rem 0;">${q.passage}</div><div>${q.q}</div><div class="options">${q.options.map((o,i)=>`<div class="option"><label><input type="radio" name="q" value="${i}" ${selected===i?'checked':''}> ${o}</label></div>`).join('')}</div></div>`;
+        }
+      } else if (examState.section === 'writing') {
+        if (q.type === 'part1') {
+          const shuffled = [...q.words].sort(()=>Math.random()-0.5);
+          html = `<div class="question"><div><strong>${idx+1}.</strong> Arrange words to form a sentence</div><div class="sentence-builder" id="wordTiles">${shuffled.map(w=>`<span class="word-tile" data-word="${w}">${w}</span>`).join('')}</div><div class="sentence-preview" id="sentencePreview">${selected||'Click words to arrange...'}</div><button id="clearBtn" class="control-btn">Clear</button><button id="checkBtn" class="control-btn">Check</button><div id="fb" style="margin-top:0.5rem;"></div></div>`;
+        } else {
+          html = `<div class="question"><div><strong>${idx+1}.</strong> Writing</div>`;
+          html += q.style === 'words' ? `<div style="margin:0.8rem 0;">Words: <strong>${q.promptWords}</strong></div>` : `<div style="font-size:3rem; text-align:center;">${q.image}<br><span style="font-size:0.9rem;">${q.imageDesc}</span></div>`;
+          html += `<div style="margin:0.5rem 0;">${q.requirement}</div><textarea id="essayInput" class="essay-area" rows="4" placeholder="Write your text here...">${selected||''}</textarea><div class="word-count" id="wordCount">${selected?selected.length:0} characters</div><button id="saveBtn" class="control-btn">Save Answer</button></div>`;
+        }
+      }
+      questionContainer.innerHTML = html;
+      progressInfo.innerText = `Question ${idx+1} / ${qs.length}`;
+      sectionHeader.innerText = examState.section==='listening'?`🎧 Listening (${idx+1}/${qs.length})`:examState.section==='reading'?`📖 Reading (${idx+1}/${qs.length})`:examState.section==='writing'?`✍️ Writing (${idx+1}/${qs.length})`:`📝 Answer Sheet`;
+      renderNavBar();
+      if (examState.section === 'listening') { const playBtn = document.getElementById('playAudioBtn'); if(playBtn) { playBtn.addEventListener('click', ()=>{ speak(q.dialogue, ()=>{ setTimeout(()=>{ speak(q.q||q.question); }, 500); }); }); setTimeout(()=> playBtn.click(), 300); } }
+      document.querySelectorAll('input[name="q"]').forEach(r=>r.addEventListener('change', e=>{ let v = parseInt(e.target.value); examState.answers[gIdx] = v; renderNavBar(); }));
+      if (examState.section==='writing' && q.type==='part1') { let selectedWords = []; document.querySelectorAll('.word-tile').forEach(t=>t.addEventListener('click', ()=>{ selectedWords.push(t.dataset.word); t.classList.add('selected'); t.style.pointerEvents='none'; document.getElementById('sentencePreview').innerText = selectedWords.join(''); })); document.getElementById('clearBtn').addEventListener('click', ()=>{ selectedWords=[]; document.querySelectorAll('.word-tile').forEach(t=>{ t.classList.remove('selected'); t.style.pointerEvents='auto'; }); document.getElementById('sentencePreview').innerText='Click words to arrange...'; }); document.getElementById('checkBtn').addEventListener('click', ()=>{ const s = selectedWords.join(''), fb = document.getElementById('fb'); fb.innerHTML = s===q.correct? '✅ Correct!' : `❌ Reference: ${q.correct}`; examState.answers[gIdx] = s; renderNavBar(); }); }
+      if (examState.section==='writing' && q.type==='part2') { const ta = document.getElementById('essayInput'); ta.addEventListener('input', ()=>{ document.getElementById('wordCount').innerText = ta.value.length + ' characters'; }); document.getElementById('saveBtn').addEventListener('click', ()=>{ examState.answers[gIdx]=ta.value; renderNavBar(); }); }
+      document.getElementById('continueToReadingBtn')?.addEventListener('click', ()=>{ examState.section='reading'; examState.currentQuestionIndex=0; clearInterval(examState.timerInterval); startReadingTimer(); render(); });
+    }
+
+    function renderNavBar() { const qs = getCurrentQuestions(); let h = ''; for(let i=0; i<qs.length; i++) { const g = getGlobalIndex() - examState.currentQuestionIndex + i; h += `<button class="nav-btn ${examState.answers[g]!==null?'answered':''} ${i===examState.currentQuestionIndex?'current':''}" data-index="${i}">${i+1}</button>`; } navBar.innerHTML = h; navBar.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click', ()=>{ examState.currentQuestionIndex = parseInt(b.dataset.index); render(); })); }
+    function nextQuestion() { const qs = getCurrentQuestions(); if (examState.currentQuestionIndex < qs.length-1) { examState.currentQuestionIndex++; render(); } else { if (examState.section==='listening') { examState.section='answerSheet'; examState.currentQuestionIndex=0; clearInterval(examState.timerInterval); startAnswerSheetTimer(); render(); } else if (examState.section==='reading') { examState.section='writing'; examState.currentQuestionIndex=0; clearInterval(examState.timerInterval); startWritingTimer(); render(); } else if (examState.section==='writing') finishExam(); } }
+    function startListeningTimer() { clearInterval(examState.timerInterval); examState.timerInterval = setInterval(() => { if (examState.paused) return; if (examState.section==='listening' && examState.listeningTimer>0) { examState.listeningTimer--; timerEl.innerText = `Listening: ${formatTime(examState.listeningTimer)}`; if (examState.listeningTimer<=0) { examState.section='answerSheet'; examState.currentQuestionIndex=0; clearInterval(examState.timerInterval); startAnswerSheetTimer(); render(); } } }, 1000); }
+    function startAnswerSheetTimer() { clearInterval(examState.timerInterval); examState.timerInterval = setInterval(() => { if (examState.paused) return; if (examState.section==='answerSheet' && examState.answerSheetTimer>0) { examState.answerSheetTimer--; timerEl.innerText = `Answer Sheet: ${formatTime(examState.answerSheetTimer)}`; const disp = document.getElementById('answerSheetTimerDisplay'); if (disp) disp.innerText = `Time left: ${formatTime(examState.answerSheetTimer)}`; if (examState.answerSheetTimer<=0) { examState.section='reading'; examState.currentQuestionIndex=0; clearInterval(examState.timerInterval); startReadingTimer(); render(); } } }, 1000); }
+    function startReadingTimer() { clearInterval(examState.timerInterval); examState.timerInterval = setInterval(() => { if (examState.paused) return; if (examState.section==='reading' && examState.readingTimer>0) { examState.readingTimer--; timerEl.innerText = `Reading: ${formatTime(examState.readingTimer)}`; if (examState.readingTimer<=0) { examState.section='writing'; examState.currentQuestionIndex=0; clearInterval(examState.timerInterval); startWritingTimer(); render(); } } }, 1000); }
+    function startWritingTimer() { clearInterval(examState.timerInterval); examState.timerInterval = setInterval(() => { if (examState.paused) return; if (examState.section==='writing' && examState.writingTimer>0) { examState.writingTimer--; timerEl.innerText = `Writing: ${formatTime(examState.writingTimer)}`; if (examState.writingTimer<=0) finishExam(); } }, 1000); }
+    function calculateScore() { let lc=0, rc=0, wc=0; for(let i=0; i<flatListening.length; i++) if(examState.answers[i]===flatListening[i].correct) lc++; for(let i=0; i<flatReading.length; i++) if(examState.answers[flatListening.length+i]===flatReading[i].correct) rc++; const wq = writingQuestions.filter(q=>q.type==='part1'); for(let i=0; i<wq.length; i++) if(examState.answers[flatListening.length+flatReading.length+i]===wq[i].correct) wc++; const ls=Math.round(lc/flatListening.length*100), rs=Math.round(rc/flatReading.length*100), ws=Math.round(wc/wq.length*100); return { ls, rs, ws, total: ls+rs+ws, passed: ls+rs+ws>=180 }; }
+    function finishExam() { clearInterval(examState.timerInterval); const s = calculateScore(); examArea.classList.add('hidden'); resultArea.classList.remove('hidden'); resultArea.innerHTML = `<div style="text-align:center;"><h2>Exam Completed</h2><div style="display:flex; justify-content:center; gap:2rem; margin:1rem 0;"><div>Listening<br><strong>${s.ls}/100</strong></div><div>Reading<br><strong>${s.rs}/100</strong></div><div>Writing<br><strong>${s.ws}/100</strong></div></div><p style="font-size:2rem;"><strong>Total: ${s.total}/300</strong></p><p style="font-size:1.5rem; color:${s.passed?'green':'red'};">${s.passed?'🎉 Congratulations! You passed HSK 5!':'😢 Keep practicing!'}</p><button id="restartBtn" class="control-btn">Restart Exam</button></div>`; document.getElementById('restartBtn').addEventListener('click', ()=>location.reload()); }
+
+    startBtn.addEventListener('click', ()=>{ startScreen.classList.add('hidden'); examArea.classList.remove('hidden'); examState.started = true; startListeningTimer(); render(); });
+    prevBtn.addEventListener('click', ()=>{ if(examState.currentQuestionIndex>0) { examState.currentQuestionIndex--; render(); } });
+    nextBtn.addEventListener('click', nextQuestion);
+    pauseBtn.addEventListener('click', function(){ examState.paused = !examState.paused; this.innerHTML = examState.paused ? '<i class="fas fa-play"></i> Continue' : '<i class="fas fa-pause"></i> Pause'; });
+    const darkBtn = document.createElement('button'); darkBtn.innerHTML='<i class="fas fa-moon"></i>'; darkBtn.style.cssText='position:fixed; bottom:20px; right:20px; background:var(--accent); color:white; border:none; border-radius:50%; width:50px; height:50px; cursor:pointer;'; darkBtn.onclick = ()=>{ const is = document.body.classList.contains('dark'); if(is) { document.body.classList.remove('dark'); document.body.classList.add('light'); } else { document.body.classList.remove('light'); document.body.classList.add('dark'); } }; document.body.appendChild(darkBtn);
+  })();
+</script>
+</body>
+</html>
