@@ -5,7 +5,7 @@
 (function() {
   // ---------- CONFIGURATION (Edit these as needed) ----------
   var VALID_CODES = [
-    'HSK-JOHN001',
+    'LXSL022024104',
     'HSK-MARY002',
     'HSK-ALEX003',
     'HSK-SADEEQ01'
