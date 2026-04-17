@@ -1,30 +1,28 @@
 // ==================== HSK PREMIUM SYSTEM ====================
-// Version 1.0 -
-// To add new codes.
+// Version 2.0 - One-time payment unlocks all levels
 
 (function() {
   // ---------- CONFIGURATION (Edit these as needed) ----------
-  var VALID_CODES = [
+  const VALID_CODES = [
     'LXSL022024104',
     'HSK-MARY002',
     'HSK-ALEX003',
     'HSK-SADEEQ01'
   ];
   
-  var CONTACT = {
+  const CONTACT = {
     email: 'sadeeq3331@gmail.com',
     phone: '15578840796',
     wechat: 'Sadeeq331',
     price: '10 yuan'
   };
   
-  var PREMIUM_KEY = 'hsk_premium_active';
-  var PREMIUM_CODE_KEY = 'hsk_premium_code';
+  const PREMIUM_KEY = 'hsk_premium_active';
+  const PREMIUM_CODE_KEY = 'hsk_premium_code';
   
   // ---------- INJECT CONTACT SECTION (for hub pages) ----------
   function injectContactSection() {
-    // Only inject if the container exists
-    var container = document.getElementById('premium-contact-container');
+    const container = document.getElementById('premium-contact-container');
     if (!container) return;
     
     container.innerHTML = `
@@ -55,26 +53,25 @@
         
         <p style="margin-top: 1.25rem; font-size: 0.85rem; opacity: 0.9; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
           <i class="fas fa-hand-holding-heart" style="color: var(--accent);"></i>
-          <span>Each code is for personal use only. Please don't share—it helps keep the price low!</span>
+          <span>Each code is for personal use only. Please don't share.</span>
         </p>
       </div>
     `;
   }
   
-  // ---------- INJECT UNLOCK BUTTON & MODAL (for content pages) ----------
+  // ---------- INJECT UNLOCK BUTTON & MODAL ----------
   function injectUnlockUI() {
-    // Check if already injected
     if (document.getElementById('premiumUnlockBtn')) return;
     
     // Create button
-    var btn = document.createElement('button');
+    const btn = document.createElement('button');
     btn.id = 'premiumUnlockBtn';
     btn.className = 'premium-unlock-btn';
     btn.innerHTML = '<i class="fas fa-crown"></i> Unlock Ad‑Free';
     document.body.appendChild(btn);
     
     // Create modal
-    var modal = document.createElement('div');
+    const modal = document.createElement('div');
     modal.id = 'unlockModal';
     modal.className = 'modal-overlay';
     modal.innerHTML = `
@@ -94,9 +91,9 @@
     `;
     document.body.appendChild(modal);
     
-    // Add styles dynamically if not already present
+    // Add styles
     if (!document.getElementById('premium-styles')) {
-      var style = document.createElement('style');
+      const style = document.createElement('style');
       style.id = 'premium-styles';
       style.textContent = `
         .premium-unlock-btn {
@@ -123,9 +120,7 @@
           transform: scale(1.05);
           box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         }
-        .premium-unlock-btn i {
-          color: #ffd700;
-        }
+        .premium-unlock-btn i { color: #ffd700; }
         .modal-overlay {
           display: none;
           position: fixed;
@@ -212,105 +207,88 @@
       document.head.appendChild(style);
     }
     
-    // Attach event listeners
     attachUnlockEvents();
   }
   
   function attachUnlockEvents() {
-    var unlockBtn = document.getElementById('premiumUnlockBtn');
-    var modal = document.getElementById('unlockModal');
-    var codeInput = document.getElementById('accessCodeInput');
-    var codeError = document.getElementById('codeError');
-    var submitBtn = document.getElementById('submitCodeBtn');
-    var closeBtn = document.getElementById('closeModalBtn');
+    const unlockBtn = document.getElementById('premiumUnlockBtn');
+    const modal = document.getElementById('unlockModal');
+    const codeInput = document.getElementById('accessCodeInput');
+    const codeError = document.getElementById('codeError');
+    const submitBtn = document.getElementById('submitCodeBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
     
     if (!unlockBtn || !modal) return;
     
-    unlockBtn.addEventListener('click', function() {
+    unlockBtn.addEventListener('click', () => {
       modal.style.display = 'flex';
       codeInput.value = '';
-      codeError.innerText = '';
+      codeError.textContent = '';
     });
     
-    closeBtn.addEventListener('click', function() {
+    closeBtn.addEventListener('click', () => {
       modal.style.display = 'none';
     });
     
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.style.display = 'none';
     });
     
-    submitBtn.addEventListener('click', function() {
-      var code = codeInput.value.trim().toUpperCase();
-      if (VALID_CODES.indexOf(code) !== -1) {
+    submitBtn.addEventListener('click', () => {
+      const code = codeInput.value.trim().toUpperCase();
+      if (VALID_CODES.includes(code)) {
         localStorage.setItem(PREMIUM_KEY, 'true');
         localStorage.setItem(PREMIUM_CODE_KEY, code);
         modal.style.display = 'none';
         applyPremiumState();
-        alert('🎉 Premium unlocked! Ads have been removed.\n\nThank you for supporting independent content! Please do not share your code.');
+        alert('🎉 Premium unlocked! Ads have been removed. Thank you!');
       } else {
-        codeError.innerText = 'Invalid code. Please check and try again.';
+        codeError.textContent = 'Invalid code. Please check or purchase a new one.';
       }
     });
     
-    codeInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        submitBtn.click();
-      }
+    codeInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') submitBtn.click();
     });
   }
   
   // ---------- REMOVE ADS ----------
   function removeAds() {
     document.body.classList.add('premium-active');
-    // Additional direct hiding for stubborn ads
-    var adSelectors = ['.ad-container', '.adsbygoogle', 'ins.adsbygoogle', '[id*="adTop"]', '[id*="adBottom"]'];
-    adSelectors.forEach(function(sel) {
-      var els = document.querySelectorAll(sel);
-      for (var i = 0; i < els.length; i++) {
-        els[i].style.display = 'none';
-      }
+    const adSelectors = ['.ad-container', '.adsbygoogle', 'ins.adsbygoogle', '[id*="adTop"]', '[id*="adBottom"]'];
+    adSelectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => el.style.display = 'none');
     });
   }
   
   // ---------- APPLY PREMIUM STATE ----------
   function applyPremiumState() {
     if (localStorage.getItem(PREMIUM_KEY) === 'true') {
-      var btn = document.getElementById('premiumUnlockBtn');
+      const btn = document.getElementById('premiumUnlockBtn');
       if (btn) btn.style.display = 'none';
       removeAds();
     } else {
-      var btn = document.getElementById('premiumUnlockBtn');
+      const btn = document.getElementById('premiumUnlockBtn');
       if (btn) btn.style.display = 'flex';
     }
   }
   
   // ---------- COPY WECHAT (global function) ----------
   window.copyWeChat = function() {
-    navigator.clipboard.writeText(CONTACT.wechat).then(function() {
-      alert('✅ WeChat ID "' + CONTACT.wechat + '" copied to clipboard!');
-    }).catch(function() {
+    navigator.clipboard.writeText(CONTACT.wechat).then(() => {
+      alert('✅ WeChat ID "' + CONTACT.wechat + '" copied!');
+    }).catch(() => {
       prompt('Please manually copy:', CONTACT.wechat);
     });
   };
   
   // ---------- INITIALIZATION ----------
   function init() {
-    // For hub pages: inject contact section if container exists
     injectContactSection();
-    
-    // For content pages: inject unlock UI if not on a hub page? 
-    // We'll inject unlock UI on all pages except maybe we can check for a flag.
-    // Simple approach: always inject unlock UI (hub pages will have it too, but that's fine)
     injectUnlockUI();
-    
-    // Apply premium state on load
     applyPremiumState();
   }
   
-  // Run after DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
