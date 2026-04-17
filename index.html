@@ -2,65 +2,239 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HSK Vocabulary Master</title>
-  <!-- 您的听诊器 Logo 作为网站图标 (Favicon) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='800' height='800' viewBox='0 0 800 800' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='800' height='800' rx='200' fill='%230a2942'/%3E%3Cg transform='translate(200, 200) scale(0.8)'%3E%3Cpath d='M192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v25.6C69.5 68.4 16 127.1 16 200v32c0 101.7 82.3 184 184 184h64c101.7 0 184-82.3 184-184v-32c0-72.9-53.5-131.6-128-142.4V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V32zM48 200c0-63.1 48-115.4 109.5-126.9 4.2-.7 8.5-1.1 12.8-1.1h31.5c4.3 0 8.6 .4 12.8 1.1C288 84.6 336 136.9 336 200v32c0 75.1-60.9 136-136 136h-64c-75.1 0-136-60.9-136-136v-32zm320 240c0-8.8-7.2-16-16-16H32c-8.8 0-16 7.2-16 16v48c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16v-48z' fill='%23ffd966'/%3E%3C/g%3E%3C/svg%3E">
-  <!-- Ad code (same as before) -->
-  <script type="text/javascript" data-cfasync="false">
-  /*<![CDATA[/* */
-  (function(){var t=window,e="cd6ee060ba724175f3699c4800b65757",l=[["siteId",153-559*779*654-902+290080832],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],w=["d3d3LnhhZHNtYXJ0LmNvbS92eGl2ZWx5anMubWluLmNzcw==","ZDExZW5xMnJ5bXkweWwuY2xvdWRmcm9udC5uZXQvUVMvZW5xdWlyZS5taW4uanM="],u=-1,p,h,f=function(){clearTimeout(h);u++;if(w[u]&&!(1801553369000<(new Date).getTime()&&1<u)){p=t.document.createElement("script");p.type="text/javascript";p.async=!0;var d=t.document.getElementsByTagName("script")[0];p.src="https://"+atob(w[u]);p.crossOrigin="anonymous";p.onerror=f;p.onload=function(){clearTimeout(h);t[e.slice(0,16)+e.slice(0,16)]||f()};h=setTimeout(f,5E3);d.parentNode.insertBefore(p,d)}};if(!t[e]){try{Object.freeze(t[e]=l)}catch(e){}f()}})();
-  /*]]>/* */
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>HSK Master · Chinese Proficiency Test Prep</title>
+  <!-- Font Awesome for icons (required for contact section) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background: linear-gradient(145deg, #f0f5fa 0%, #e6edf4 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
-    .container { max-width: 1200px; width: 100%; background: rgba(255,255,255,0.6); backdrop-filter: blur(12px); border-radius: 3rem; padding: 3rem 2.5rem; box-shadow: 0 30px 50px rgba(0,20,40,0.15); border: 1px solid rgba(255,255,255,0.6); text-align: center; }
-    h1 { font-size: 3.2rem; background: linear-gradient(135deg, #1D3557, #457B9D); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.8rem; }
-    .logo-svg { width: 60px; height: 60px; display: inline-block; }
-    .sub { color: #2b4a6f; font-size: 1.2rem; margin-bottom: 2.5rem; }
-    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-    .level-card { background: white; border-radius: 2rem; padding: 1.5rem 1rem; text-decoration: none; color: #1D3557; box-shadow: 0 12px 28px rgba(0,30,50,0.1); transition: 0.2s; border: 1px solid rgba(150,190,220,0.4); }
-    .level-card:hover { transform: translateY(-8px); box-shadow: 0 25px 40px rgba(29,53,87,0.2); border-color: #A8DADC; }
-    .level-card h2 { font-size: 2rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .level-card p { font-size: 1rem; background: #e3f0f5; padding: 0.2rem 0.8rem; border-radius: 40px; display: inline-block; margin-bottom: 0.5rem; }
-    .level-card small { display: block; font-size: 0.75rem; color: #6c8ea0; }
-    .features { margin-top: 3rem; color: #4e6f86; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; border-top: 1px solid rgba(150,190,220,0.3); padding-top: 2rem; }
-    .features span { background: white; padding: 0.5rem 1.5rem; border-radius: 40px; font-size: 0.9rem; }
-    .privacy-note { margin-top: 2rem; font-size: 0.8rem; color: #6c8ea0; background: rgba(255,255,255,0.5); padding: 1rem; border-radius: 1rem; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
+    body {
+      background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%);
+      min-height: 100vh;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    body.dark {
+      background: linear-gradient(145deg, #0f172a 0%, #0b1120 100%);
+    }
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(16px);
+      border-radius: 2.5rem;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 25px 45px rgba(0,0,0,0.08);
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    body.dark .container {
+      background: rgba(30,41,59,0.8);
+      border-color: #334155;
+    }
+    h1 {
+      font-size: 2.8rem;
+      background: linear-gradient(135deg, #1e1b4b, #4f46e5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    body.dark h1 {
+      background: linear-gradient(135deg, #a5b4fc, #818cf8);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    .subtitle {
+      color: #4f46e5;
+      margin-bottom: 2.5rem;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    body.dark .subtitle {
+      color: #a5b4fc;
+    }
+    .level-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .level-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.8rem 1rem;
+      text-decoration: none;
+      color: #1e1b4b;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.04);
+      transition: all 0.2s;
+      border: 1px solid #c7d2fe;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    body.dark .level-card {
+      background: #1e293b;
+      border-color: #334155;
+      color: #e2e8f0;
+    }
+    .level-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 30px rgba(79,70,229,0.18);
+      border-color: #4f46e5;
+    }
+    .level-icon {
+      font-size: 3rem;
+      margin-bottom: 0.8rem;
+    }
+    .level-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .level-desc {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+    .vocab-badge {
+      background: #4f46e5;
+      color: white;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    body.dark .vocab-badge {
+      background: #818cf8;
+    }
+    /* Theme variables for premium.js compatibility */
+    :root {
+      --bg-card: #ffffff;
+      --text-primary: #1e1b4b;
+      --text-secondary: #4f46e5;
+      --border-light: #c7d2fe;
+      --accent: #4f46e5;
+    }
+    body.dark {
+      --bg-card: #1e293b;
+      --text-primary: #e2e8f0;
+      --text-secondary: #a5b4fc;
+      --border-light: #334155;
+      --accent: #818cf8;
+    }
+    /* Dark mode toggle button */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+    .footer-note {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #6c8ea0;
+    }
   </style>
 </head>
-<body>
-<div class="container">
-  <h1>
-    <span class="logo-svg">
-      <!-- 页面内 Logo (与 Favicon 相同) -->
-      <svg viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="800" height="800" rx="200" fill="#0a2942"/>
-        <g transform="translate(200, 200) scale(0.8)">
-          <path d="M192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v25.6C69.5 68.4 16 127.1 16 200v32c0 101.7 82.3 184 184 184h64c101.7 0 184-82.3 184-184v-32c0-72.9-53.5-131.6-128-142.4V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V32zM48 200c0-63.1 48-115.4 109.5-126.9 4.2-.7 8.5-1.1 12.8-1.1h31.5c4.3 0 8.6 .4 12.8 1.1C288 84.6 336 136.9 336 200v32c0 75.1-60.9 136-136 136h-64c-75.1 0-136-60.9-136-136v-32zm320 240c0-8.8-7.2-16-16-16H32c-8.8 0-16 7.2-16 16v48c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16v-48z" fill="#ffd966"/>
-        </g>
-      </svg>
-    </span>
-    HSK Vocabulary Master
-  </h1>
-  <div class="sub">Complete learning suite for HSK levels 1–6</div>
-  <div class="card-grid">
-    <a class="level-card" href="hsk1_hub.html"><h2>HSK 1</h2><p>150 words</p><small>Vocabulary · Grammar · Exam · Challenge · Badges</small></a>
-    <a class="level-card" href="hsk2_hub.html"><h2>HSK 2</h2><p>150 words</p><small>Vocabulary · Grammar · Exam · Challenge · Badges</small></a>
-    <a class="level-card" href="hsk3_hub.html"><h2>HSK 3</h2><p>300 words</p><small>Vocabulary · Grammar · Exam · Challenge · Badges</small></a>
-    <a class="level-card" href="hsk4_hub.html"><h2>HSK 4</h2><p>600 words</p><small>Vocabulary · Grammar · Exam · Challenge · Badges</small></a>
-    <a class="level-card" href="hsk5_hub.html"><h2>HSK 5</h2><p>1300 words</p><small>Vocabulary · Grammar · Exam · Challenge · Badges</small></a>
-    <a class="level-card" href="hsk6_hub.html"><h2>HSK 6</h2><p>2500 words</p><small>Vocabulary · Grammar · Exam · Challenge · Badges</small></a>
+<body class="light">
+  <div class="container">
+    <h1>🇨🇳 HSK Master</h1>
+    <div class="subtitle">Official Chinese Proficiency Test Preparation</div>
+    
+    <div class="level-grid">
+      <a href="hsk1_hub.html" class="level-card">
+        <span class="level-icon">1️⃣</span>
+        <span class="level-name">HSK 1</span>
+        <span class="level-desc">Beginner</span>
+        <span class="vocab-badge">150 words</span>
+      </a>
+      <a href="hsk2_hub.html" class="level-card">
+        <span class="level-icon">2️⃣</span>
+        <span class="level-name">HSK 2</span>
+        <span class="level-desc">Elementary</span>
+        <span class="vocab-badge">300 words</span>
+      </a>
+      <a href="hsk3_hub.html" class="level-card">
+        <span class="level-icon">3️⃣</span>
+        <span class="level-name">HSK 3</span>
+        <span class="level-desc">Intermediate</span>
+        <span class="vocab-badge">600 words</span>
+      </a>
+      <a href="hsk4_hub.html" class="level-card">
+        <span class="level-icon">4️⃣</span>
+        <span class="level-name">HSK 4</span>
+        <span class="level-desc">Upper Intermediate</span>
+        <span class="vocab-badge">1200 words</span>
+      </a>
+      <a href="hsk5_hub.html" class="level-card">
+        <span class="level-icon">5️⃣</span>
+        <span class="level-name">HSK 5</span>
+        <span class="level-desc">Advanced</span>
+        <span class="vocab-badge">2500 words</span>
+      </a>
+      <a href="hsk6_hub.html" class="level-card">
+        <span class="level-icon">6️⃣</span>
+        <span class="level-name">HSK 6</span>
+        <span class="level-desc">Proficient</span>
+        <span class="vocab-badge">5000+ words</span>
+      </a>
+    </div>
+
+    <!-- Premium Contact Container (filled by premium.js) -->
+    <div id="premium-contact-container"></div>
+
+    <div class="footer-note">
+      <i class="fas fa-database"></i> Progress saved in your browser · Choose a level to start
+    </div>
   </div>
-  <div class="features">
-    <span>🔊 Pronunciation</span><span>❤️ Favorites</span><span>🐧 AI Assistant</span><span>📝 Example sentences</span>
-    <span>🌙 Dark mode</span><span>🔍 Search & filter</span><span>📊 Learning statistics</span>
-  </div>
-  <div class="privacy-note">
-    🔒 <strong>Privacy & Security</strong> – All your data is stored only in your browser using localStorage.
-  </div>
-</div>
+
+  <!-- Dark Mode Toggle -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <!-- Premium System Script -->
+  <script src="premium.js"></script>
+  
+  <!-- Simple Dark Mode Toggle -->
+  <script>
+    (function() {
+      var body = document.body;
+      var toggle = document.getElementById('themeToggle');
+      var icon = toggle.querySelector('i');
+      
+      // Check saved theme
+      if (localStorage.getItem('hsk_theme') === 'dark') {
+        body.classList.add('dark');
+        body.classList.remove('light');
+        icon.className = 'fas fa-sun';
+      }
+      
+      toggle.addEventListener('click', function() {
+        if (body.classList.contains('light')) {
+          body.classList.remove('light');
+          body.classList.add('dark');
+          icon.className = 'fas fa-sun';
+          localStorage.setItem('hsk_theme', 'dark');
+        } else {
+          body.classList.remove('dark');
+          body.classList.add('light');
+          icon.className = 'fas fa-moon';
+          localStorage.setItem('hsk_theme', 'light');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
