@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HSK Master · Premium Access</title>
+  <!-- Font Awesome (required for icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -96,169 +98,18 @@
       color: #e76f51;
     }
 
-    /* Modal Styles */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.3);
-      backdrop-filter: blur(6px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      visibility: hidden;
-      opacity: 0;
-      transition: 0.2s;
-      padding: 1rem;
+    /* Theme variables for premium.js compatibility */
+    :root {
+      --bg-card: #ffffff;
+      --text-primary: #1D3557;
+      --text-secondary: #457B9D;
+      --border-light: #dce7ef;
+      --accent: #457B9D;
     }
-    .modal-overlay.active {
-      visibility: visible;
-      opacity: 1;
-    }
-    .modal {
-      background: white;
-      border-radius: 2.5rem;
-      max-width: 460px;
-      width: 100%;
-      padding: 2rem;
-      box-shadow: 0 40px 60px rgba(0,0,0,0.2);
-      transform: scale(0.95);
-      transition: transform 0.2s;
-      border: 1px solid rgba(69,123,157,0.2);
-    }
-    .modal-overlay.active .modal {
-      transform: scale(1);
-    }
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-    }
-    .modal-header h3 {
-      font-size: 1.8rem;
-      color: #1D3557;
-      font-weight: 700;
-    }
-    .close-modal {
-      background: none;
-      border: none;
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: #6b8a9e;
-    }
-    .modal-tabs {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1.8rem;
-      border-bottom: 1px solid #dce7ef;
-      padding-bottom: 0.5rem;
-    }
-    .tab-btn {
-      background: none;
-      border: none;
-      padding: 0.5rem 1.2rem;
-      font-size: 1rem;
-      font-weight: 600;
-      color: #6b8a9e;
-      cursor: pointer;
-      border-radius: 40px;
-      transition: 0.2s;
-    }
-    .tab-btn.active {
-      background: #e3f0f5;
-      color: #1D3557;
-    }
-    .tab-panel {
-      display: none;
-    }
-    .tab-panel.active {
-      display: block;
-    }
-    .code-input-group {
-      margin: 1.5rem 0;
-    }
-    .code-input-group input {
-      width: 100%;
-      padding: 1rem 1.2rem;
-      border: 2px solid #dce7ef;
-      border-radius: 60px;
-      font-size: 1.1rem;
-      text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .code-input-group input:focus {
-      border-color: #457B9D;
-    }
-    .error-msg {
-      color: #e63946;
-      font-size: 0.9rem;
-      margin-top: 0.4rem;
-      min-height: 1.2rem;
-    }
-    .btn {
-      background: linear-gradient(135deg, #1D3557, #457B9D);
-      border: none;
-      color: white;
-      font-weight: 600;
-      padding: 1rem 1.5rem;
-      border-radius: 60px;
-      width: 100%;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: 0.2s;
-      box-shadow: 0 8px 18px rgba(29,53,87,0.2);
-    }
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(29,53,87,0.3);
-    }
-    .price-tag {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: #e76f51;
-      text-align: center;
-      margin: 0.8rem 0;
-    }
-    .contact-methods {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      margin: 1.5rem 0;
-    }
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      background: #f2f7fa;
-      padding: 0.7rem 1.2rem;
-      border-radius: 60px;
-    }
-    .contact-item i {
-      width: 24px;
-      color: #457B9D;
-    }
-    .contact-item .copy-btn {
-      margin-left: auto;
-      background: none;
-      border: none;
-      color: #6b8a9e;
-      cursor: pointer;
-      font-size: 1.2rem;
-    }
-    .payment-icons {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      font-size: 2rem;
-      margin: 1.2rem 0;
-      color: #2b4a6f;
+
+    /* Premium contact container styling will inherit from premium.js injected styles */
+    #premium-contact-container {
+      margin-top: 2rem;
     }
   </style>
 </head>
@@ -268,6 +119,8 @@
   <div class="sub">Full access to all levels — one payment, forever</div>
   
   <div class="card-grid">
+    <!-- Each card will trigger the modal injected by premium.js -->
+    <!-- We'll add a simple click handler that redirects to hub if premium, else shows modal -->
     <div class="level-card" data-level="1" data-hub="hsk1_hub.html">
       <h2>HSK 1</h2>
       <p>150 words</p>
@@ -307,181 +160,121 @@
     <span>⌨️ Typing practice</span>
     <span>📝 Example sentences</span>
   </div>
+  
+  <!-- Premium Contact Container (injected by premium.js) -->
+  <div id="premium-contact-container"></div>
+  
   <p style="margin-top: 2rem; color: #457B9D;">🔒 All content is premium — unlock with a one‑time code.</p>
 </div>
 
-<!-- Modal -->
-<div class="modal-overlay" id="accessModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h3 id="modalLevelTitle">HSK 1 Access</h3>
-      <button class="close-modal" id="closeModalBtn"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="modal-tabs">
-      <button class="tab-btn active" data-tab="code">🔑 Enter Code</button>
-      <button class="tab-btn" data-tab="buy">🛒 Get Code (¥10)</button>
-    </div>
-    <div class="tab-panel active" id="codePanel">
-      <p style="color: #2b4a6f;">Already have a code? Enter it below.</p>
-      <div class="code-input-group">
-        <input type="text" id="accessCodeInput" placeholder="HSK-XXXXXX" autocomplete="off">
-        <div class="error-msg" id="codeError"></div>
-      </div>
-      <button class="btn" id="submitCodeBtn">Unlock & Continue</button>
-      <p style="font-size: 0.8rem; margin-top: 1rem; color: #6b8a9e;">Your code works for all HSK levels.</p>
-    </div>
-    <div class="tab-panel" id="buyPanel">
-      <div class="price-tag">¥10 RMB</div>
-      <p style="margin-bottom: 1.2rem; color: #2b4a6f;">One‑time payment · Lifetime access</p>
-      <div class="contact-methods">
-        <div class="contact-item">
-          <i class="far fa-envelope"></i>
-          <span>sadeeq3331@gmail.com</span>
-          <button class="copy-btn" data-copy="sadeeq3331@gmail.com"><i class="far fa-copy"></i></button>
-        </div>
-        <div class="contact-item">
-          <i class="fab fa-weixin"></i>
-          <span>Sadeeq331</span>
-          <button class="copy-btn" data-copy="Sadeeq331"><i class="far fa-copy"></i></button>
-        </div>
-        <div class="contact-item">
-          <i class="fas fa-phone-alt"></i>
-          <span>+86 155 7884 0796</span>
-          <button class="copy-btn" data-copy="15578840796"><i class="far fa-copy"></i></button>
-        </div>
-      </div>
-      <div class="payment-icons">
-        <i class="fab fa-weixin"></i>
-        <i class="fab fa-alipay"></i>
-        <i class="fab fa-paypal"></i>
-      </div>
-      <p style="font-size: 0.9rem; color: #4e6f86;">Contact me with payment screenshot — you'll receive your personal code within minutes.</p>
-    </div>
-  </div>
-</div>
+<!-- External Premium System Script -->
+<script src="premium.js"></script>
 
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+<!-- Additional logic to connect level cards with the premium modal -->
 <script>
   (function() {
-    // ========== CONFIGURATION ==========
-    const VALID_CODES = [
-      'HSK-JOHN001',
-      'HSK-MARY002',
-      'HSK-ALEX003',
-      'HSK-SADEEQ01'
-    ];
+    // Wait for premium.js to inject the modal and unlock button
+    // The modal and unlock button will be created by premium.js
+    // We just need to add click listeners to the level cards
     
     const PREMIUM_KEY = 'hsk_premium_active';
     
-    // DOM elements
-    const modal = document.getElementById('accessModal');
-    const modalTitle = document.getElementById('modalLevelTitle');
-    const closeBtn = document.getElementById('closeModalBtn');
-    const levelCards = document.querySelectorAll('.level-card');
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const codePanel = document.getElementById('codePanel');
-    const buyPanel = document.getElementById('buyPanel');
-    const codeInput = document.getElementById('accessCodeInput');
-    const codeError = document.getElementById('codeError');
-    const submitBtn = document.getElementById('submitCodeBtn');
-    
-    let currentHubUrl = '';
-    
-    // ========== MODAL CONTROL ==========
-    function openModal(level, hubUrl) {
-      modalTitle.textContent = `HSK ${level} · Premium Access`;
-      currentHubUrl = hubUrl;
-      modal.classList.add('active');
-      codeInput.value = '';
-      codeError.textContent = '';
-      // Reset to code tab
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelector('[data-tab="code"]').classList.add('active');
-      codePanel.classList.add('active');
-      buyPanel.classList.remove('active');
+    // Function to check if user is premium
+    function isPremium() {
+      return localStorage.getItem(PREMIUM_KEY) === 'true';
     }
     
-    function closeModal() {
-      modal.classList.remove('active');
-    }
-    
-    levelCards.forEach(card => {
-      card.addEventListener('click', () => {
-        const level = card.dataset.level;
-        const hub = card.dataset.hub;
-        openModal(level, hub);
-      });
-    });
-    
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-    
-    // ========== TABS ==========
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tab = btn.dataset.tab;
-        tabBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        if (tab === 'code') {
-          codePanel.classList.add('active');
-          buyPanel.classList.remove('active');
-        } else {
-          codePanel.classList.remove('active');
-          buyPanel.classList.add('active');
+    // Function to open the premium modal (injected by premium.js)
+    function openPremiumModal(level, hubUrl) {
+      // premium.js creates a modal with id 'unlockModal'
+      const modal = document.getElementById('unlockModal');
+      if (modal) {
+        // Update modal title if needed (optional)
+        const title = modal.querySelector('.modal-content h3');
+        if (title) {
+          title.innerHTML = `<i class="fas fa-lock-open"></i> HSK ${level} · Enter Code`;
         }
-      });
-    });
-    
-    // ========== COPY FUNCTION ==========
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const text = btn.dataset.copy;
-        navigator.clipboard.writeText(text).then(() => {
-          alert('Copied: ' + text);
-        }).catch(() => {
-          prompt('Copy manually:', text);
-        });
-      });
-    });
-    
-    // ========== CODE VALIDATION & REDIRECT ==========
-    function isValidCode(code) {
-      return VALID_CODES.includes(code.toUpperCase());
-    }
-    
-    submitBtn.addEventListener('click', () => {
-      const code = codeInput.value.trim().toUpperCase();
-      if (isValidCode(code)) {
-        localStorage.setItem(PREMIUM_KEY, 'true');
-        localStorage.setItem('hsk_premium_code', code);
-        if (currentHubUrl) {
-          window.location.href = currentHubUrl;
-        } else {
-          alert('Premium unlocked! You can now access all content.');
-          closeModal();
-        }
+        // Store the target hub URL in a data attribute on the submit button or modal
+        modal.dataset.targetHub = hubUrl;
+        
+        // Show the modal
+        modal.style.display = 'flex';
+        
+        // Clear any previous error
+        const errorEl = document.getElementById('codeError');
+        if (errorEl) errorEl.textContent = '';
+        
+        // Clear input
+        const input = document.getElementById('accessCodeInput');
+        if (input) input.value = '';
       } else {
-        codeError.textContent = 'Invalid code. Please check or purchase a new one.';
+        // Fallback if modal not ready yet
+        alert('Premium system loading. Please try again in a moment.');
       }
+    }
+    
+    // Attach click listeners to level cards
+    document.querySelectorAll('.level-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        e.preventDefault();
+        const level = this.dataset.level;
+        const hubUrl = this.dataset.hub;
+        
+        if (isPremium()) {
+          // Already premium, go directly to hub
+          window.location.href = hubUrl;
+        } else {
+          // Not premium, show the modal
+          openPremiumModal(level, hubUrl);
+        }
+      });
     });
     
-    codeInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        submitBtn.click();
+    // Extend the premium.js submit logic to redirect to the hub page on success
+    // We'll override the submit handler after premium.js loads
+    setTimeout(function() {
+      const submitBtn = document.getElementById('submitCodeBtn');
+      const modal = document.getElementById('unlockModal');
+      
+      if (submitBtn && modal) {
+        // Remove existing listener by cloning (simple way)
+        const newSubmitBtn = submitBtn.cloneNode(true);
+        submitBtn.parentNode.replaceChild(newSubmitBtn, submitBtn);
+        
+        newSubmitBtn.addEventListener('click', function() {
+          const codeInput = document.getElementById('accessCodeInput');
+          const code = codeInput ? codeInput.value.trim().toUpperCase() : '';
+          
+          // Access the VALID_CODES from premium.js (assuming it's globally accessible or we duplicate check)
+          // Since premium.js defines VALID_CODES inside a closure, we can't directly access it.
+          // Instead, we'll rely on the fact that premium.js already sets localStorage on valid code.
+          // We can check localStorage after a short delay.
+          
+          // We'll let premium.js do its validation, then we'll check localStorage and redirect.
+          setTimeout(function() {
+            if (localStorage.getItem(PREMIUM_KEY) === 'true') {
+              const targetHub = modal.dataset.targetHub;
+              if (targetHub) {
+                window.location.href = targetHub;
+              } else {
+                modal.style.display = 'none';
+                alert('Premium unlocked! You can now access all content.');
+              }
+            }
+          }, 100);
+        });
+        
+        // Also handle Enter key on input
+        const codeInput = document.getElementById('accessCodeInput');
+        if (codeInput) {
+          codeInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+              newSubmitBtn.click();
+            }
+          });
+        }
       }
-    });
-    
-    // Escape key closes modal
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('active')) {
-        closeModal();
-      }
-    });
+    }, 200); // Wait for premium.js to fully initialize
   })();
 </script>
 </body>
