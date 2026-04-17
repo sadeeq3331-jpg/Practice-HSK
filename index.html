@@ -2,213 +2,98 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>HSK Master · Premium Chinese Test Prep</title>
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSK Master · Premium Access</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Inter', system-ui, sans-serif;
     }
-
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(145deg, #0b0f19 0%, #1a1f2e 100%);
+      background: linear-gradient(145deg, #f0f5fa 0%, #e6edf4 100%);
       min-height: 100vh;
-      padding: 2rem 1.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #e2e8f0;
-      transition: background 0.3s ease;
+      padding: 2rem;
     }
-
-    /* Light mode overrides (toggleable) */
-    body.light {
-      background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
-      color: #0f172a;
-    }
-
-    .main-container {
-      max-width: 1300px;
+    .container {
+      max-width: 1200px;
       width: 100%;
-      margin: 0 auto;
-    }
-
-    /* Hero Section */
-    .hero {
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(12px);
+      border-radius: 3rem;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 30px 50px rgba(0,20,40,0.15);
+      border: 1px solid rgba(255,255,255,0.6);
       text-align: center;
-      margin-bottom: 3.5rem;
-      animation: fadeInUp 0.8s ease-out;
     }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
-      font-weight: 800;
-      background: linear-gradient(135deg, #a78bfa, #c084fc, #818cf8);
+    h1 {
+      font-size: 3.2rem;
+      background: linear-gradient(135deg, #1D3557, #457B9D);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      letter-spacing: -0.02em;
       margin-bottom: 1rem;
-      text-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
     }
-
-    .hero .badge {
-      display: inline-block;
-      background: rgba(139, 92, 246, 0.2);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(139, 92, 246, 0.4);
-      padding: 0.4rem 1.5rem;
-      border-radius: 60px;
-      font-weight: 600;
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-      color: #c4b5fd;
-    }
-
-    body.light .hero .badge {
-      background: rgba(79, 70, 229, 0.1);
-      border-color: rgba(79, 70, 229, 0.3);
-      color: #4f46e5;
-    }
-
-    .hero p {
+    .sub {
+      color: #2b4a6f;
       font-size: 1.2rem;
-      opacity: 0.9;
-      max-width: 600px;
-      margin: 0 auto;
-      color: #94a3b8;
+      margin-bottom: 2.5rem;
     }
-
-    body.light .hero p {
-      color: #475569;
-    }
-
-    /* Level Cards Grid */
-    .level-grid {
+    .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 1.8rem;
-      margin: 2rem 0 3rem;
-      animation: fadeInUp 1s ease-out;
-    }
-
-    .level-card {
-      background: rgba(30, 41, 59, 0.7);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 2rem;
-      padding: 2rem 1.2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.4);
-      position: relative;
-      overflow: hidden;
-    }
-
-    body.light .level-card {
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.1);
-    }
-
-    .level-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .level-card:hover::before {
-      left: 100%;
-    }
-
-    .level-card:hover {
-      transform: translateY(-10px) scale(1.02);
-      border-color: #8b5cf6;
-      box-shadow: 0 30px 50px -12px rgba(139, 92, 246, 0.3);
-    }
-
-    body.light .level-card:hover {
-      border-color: #4f46e5;
-      box-shadow: 0 30px 50px -12px rgba(79, 70, 229, 0.2);
-    }
-
-    .card-icon {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #a78bfa, #c084fc);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      display: inline-block;
-    }
-
-    .level-card h2 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 0.3rem;
-      color: #f1f5f9;
-    }
-
-    body.light .level-card h2 {
-      color: #0f172a;
-    }
-
-    .word-count {
-      background: rgba(139, 92, 246, 0.2);
-      padding: 0.25rem 0.8rem;
-      border-radius: 40px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      display: inline-block;
-      margin: 0.5rem 0 0.8rem;
-      color: #c4b5fd;
-    }
-
-    body.light .word-count {
-      background: rgba(79, 70, 229, 0.1);
-      color: #4f46e5;
-    }
-
-    .lock-icon {
-      font-size: 1.2rem;
-      color: #fbbf24;
-      margin-top: 0.5rem;
-    }
-
-    /* Features Footer */
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
       margin-top: 2rem;
-      color: #94a3b8;
-      font-size: 0.95rem;
     }
-
-    body.light .features {
-      color: #475569;
+    .level-card {
+      background: white;
+      border-radius: 2rem;
+      padding: 2rem 1rem;
+      text-decoration: none;
+      color: #1D3557;
+      box-shadow: 0 12px 28px rgba(0,30,50,0.1);
+      transition: 0.2s;
+      border: 1px solid rgba(150,190,220,0.4);
+      cursor: pointer;
     }
-
-    .features i {
-      margin-right: 8px;
-      color: #8b5cf6;
+    .level-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 40px rgba(29,53,87,0.2);
+      border-color: #A8DADC;
     }
-
-    body.light .features i {
-      color: #4f46e5;
+    .level-card h2 {
+      font-size: 2.4rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .level-card p {
+      font-size: 1rem;
+      background: #e3f0f5;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      display: inline-block;
+    }
+    .features {
+      margin-top: 3rem;
+      color: #4e6f86;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .features span {
+      background: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 40px;
+      font-size: 1rem;
+    }
+    .lock-icon {
+      margin-top: 0.5rem;
+      color: #e76f51;
     }
 
     /* Modal Styles */
@@ -218,159 +103,107 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 10000;
-      opacity: 0;
+      z-index: 1000;
       visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
+      opacity: 0;
+      transition: 0.2s;
       padding: 1rem;
     }
-
     .modal-overlay.active {
-      opacity: 1;
       visibility: visible;
+      opacity: 1;
     }
-
     .modal {
-      background: rgba(30, 41, 59, 0.95);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(139, 92, 246, 0.3);
+      background: white;
       border-radius: 2.5rem;
-      max-width: 480px;
+      max-width: 460px;
       width: 100%;
       padding: 2rem;
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 40px 60px rgba(0,0,0,0.2);
       transform: scale(0.95);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      color: #e2e8f0;
+      transition: transform 0.2s;
+      border: 1px solid rgba(69,123,157,0.2);
     }
-
-    body.light .modal {
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid rgba(79, 70, 229, 0.2);
-      color: #0f172a;
-    }
-
     .modal-overlay.active .modal {
       transform: scale(1);
     }
-
     .modal-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 1.8rem;
+      margin-bottom: 1.5rem;
     }
-
     .modal-header h3 {
       font-size: 1.8rem;
+      color: #1D3557;
       font-weight: 700;
-      background: linear-gradient(135deg, #a78bfa, #c084fc);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
     }
-
     .close-modal {
       background: none;
       border: none;
-      color: #94a3b8;
       font-size: 1.8rem;
       cursor: pointer;
-      transition: color 0.2s;
-      line-height: 1;
+      color: #6b8a9e;
     }
-
-    .close-modal:hover {
-      color: #f1f5f9;
-    }
-
-    /* Tabs */
     .modal-tabs {
       display: flex;
       gap: 0.5rem;
       margin-bottom: 1.8rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid #dce7ef;
       padding-bottom: 0.5rem;
     }
-
-    body.light .modal-tabs {
-      border-bottom-color: rgba(0, 0, 0, 0.1);
-    }
-
     .tab-btn {
       background: none;
       border: none;
-      padding: 0.6rem 1.2rem;
+      padding: 0.5rem 1.2rem;
       font-size: 1rem;
       font-weight: 600;
-      color: #94a3b8;
+      color: #6b8a9e;
       cursor: pointer;
       border-radius: 40px;
-      transition: all 0.2s;
+      transition: 0.2s;
     }
-
     .tab-btn.active {
-      background: rgba(139, 92, 246, 0.2);
-      color: #c4b5fd;
+      background: #e3f0f5;
+      color: #1D3557;
     }
-
-    body.light .tab-btn.active {
-      background: rgba(79, 70, 229, 0.1);
-      color: #4f46e5;
-    }
-
     .tab-panel {
       display: none;
     }
-
     .tab-panel.active {
       display: block;
     }
-
-    /* Code Input */
     .code-input-group {
       margin: 1.5rem 0;
     }
-
     .code-input-group input {
       width: 100%;
       padding: 1rem 1.2rem;
-      background: rgba(0, 0, 0, 0.2);
-      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border: 2px solid #dce7ef;
       border-radius: 60px;
       font-size: 1.1rem;
-      color: #f1f5f9;
       text-align: center;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       outline: none;
       transition: border-color 0.2s;
     }
-
-    body.light .code-input-group input {
-      background: #f1f5f9;
-      border-color: #cbd5e1;
-      color: #0f172a;
-    }
-
     .code-input-group input:focus {
-      border-color: #8b5cf6;
+      border-color: #457B9D;
     }
-
     .error-msg {
-      color: #f87171;
+      color: #e63946;
       font-size: 0.9rem;
-      margin-top: 0.5rem;
-      min-height: 1.5rem;
+      margin-top: 0.4rem;
+      min-height: 1.2rem;
     }
-
     .btn {
-      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      background: linear-gradient(135deg, #1D3557, #457B9D);
       border: none;
       color: white;
       font-weight: 600;
@@ -379,407 +212,277 @@
       width: 100%;
       font-size: 1.1rem;
       cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.4);
+      transition: 0.2s;
+      box-shadow: 0 8px 18px rgba(29,53,87,0.2);
     }
-
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 15px 25px -5px rgba(139, 92, 246, 0.5);
+      box-shadow: 0 12px 24px rgba(29,53,87,0.3);
     }
-
-    /* Purchase Guide Panel */
+    .price-tag {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #e76f51;
+      text-align: center;
+      margin: 0.8rem 0;
+    }
     .contact-methods {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.8rem;
       margin: 1.5rem 0;
     }
-
     .contact-item {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      background: rgba(0, 0, 0, 0.15);
-      padding: 0.8rem 1.2rem;
+      gap: 0.8rem;
+      background: #f2f7fa;
+      padding: 0.7rem 1.2rem;
       border-radius: 60px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
     }
-
-    body.light .contact-item {
-      background: #f1f5f9;
-      border-color: #e2e8f0;
-    }
-
     .contact-item i {
       width: 24px;
-      font-size: 1.3rem;
-      color: #8b5cf6;
+      color: #457B9D;
     }
-
-    body.light .contact-item i {
-      color: #4f46e5;
-    }
-
     .contact-item .copy-btn {
       margin-left: auto;
       background: none;
       border: none;
-      color: #94a3b8;
+      color: #6b8a9e;
       cursor: pointer;
-      font-size: 1.1rem;
-      transition: color 0.2s;
+      font-size: 1.2rem;
     }
-
-    .contact-item .copy-btn:hover {
-      color: #c4b5fd;
-    }
-
-    .price-tag {
-      font-size: 2rem;
-      font-weight: 800;
-      color: #fbbf24;
-      text-align: center;
-      margin: 1rem 0;
-    }
-
-    body.light .price-tag {
-      color: #b45309;
-    }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Theme Toggle */
-    .theme-toggle {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      background: rgba(30, 41, 59, 0.8);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #f1f5f9;
-      width: 50px;
-      height: 50px;
-      border-radius: 30px;
+    .payment-icons {
       display: flex;
-      align-items: center;
+      gap: 1.5rem;
       justify-content: center;
-      cursor: pointer;
-      z-index: 999;
-      transition: all 0.2s;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    body.light .theme-toggle {
-      background: rgba(255, 255, 255, 0.8);
-      border-color: rgba(0, 0, 0, 0.05);
-      color: #0f172a;
-    }
-
-    .theme-toggle:hover {
-      transform: scale(1.05);
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      body {
-        padding: 1rem;
-      }
-      .level-grid {
-        gap: 1rem;
-      }
-      .hero h1 {
-        font-size: 2.2rem;
-      }
+      font-size: 2rem;
+      margin: 1.2rem 0;
+      color: #2b4a6f;
     }
   </style>
 </head>
-<body class="dark">
-  <div class="main-container">
-    <!-- Hero -->
-    <div class="hero">
-      <span class="badge"><i class="fas fa-crown" style="margin-right: 6px;"></i>PREMIUM ACCESS</span>
-      <h1>Master HSK Chinese</h1>
-      <p>Full access to all levels · 100+ realistic mock exams · Vocabulary & grammar tools — one payment, forever.</p>
+<body>
+<div class="container">
+  <h1>📚 HSK Master · Premium</h1>
+  <div class="sub">Full access to all levels — one payment, forever</div>
+  
+  <div class="card-grid">
+    <div class="level-card" data-level="1" data-hub="hsk1_hub.html">
+      <h2>HSK 1</h2>
+      <p>150 words</p>
+      <div class="lock-icon"><i class="fas fa-lock"></i></div>
     </div>
-
-    <!-- HSK Level Cards (click triggers modal) -->
-    <div class="level-grid">
-      <div class="level-card" data-level="1" data-hub="hsk1_hub.html">
-        <span class="card-icon">1️⃣</span>
-        <h2>HSK 1</h2>
-        <span class="word-count">150 words</span>
-        <div class="lock-icon"><i class="fas fa-lock"></i></div>
-      </div>
-      <div class="level-card" data-level="2" data-hub="hsk2_hub.html">
-        <span class="card-icon">2️⃣</span>
-        <h2>HSK 2</h2>
-        <span class="word-count">300 words</span>
-        <div class="lock-icon"><i class="fas fa-lock"></i></div>
-      </div>
-      <div class="level-card" data-level="3" data-hub="hsk3_hub.html">
-        <span class="card-icon">3️⃣</span>
-        <h2>HSK 3</h2>
-        <span class="word-count">600 words</span>
-        <div class="lock-icon"><i class="fas fa-lock"></i></div>
-      </div>
-      <div class="level-card" data-level="4" data-hub="hsk4_hub.html">
-        <span class="card-icon">4️⃣</span>
-        <h2>HSK 4</h2>
-        <span class="word-count">1200 words</span>
-        <div class="lock-icon"><i class="fas fa-lock"></i></div>
-      </div>
-      <div class="level-card" data-level="5" data-hub="hsk5_hub.html">
-        <span class="card-icon">5️⃣</span>
-        <h2>HSK 5</h2>
-        <span class="word-count">2500 words</span>
-        <div class="lock-icon"><i class="fas fa-lock"></i></div>
-      </div>
-      <div class="level-card" data-level="6" data-hub="hsk6_hub.html">
-        <span class="card-icon">6️⃣</span>
-        <h2>HSK 6</h2>
-        <span class="word-count">5000+ words</span>
-        <div class="lock-icon"><i class="fas fa-lock"></i></div>
-      </div>
+    <div class="level-card" data-level="2" data-hub="hsk2_hub.html">
+      <h2>HSK 2</h2>
+      <p>300 words</p>
+      <div class="lock-icon"><i class="fas fa-lock"></i></div>
     </div>
-
-    <!-- Features -->
-    <div class="features">
-      <span><i class="fas fa-infinity"></i> Lifetime access</span>
-      <span><i class="fas fa-file-alt"></i> 100+ mock exams</span>
-      <span><i class="fas fa-microphone"></i> Audio supported</span>
-      <span><i class="fas fa-mobile-alt"></i> All devices</span>
+    <div class="level-card" data-level="3" data-hub="hsk3_hub.html">
+      <h2>HSK 3</h2>
+      <p>600 words</p>
+      <div class="lock-icon"><i class="fas fa-lock"></i></div>
+    </div>
+    <div class="level-card" data-level="4" data-hub="hsk4_hub.html">
+      <h2>HSK 4</h2>
+      <p>1200 words</p>
+      <div class="lock-icon"><i class="fas fa-lock"></i></div>
+    </div>
+    <div class="level-card" data-level="5" data-hub="hsk5_hub.html">
+      <h2>HSK 5</h2>
+      <p>2500 words</p>
+      <div class="lock-icon"><i class="fas fa-lock"></i></div>
+    </div>
+    <div class="level-card" data-level="6" data-hub="hsk6_hub.html">
+      <h2>HSK 6</h2>
+      <p>5000+ words</p>
+      <div class="lock-icon"><i class="fas fa-lock"></i></div>
     </div>
   </div>
 
-  <!-- Access Modal -->
-  <div class="modal-overlay" id="accessModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 id="modalLevelTitle">HSK 1 Access</h3>
-        <button class="close-modal" id="closeModalBtn"><i class="fas fa-times"></i></button>
-      </div>
-      
-      <!-- Tabs -->
-      <div class="modal-tabs">
-        <button class="tab-btn active" data-tab="code">🔑 Enter Code</button>
-        <button class="tab-btn" data-tab="buy">🛒 Get Code (¥10)</button>
-      </div>
+  <div class="features">
+    <span>🔊 Pronunciation</span>
+    <span>❤️ Favorites</span>
+    <span>🐧 Quiz buddy</span>
+    <span>⌨️ Typing practice</span>
+    <span>📝 Example sentences</span>
+  </div>
+  <p style="margin-top: 2rem; color: #457B9D;">🔒 All content is premium — unlock with a one‑time code.</p>
+</div>
 
-      <!-- Enter Code Panel -->
-      <div class="tab-panel active" id="codePanel">
-        <p style="margin-bottom: 0.5rem; opacity: 0.8;">Already have a code? Enter it below.</p>
-        <div class="code-input-group">
-          <input type="text" id="accessCodeInput" placeholder="HSK-XXXXXX" autocomplete="off">
-          <div class="error-msg" id="codeError"></div>
-        </div>
-        <button class="btn" id="submitCodeBtn">Unlock & Continue</button>
-        <p style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.6; text-align: center;">
-          <i class="fas fa-shield-alt"></i> Your code works on all levels.
-        </p>
+<!-- Modal -->
+<div class="modal-overlay" id="accessModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalLevelTitle">HSK 1 Access</h3>
+      <button class="close-modal" id="closeModalBtn"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-tabs">
+      <button class="tab-btn active" data-tab="code">🔑 Enter Code</button>
+      <button class="tab-btn" data-tab="buy">🛒 Get Code (¥10)</button>
+    </div>
+    <div class="tab-panel active" id="codePanel">
+      <p style="color: #2b4a6f;">Already have a code? Enter it below.</p>
+      <div class="code-input-group">
+        <input type="text" id="accessCodeInput" placeholder="HSK-XXXXXX" autocomplete="off">
+        <div class="error-msg" id="codeError"></div>
       </div>
-
-      <!-- Purchase Guide Panel -->
-      <div class="tab-panel" id="buyPanel">
-        <div class="price-tag">¥10 RMB</div>
-        <p style="margin-bottom: 1.5rem; text-align: center;">One-time payment · Lifetime access to all HSK content</p>
-        
-        <div class="contact-methods">
-          <div class="contact-item">
-            <i class="far fa-envelope"></i>
-            <span>sadeeq3331@gmail.com</span>
-            <button class="copy-btn" data-copy="sadeeq3331@gmail.com"><i class="far fa-copy"></i></button>
-          </div>
-          <div class="contact-item">
-            <i class="fab fa-weixin"></i>
-            <span>Sadeeq331</span>
-            <button class="copy-btn" data-copy="Sadeeq331"><i class="far fa-copy"></i></button>
-          </div>
-          <div class="contact-item">
-            <i class="fas fa-phone-alt"></i>
-            <span>+86 155 7884 0796</span>
-            <button class="copy-btn" data-copy="15578840796"><i class="far fa-copy"></i></button>
-          </div>
+      <button class="btn" id="submitCodeBtn">Unlock & Continue</button>
+      <p style="font-size: 0.8rem; margin-top: 1rem; color: #6b8a9e;">Your code works for all HSK levels.</p>
+    </div>
+    <div class="tab-panel" id="buyPanel">
+      <div class="price-tag">¥10 RMB</div>
+      <p style="margin-bottom: 1.2rem; color: #2b4a6f;">One‑time payment · Lifetime access</p>
+      <div class="contact-methods">
+        <div class="contact-item">
+          <i class="far fa-envelope"></i>
+          <span>sadeeq3331@gmail.com</span>
+          <button class="copy-btn" data-copy="sadeeq3331@gmail.com"><i class="far fa-copy"></i></button>
         </div>
-        
-        <p style="margin: 1.2rem 0; font-weight: 500;"><i class="fas fa-credit-card"></i> Payment methods:</p>
-        <div style="display: flex; gap: 1rem; justify-content: center; font-size: 1.8rem; margin-bottom: 1.5rem;">
-          <i class="fab fa-weixin" style="color: #07c160;"></i>
-          <i class="fab fa-alipay" style="color: #1677ff;"></i>
-          <i class="fab fa-paypal" style="color: #003087;"></i>
+        <div class="contact-item">
+          <i class="fab fa-weixin"></i>
+          <span>Sadeeq331</span>
+          <button class="copy-btn" data-copy="Sadeeq331"><i class="far fa-copy"></i></button>
         </div>
-        <p style="font-size: 0.9rem; opacity: 0.8;">Contact me with your payment screenshot. You'll receive a personal access code within minutes.</p>
+        <div class="contact-item">
+          <i class="fas fa-phone-alt"></i>
+          <span>+86 155 7884 0796</span>
+          <button class="copy-btn" data-copy="15578840796"><i class="far fa-copy"></i></button>
+        </div>
       </div>
+      <div class="payment-icons">
+        <i class="fab fa-weixin"></i>
+        <i class="fab fa-alipay"></i>
+        <i class="fab fa-paypal"></i>
+      </div>
+      <p style="font-size: 0.9rem; color: #4e6f86;">Contact me with payment screenshot — you'll receive your personal code within minutes.</p>
     </div>
   </div>
+</div>
 
-  <!-- Theme Toggle -->
-  <div class="theme-toggle" id="themeToggle">
-    <i class="fas fa-sun"></i>
-  </div>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-  <script>
-    (function() {
-      // ========== VALID CODES (same as premium.js) ==========
-      const VALID_CODES = [
-        'HSK-JOHN001',
-        'HSK-MARY002',
-        'HSK-ALEX003',
-        'HSK-SADEEQ01'
-      ];
-      
-      const PREMIUM_KEY = 'hsk_premium_active';
-      
-      // DOM elements
-      const modal = document.getElementById('accessModal');
-      const modalTitle = document.getElementById('modalLevelTitle');
-      const closeBtn = document.getElementById('closeModalBtn');
-      const levelCards = document.querySelectorAll('.level-card');
-      const tabBtns = document.querySelectorAll('.tab-btn');
-      const codePanel = document.getElementById('codePanel');
-      const buyPanel = document.getElementById('buyPanel');
-      const codeInput = document.getElementById('accessCodeInput');
-      const codeError = document.getElementById('codeError');
-      const submitBtn = document.getElementById('submitCodeBtn');
-      const themeToggle = document.getElementById('themeToggle');
-      
-      let currentHubUrl = '';
-      
-      // ========== THEME TOGGLE ==========
-      function setTheme(isLight) {
-        if (isLight) {
-          document.body.classList.add('light');
-          document.body.classList.remove('dark');
-          themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-          localStorage.setItem('hsk_theme', 'light');
+<script>
+  (function() {
+    // ========== CONFIGURATION ==========
+    const VALID_CODES = [
+      'HSK-JOHN001',
+      'HSK-MARY002',
+      'HSK-ALEX003',
+      'HSK-SADEEQ01'
+    ];
+    
+    const PREMIUM_KEY = 'hsk_premium_active';
+    
+    // DOM elements
+    const modal = document.getElementById('accessModal');
+    const modalTitle = document.getElementById('modalLevelTitle');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const levelCards = document.querySelectorAll('.level-card');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const codePanel = document.getElementById('codePanel');
+    const buyPanel = document.getElementById('buyPanel');
+    const codeInput = document.getElementById('accessCodeInput');
+    const codeError = document.getElementById('codeError');
+    const submitBtn = document.getElementById('submitCodeBtn');
+    
+    let currentHubUrl = '';
+    
+    // ========== MODAL CONTROL ==========
+    function openModal(level, hubUrl) {
+      modalTitle.textContent = `HSK ${level} · Premium Access`;
+      currentHubUrl = hubUrl;
+      modal.classList.add('active');
+      codeInput.value = '';
+      codeError.textContent = '';
+      // Reset to code tab
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector('[data-tab="code"]').classList.add('active');
+      codePanel.classList.add('active');
+      buyPanel.classList.remove('active');
+    }
+    
+    function closeModal() {
+      modal.classList.remove('active');
+    }
+    
+    levelCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const level = card.dataset.level;
+        const hub = card.dataset.hub;
+        openModal(level, hub);
+      });
+    });
+    
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    
+    // ========== TABS ==========
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (tab === 'code') {
+          codePanel.classList.add('active');
+          buyPanel.classList.remove('active');
         } else {
-          document.body.classList.remove('light');
-          document.body.classList.add('dark');
-          themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-          localStorage.setItem('hsk_theme', 'dark');
+          codePanel.classList.remove('active');
+          buyPanel.classList.add('active');
         }
-      }
-      
-      themeToggle.addEventListener('click', () => {
-        setTheme(document.body.classList.contains('dark'));
       });
-      
-      // Load saved theme
-      if (localStorage.getItem('hsk_theme') === 'light') {
-        setTheme(true);
-      }
-      
-      // ========== MODAL MANAGEMENT ==========
-      function openModal(level, hubUrl) {
-        modalTitle.textContent = `HSK ${level} · Premium Access`;
-        currentHubUrl = hubUrl;
-        modal.classList.add('active');
-        codeInput.value = '';
-        codeError.textContent = '';
-        // Reset to code tab
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelector('[data-tab="code"]').classList.add('active');
-        codePanel.classList.add('active');
-        buyPanel.classList.remove('active');
-      }
-      
-      function closeModal() {
-        modal.classList.remove('active');
-      }
-      
-      levelCards.forEach(card => {
-        card.addEventListener('click', () => {
-          const level = card.dataset.level;
-          const hub = card.dataset.hub;
-          openModal(level, hub);
+    });
+    
+    // ========== COPY FUNCTION ==========
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const text = btn.dataset.copy;
+        navigator.clipboard.writeText(text).then(() => {
+          alert('Copied: ' + text);
+        }).catch(() => {
+          prompt('Copy manually:', text);
         });
       });
-      
-      closeBtn.addEventListener('click', closeModal);
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
-      
-      // ========== TABS ==========
-      tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const tab = btn.dataset.tab;
-          tabBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          if (tab === 'code') {
-            codePanel.classList.add('active');
-            buyPanel.classList.remove('active');
-          } else {
-            codePanel.classList.remove('active');
-            buyPanel.classList.add('active');
-          }
-        });
-      });
-      
-      // ========== COPY FUNCTION ==========
-      document.querySelectorAll('.copy-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const text = btn.dataset.copy;
-          navigator.clipboard.writeText(text).then(() => {
-            alert('Copied: ' + text);
-          }).catch(() => {
-            prompt('Copy manually:', text);
-          });
-        });
-      });
-      
-      // ========== CODE VALIDATION & REDIRECT ==========
-      function isValidCode(code) {
-        return VALID_CODES.includes(code.toUpperCase());
-      }
-      
-      submitBtn.addEventListener('click', () => {
-        const code = codeInput.value.trim().toUpperCase();
-        if (isValidCode(code)) {
-          localStorage.setItem(PREMIUM_KEY, 'true');
-          localStorage.setItem('hsk_premium_code', code);
-          // Redirect to the hub page
-          if (currentHubUrl) {
-            window.location.href = currentHubUrl;
-          } else {
-            alert('Premium unlocked! You can now access all content.');
-            closeModal();
-          }
+    });
+    
+    // ========== CODE VALIDATION & REDIRECT ==========
+    function isValidCode(code) {
+      return VALID_CODES.includes(code.toUpperCase());
+    }
+    
+    submitBtn.addEventListener('click', () => {
+      const code = codeInput.value.trim().toUpperCase();
+      if (isValidCode(code)) {
+        localStorage.setItem(PREMIUM_KEY, 'true');
+        localStorage.setItem('hsk_premium_code', code);
+        if (currentHubUrl) {
+          window.location.href = currentHubUrl;
         } else {
-          codeError.textContent = 'Invalid code. Please check or purchase a new one.';
-        }
-      });
-      
-      codeInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          submitBtn.click();
-        }
-      });
-      
-      // ========== CHECK IF ALREADY UNLOCKED (optional) ==========
-      // If already premium, we could skip modal, but for index we keep it as gate.
-      // Actually, if already premium, you might want to directly go to hub? 
-      // We'll let them click and see modal, but they can enter code again (it will work).
-      // For convenience, if premium flag exists, we could bypass? We'll keep simple.
-      
-      // Escape key closes modal
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          alert('Premium unlocked! You can now access all content.');
           closeModal();
         }
-      });
-    })();
-  </script>
+      } else {
+        codeError.textContent = 'Invalid code. Please check or purchase a new one.';
+      }
+    });
+    
+    codeInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        submitBtn.click();
+      }
+    });
+    
+    // Escape key closes modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  })();
+</script>
 </body>
 </html>
