@@ -3,35 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>HSK Flashcards · Spaced Repetition</title>
+  <title>HSK Flashcards · Vibrant Edition</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif; }
     
     body.light {
-      background: linear-gradient(145deg, #eef2ff 0%, #c7d2fe 100%);
-      --bg-card: rgba(255,255,255,0.85);
-      --bg-header: rgba(255,255,255,0.4);
-      --text-primary: #1e1b4b;
-      --text-secondary: #4f46e5;
-      --border-light: #c7d2fe;
-      --accent: #4f46e5;
-      --accent-hover: #6366f1;
-      --shadow: 0 25px 50px rgba(79,70,229,0.2);
-      --card-glow: rgba(79,70,229,0.1);
+      background: linear-gradient(145deg, #f0f4ff 0%, #d9e2ff 100%);
+      --bg-card: rgba(255,255,255,0.15);
+      --bg-header: rgba(255,255,255,0.25);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255,255,255,0.85);
+      --border-light: rgba(255,255,255,0.3);
+      --accent: #7c3aed;
+      --accent-hover: #6d28d9;
+      --shadow: 0 30px 60px rgba(124,58,237,0.3);
+      --card-glow: rgba(124,58,237,0.3);
     }
     body.dark {
-      background: linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%);
-      --bg-card: rgba(30,41,59,0.9);
-      --bg-header: rgba(15,23,42,0.6);
-      --text-primary: #e2e8f0;
-      --text-secondary: #a5b4fc;
-      --border-light: #334155;
-      --accent: #818cf8;
-      --accent-hover: #6366f1;
-      --shadow: 0 25px 50px rgba(0,0,0,0.5);
-      --card-glow: rgba(129,140,248,0.15);
+      background: linear-gradient(145deg, #0f0a1a 0%, #1a1030 100%);
+      --bg-card: rgba(255,255,255,0.08);
+      --bg-header: rgba(0,0,0,0.3);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255,255,255,0.8);
+      --border-light: rgba(255,255,255,0.15);
+      --accent: #8b5cf6;
+      --accent-hover: #7c3aed;
+      --shadow: 0 30px 60px rgba(139,92,246,0.3);
+      --card-glow: rgba(139,92,246,0.25);
     }
     
     body { padding: 1.5rem; display: flex; flex-direction: column; align-items: center; background: var(--bg-header); min-height: 100vh; }
@@ -41,7 +41,7 @@
       border: 1px solid rgba(255,255,255,0.1);
     }
     
-    h1 { text-align: center; font-size: 2.4rem; background: linear-gradient(135deg, var(--text-secondary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.2rem; letter-spacing: -0.5px; }
+    h1 { text-align: center; font-size: 2.4rem; background: linear-gradient(135deg, #a78bfa, #7c3aed); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.2rem; letter-spacing: -0.5px; }
     .sub { text-align: center; color: var(--text-secondary); font-size: 1rem; margin-bottom: 1.5rem; opacity: 0.8; font-weight: 500; }
     
     .level-selector { display: flex; justify-content: center; gap: 0.6rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
@@ -49,37 +49,39 @@
       background: var(--bg-card); border: 2px solid var(--border-light); color: var(--text-primary);
       padding: 0.5rem 1.2rem; border-radius: 40px; cursor: pointer; font-weight: 700; font-size: 0.9rem;
       transition: all 0.2s; backdrop-filter: blur(4px);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.1);
     }
-    .level-btn.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 4px 15px rgba(79,70,229,0.3); }
-    .level-btn:hover:not(.active) { border-color: var(--accent); transform: translateY(-2px); }
+    .level-btn.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 4px 20px rgba(124,58,237,0.4); }
+    .level-btn:hover:not(.active) { border-color: var(--accent); transform: translateY(-2px); background: rgba(124,58,237,0.1); }
     
     .stats-bar {
       display: flex; justify-content: space-between; align-items: center;
       background: var(--bg-card); border-radius: 1.5rem; padding: 0.8rem 1.2rem;
       border: 1px solid var(--border-light); margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.5rem;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(8px);
+      color: var(--text-primary);
     }
     .stat-item { font-size: 0.9rem; color: var(--text-primary); font-weight: 500; }
     .stat-item strong { color: var(--accent); font-size: 1.1rem; }
     .stat-item i { margin-right: 6px; color: var(--accent); }
     
-    /* ----- FLASHCARD (BIG, BEAUTIFUL) ----- */
+    /* ----- FLASHCARD (VIBRANT) ----- */
     .flashcard-container {
       perspective: 1200px; margin: 0.5rem 0 1.2rem; cursor: pointer;
     }
     .flashcard {
-      background: var(--bg-card); backdrop-filter: blur(8px);
+      background: linear-gradient(145deg, #7c3aed, #4f46e5);
       border-radius: 2rem; padding: 3rem 2rem;
-      min-height: 380px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      border: 1px solid var(--border-light); 
-      box-shadow: 0 20px 40px var(--card-glow), 0 8px 20px rgba(0,0,0,0.06);
+      min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 25px 50px var(--card-glow), 0 10px 25px rgba(0,0,0,0.1);
       text-align: center;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s;
       transform: rotateX(0deg);
     }
-    .flashcard.flipped { transform: rotateX(180deg); }
+    .flashcard.flipped { transform: rotateX(180deg); box-shadow: 0 30px 60px rgba(79,70,229,0.4); }
     
     .card-front, .card-back {
       backface-visibility: hidden;
@@ -89,35 +91,49 @@
       align-items: center;
       justify-content: center;
       gap: 0.8rem;
+      color: white;
     }
     .card-back { transform: rotateX(180deg); position: absolute; top: 0; left: 0; height: 100%; padding: 3rem 2rem; }
     
     /* FRONT SIDE */
     .card-front .chinese { 
-      font-size: 5.5rem; font-weight: 700; color: var(--text-primary); 
+      font-size: 5.8rem; font-weight: 700; 
       line-height: 1.2; letter-spacing: 4px;
-      text-shadow: 0 2px 10px var(--card-glow);
+      text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      color: #fff;
     }
     .card-front .hint { 
-      font-size: 0.9rem; color: var(--text-secondary); 
-      opacity: 0.5; margin-top: 0.5rem; 
+      font-size: 1rem; color: rgba(255,255,255,0.6); 
+      margin-top: 0.5rem; 
       display: flex; align-items: center; gap: 8px;
+      font-weight: 400;
     }
     .card-front .progress-hint {
-      margin-top: 1.2rem; font-size: 0.85rem; color: var(--text-secondary);
-      background: var(--bg-header); padding: 0.3rem 1.2rem; border-radius: 40px;
-      border: 1px solid var(--border-light);
+      margin-top: 1.2rem; font-size: 0.9rem; color: rgba(255,255,255,0.7);
+      background: rgba(0,0,0,0.15); padding: 0.3rem 1.2rem; border-radius: 40px;
+      border: 1px solid rgba(255,255,255,0.15);
       font-weight: 600;
+      backdrop-filter: blur(4px);
     }
     
     /* BACK SIDE */
-    .card-back .pinyin { font-size: 2.2rem; font-weight: 600; color: var(--text-secondary); letter-spacing: 1px; }
-    .card-back .meaning { font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-top: 0.2rem; }
+    .card-back .pinyin { font-size: 2.2rem; font-weight: 600; color: rgba(255,255,255,0.9); letter-spacing: 1px; }
+    .card-back .meaning { font-size: 2.2rem; font-weight: 700; color: #fff; margin-top: 0.2rem; }
     .card-back .example { 
-      font-size: 1.1rem; color: var(--text-secondary); margin-top: 1rem; 
-      font-style: italic; background: var(--bg-header); padding: 0.5rem 1.2rem; 
-      border-radius: 1rem; border-left: 4px solid var(--accent);
+      font-size: 1.1rem; color: rgba(255,255,255,0.8); margin-top: 1rem; 
+      font-style: italic; background: rgba(0,0,0,0.15); padding: 0.5rem 1.2rem; 
+      border-radius: 1rem; border-left: 4px solid rgba(255,255,255,0.5);
       max-width: 90%;
+    }
+    
+    /* Progress bar */
+    .progress-bar-container {
+      width: 100%; height: 6px; background: rgba(255,255,255,0.15); border-radius: 10px;
+      margin-top: 1.2rem; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%; width: 0%; background: linear-gradient(90deg, #fbbf24, #f59e0b);
+      border-radius: 10px; transition: width 0.3s ease;
     }
     
     /* RATING BAR */
@@ -125,22 +141,23 @@
       display: flex; gap: 0.8rem; justify-content: center; margin: 1.2rem 0 0.5rem;
     }
     .rating-btn {
-      padding: 0.7rem 1.6rem; border-radius: 50px; border: 2px solid var(--border-light);
-      background: var(--bg-card); color: var(--text-primary); cursor: pointer;
+      padding: 0.8rem 1.6rem; border-radius: 50px; border: none;
+      background: rgba(255,255,255,0.1); color: white; cursor: pointer;
       font-weight: 700; font-size: 1rem; transition: all 0.15s;
       flex: 1; max-width: 160px; display: flex; align-items: center; justify-content: center; gap: 8px;
       backdrop-filter: blur(4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    .rating-btn:hover { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+    .rating-btn:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
     .rating-btn:active { transform: scale(0.95); }
-    .rating-btn.again { border-color: #e53e3e; color: #e53e3e; background: rgba(229,62,62,0.05); }
-    .rating-btn.again:hover { background: #e53e3e; color: white; }
-    .rating-btn.hard { border-color: #ed8936; color: #ed8936; background: rgba(237,137,54,0.05); }
-    .rating-btn.hard:hover { background: #ed8936; color: white; }
-    .rating-btn.good { border-color: #38a169; color: #38a169; background: rgba(56,161,105,0.05); }
-    .rating-btn.good:hover { background: #38a169; color: white; }
-    .rating-btn.easy { border-color: #3182ce; color: #3182ce; background: rgba(49,130,206,0.05); }
-    .rating-btn.easy:hover { background: #3182ce; color: white; }
+    .rating-btn.again { background: #e53e3e; }
+    .rating-btn.again:hover { background: #c53030; }
+    .rating-btn.hard { background: #ed8936; }
+    .rating-btn.hard:hover { background: #dd6b20; }
+    .rating-btn.good { background: #38a169; }
+    .rating-btn.good:hover { background: #2f855a; }
+    .rating-btn.easy { background: #3182ce; }
+    .rating-btn.easy:hover { background: #2b6cb0; }
     
     .rating-bar.hidden { display: none; }
     
@@ -154,7 +171,7 @@
     .ctrl-btn:hover { background: var(--accent); color: white; border-color: var(--accent); transform: translateY(-2px); }
     .ctrl-btn.danger:hover { background: #e53e3e; border-color: #e53e3e; }
     
-    .shortcuts { text-align: center; font-size: 0.75rem; color: var(--text-secondary); opacity: 0.4; margin-top: 1rem; letter-spacing: 0.3px; }
+    .shortcuts { text-align: center; font-size: 0.75rem; color: var(--text-secondary); opacity: 0.5; margin-top: 1rem; letter-spacing: 0.3px; }
     .shortcuts span { display: inline-block; margin: 0 0.6rem; }
     
     .back-btn {
@@ -163,7 +180,7 @@
       margin-top: 1.2rem; font-size: 1rem; font-weight: 600; transition: 0.15s;
       border: 1px solid transparent;
     }
-    .back-btn:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(79,70,229,0.3); }
+    .back-btn:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(124,58,237,0.4); }
     
     .empty-state { text-align: center; padding: 2rem; color: var(--text-secondary); }
     .empty-state i { font-size: 3.5rem; display: block; margin-bottom: 1rem; opacity: 0.3; }
@@ -172,8 +189,8 @@
       .container { padding: 1rem; }
       .card-front .chinese { font-size: 4rem; }
       .card-back .pinyin { font-size: 1.6rem; }
-      .card-back .meaning { font-size: 1.4rem; }
-      .flashcard { min-height: 280px; padding: 2rem 1rem; }
+      .card-back .meaning { font-size: 1.6rem; }
+      .flashcard { min-height: 300px; padding: 2rem 1rem; }
       .rating-btn { font-size: 0.8rem; padding: 0.5rem 0.8rem; }
       .stats-bar { font-size: 0.75rem; }
       .level-btn { font-size: 0.75rem; padding: 0.3rem 0.8rem; }
@@ -185,7 +202,7 @@
 
 <div class="container">
   <h1>🧠 HSK Flashcards</h1>
-  <div class="sub">Spaced Repetition · Smart Review · Fully Shuffled</div>
+  <div class="sub">Spaced Repetition · Fully Shuffled · Vibrant</div>
 
   <!-- Level Selector -->
   <div class="level-selector" id="levelSelector">
@@ -212,6 +229,9 @@
         <div class="chinese" id="chineseChar">—</div>
         <div class="hint">👆 Tap to flip</div>
         <div class="progress-hint" id="cardCounter">Card 0 / 0</div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
       </div>
       <div class="card-back" id="cardBack">
         <div class="pinyin" id="pinyinDisplay"></div>
@@ -253,10 +273,9 @@
 
 <script>
 // ============================================================
-//  HSK FLASHCARD SYSTEM – SRS + FULL SHUFFLE
+//  HSK FLASHCARD SYSTEM – VIBRANT EDITION
 // ============================================================
 
-// ----- HELPERS -----
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -266,14 +285,7 @@ function shuffleArray(arr) {
 }
 
 function getWordList(level) {
-  const map = {
-    1: window.HSK1_WORDS,
-    2: window.HSK2_WORDS,
-    3: window.HSK3_WORDS,
-    4: window.HSK4_WORDS,
-    5: window.HSK5_WORDS,
-    6: window.HSK6_WORDS,
-  };
+  const map = { 1: window.HSK1_WORDS, 2: window.HSK2_WORDS, 3: window.HSK3_WORDS, 4: window.HSK4_WORDS, 5: window.HSK5_WORDS, 6: window.HSK6_WORDS };
   return map[level] || [];
 }
 
@@ -340,6 +352,7 @@ const flashcard = document.getElementById('flashcard');
 const ratingBar = document.getElementById('ratingBar');
 const cardContainer = document.getElementById('cardContainer');
 const cardCounter = document.getElementById('cardCounter');
+const progressFill = document.getElementById('progressFill');
 const dueCount = document.getElementById('dueCount');
 const learnedCount = document.getElementById('learnedCount');
 const totalCount = document.getElementById('totalCount');
@@ -350,7 +363,6 @@ const resetAllBtn = document.getElementById('resetAllBtn');
 const shuffleBtn = document.getElementById('shuffleBtn');
 const backBtn = document.getElementById('backBtn');
 
-// ----- RENDER -----
 function renderStats() {
   const words = getWordList(currentLevel);
   const total = words.length;
@@ -386,12 +398,9 @@ function buildQueue() {
     const cb = srs[b.word] || { nextReview: 0 };
     return ca.nextReview - cb.nextReview;
   });
-  // Combine due + new, then SHUFFLE the whole queue for variety
   let combined = [...due];
   if (newCards.length > 0) {
     const shuffledNew = shuffleArray([...newCards]);
-    // Interleave: add some new cards to the mix, but keep due cards first (limited)
-    // To make it truly shuffled, we mix everything after taking a slice.
     const maxPerSession = 50;
     const dueSlice = due.slice(0, Math.min(maxPerSession, due.length));
     const remainingSlots = maxPerSession - dueSlice.length;
@@ -400,7 +409,6 @@ function buildQueue() {
   } else {
     combined = due.slice(0, 50);
   }
-  // FINAL SHUFFLE – this makes every session feel random
   dueQueue = shuffleArray(combined);
   currentIndex = 0;
 }
@@ -417,7 +425,8 @@ function renderCard() {
     pinyinDisplay.textContent = '';
     meaningDisplay.textContent = 'Come back later for more reviews.';
     exampleDisplay.textContent = '';
-    cardCounter.textContent = `🎯 0 / 0`;
+    cardCounter.textContent = '🎯 0 / 0';
+    progressFill.style.width = '0%';
     flashcard.classList.remove('flipped');
     ratingBar.classList.add('hidden');
     isFlipped = false;
@@ -430,6 +439,7 @@ function renderCard() {
   meaningDisplay.textContent = word.meaning || '';
   exampleDisplay.textContent = word.example ? `📌 ${word.example}` : '';
   cardCounter.textContent = `📄 ${currentIndex + 1} / ${dueQueue.length}`;
+  progressFill.style.width = `${((currentIndex + 1) / dueQueue.length) * 100}%`;
   
   flashcard.classList.remove('flipped');
   ratingBar.classList.add('hidden');
@@ -473,7 +483,6 @@ function reshuffle() {
   renderCard();
 }
 
-// ----- LOAD LEVEL -----
 function loadLevel(level) {
   currentLevel = level;
   const words = getWordList(level);
@@ -482,7 +491,8 @@ function loadLevel(level) {
     pinyinDisplay.textContent = '';
     meaningDisplay.textContent = `words_hsk${level}.js not loaded.`;
     exampleDisplay.textContent = 'Place the file in the same folder.';
-    cardCounter.textContent = `📄 0 / 0`;
+    cardCounter.textContent = '📄 0 / 0';
+    progressFill.style.width = '0%';
     ratingBar.classList.add('hidden');
     dueQueue = []; isReviewing = false;
     renderStats();
@@ -498,7 +508,6 @@ function loadLevel(level) {
   levelBtns.forEach(b => b.classList.toggle('active', parseInt(b.dataset.level) === level));
 }
 
-// ----- RESET -----
 function resetLevel(level) {
   if (!confirm(`Reset ALL flashcard progress for HSK ${level}?`)) return;
   localStorage.removeItem(`hsk_flashcards_${level}`);
