@@ -1,4 +1,4 @@
-// drkhan.js – Chinese Learning Assistant v3.2 (Fixed: Tip clickable, Bubble toggles only)
+// drkhan.js – Chinese Learning Assistant v3.3 (HSK in header, user‑friendly UI)
 (function() {
     const STORAGE_KEY = 'drkhan_conversations';
     const FLASHCARD_KEY = 'drkhan_flashcards';
@@ -23,7 +23,6 @@
     let lastActiveDate = '';
     let lastFlashcardAdd = '';
 
-    // ---------- TIPS ----------
     const TIPS = [
         "Tip: 的 (de) is for possession (my book = 我的书). 地 (de) turns adjectives into adverbs (quickly = 快地). 得 (de) shows degree (well done = 做得好).",
         "Tip: Measure words are essential! Use 个 (gè) for general objects, 本 (běn) for books, 只 (zhī) for animals.",
@@ -64,7 +63,6 @@
         return TIPS[dayOfYear % TIPS.length];
     }
 
-    // ---------- Streak & Flashcard tracking ----------
     function updateStreak() {
         const today = new Date().toDateString();
         if (lastActiveDate !== today) {
@@ -259,7 +257,7 @@
     function savePinned() { localStorage.setItem('drkhan_pinned', JSON.stringify(pinnedMessages)); }
     function isPinned(idx) { return pinnedMessages.some(p => p.convId === currentConvId && p.idx === idx); }
 
-    // ---------- Sidebar ----------
+    // ---------- Sidebar (simplified, HSK removed) ----------
     function renderSidebar() {
         const sidebar = document.getElementById('drkhan-sidebar');
         if (!sidebar) return;
@@ -297,6 +295,7 @@
         }
         html += '</div>';
 
+        // Settings section (without HSK)
         html += '<div class="sidebar-section settings-section"><div class="section-title">⚙️ Settings</div>';
         html += '<div class="setting-row"><label>Tutor Mode</label><select id="sidebar-personality">';
         html += '<option value="tutor" ' + (personality === 'tutor' ? 'selected' : '') + '>📘 All‑round Tutor</option>';
@@ -304,11 +303,7 @@
         html += '<option value="vocab" ' + (personality === 'vocab' ? 'selected' : '') + '>📚 Vocabulary Builder</option>';
         html += '<option value="exam" ' + (personality === 'exam' ? 'selected' : '') + '>🎯 Exam Prep</option>';
         html += '</select></div>';
-        html += '<div class="setting-row"><label>HSK Level</label><select id="sidebar-hsk">';
-        for (let i = 1; i <= 6; i++) {
-            html += '<option value="' + i + '" ' + (hskLevel === i ? 'selected' : '') + '>HSK ' + i + '</option>';
-        }
-        html += '</select></div>';
+        // Removed HSK from here – it's now in the header.
         html += '<div class="setting-row"><span>Dark Mode</span><label class="toggle-switch"><input type="checkbox" id="sidebar-dark-toggle" ' + (panelDarkMode ? 'checked' : '') + '><span class="slider"></span></label></div>';
         html += '<div class="setting-row"><span>Font Size</span><div class="font-controls"><button id="font-minus">A-</button><button id="font-plus">A+</button></div></div>';
         html += '</div>';
@@ -342,9 +337,7 @@
         document.getElementById('sidebar-personality')?.addEventListener('change', function(e) {
             personality = e.target.value;
         });
-        document.getElementById('sidebar-hsk')?.addEventListener('change', function(e) {
-            hskLevel = parseInt(e.target.value);
-        });
+        // No HSK listener here.
         document.getElementById('sidebar-dark-toggle')?.addEventListener('change', togglePanelDarkMode);
         document.getElementById('font-minus')?.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -382,6 +375,9 @@
         updateContextSuggestions();
         updateWordOfDay();
         updateBubbleReminders();
+        // Sync header HSK dropdown with current level
+        const headerHsk = document.getElementById('header-hsk');
+        if (headerHsk) headerHsk.value = hskLevel;
     }
 
     function renderMessages() {
@@ -567,7 +563,7 @@
         });
     }
 
-    // ---------- Bubble Reminders (CLICKABLE TIP) ----------
+    // ---------- Bubble Reminders ----------
     function updateBubbleReminders() {
         const bubble = document.querySelector('.drkhan-bubble');
         if (!bubble) return;
@@ -587,7 +583,6 @@
             transition: background 0.2s;
             animation: drkhanPulse 2s infinite ease-in-out;
         `;
-        // Hover effect via JS
         reminder.addEventListener('mouseenter', function() {
             this.style.background = 'rgba(10,41,66,1)';
         });
@@ -607,7 +602,6 @@
             document.head.appendChild(style);
         }
 
-        // Determine message
         const daysSince = daysSinceLastFlashcard();
         let reminderText, tipContent;
         if (daysSince > 3 && flashcards.length > 0) {
@@ -620,7 +614,6 @@
         }
         reminder.textContent = reminderText;
 
-        // Click handler: open panel, fill input, send the tip
         reminder.addEventListener('click', function(e) {
             e.stopPropagation();
             const panel = document.querySelector('.drkhan-panel');
@@ -629,14 +622,8 @@
                 const input = document.getElementById('drkhan-input');
                 if (input) {
                     input.value = tipContent;
-                    // Focus input after a short delay (panel may take a moment to render)
-                    setTimeout(() => {
-                        input.focus();
-                        // Optionally auto-send? The user can press Enter or click send.
-                        // Let's not auto-send, so the student can decide.
-                    }, 200);
+                    setTimeout(() => input.focus(), 200);
                 }
-                // Hide the suggestion label if visible
                 const suggestionLabel = document.querySelector('.drkhan-suggestion');
                 if (suggestionLabel) {
                     suggestionLabel.style.opacity = '0';
@@ -748,7 +735,7 @@
         }
     }
 
-    // ---------- Send message (English explanations + Chinese examples) ----------
+    // ---------- Send message ----------
     async function sendMessage(initialText, isRegenerate) {
         const input = document.getElementById('drkhan-input');
         const text = initialText || (input ? input.value.trim() : '');
@@ -989,6 +976,8 @@ IMPORTANT INSTRUCTION:
     }
     .chat-header .wod { font-size: 0.9rem; color: var(--text-secondary); flex-shrink:0; }
     .chat-header input { flex: 1; padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border-light); background: rgba(255,255,255,0.5); min-width: 120px; }
+    .chat-header select { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 20px; padding: 4px 12px; font-size: 0.85rem; color: var(--text-primary); flex-shrink:0; cursor:pointer; outline:none; }
+    .dark .chat-header select { background: var(--bg-card); border-color: var(--border-light); color: var(--text-primary); }
     .drkhan-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
     .message { display: flex; gap: 12px; align-items: flex-start; }
     .message.user { flex-direction: row-reverse; }
@@ -1079,6 +1068,14 @@ IMPORTANT INSTRUCTION:
         <div class="drkhan-main" id="drkhan-main">
             <div class="chat-header">
                 <span id="current-conv-name" style="font-weight:600; flex-shrink:0;">New Chat</span>
+                <select id="header-hsk" style="background:var(--bg-card); border:1px solid var(--border-light); border-radius:20px; padding:4px 12px; font-size:0.85rem; color:var(--text-primary); flex-shrink:0; cursor:pointer; outline:none;">
+                    <option value="1">HSK 1</option>
+                    <option value="2">HSK 2</option>
+                    <option value="3" selected>HSK 3</option>
+                    <option value="4">HSK 4</option>
+                    <option value="5">HSK 5</option>
+                    <option value="6">HSK 6</option>
+                </select>
                 <span class="wod" id="word-of-day">📖 Word of the Day: --</span>
                 <input type="text" id="drkhan-search" placeholder="🔍 Search messages...">
             </div>
@@ -1100,7 +1097,6 @@ IMPORTANT INSTRUCTION:
         const panel = container.querySelector('.drkhan-panel');
         const bubble = container.querySelector('.drkhan-bubble');
 
-        // ----- Bubble click: only toggles panel, no message -----
         bubble.addEventListener('click', function(e) {
             e.stopPropagation();
             panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
@@ -1122,6 +1118,13 @@ IMPORTANT INSTRUCTION:
                 sidebarOpen = false;
                 sidebar.style.width = '0px';
             }
+        });
+
+        // ---- Header HSK dropdown ----
+        const headerHsk = document.getElementById('header-hsk');
+        headerHsk.addEventListener('change', function(e) {
+            hskLevel = parseInt(e.target.value);
+            // No need to sync sidebar since we removed HSK from there.
         });
 
         document.getElementById('minimize-panel').onclick = function() { panel.style.display = 'none'; };
@@ -1231,7 +1234,6 @@ IMPORTANT INSTRUCTION:
         document.getElementById('drkhan-input').addEventListener('input', hideSuggestion);
         document.getElementById('drkhan-send').addEventListener('click', hideSuggestion);
 
-        // Refresh reminders
         setInterval(() => {
             updateBubbleReminders();
         }, 30000);
