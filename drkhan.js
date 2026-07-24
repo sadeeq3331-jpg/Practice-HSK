@@ -1,4 +1,4 @@
-// drkhan.js – Chinese Learning Assistant v3.0 (Full English UI + 4 New Features)
+// drkhan.js – Chinese Learning Assistant v3.1 (English Explanations + Chinese Examples)
 (function() {
     const STORAGE_KEY = 'drkhan_conversations';
     const FLASHCARD_KEY = 'drkhan_flashcards';
@@ -23,39 +23,39 @@
     let lastActiveDate = '';
     let lastFlashcardAdd = '';
 
-    // ---------- TIPS (30+ English tips) ----------
+    // ---------- TIPS (English) ----------
     const TIPS = [
         "Tip: 的 (de) is for possession (my book = 我的书). 地 (de) turns adjectives into adverbs (quickly = 快地). 得 (de) shows degree (well done = 做得好).",
         "Tip: Measure words are essential! Use 个 (gè) for general objects, 本 (běn) for books, 只 (zhī) for animals.",
         "Tip: 不 (bù) is for present/future negation. 没 (méi) is for past negation or 'have not'.",
         "Tip: 了 (le) shows completed action OR a change of state. Context is key!",
-        "Tip: 把 (bǎ) structure is used to emphasize the object: 我把书放在桌子上 (I put the book on the table).",
+        "Tip: 把 (bǎ) structure is used to emphasize the object: 我把书放在桌子上 (wǒ bǎ shū fàng zài zhuōzi shàng) – I put the book on the table.",
         "Tip: Learn radicals! 氵 (water) appears in 河, 海, 洗. 木 (wood) appears in 树, 林, 材.",
-        "Tip: 的 (de) can also form adjectives: 漂亮的 (beautiful) or 红色的 (red).",
-        "Tip: 是 (shì) is NOT used with adjectives. Say 我很高兴 (I am happy), NOT 我是高兴.",
+        "Tip: 的 (de) can also form adjectives: 漂亮的 (piàoliang de) – beautiful, or 红色的 (hóngsè de) – red.",
+        "Tip: 是 (shì) is NOT used with adjectives. Say 我很高兴 (wǒ hěn gāoxìng) – I am happy, NOT 我是高兴.",
         "Tip: 有 (yǒu) means 'have' or 'there is'. 有没有 (yǒu méi yǒu) means 'is there?' or 'do you have?'.",
-        "Tip: Verb doubling (看看, 听听) softens the tone: 你看看 (take a look).",
-        "Tip: 一边…一边… (yībiān…yībiān…) means 'doing two things at once': 一边听音乐一边学习 (study while listening to music).",
+        "Tip: Verb doubling (看看 kànkan, 听听 tīngting) softens the tone: 你看看 (nǐ kànkan) – take a look.",
+        "Tip: 一边…一边… (yībiān…yībiān…) means 'doing two things at once': 一边听音乐一边学习 (yībiān tīng yīnyuè yībiān xuéxí) – study while listening to music.",
         "Tip: 除了…以外 (chúle…yǐwài) means 'except for' or 'in addition to'.",
-        "Tip: 越来越 (yuèláiyuè) means 'more and more': 越来越热 (getting hotter).",
-        "Tip: 一…就… (yī…jiù…) means 'as soon as': 一到家就睡觉 (sleep as soon as I get home).",
+        "Tip: 越来越 (yuèláiyuè) means 'more and more': 越来越热 (yuèláiyuè rè) – getting hotter.",
+        "Tip: 一…就… (yī…jiù…) means 'as soon as': 一到家就睡觉 (yī dào jiā jiù shuìjiào) – sleep as soon as I get home.",
         "Tip: 都 (dōu) means 'all'. 也 (yě) means 'also'. 还 (hái) means 'still' or 'also'.",
         "Tip: 能 (néng) = physical ability. 可以 (kěyǐ) = permission. 会 (huì) = learned skill or future will.",
         "Tip: 想 (xiǎng) = want or miss. 要 (yào) = want/need or future 'will'.",
         "Tip: 从 (cóng) = from. 离 (lí) = away from. 到 (dào) = to. Use these for directions.",
         "Tip: 为了 (wèile) = for the purpose of. 因为 (yīnwèi) = because. 所以 (suǒyǐ) = therefore.",
         "Tip: 虽然 (suīrán) = although. 但是 (dànshì) = but. They often go together.",
-        "Tip: 如果 (rúguǒ) = if. 就 (jiù) = then. 如果明天不下雨，我们就去公园 (If it doesn't rain tomorrow, we'll go to the park).",
-        "Tip: 被 (bèi) is for passive voice: 书被拿走了 (The book was taken away).",
-        "Tip: 给 (gěi) means 'give' or acts as a preposition: 我给你打电话 (I will call you).",
-        "Tip: 让 (ràng) = let / make someone do something: 让我看看 (Let me see).",
-        "Tip: 对 (duì) = to/towards, or correct. 我对汉语感兴趣 (I am interested in Chinese).",
-        "Tip: 跟 (gēn) = with / follow. 我跟朋友一起去 (I go with friends).",
-        "Tip: 在 (zài) can be 'at/in/on' (location) or an action in progress (正在).",
-        "Tip: 着 (zhe) shows a continuous state: 站着 (standing), 笑着 (laughing).",
-        "Tip: 过 (guò) shows experience in the past: 我去过北京 (I have been to Beijing).",
-        "Tip: 吧 (ba) softens a suggestion: 我们去吃饭吧 (Let's go eat). 吗 (ma) is for yes/no questions.",
-        "Tip: 口 (kǒu) is the measure word for family members: 三口人 (3 people in a family)."
+        "Tip: 如果 (rúguǒ) = if. 就 (jiù) = then. 如果明天不下雨，我们就去公园 (rúguǒ míngtiān bù xià yǔ, wǒmen jiù qù gōngyuán) – If it doesn't rain tomorrow, we'll go to the park.",
+        "Tip: 被 (bèi) is for passive voice: 书被拿走了 (shū bèi ná zǒu le) – The book was taken away.",
+        "Tip: 给 (gěi) means 'give' or acts as a preposition: 我给你打电话 (wǒ gěi nǐ dǎ diànhuà) – I will call you.",
+        "Tip: 让 (ràng) = let / make someone do something: 让我看看 (ràng wǒ kànkan) – Let me see.",
+        "Tip: 对 (duì) = to/towards, or correct. 我对汉语感兴趣 (wǒ duì hànyǔ gǎn xìngqù) – I am interested in Chinese.",
+        "Tip: 跟 (gēn) = with / follow. 我跟朋友一起去 (wǒ gēn péngyou yīqǐ qù) – I go with friends.",
+        "Tip: 在 (zài) can be 'at/in/on' (location) or an action in progress (正在 zhèngzài).",
+        "Tip: 着 (zhe) shows a continuous state: 站着 (zhànzhe) – standing, 笑着 (xiàozhe) – laughing.",
+        "Tip: 过 (guò) shows experience in the past: 我去过北京 (wǒ qù guò běijīng) – I have been to Beijing.",
+        "Tip: 吧 (ba) softens a suggestion: 我们去吃饭吧 (wǒmen qù chīfàn ba) – Let's go eat. 吗 (ma) is for yes/no questions.",
+        "Tip: 口 (kǒu) is the measure word for family members: 三口人 (sān kǒu rén) – 3 people in a family."
     ];
 
     function getDailyTip() {
@@ -93,7 +93,6 @@
 
     function checkStreakCelebration() {
         if (streak >= 7) {
-            // Show confetti-style celebration (CSS emoji burst)
             const celebration = document.createElement('div');
             celebration.style.cssText = `
                 position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -102,7 +101,6 @@
                 font-size: 4rem; animation: drkhanConfetti 2s ease-out forwards;
             `;
             celebration.innerHTML = '🎉🔥 Amazing! ' + streak + '-day streak! Keep it up! 🔥🎉';
-            // Inject keyframe if not exists
             if (!document.getElementById('drkhan-confetti-style')) {
                 const style = document.createElement('style');
                 style.id = 'drkhan-confetti-style';
@@ -126,7 +124,6 @@
     }
     function saveFlashcards() { 
         localStorage.setItem(FLASHCARD_KEY, JSON.stringify(flashcards)); 
-        // Update last add time if adding new cards
         renderSidebar(); 
     }
     function addFlashcard(word, context) {
@@ -156,7 +153,7 @@
         return diff;
     }
 
-    // ---------- Core helpers (unchanged) ----------
+    // ---------- Core helpers ----------
     function extractPuterMessage(raw) {
         if (typeof raw === 'string') {
             try { return JSON.parse(raw).message?.content || raw; } catch { return raw; }
@@ -377,7 +374,7 @@
         });
     }
 
-    // ---------- Render functions (English UI) ----------
+    // ---------- Render functions ----------
     function renderAll() {
         renderSidebar();
         renderMessages();
@@ -574,7 +571,6 @@
     function updateBubbleReminders() {
         const bubble = document.querySelector('.drkhan-bubble');
         if (!bubble) return;
-        // Remove old reminder label if exists
         const oldReminder = bubble.querySelector('.drkhan-reminder');
         if (oldReminder) oldReminder.remove();
 
@@ -589,7 +585,6 @@
             pointer-events: none;
             animation: drkhanPulse 2s infinite ease-in-out;
         `;
-        // Add pulse animation if not exists
         if (!document.getElementById('drkhan-pulse-style')) {
             const style = document.createElement('style');
             style.id = 'drkhan-pulse-style';
@@ -602,25 +597,19 @@
             document.head.appendChild(style);
         }
 
-        // Priority: Flashcard reminder (if >3 days) > Daily Tip
         const daysSince = daysSinceLastFlashcard();
         if (daysSince > 3 && flashcards.length > 0) {
             reminder.textContent = '📇 Add new words!';
         } else {
             const tip = getDailyTip();
             reminder.textContent = '💡 ' + tip.substring(0, 30) + '…';
-            // Click on bubble will open chat with full tip (already handled by click)
-            // We'll attach a custom click to send the full tip to chat
             const oldClick = bubble._clickHandler;
             if (oldClick) {
                 bubble.removeEventListener('click', oldClick);
             }
             const handler = function(e) {
-                // Send full tip to chat when bubble is clicked (if it's not already open)
-                // We'll check if panel is open; if not, open and send tip.
                 const panel = document.querySelector('.drkhan-panel');
                 if (panel && panel.style.display !== 'flex') {
-                    // Open panel and send tip
                     panel.style.display = 'flex';
                     document.getElementById('drkhan-input').value = 'Daily tip: ' + getDailyTip();
                     sendMessage();
@@ -633,9 +622,8 @@
         bubble.appendChild(reminder);
     }
 
-    // ---------- Quick Quiz (New Feature) ----------
+    // ---------- Quick Quiz ----------
     function startQuickQuiz() {
-        // Generate 5 random HSK questions based on current HSK level
         const wordList = window['HSK' + hskLevel + '_WORDS'];
         if (!wordList || wordList.length === 0) {
             showToast('No word list for HSK ' + hskLevel);
@@ -646,12 +634,10 @@
         let quizText = '🎯 **Quick Quiz (HSK ' + hskLevel + ')**\n\n';
         selected.forEach((w, i) => {
             const options = [w.meaning];
-            // Add 3 random wrong options
             const others = wordList.filter(x => x.meaning !== w.meaning).sort(() => Math.random() - 0.5);
             for (let j = 0; j < 3 && j < others.length; j++) {
                 if (!options.includes(others[j].meaning)) options.push(others[j].meaning);
             }
-            // Shuffle options
             const shuffledOpts = options.sort(() => Math.random() - 0.5);
             const correctLetter = String.fromCharCode(65 + shuffledOpts.indexOf(w.meaning));
             quizText += (i+1) + '. **' + w.word + '**\n';
@@ -660,12 +646,11 @@
             });
             quizText += '   ✅ Answer: ' + correctLetter + '\n\n';
         });
-        // Send to chat
         addMessage('user', '🎯 Start Quick Quiz (HSK ' + hskLevel + ')');
         addMessage('assistant', quizText);
     }
 
-    // ---------- Quote / Copy / Speech (unchanged) ----------
+    // ---------- Quote / Copy / Speech ----------
     function quoteMessage(idx) {
         const conv = getCurrentConv();
         if (!conv || !conv.messages[idx]) return;
@@ -703,7 +688,7 @@
         showToast('🎤 Speak Chinese...');
     }
 
-    // ---------- Model selection & Send message (system prompt in English, but instructs AI to respond in Chinese) ----------
+    // ---------- Model selection ----------
     async function getBestModel() {
         if (currentModelId) return currentModelId;
         try {
@@ -737,6 +722,7 @@
         }
     }
 
+    // ---------- Send message (English explanations + Chinese examples) ----------
     async function sendMessage(initialText, isRegenerate) {
         const input = document.getElementById('drkhan-input');
         const text = initialText || (input ? input.value.trim() : '');
@@ -776,7 +762,11 @@ Guidelines:
 
 ${personalityInstruction}
 
-IMPORTANT: Always respond in Chinese (Mandarin) unless the student explicitly asks for English. Do not translate the student's question to English; answer in Chinese.`;
+IMPORTANT INSTRUCTION: 
+- Always respond in English for all explanations, grammar points, corrections, and instructions. 
+- When providing example sentences, write them in Chinese characters, followed by pinyin in parentheses, and then the English translation. For example: "我喜欢学习中文 (wǒ xǐhuān xuéxí zhōngwén) – I like learning Chinese."
+- Do not respond in Chinese for the explanation part; only the example sentences and their pinyin/translations should contain Chinese.
+- This ensures that students understand the lesson clearly while being exposed to the target language in a controlled way.`;
 
         const conv = getCurrentConv();
         if (!conv) { isWaiting = false; return; }
@@ -805,7 +795,7 @@ IMPORTANT: Always respond in Chinese (Mandarin) unless the student explicitly as
         }
     }
 
-    // ---------- Conversation management (English labels) ----------
+    // ---------- Conversation management ----------
     function newConversation() {
         const id = Date.now();
         conversations.push({
@@ -884,7 +874,7 @@ IMPORTANT: Always respond in Chinese (Mandarin) unless the student explicitly as
         if (toggleInput) toggleInput.checked = panelDarkMode;
     }
 
-    // ---------- Create Widget (UI) ----------
+    // ---------- Create Widget ----------
     function createWidget() {
         const container = document.createElement('div');
         container.id = 'drkhan-container';
@@ -1172,7 +1162,7 @@ IMPORTANT: Always respond in Chinese (Mandarin) unless the student explicitly as
             }
         });
 
-        // ---------- Animated suggestion label (Daily Tip / Reminder) ----------
+        // ---------- Animated suggestion label ----------
         const suggestionLabel = document.createElement('div');
         suggestionLabel.className = 'drkhan-suggestion';
         suggestionLabel.textContent = '💬 Ask Dr. Khan';
@@ -1212,11 +1202,8 @@ IMPORTANT: Always respond in Chinese (Mandarin) unless the student explicitly as
         panel.addEventListener('click', hideSuggestion);
         document.getElementById('drkhan-input').addEventListener('focus', hideSuggestion);
         document.getElementById('drkhan-input').addEventListener('input', hideSuggestion);
-
-        // Also hide when user sends a message
         document.getElementById('drkhan-send').addEventListener('click', hideSuggestion);
 
-        // Refresh reminders every 30 seconds (for flashcard reminder)
         setInterval(() => {
             updateBubbleReminders();
         }, 30000);
