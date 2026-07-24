@@ -1,4 +1,4 @@
-// drkhan.js – Chinese Learning Assistant v3.1 (English Explanations + Chinese Examples)
+// drkhan.js – Chinese Learning Assistant v3.2 (Fixed: Tip clickable, Bubble toggles only)
 (function() {
     const STORAGE_KEY = 'drkhan_conversations';
     const FLASHCARD_KEY = 'drkhan_flashcards';
@@ -23,7 +23,7 @@
     let lastActiveDate = '';
     let lastFlashcardAdd = '';
 
-    // ---------- TIPS (English) ----------
+    // ---------- TIPS ----------
     const TIPS = [
         "Tip: 的 (de) is for possession (my book = 我的书). 地 (de) turns adjectives into adverbs (quickly = 快地). 得 (de) shows degree (well done = 做得好).",
         "Tip: Measure words are essential! Use 个 (gè) for general objects, 本 (běn) for books, 只 (zhī) for animals.",
@@ -259,7 +259,7 @@
     function savePinned() { localStorage.setItem('drkhan_pinned', JSON.stringify(pinnedMessages)); }
     function isPinned(idx) { return pinnedMessages.some(p => p.convId === currentConvId && p.idx === idx); }
 
-    // ---------- Sidebar (FULL ENGLISH UI) ----------
+    // ---------- Sidebar ----------
     function renderSidebar() {
         const sidebar = document.getElementById('drkhan-sidebar');
         if (!sidebar) return;
@@ -539,7 +539,7 @@
         });
     }
 
-    // ---------- Word of the Day (English label) ----------
+    // ---------- Word of the Day ----------
     let wordOfDay = '', wordOfDayMeaning = '';
     function updateWordOfDay() {
         const wodEl = document.getElementById('word-of-day');
@@ -567,7 +567,7 @@
         });
     }
 
-    // ---------- Bubble Reminders (Daily Tip + Flashcard Reminder) ----------
+    // ---------- Bubble Reminders (CLICKABLE TIP) ----------
     function updateBubbleReminders() {
         const bubble = document.querySelector('.drkhan-bubble');
         if (!bubble) return;
@@ -577,14 +577,24 @@
         const reminder = document.createElement('div');
         reminder.className = 'drkhan-reminder';
         reminder.style.cssText = `
-            position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%);
             background: rgba(10,41,66,0.95); color: #ffd966;
             padding: 3px 12px; border-radius: 30px; font-size: 0.6rem;
             font-weight: 600; white-space: nowrap; border: 1px solid #ffd966;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            pointer-events: none;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: background 0.2s;
             animation: drkhanPulse 2s infinite ease-in-out;
         `;
+        // Hover effect via JS
+        reminder.addEventListener('mouseenter', function() {
+            this.style.background = 'rgba(10,41,66,1)';
+        });
+        reminder.addEventListener('mouseleave', function() {
+            this.style.background = 'rgba(10,41,66,0.95)';
+        });
+
         if (!document.getElementById('drkhan-pulse-style')) {
             const style = document.createElement('style');
             style.id = 'drkhan-pulse-style';
@@ -597,27 +607,43 @@
             document.head.appendChild(style);
         }
 
+        // Determine message
         const daysSince = daysSinceLastFlashcard();
+        let reminderText, tipContent;
         if (daysSince > 3 && flashcards.length > 0) {
-            reminder.textContent = '📇 Add new words!';
+            reminderText = '📇 Add new words!';
+            tipContent = '📇 Reminder: You haven\'t added any new flashcards in a while. Try adding a new word to your deck!';
         } else {
             const tip = getDailyTip();
-            reminder.textContent = '💡 ' + tip.substring(0, 30) + '…';
-            const oldClick = bubble._clickHandler;
-            if (oldClick) {
-                bubble.removeEventListener('click', oldClick);
-            }
-            const handler = function(e) {
-                const panel = document.querySelector('.drkhan-panel');
-                if (panel && panel.style.display !== 'flex') {
-                    panel.style.display = 'flex';
-                    document.getElementById('drkhan-input').value = 'Daily tip: ' + getDailyTip();
-                    sendMessage();
-                }
-            };
-            bubble._clickHandler = handler;
-            bubble.addEventListener('click', handler);
+            reminderText = '💡 ' + tip.substring(0, 30) + '…';
+            tipContent = 'Daily tip: ' + tip;
         }
+        reminder.textContent = reminderText;
+
+        // Click handler: open panel, fill input, send the tip
+        reminder.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const panel = document.querySelector('.drkhan-panel');
+            if (panel) {
+                panel.style.display = 'flex';
+                const input = document.getElementById('drkhan-input');
+                if (input) {
+                    input.value = tipContent;
+                    // Focus input after a short delay (panel may take a moment to render)
+                    setTimeout(() => {
+                        input.focus();
+                        // Optionally auto-send? The user can press Enter or click send.
+                        // Let's not auto-send, so the student can decide.
+                    }, 200);
+                }
+                // Hide the suggestion label if visible
+                const suggestionLabel = document.querySelector('.drkhan-suggestion');
+                if (suggestionLabel) {
+                    suggestionLabel.style.opacity = '0';
+                    suggestionLabel.style.transform = 'translateY(10px)';
+                }
+            }
+        });
 
         bubble.appendChild(reminder);
     }
@@ -1074,6 +1100,7 @@ IMPORTANT INSTRUCTION:
         const panel = container.querySelector('.drkhan-panel');
         const bubble = container.querySelector('.drkhan-bubble');
 
+        // ----- Bubble click: only toggles panel, no message -----
         bubble.addEventListener('click', function(e) {
             e.stopPropagation();
             panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
@@ -1204,6 +1231,7 @@ IMPORTANT INSTRUCTION:
         document.getElementById('drkhan-input').addEventListener('input', hideSuggestion);
         document.getElementById('drkhan-send').addEventListener('click', hideSuggestion);
 
+        // Refresh reminders
         setInterval(() => {
             updateBubbleReminders();
         }, 30000);
