@@ -1,8 +1,9 @@
-// drkhan.js – Chinese Learning Assistant v2.0 (Global)
+// drkhan.js – Chinese Learning Assistant v3.0 (Full English UI + 4 New Features)
 (function() {
     const STORAGE_KEY = 'drkhan_conversations';
     const FLASHCARD_KEY = 'drkhan_flashcards';
     const STREAK_KEY = 'drkhan_streak';
+    const LAST_ADD_KEY = 'drkhan_last_flashcard_add';
     const MAX_MESSAGE_LENGTH = 1000;
     const MAX_HISTORY_MESSAGES = 20;
 
@@ -20,7 +21,50 @@
     let flashcards = [];
     let streak = 0;
     let lastActiveDate = '';
+    let lastFlashcardAdd = '';
 
+    // ---------- TIPS (30+ English tips) ----------
+    const TIPS = [
+        "Tip: 的 (de) is for possession (my book = 我的书). 地 (de) turns adjectives into adverbs (quickly = 快地). 得 (de) shows degree (well done = 做得好).",
+        "Tip: Measure words are essential! Use 个 (gè) for general objects, 本 (běn) for books, 只 (zhī) for animals.",
+        "Tip: 不 (bù) is for present/future negation. 没 (méi) is for past negation or 'have not'.",
+        "Tip: 了 (le) shows completed action OR a change of state. Context is key!",
+        "Tip: 把 (bǎ) structure is used to emphasize the object: 我把书放在桌子上 (I put the book on the table).",
+        "Tip: Learn radicals! 氵 (water) appears in 河, 海, 洗. 木 (wood) appears in 树, 林, 材.",
+        "Tip: 的 (de) can also form adjectives: 漂亮的 (beautiful) or 红色的 (red).",
+        "Tip: 是 (shì) is NOT used with adjectives. Say 我很高兴 (I am happy), NOT 我是高兴.",
+        "Tip: 有 (yǒu) means 'have' or 'there is'. 有没有 (yǒu méi yǒu) means 'is there?' or 'do you have?'.",
+        "Tip: Verb doubling (看看, 听听) softens the tone: 你看看 (take a look).",
+        "Tip: 一边…一边… (yībiān…yībiān…) means 'doing two things at once': 一边听音乐一边学习 (study while listening to music).",
+        "Tip: 除了…以外 (chúle…yǐwài) means 'except for' or 'in addition to'.",
+        "Tip: 越来越 (yuèláiyuè) means 'more and more': 越来越热 (getting hotter).",
+        "Tip: 一…就… (yī…jiù…) means 'as soon as': 一到家就睡觉 (sleep as soon as I get home).",
+        "Tip: 都 (dōu) means 'all'. 也 (yě) means 'also'. 还 (hái) means 'still' or 'also'.",
+        "Tip: 能 (néng) = physical ability. 可以 (kěyǐ) = permission. 会 (huì) = learned skill or future will.",
+        "Tip: 想 (xiǎng) = want or miss. 要 (yào) = want/need or future 'will'.",
+        "Tip: 从 (cóng) = from. 离 (lí) = away from. 到 (dào) = to. Use these for directions.",
+        "Tip: 为了 (wèile) = for the purpose of. 因为 (yīnwèi) = because. 所以 (suǒyǐ) = therefore.",
+        "Tip: 虽然 (suīrán) = although. 但是 (dànshì) = but. They often go together.",
+        "Tip: 如果 (rúguǒ) = if. 就 (jiù) = then. 如果明天不下雨，我们就去公园 (If it doesn't rain tomorrow, we'll go to the park).",
+        "Tip: 被 (bèi) is for passive voice: 书被拿走了 (The book was taken away).",
+        "Tip: 给 (gěi) means 'give' or acts as a preposition: 我给你打电话 (I will call you).",
+        "Tip: 让 (ràng) = let / make someone do something: 让我看看 (Let me see).",
+        "Tip: 对 (duì) = to/towards, or correct. 我对汉语感兴趣 (I am interested in Chinese).",
+        "Tip: 跟 (gēn) = with / follow. 我跟朋友一起去 (I go with friends).",
+        "Tip: 在 (zài) can be 'at/in/on' (location) or an action in progress (正在).",
+        "Tip: 着 (zhe) shows a continuous state: 站着 (standing), 笑着 (laughing).",
+        "Tip: 过 (guò) shows experience in the past: 我去过北京 (I have been to Beijing).",
+        "Tip: 吧 (ba) softens a suggestion: 我们去吃饭吧 (Let's go eat). 吗 (ma) is for yes/no questions.",
+        "Tip: 口 (kǒu) is the measure word for family members: 三口人 (3 people in a family)."
+    ];
+
+    function getDailyTip() {
+        const today = new Date();
+        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+        return TIPS[dayOfYear % TIPS.length];
+    }
+
+    // ---------- Streak & Flashcard tracking ----------
     function updateStreak() {
         const today = new Date().toDateString();
         if (lastActiveDate !== today) {
@@ -30,8 +74,10 @@
             else { streak = 1; }
             lastActiveDate = today;
             localStorage.setItem(STREAK_KEY, JSON.stringify({ streak, lastActiveDate }));
+            checkStreakCelebration();
         }
     }
+
     function loadStreak() {
         try {
             const data = JSON.parse(localStorage.getItem(STREAK_KEY));
@@ -44,15 +90,52 @@
             }
         } catch(e) { streak = 0; }
     }
+
+    function checkStreakCelebration() {
+        if (streak >= 7) {
+            // Show confetti-style celebration (CSS emoji burst)
+            const celebration = document.createElement('div');
+            celebration.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                pointer-events: none; z-index: 99999;
+                display: flex; align-items: center; justify-content: center;
+                font-size: 4rem; animation: drkhanConfetti 2s ease-out forwards;
+            `;
+            celebration.innerHTML = '🎉🔥 Amazing! ' + streak + '-day streak! Keep it up! 🔥🎉';
+            // Inject keyframe if not exists
+            if (!document.getElementById('drkhan-confetti-style')) {
+                const style = document.createElement('style');
+                style.id = 'drkhan-confetti-style';
+                style.textContent = `
+                    @keyframes drkhanConfetti {
+                        0% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+                        20% { opacity: 1; transform: scale(1.2) rotate(5deg); }
+                        100% { opacity: 0; transform: scale(1.5) rotate(10deg) translateY(-80px); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            document.body.appendChild(celebration);
+            setTimeout(() => celebration.remove(), 2500);
+        }
+    }
+
     function loadFlashcards() {
         try { flashcards = JSON.parse(localStorage.getItem(FLASHCARD_KEY)) || []; } catch(e) { flashcards = []; }
+        lastFlashcardAdd = localStorage.getItem(LAST_ADD_KEY) || '';
     }
-    function saveFlashcards() { localStorage.setItem(FLASHCARD_KEY, JSON.stringify(flashcards)); renderSidebar(); }
+    function saveFlashcards() { 
+        localStorage.setItem(FLASHCARD_KEY, JSON.stringify(flashcards)); 
+        // Update last add time if adding new cards
+        renderSidebar(); 
+    }
     function addFlashcard(word, context) {
         if (!word || word.trim().length === 0) return;
         const trimmed = word.trim();
         if (!flashcards.includes(trimmed)) {
             flashcards.push(trimmed);
+            localStorage.setItem(LAST_ADD_KEY, new Date().toISOString());
+            lastFlashcardAdd = localStorage.getItem(LAST_ADD_KEY);
             saveFlashcards();
             showToast('✅ Added "' + trimmed + '" to flashcards');
         } else {
@@ -65,6 +148,15 @@
         renderSidebar();
     }
 
+    function daysSinceLastFlashcard() {
+        if (!lastFlashcardAdd) return Infinity;
+        const last = new Date(lastFlashcardAdd);
+        const now = new Date();
+        const diff = (now - last) / (1000 * 60 * 60 * 24);
+        return diff;
+    }
+
+    // ---------- Core helpers (unchanged) ----------
     function extractPuterMessage(raw) {
         if (typeof raw === 'string') {
             try { return JSON.parse(raw).message?.content || raw; } catch { return raw; }
@@ -114,7 +206,7 @@
             conversations.push({
                 id: Date.now(),
                 name: 'New Chat',
-                messages: [{ role: 'assistant', content: '👋 你好！我是 Dr. Khan，你的中文学习助手。问我关于词汇、语法或任何中文学习问题吧！', timestamp: Date.now() }]
+                messages: [{ role: 'assistant', content: '👋 Hi! I\'m Dr. Khan, your Chinese learning assistant. Ask me about vocabulary, grammar, or anything about learning Chinese!', timestamp: Date.now() }]
             });
         }
         if (!currentConvId) currentConvId = conversations[0].id;
@@ -170,22 +262,23 @@
     function savePinned() { localStorage.setItem('drkhan_pinned', JSON.stringify(pinnedMessages)); }
     function isPinned(idx) { return pinnedMessages.some(p => p.convId === currentConvId && p.idx === idx); }
 
+    // ---------- Sidebar (FULL ENGLISH UI) ----------
     function renderSidebar() {
         const sidebar = document.getElementById('drkhan-sidebar');
         if (!sidebar) return;
-        let html = '<div class="sidebar-section"><div class="section-title">📋 对话</div><div class="conv-list">';
+        let html = '<div class="sidebar-section"><div class="section-title">📋 Chats</div><div class="conv-list">';
         conversations.forEach(c => {
             const active = c.id === currentConvId ? 'active' : '';
             html += '<div class="conv-item ' + active + '" data-id="' + c.id + '" ondblclick="window.renameConversationPrompt(' + c.id + ')">';
             html += '<span class="conv-name">' + escapeHtml(c.name) + '</span>';
-            html += '<span class="conv-actions"><button class="icon-btn delete-conv" data-id="' + c.id + '" title="删除">🗑️</button></span>';
+            html += '<span class="conv-actions"><button class="icon-btn delete-conv" data-id="' + c.id + '" title="Delete">🗑️</button></span>';
             html += '</div>';
         });
-        html += '</div><button class="icon-btn new-chat-sidebar" id="new-chat-sidebar">➕ 新对话</button></div>';
+        html += '</div><button class="icon-btn new-chat-sidebar" id="new-chat-sidebar">➕ New Chat</button></div>';
 
-        html += '<div class="sidebar-section pinned-section-sidebar"><div class="section-title">📌 收藏笔记</div>';
+        html += '<div class="sidebar-section pinned-section-sidebar"><div class="section-title">📌 Saved Notes</div>';
         const pinnedForConv = pinnedMessages.filter(p => p.convId === currentConvId);
-        if (pinnedForConv.length === 0) html += '<div class="muted">暂无收藏</div>';
+        if (pinnedForConv.length === 0) html += '<div class="muted">No saved notes</div>';
         else {
             pinnedForConv.forEach(p => {
                 const snippet = truncateText(p.content, 60);
@@ -194,37 +287,38 @@
         }
         html += '</div>';
 
-        html += '<div class="sidebar-section flashcards-section"><div class="section-title">📇 单词卡 (' + flashcards.length + ')</div>';
-        if (flashcards.length === 0) html += '<div class="muted">还没有单词卡 – 点击消息中的 📇 添加</div>';
+        html += '<div class="sidebar-section flashcards-section"><div class="section-title">📇 Word Cards (' + flashcards.length + ')</div>';
+        if (flashcards.length === 0) html += '<div class="muted">No word cards yet – click 📇 on messages to add</div>';
         else {
             flashcards.forEach(word => {
                 html += '<div class="flashcard-item">';
                 html += '<span class="flashcard-word">' + escapeHtml(word) + '</span>';
-                html += '<button class="icon-btn flashcard-ask" data-word="' + escapeHtml(word) + '" title="询问 Dr. Khan">💬</button>';
-                html += '<button class="icon-btn flashcard-remove" data-word="' + escapeHtml(word) + '" title="移除">✕</button>';
+                html += '<button class="icon-btn flashcard-ask" data-word="' + escapeHtml(word) + '" title="Ask Dr. Khan">💬</button>';
+                html += '<button class="icon-btn flashcard-remove" data-word="' + escapeHtml(word) + '" title="Remove">✕</button>';
                 html += '</div>';
             });
         }
         html += '</div>';
 
-        html += '<div class="sidebar-section settings-section"><div class="section-title">⚙️ 设置</div>';
-        html += '<div class="setting-row"><label>教学模式</label><select id="sidebar-personality">';
-        html += '<option value="tutor" ' + (personality === 'tutor' ? 'selected' : '') + '>📘 全能导师</option>';
-        html += '<option value="grammar" ' + (personality === 'grammar' ? 'selected' : '') + '>📝 语法专精</option>';
-        html += '<option value="vocab" ' + (personality === 'vocab' ? 'selected' : '') + '>📚 词汇拓展</option>';
-        html += '<option value="exam" ' + (personality === 'exam' ? 'selected' : '') + '>🎯 考试备战</option>';
+        html += '<div class="sidebar-section settings-section"><div class="section-title">⚙️ Settings</div>';
+        html += '<div class="setting-row"><label>Tutor Mode</label><select id="sidebar-personality">';
+        html += '<option value="tutor" ' + (personality === 'tutor' ? 'selected' : '') + '>📘 All‑round Tutor</option>';
+        html += '<option value="grammar" ' + (personality === 'grammar' ? 'selected' : '') + '>📝 Grammar Focus</option>';
+        html += '<option value="vocab" ' + (personality === 'vocab' ? 'selected' : '') + '>📚 Vocabulary Builder</option>';
+        html += '<option value="exam" ' + (personality === 'exam' ? 'selected' : '') + '>🎯 Exam Prep</option>';
         html += '</select></div>';
-        html += '<div class="setting-row"><label>HSK 等级</label><select id="sidebar-hsk">';
+        html += '<div class="setting-row"><label>HSK Level</label><select id="sidebar-hsk">';
         for (let i = 1; i <= 6; i++) {
             html += '<option value="' + i + '" ' + (hskLevel === i ? 'selected' : '') + '>HSK ' + i + '</option>';
         }
         html += '</select></div>';
-        html += '<div class="setting-row"><span>深色模式</span><label class="toggle-switch"><input type="checkbox" id="sidebar-dark-toggle" ' + (panelDarkMode ? 'checked' : '') + '><span class="slider"></span></label></div>';
-        html += '<div class="setting-row"><span>字体大小</span><div class="font-controls"><button id="font-minus">A-</button><button id="font-plus">A+</button></div></div>';
+        html += '<div class="setting-row"><span>Dark Mode</span><label class="toggle-switch"><input type="checkbox" id="sidebar-dark-toggle" ' + (panelDarkMode ? 'checked' : '') + '><span class="slider"></span></label></div>';
+        html += '<div class="setting-row"><span>Font Size</span><div class="font-controls"><button id="font-minus">A-</button><button id="font-plus">A+</button></div></div>';
         html += '</div>';
 
         sidebar.innerHTML = html;
 
+        // Event listeners
         document.querySelectorAll('.conv-item').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -269,7 +363,7 @@
                 e.stopPropagation();
                 const word = this.dataset.word;
                 if (word) {
-                    document.getElementById('drkhan-input').value = '解释一下这个词的用法：' + word;
+                    document.getElementById('drkhan-input').value = 'Explain the usage of "' + word + '"';
                     sendMessage();
                 }
             });
@@ -283,12 +377,14 @@
         });
     }
 
+    // ---------- Render functions (English UI) ----------
     function renderAll() {
         renderSidebar();
         renderMessages();
         updateStats();
         updateContextSuggestions();
         updateWordOfDay();
+        updateBubbleReminders();
     }
 
     function renderMessages() {
@@ -313,17 +409,17 @@
             html += '<div class="bubble-wrapper">';
             html += '<div class="message-bubble" style="font-size:' + fontSize + 'px">';
             html += '<div class="message-content ' + (isLong ? 'truncated' : '') + '" id="msg-content-' + originalIdx + '">' + contentHtml + '</div>';
-            if (isLong) html += '<button class="read-more" data-idx="' + originalIdx + '">展开</button>';
+            if (isLong) html += '<button class="read-more" data-idx="' + originalIdx + '">Read more</button>';
             html += '</div>';
             html += '<div class="message-actions">';
             if (!isUser) {
-                html += '<button class="icon-btn pin-btn" data-idx="' + originalIdx + '" title="' + (pinned ? '取消收藏' : '收藏') + '">' + (pinned ? '📌' : '📍') + '</button>';
-                html += '<button class="icon-btn flashcard-add-btn" data-msgidx="' + originalIdx + '" title="添加到单词卡">📇</button>';
+                html += '<button class="icon-btn pin-btn" data-idx="' + originalIdx + '" title="' + (pinned ? 'Unpin' : 'Pin') + '">' + (pinned ? '📌' : '📍') + '</button>';
+                html += '<button class="icon-btn flashcard-add-btn" data-msgidx="' + originalIdx + '" title="Add to word cards">📇</button>';
             }
-            html += '<button class="icon-btn copy-btn" data-idx="' + originalIdx + '" title="复制">📋</button>';
-            if (isUser) html += '<button class="icon-btn edit-btn" data-idx="' + originalIdx + '" title="编辑">✏️</button>';
-            else html += '<button class="icon-btn quote-btn" data-idx="' + originalIdx + '" title="引用">💬</button>';
-            html += '<button class="icon-btn delete-btn" data-idx="' + originalIdx + '" title="删除">🗑️</button>';
+            html += '<button class="icon-btn copy-btn" data-idx="' + originalIdx + '" title="Copy">📋</button>';
+            if (isUser) html += '<button class="icon-btn edit-btn" data-idx="' + originalIdx + '" title="Edit">✏️</button>';
+            else html += '<button class="icon-btn quote-btn" data-idx="' + originalIdx + '" title="Quote reply">💬</button>';
+            html += '<button class="icon-btn delete-btn" data-idx="' + originalIdx + '" title="Delete">🗑️</button>';
             html += '</div>';
             html += '<div class="timestamp">' + time + '</div>';
             html += '</div></div>';
@@ -355,10 +451,10 @@
                 const msg = conv.messages[idx].content;
                 const words = msg.match(/[\u4e00-\u9fa5]{2,}/g);
                 if (words && words.length > 0) {
-                    const word = prompt('添加单词到卡片（选择或输入）:', words[0]);
+                    const word = prompt('Add word to cards (select or type):', words[0]);
                     if (word && word.trim()) addFlashcard(word.trim(), msg);
                 } else {
-                    const word = prompt('输入要添加的单词:');
+                    const word = prompt('Enter the word to add:');
                     if (word && word.trim()) addFlashcard(word.trim(), msg);
                 }
             });
@@ -387,7 +483,7 @@
                 const idx = parseInt(this.dataset.idx);
                 const conv = getCurrentConv();
                 if (!conv || !conv.messages[idx]) return;
-                const newContent = prompt('编辑你的消息:', conv.messages[idx].content);
+                const newContent = prompt('Edit your message:', conv.messages[idx].content);
                 if (newContent && newContent.trim()) {
                     window.editUserMessage(idx, newContent.trim());
                 }
@@ -417,19 +513,19 @@
         const msgCount = conv.messages.length;
         const wordCount = conv.messages.reduce((sum, m) => sum + m.content.split(/\s+/).length, 0);
         const statsEl = document.getElementById('drkhan-stats');
-        if (statsEl) statsEl.innerText = msgCount + ' 条消息 · ~' + wordCount + ' 词 · 🔥 ' + streak + '天';
+        if (statsEl) statsEl.innerText = msgCount + ' msgs · ~' + wordCount + ' words · 🔥 ' + streak + 'd streak';
     }
 
     function updateContextSuggestions() {
         const container = document.getElementById('suggestions');
         if (!container) return;
         const allSuggestions = [
-            '怎么用 “把” 字句？',
-            '“漂亮” 和 “美丽” 的区别',
-            '帮我纠正这句话：我昨天去图书馆了。',
-            '怎么记 “图书馆” 这个词？',
-            '“虽然...但是...” 的用法',
-            '给我一个 HSK4 的例句',
+            'How to use "把" (bǎ) structure?',
+            'Difference between "漂亮" and "美丽"',
+            'Correct this: "我昨天去图书馆了。"',
+            'How to remember "图书馆" (túshūguǎn)?',
+            'Usage of "虽然...但是..."',
+            'Give me an HSK4 example sentence',
         ];
         container.innerHTML = allSuggestions.slice(0,5).map(function(s) {
             return '<div class="suggestion-chip" data-question="' + escapeHtml(s) + '">📖 ' + escapeHtml(s) + '</div>';
@@ -446,6 +542,7 @@
         });
     }
 
+    // ---------- Word of the Day (English label) ----------
     let wordOfDay = '', wordOfDayMeaning = '';
     function updateWordOfDay() {
         const wodEl = document.getElementById('word-of-day');
@@ -466,13 +563,109 @@
         const chosen = words[idx];
         wordOfDay = chosen.word;
         wordOfDayMeaning = chosen.meaning;
-        wodEl.innerHTML = '📖 今日词: <strong>' + chosen.word + '</strong> (' + chosen.meaning + ') <button class="wod-ask">❓</button>';
+        wodEl.innerHTML = '📖 Word of the Day: <strong>' + chosen.word + '</strong> (' + chosen.meaning + ') <button class="wod-ask">❓</button>';
         wodEl.querySelector('.wod-ask')?.addEventListener('click', function() {
-            document.getElementById('drkhan-input').value = '解释 "' + chosen.word + '" 的用法，并给出例句';
+            document.getElementById('drkhan-input').value = 'Explain "' + chosen.word + '" with examples';
             sendMessage();
         });
     }
 
+    // ---------- Bubble Reminders (Daily Tip + Flashcard Reminder) ----------
+    function updateBubbleReminders() {
+        const bubble = document.querySelector('.drkhan-bubble');
+        if (!bubble) return;
+        // Remove old reminder label if exists
+        const oldReminder = bubble.querySelector('.drkhan-reminder');
+        if (oldReminder) oldReminder.remove();
+
+        const reminder = document.createElement('div');
+        reminder.className = 'drkhan-reminder';
+        reminder.style.cssText = `
+            position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+            background: rgba(10,41,66,0.95); color: #ffd966;
+            padding: 3px 12px; border-radius: 30px; font-size: 0.6rem;
+            font-weight: 600; white-space: nowrap; border: 1px solid #ffd966;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            pointer-events: none;
+            animation: drkhanPulse 2s infinite ease-in-out;
+        `;
+        // Add pulse animation if not exists
+        if (!document.getElementById('drkhan-pulse-style')) {
+            const style = document.createElement('style');
+            style.id = 'drkhan-pulse-style';
+            style.textContent = `
+                @keyframes drkhanPulse {
+                    0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+                    50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Priority: Flashcard reminder (if >3 days) > Daily Tip
+        const daysSince = daysSinceLastFlashcard();
+        if (daysSince > 3 && flashcards.length > 0) {
+            reminder.textContent = '📇 Add new words!';
+        } else {
+            const tip = getDailyTip();
+            reminder.textContent = '💡 ' + tip.substring(0, 30) + '…';
+            // Click on bubble will open chat with full tip (already handled by click)
+            // We'll attach a custom click to send the full tip to chat
+            const oldClick = bubble._clickHandler;
+            if (oldClick) {
+                bubble.removeEventListener('click', oldClick);
+            }
+            const handler = function(e) {
+                // Send full tip to chat when bubble is clicked (if it's not already open)
+                // We'll check if panel is open; if not, open and send tip.
+                const panel = document.querySelector('.drkhan-panel');
+                if (panel && panel.style.display !== 'flex') {
+                    // Open panel and send tip
+                    panel.style.display = 'flex';
+                    document.getElementById('drkhan-input').value = 'Daily tip: ' + getDailyTip();
+                    sendMessage();
+                }
+            };
+            bubble._clickHandler = handler;
+            bubble.addEventListener('click', handler);
+        }
+
+        bubble.appendChild(reminder);
+    }
+
+    // ---------- Quick Quiz (New Feature) ----------
+    function startQuickQuiz() {
+        // Generate 5 random HSK questions based on current HSK level
+        const wordList = window['HSK' + hskLevel + '_WORDS'];
+        if (!wordList || wordList.length === 0) {
+            showToast('No word list for HSK ' + hskLevel);
+            return;
+        }
+        const shuffled = [...wordList].sort(() => Math.random() - 0.5);
+        const selected = shuffled.slice(0, 5);
+        let quizText = '🎯 **Quick Quiz (HSK ' + hskLevel + ')**\n\n';
+        selected.forEach((w, i) => {
+            const options = [w.meaning];
+            // Add 3 random wrong options
+            const others = wordList.filter(x => x.meaning !== w.meaning).sort(() => Math.random() - 0.5);
+            for (let j = 0; j < 3 && j < others.length; j++) {
+                if (!options.includes(others[j].meaning)) options.push(others[j].meaning);
+            }
+            // Shuffle options
+            const shuffledOpts = options.sort(() => Math.random() - 0.5);
+            const correctLetter = String.fromCharCode(65 + shuffledOpts.indexOf(w.meaning));
+            quizText += (i+1) + '. **' + w.word + '**\n';
+            shuffledOpts.forEach((opt, idx) => {
+                quizText += '   ' + String.fromCharCode(65 + idx) + '. ' + opt + '\n';
+            });
+            quizText += '   ✅ Answer: ' + correctLetter + '\n\n';
+        });
+        // Send to chat
+        addMessage('user', '🎯 Start Quick Quiz (HSK ' + hskLevel + ')');
+        addMessage('assistant', quizText);
+    }
+
+    // ---------- Quote / Copy / Speech (unchanged) ----------
     function quoteMessage(idx) {
         const conv = getCurrentConv();
         if (!conv || !conv.messages[idx]) return;
@@ -487,12 +680,12 @@
     function copyMessageContent(idx) {
         const conv = getCurrentConv();
         if (!conv) return;
-        navigator.clipboard.writeText(conv.messages[idx].content).then(() => showToast('已复制！')).catch(() => showToast('复制失败'));
+        navigator.clipboard.writeText(conv.messages[idx].content).then(() => showToast('Copied!')).catch(() => showToast('Copy failed'));
     }
 
     function startPronunciationCheck() {
         if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-            showToast('您的浏览器不支持语音识别');
+            showToast('Your browser does not support speech recognition');
             return;
         }
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -502,14 +695,15 @@
         recognition.interimResults = false;
         recognition.onresult = function(event) {
             const transcript = event.results[0][0].transcript;
-            document.getElementById('drkhan-input').value = '请评价我的发音: "' + transcript + '"';
+            document.getElementById('drkhan-input').value = 'Please evaluate my pronunciation: "' + transcript + '"';
             sendMessage();
         };
-        recognition.onerror = function(e) { showToast('语音识别错误: ' + e.error); };
+        recognition.onerror = function(e) { showToast('Speech error: ' + e.error); };
         recognition.start();
-        showToast('🎤 请说出中文...');
+        showToast('🎤 Speak Chinese...');
     }
 
+    // ---------- Model selection & Send message (system prompt in English, but instructs AI to respond in Chinese) ----------
     async function getBestModel() {
         if (currentModelId) return currentModelId;
         try {
@@ -554,7 +748,7 @@
             await new Promise(r => setTimeout(r, 1000));
         }
         if (!puterReady) {
-            addMessage('assistant', 'Dr. Khan 暂时不可用，请刷新页面重试。');
+            addMessage('assistant', 'Dr. Khan is not ready. Please refresh the page.');
             return;
         }
         if (input) input.value = '';
@@ -568,7 +762,21 @@
         else if (personality === 'exam') personalityInstruction = 'Focus on HSK ' + hskLevel + ' exam preparation. Give high-frequency vocabulary, test-taking strategies, and practice questions. Tailor all content to HSK ' + hskLevel + ' level.';
         else personalityInstruction = 'Act as a friendly Chinese tutor. Explain vocabulary usage, correct mistakes, provide mnemonics, and give contextual examples. Encourage the student and make learning fun.';
 
-        const systemPrompt = '你是一位专业的中文语言导师，名叫 Dr. Khan。你的主要职责是帮助学生学习中文（普通话）。你只回答与中文学习相关的问题，包括词汇、语法、发音、写作和文化背景。\n\n当前学生 HSK 等级: ' + hskLevel + '。\n\n指导原则：\n- 对每个问题都提供清晰、准确、有用的回答。\n- 当学生问某个词怎么用时，给出多种语境下的例句，并解释常见搭配。\n- 如果学生写了句子，请检查语法和用词，指出错误并提供正确的说法。\n- 提供记忆技巧：如拆解汉字（偏旁部首）、联想记忆、同义词/反义词对比。\n- 根据学生的 HSK 等级（' + hskLevel + '）调整回答的难度。\n- 保持友好、鼓励的语气，让学习变得有趣。\n\n' + personalityInstruction + '\n\n用中文回答，除非被要求用其他语言。';
+        const systemPrompt = `You are a professional Chinese language tutor named Dr. Khan. Your main job is to help students learn Chinese (Mandarin). You only answer questions related to Chinese learning, including vocabulary, grammar, pronunciation, writing, and cultural background.
+
+Current student HSK level: ${hskLevel}.
+
+Guidelines:
+- Provide clear, accurate, and useful answers to every question.
+- When a student asks about a word, give example sentences in multiple contexts and explain common collocations.
+- If a student writes a sentence, check grammar and word choice, point out errors, and provide corrections.
+- Provide memory techniques: breaking down characters (radicals), association, synonyms/antonyms.
+- Adjust the difficulty of your answers according to the student's HSK level (${hskLevel}).
+- Keep a friendly, encouraging tone and make learning fun.
+
+${personalityInstruction}
+
+IMPORTANT: Always respond in Chinese (Mandarin) unless the student explicitly asks for English. Do not translate the student's question to English; answer in Chinese.`;
 
         const conv = getCurrentConv();
         if (!conv) { isWaiting = false; return; }
@@ -593,16 +801,17 @@
             addMessage('assistant', clean);
         } catch (e) {
             isWaiting = false;
-            addMessage('assistant', 'Dr. Khan 出错了：' + e.message);
+            addMessage('assistant', 'Dr. Khan error: ' + e.message);
         }
     }
 
+    // ---------- Conversation management (English labels) ----------
     function newConversation() {
         const id = Date.now();
         conversations.push({
             id: id,
-            name: '对话 ' + (conversations.length + 1),
-            messages: [{ role: 'assistant', content: '👋 你好！我是 Dr. Khan，你的中文学习助手。问我关于词汇、语法或任何中文学习问题吧！', timestamp: Date.now() }]
+            name: 'Chat ' + (conversations.length + 1),
+            messages: [{ role: 'assistant', content: '👋 Hi! I\'m Dr. Khan, your Chinese learning assistant. Ask me about vocabulary, grammar, or anything about learning Chinese!', timestamp: Date.now() }]
         });
         currentConvId = id;
         saveConversations();
@@ -624,7 +833,7 @@
     window.renameConversationPrompt = function(id) {
         const conv = conversations.find(c => c.id === id);
         if (!conv) return;
-        const newName = prompt('重命名对话:', conv.name);
+        const newName = prompt('Rename conversation:', conv.name);
         if (newName && newName.trim()) {
             conv.name = newName.trim();
             saveConversations();
@@ -637,9 +846,9 @@
     function exportConversation() {
         const conv = getCurrentConv();
         if (!conv) return;
-        let text = '对话: ' + conv.name + '\n导出时间: ' + new Date().toLocaleString() + '\n\n';
+        let text = 'Conversation: ' + conv.name + '\nExported: ' + new Date().toLocaleString() + '\n\n';
         conv.messages.forEach(function(m) {
-            const role = m.role === 'user' ? '你' : 'Dr. Khan';
+            const role = m.role === 'user' ? 'You' : 'Dr. Khan';
             const time = new Date(m.timestamp).toLocaleTimeString();
             text += '[' + role + '] (' + time + '):\n' + m.content + '\n\n';
         });
@@ -655,11 +864,11 @@
     function shareConversation() {
         const conv = getCurrentConv();
         if (!conv) return;
-        let text = 'Dr. Khan 中文学习对话: ' + conv.name + '\n\n';
+        let text = 'Dr. Khan Chinese Learning Chat: ' + conv.name + '\n\n';
         conv.messages.forEach(function(m) {
-            text += (m.role === 'user' ? '你' : 'Dr. Khan') + ': ' + m.content + '\n\n';
+            text += (m.role === 'user' ? 'You' : 'Dr. Khan') + ': ' + m.content + '\n\n';
         });
-        navigator.clipboard.writeText(text).then(function() { showToast('已复制！'); }).catch(function() { showToast('复制失败'); });
+        navigator.clipboard.writeText(text).then(function() { showToast('Copied!'); }).catch(function() { showToast('Copy failed'); });
     }
 
     function setFontSize(delta) {
@@ -675,6 +884,7 @@
         if (toggleInput) toggleInput.checked = panelDarkMode;
     }
 
+    // ---------- Create Widget (UI) ----------
     function createWidget() {
         const container = document.createElement('div');
         container.id = 'drkhan-container';
@@ -691,10 +901,7 @@
         border: 2px solid #ffd966; font-size: 2.4rem; touch-action: manipulation;
         padding: 0;
     }
-    .drkhan-bubble svg {
-        width: 42px; height: 42px;
-        display: block;
-    }
+    .drkhan-bubble svg { width: 42px; height: 42px; display: block; }
     .drkhan-bubble:hover { transform: scale(1.05); }
     .drkhan-bubble .tooltip {
         position: absolute; top: -32px; background: #0a2942; color: white;
@@ -802,7 +1009,7 @@
         flex: 1; padding: 10px 16px; border-radius: 24px; border: 1px solid var(--border-light);
         background: rgba(255,255,255,0.7); resize: none; font-size: 0.9rem; outline: none; max-height: 120px;
     }
-    .send-btn, .share-btn, .mic-btn {
+    .send-btn, .share-btn, .mic-btn, .quiz-btn {
         border: none; border-radius: 50%; width: 44px; height: 44px;
         display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem;
         box-shadow: 0 4px 12px rgba(230,126,34,0.3); flex-shrink: 0;
@@ -810,6 +1017,7 @@
     .send-btn { background: var(--primary); color: white; }
     .share-btn { background: #555; color: white; }
     .mic-btn { background: #4a9eff; color: white; }
+    .quiz-btn { background: #8b5cf6; color: white; }
     .suggestions {
         display: flex; gap: 8px; padding: 6px 20px; overflow-x: auto;
         white-space: nowrap; flex-wrap: nowrap; border-top: 1px solid var(--border-light);
@@ -844,26 +1052,27 @@
     <div class="drkhan-panel-header">
         <h3>📘 Dr. Khan</h3>
         <div class="panel-actions">
-            <button class="panel-btn" id="sidebar-toggle" title="切换侧栏">☰</button>
-            <button class="panel-btn" id="export-chat" title="导出对话">📥</button>
-            <button class="panel-btn" id="minimize-panel" title="最小化">─</button>
-            <button class="panel-btn" id="close-panel" title="关闭">✕</button>
+            <button class="panel-btn" id="sidebar-toggle" title="Toggle sidebar">☰</button>
+            <button class="panel-btn" id="export-chat" title="Export chat">📥</button>
+            <button class="panel-btn" id="minimize-panel" title="Minimize">─</button>
+            <button class="panel-btn" id="close-panel" title="Close">✕</button>
         </div>
     </div>
     <div class="drkhan-body">
         <div class="drkhan-sidebar" id="drkhan-sidebar"></div>
         <div class="drkhan-main" id="drkhan-main">
             <div class="chat-header">
-                <span id="current-conv-name" style="font-weight:600; flex-shrink:0;">新对话</span>
-                <span class="wod" id="word-of-day">📖 今日词: --</span>
-                <input type="text" id="drkhan-search" placeholder="🔍 搜索消息...">
+                <span id="current-conv-name" style="font-weight:600; flex-shrink:0;">New Chat</span>
+                <span class="wod" id="word-of-day">📖 Word of the Day: --</span>
+                <input type="text" id="drkhan-search" placeholder="🔍 Search messages...">
             </div>
             <div class="drkhan-messages" id="drkhan-messages"></div>
             <div class="suggestions" id="suggestions"></div>
             <div class="input-area">
-                <button class="mic-btn" id="mic-btn" title="语音输入">🎙️</button>
-                <textarea id="drkhan-input" placeholder="输入你的中文问题..." rows="1" maxlength="1000"></textarea>
-                <button class="share-btn" id="share-conv" title="分享对话">🔗</button>
+                <button class="mic-btn" id="mic-btn" title="Voice input">🎙️</button>
+                <textarea id="drkhan-input" placeholder="Type your Chinese question here..." rows="1" maxlength="1000"></textarea>
+                <button class="share-btn" id="share-conv" title="Share chat">🔗</button>
+                <button class="quiz-btn" id="quiz-btn" title="Quick Quiz (5 questions)">🎯</button>
                 <button class="send-btn" id="drkhan-send">➤</button>
             </div>
             <div class="drkhan-stats" id="drkhan-stats"></div>
@@ -909,6 +1118,7 @@
         document.getElementById('share-conv').onclick = shareConversation;
         document.getElementById('drkhan-send').onclick = function() { sendMessage(); };
         document.getElementById('mic-btn').onclick = startPronunciationCheck;
+        document.getElementById('quiz-btn').onclick = startQuickQuiz;
 
         const textarea = document.getElementById('drkhan-input');
         textarea.addEventListener('keypress', function(e) {
@@ -961,8 +1171,58 @@
                 newConversation();
             }
         });
+
+        // ---------- Animated suggestion label (Daily Tip / Reminder) ----------
+        const suggestionLabel = document.createElement('div');
+        suggestionLabel.className = 'drkhan-suggestion';
+        suggestionLabel.textContent = '💬 Ask Dr. Khan';
+        suggestionLabel.style.cssText = `
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: rgba(10, 41, 66, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            border: 1px solid #ffd966;
+            backdrop-filter: blur(4px);
+        `;
+        document.body.appendChild(suggestionLabel);
+
+        let suggestionTimer = setTimeout(() => {
+            suggestionLabel.style.opacity = '1';
+            suggestionLabel.style.transform = 'translateY(0)';
+        }, 4000);
+
+        function hideSuggestion() {
+            suggestionLabel.style.opacity = '0';
+            suggestionLabel.style.transform = 'translateY(10px)';
+            clearTimeout(suggestionTimer);
+        }
+        bubble.addEventListener('click', hideSuggestion);
+        panel.addEventListener('click', hideSuggestion);
+        document.getElementById('drkhan-input').addEventListener('focus', hideSuggestion);
+        document.getElementById('drkhan-input').addEventListener('input', hideSuggestion);
+
+        // Also hide when user sends a message
+        document.getElementById('drkhan-send').addEventListener('click', hideSuggestion);
+
+        // Refresh reminders every 30 seconds (for flashcard reminder)
+        setInterval(() => {
+            updateBubbleReminders();
+        }, 30000);
     }
 
+    // ---------- Init ----------
     function init() {
         loadStreak();
         loadFlashcards();
@@ -971,6 +1231,7 @@
         renderAll();
     }
 
+    // Expose
     window.sendMessage = sendMessage;
     window.scrollToMessage = function(idx) {
         const el = document.querySelector('.message[data-idx="' + idx + '"]');
