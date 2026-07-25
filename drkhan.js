@@ -1,4 +1,4 @@
-// drkhan.js – Chinese Learning Assistant v3.8 (Fully Responsive + Visible 2.0/3.0 Toggle)
+// drkhan.js – Chinese Learning Assistant v4.0 (Auto‑Level Detection + Fully Responsive)
 (function() {
     const STORAGE_KEY = 'drkhan_conversations';
     const FLASHCARD_KEY = 'drkhan_flashcards';
@@ -17,13 +17,13 @@
     let personality = 'tutor';
     let hskLevel = 3;
     let hskVersion = 2;
-    let sidebarOpen = false; // Start closed on mobile
+    let sidebarOpen = false;
     let currentModelId = null;
     let flashcards = [];
     let streak = 0;
     let lastActiveDate = '';
     let lastFlashcardAdd = '';
-    let isMobile = window.innerWidth < 768;
+    let wordLevelMap = null;
 
     // ---------- HSK Level Segments ----------
     const HSK_SEGMENTS = {
@@ -60,9 +60,7 @@
         6: { accent: '#ef4444', accentHover: '#dc2626', gradient: 'linear-gradient(145deg, #ef4444, #b91c1c)', glow: 'rgba(239,68,68,0.3)', darkAccent: '#f87171' }
     };
 
-    function getTheme(level) {
-        return HSK_THEMES[level] || HSK_THEMES[3];
-    }
+    function getTheme(level) { return HSK_THEMES[level] || HSK_THEMES[3]; }
 
     function applyThemeToPanel(level) {
         const panel = document.querySelector('.drkhan-panel');
@@ -76,9 +74,7 @@
         panel.style.setProperty('--hsk-gradient', theme.gradient);
         panel.style.setProperty('--hsk-glow', theme.glow);
         const header = panel.querySelector('.drkhan-panel-header');
-        if (header) {
-            header.style.background = isDark ? `linear-gradient(145deg, ${accent}, ${accentHover})` : theme.gradient;
-        }
+        if (header) header.style.background = isDark ? `linear-gradient(145deg, ${accent}, ${accentHover})` : theme.gradient;
         const sendBtn = panel.querySelector('#drkhan-send');
         if (sendBtn) sendBtn.style.background = accent;
         const quizBtn = panel.querySelector('#quiz-btn');
@@ -95,57 +91,80 @@
         badge.style.color = getTheme(level).accent;
     }
 
-    // ---------- Word List Loading ----------
+    // ---------- Word Lists & Auto‑Detection ----------
     function getWordList(level, version) {
         if (version === 3) {
             const allWords = window.HSK3_0_WORDS || [];
             return allWords.filter(w => w.level === level);
         } else {
-            const map = {
-                1: window.HSK1_WORDS,
-                2: window.HSK2_WORDS,
-                3: window.HSK3_WORDS,
-                4: window.HSK4_WORDS,
-                5: window.HSK5_WORDS,
-                6: window.HSK6_WORDS,
-            };
+            const map = { 1: window.HSK1_WORDS, 2: window.HSK2_WORDS, 3: window.HSK3_WORDS, 4: window.HSK4_WORDS, 5: window.HSK5_WORDS, 6: window.HSK6_WORDS };
             return map[level] || [];
         }
     }
 
-    // ---------- TIPS ----------
+    function buildWordLevelMap(version) {
+        const map = {};
+        for (let level = 1; level <= 6; level++) {
+            const words = getWordList(level, version);
+            words.forEach(w => { if (!map[w.word] || map[w.word] < level) map[w.word] = level; });
+        }
+        return map;
+    }
+
+    function getWordLevelMap(version) {
+        if (!wordLevelMap) wordLevelMap = buildWordLevelMap(version);
+        return wordLevelMap;
+    }
+
+    function detectAndSwitchLevel(text) {
+        const chineseChars = text.match(/[\u4e00-\u9fa5]+/g);
+        if (!chineseChars) return;
+        const map = getWordLevelMap(hskVersion);
+        let maxLevel = 0;
+        chineseChars.forEach(chunk => {
+            if (map[chunk] && map[chunk] > maxLevel) maxLevel = map[chunk];
+        });
+        if (maxLevel > 0 && maxLevel !== hskLevel) {
+            hskLevel = maxLevel;
+            const headerHsk = document.getElementById('header-hsk');
+            if (headerHsk) headerHsk.value = hskLevel;
+            applyThemeToPanel(hskLevel);
+            updateLevelBadge(hskLevel);
+            showToast('📚 Switched to HSK ' + hskLevel + ' (detected from your question)');
+        }
+    }
+
+    // ---------- Tips ----------
     const TIPS = [
-        "Tip: 的 (de) is for possession (my book = 我的书). 地 (de) turns adjectives into adverbs. 得 (de) shows degree.",
-        "Tip: Measure words are essential! Use 个 (gè) for general objects, 本 (běn) for books, 只 (zhī) for animals.",
-        "Tip: 不 (bù) is for present/future negation. 没 (méi) is for past negation or 'have not'.",
-        "Tip: 了 (le) shows completed action OR a change of state. Context is key!",
-        "Tip: 把 (bǎ) structure emphasizes the object: 我把书放在桌子上 (wǒ bǎ shū fàng zài zhuōzi shàng) – I put the book on the table.",
+        "Tip: 的 (de) is for possession. 地 (de) turns adjectives into adverbs. 得 (de) shows degree.",
+        "Tip: Use 个 (gè) for general objects, 本 (běn) for books, 只 (zhī) for animals.",
+        "Tip: 不 (bù) is present/future negation. 没 (méi) is past negation.",
+        "Tip: 了 (le) shows completed action OR change of state.",
+        "Tip: 把 (bǎ) emphasizes the object: 我把书放在桌子上 (wǒ bǎ shū fàng zài zhuōzi shàng) – I put the book on the table.",
         "Tip: Learn radicals! 氵 (water) appears in 河, 海, 洗. 木 (wood) appears in 树, 林, 材.",
-        "Tip: 的 (de) can also form adjectives: 漂亮的 (piàoliang de) – beautiful, or 红色的 (hóngsè de) – red.",
-        "Tip: 是 (shì) is NOT used with adjectives. Say 我很高兴 (wǒ hěn gāoxìng) – I am happy, NOT 我是高兴.",
+        "Tip: 是 (shì) is NOT used with adjectives. Say 我很高兴 (wǒ hěn gāoxìng) – I am happy.",
         "Tip: 有 (yǒu) means 'have' or 'there is'. 有没有 (yǒu méi yǒu) means 'is there?'.",
-        "Tip: Verb doubling (看看 kànkan, 听听 tīngting) softens the tone: 你看看 (nǐ kànkan) – take a look.",
-        "Tip: 一边…一边… (yībiān…yībiān…) means 'doing two things at once': 一边听音乐一边学习 – study while listening to music.",
-        "Tip: 除了…以外 (chúle…yǐwài) means 'except for' or 'in addition to'.",
+        "Tip: Verb doubling (看看 kànkan) softens the tone: 你看看 (nǐ kànkan) – take a look.",
+        "Tip: 一边…一边… (yībiān…yībiān…) means 'doing two things at once'.",
         "Tip: 越来越 (yuèláiyuè) means 'more and more': 越来越热 (yuèláiyuè rè) – getting hotter.",
         "Tip: 一…就… (yī…jiù…) means 'as soon as': 一到家就睡觉 – sleep as soon as I get home.",
-        "Tip: 都 (dōu) means 'all'. 也 (yě) means 'also'. 还 (hái) means 'still' or 'also'.",
-        "Tip: 能 (néng) = physical ability. 可以 (kěyǐ) = permission. 会 (huì) = learned skill or future will.",
+        "Tip: 都 (dōu) = 'all'. 也 (yě) = 'also'. 还 (hái) = 'still' or 'also'.",
+        "Tip: 能 (néng) = physical ability. 可以 (kěyǐ) = permission. 会 (huì) = learned skill.",
         "Tip: 想 (xiǎng) = want or miss. 要 (yào) = want/need or future 'will'.",
-        "Tip: 从 (cóng) = from. 离 (lí) = away from. 到 (dào) = to. Use these for directions.",
+        "Tip: 从 (cóng) = from. 离 (lí) = away from. 到 (dào) = to.",
         "Tip: 为了 (wèile) = for the purpose of. 因为 (yīnwèi) = because. 所以 (suǒyǐ) = therefore.",
-        "Tip: 虽然 (suīrán) = although. 但是 (dànshì) = but. They often go together.",
-        "Tip: 如果 (rúguǒ) = if. 就 (jiù) = then. 如果明天不下雨，我们就去公园 – If it doesn't rain tomorrow, we'll go to the park.",
+        "Tip: 虽然 (suīrán) = although. 但是 (dànshì) = but.",
+        "Tip: 如果 (rúguǒ) = if. 就 (jiù) = then.",
         "Tip: 被 (bèi) is for passive voice: 书被拿走了 (shū bèi ná zǒu le) – The book was taken away.",
-        "Tip: 给 (gěi) means 'give' or acts as a preposition: 我给你打电话 – I will call you.",
+        "Tip: 给 (gěi) = give or preposition: 我给你打电话 – I will call you.",
         "Tip: 让 (ràng) = let / make someone do something: 让我看看 (ràng wǒ kànkan) – Let me see.",
         "Tip: 对 (duì) = to/towards, or correct. 我对汉语感兴趣 – I am interested in Chinese.",
         "Tip: 跟 (gēn) = with / follow. 我跟朋友一起去 – I go with friends.",
-        "Tip: 在 (zài) can be 'at/in/on' (location) or an action in progress (正在 zhèngzài).",
-        "Tip: 着 (zhe) shows a continuous state: 站着 (zhànzhe) – standing, 笑着 (xiàozhe) – laughing.",
-        "Tip: 过 (guò) shows experience in the past: 我去过北京 – I have been to Beijing.",
-        "Tip: 吧 (ba) softens a suggestion: 我们去吃饭吧 – Let's go eat. 吗 (ma) is for yes/no questions.",
-        "Tip: 口 (kǒu) is the measure word for family members: 三口人 – 3 people in a family."
+        "Tip: 在 (zài) = at/in/on or action in progress (正在 zhèngzài).",
+        "Tip: 着 (zhe) shows continuous state: 站着 (zhànzhe) – standing.",
+        "Tip: 过 (guò) shows past experience: 我去过北京 – I have been to Beijing.",
+        "Tip: 吧 (ba) softens suggestion: 我们去吃饭吧 – Let's go eat. 吗 (ma) = yes/no question.",
+        "Tip: 口 (kǒu) = measure word for family members: 三口人 – 3 people."
     ];
 
     function getDailyTip() {
@@ -158,10 +177,9 @@
     function updateStreak() {
         const today = new Date().toDateString();
         if (lastActiveDate !== today) {
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            if (lastActiveDate === yesterday.toDateString()) { streak += 1; }
-            else { streak = 1; }
+            const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+            if (lastActiveDate === yesterday.toDateString()) streak += 1;
+            else streak = 1;
             lastActiveDate = today;
             localStorage.setItem(STREAK_KEY, JSON.stringify({ streak, lastActiveDate }));
             checkStreakCelebration();
@@ -194,13 +212,7 @@
             if (!document.getElementById('drkhan-confetti-style')) {
                 const style = document.createElement('style');
                 style.id = 'drkhan-confetti-style';
-                style.textContent = `
-                    @keyframes drkhanConfetti {
-                        0% { opacity: 0; transform: scale(0.5) rotate(0deg); }
-                        20% { opacity: 1; transform: scale(1.2) rotate(5deg); }
-                        100% { opacity: 0; transform: scale(1.5) rotate(10deg) translateY(-80px); }
-                    }
-                `;
+                style.textContent = `@keyframes drkhanConfetti { 0% { opacity:0; transform:scale(0.5) rotate(0deg); } 20% { opacity:1; transform:scale(1.2) rotate(5deg); } 100% { opacity:0; transform:scale(1.5) rotate(10deg) translateY(-80px); } }`;
                 document.head.appendChild(style);
             }
             document.body.appendChild(celebration);
@@ -212,10 +224,7 @@
         try { flashcards = JSON.parse(localStorage.getItem(FLASHCARD_KEY)) || []; } catch(e) { flashcards = []; }
         lastFlashcardAdd = localStorage.getItem(LAST_ADD_KEY) || '';
     }
-    function saveFlashcards() { 
-        localStorage.setItem(FLASHCARD_KEY, JSON.stringify(flashcards)); 
-        renderSidebar(); 
-    }
+    function saveFlashcards() { localStorage.setItem(FLASHCARD_KEY, JSON.stringify(flashcards)); renderSidebar(); }
     function addFlashcard(word) {
         if (!word || word.trim().length === 0) return;
         const trimmed = word.trim();
@@ -225,24 +234,19 @@
             lastFlashcardAdd = localStorage.getItem(LAST_ADD_KEY);
             saveFlashcards();
             showToast('✅ Added "' + trimmed + '" to flashcards');
-        } else {
-            showToast('"' + trimmed + '" already in flashcards');
-        }
+        } else showToast('"' + trimmed + '" already in flashcards');
     }
     function removeFlashcard(word) {
         flashcards = flashcards.filter(w => w !== word);
         saveFlashcards();
         renderSidebar();
     }
-
     function daysSinceLastFlashcard() {
         if (!lastFlashcardAdd) return Infinity;
-        const last = new Date(lastFlashcardAdd);
-        const now = new Date();
-        return (now - last) / (1000 * 60 * 60 * 24);
+        return (Date.now() - new Date(lastFlashcardAdd).getTime()) / (1000 * 60 * 60 * 24);
     }
 
-    // ---------- Core helpers ----------
+    // ---------- Core Helpers ----------
     function extractPuterMessage(raw) {
         if (typeof raw === 'string') {
             try { return JSON.parse(raw).message?.content || raw; } catch { return raw; }
@@ -281,11 +285,7 @@
         if (stored) {
             try {
                 conversations = JSON.parse(stored);
-                conversations.forEach(c => {
-                    if (!c.id) c.id = Date.now() + Math.random();
-                    if (!c.name) c.name = 'Chat';
-                    if (!c.messages) c.messages = [];
-                });
+                conversations.forEach(c => { if (!c.id) c.id = Date.now() + Math.random(); if (!c.name) c.name = 'Chat'; if (!c.messages) c.messages = []; });
             } catch(e) { conversations = []; }
         }
         if (conversations.length === 0) {
@@ -327,9 +327,7 @@
         const conv = getCurrentConv();
         if (!conv || conv.messages[index]?.role !== 'user') return;
         conv.messages[index].content = newContent;
-        if (index + 1 < conv.messages.length && conv.messages[index+1].role === 'assistant') {
-            conv.messages.splice(index+1, 1);
-        }
+        if (index + 1 < conv.messages.length && conv.messages[index+1].role === 'assistant') conv.messages.splice(index+1, 1);
         saveConversations();
         renderMessages();
         sendMessage(newContent, true);
@@ -348,19 +346,19 @@
     function savePinned() { localStorage.setItem('drkhan_pinned', JSON.stringify(pinnedMessages)); }
     function isPinned(idx) { return pinnedMessages.some(p => p.convId === currentConvId && p.idx === idx); }
 
-    // ---------- Render Sidebar (Responsive) ----------
+    // ---------- Render Sidebar ----------
     function renderSidebar() {
         const sidebar = document.getElementById('drkhan-sidebar');
         if (!sidebar) return;
         let html = '<div class="sidebar-section"><div class="section-title">📋 Chats</div><div class="conv-list">';
         conversations.forEach(c => {
             const active = c.id === currentConvId ? 'active' : '';
-            html += '<div class="conv-item ' + active + '" data-id="' + c.id + '" ondblclick="window.renameConversationPrompt(' + c.id + ')">';
-            html += '<span class="conv-name">' + escapeHtml(c.name) + '</span>';
-            html += '<span class="conv-actions"><button class="icon-btn delete-conv" data-id="' + c.id + '" title="Delete">🗑️</button></span>';
-            html += '</div>';
+            html += `<div class="conv-item ${active}" data-id="${c.id}" ondblclick="window.renameConversationPrompt(${c.id})">
+                <span class="conv-name">${escapeHtml(c.name)}</span>
+                <span class="conv-actions"><button class="icon-btn delete-conv" data-id="${c.id}" title="Delete">🗑️</button></span>
+            </div>`;
         });
-        html += '</div><button class="icon-btn new-chat-sidebar" id="new-chat-sidebar">➕ New Chat</button></div>';
+        html += `</div><button class="icon-btn new-chat-sidebar" id="new-chat-sidebar">➕ New Chat</button></div>`;
 
         html += '<div class="sidebar-section pinned-section-sidebar"><div class="section-title">📌 Saved Notes</div>';
         const pinnedForConv = pinnedMessages.filter(p => p.convId === currentConvId);
@@ -368,33 +366,33 @@
         else {
             pinnedForConv.forEach(p => {
                 const snippet = truncateText(p.content, 60);
-                html += '<div class="pinned-note-item" onclick="window.scrollToMessage(' + p.idx + ')">📌 ' + escapeHtml(snippet) + '</div>';
+                html += `<div class="pinned-note-item" onclick="window.scrollToMessage(${p.idx})">📌 ${escapeHtml(snippet)}</div>`;
             });
         }
         html += '</div>';
 
-        html += '<div class="sidebar-section flashcards-section"><div class="section-title">📇 Word Cards (' + flashcards.length + ')</div>';
+        html += `<div class="sidebar-section flashcards-section"><div class="section-title">📇 Word Cards (${flashcards.length})</div>`;
         if (flashcards.length === 0) html += '<div class="muted">No word cards yet – click 📇 on messages to add</div>';
         else {
             flashcards.forEach(word => {
-                html += '<div class="flashcard-item">';
-                html += '<span class="flashcard-word">' + escapeHtml(word) + '</span>';
-                html += '<button class="icon-btn flashcard-ask" data-word="' + escapeHtml(word) + '" title="Ask Dr. Khan">💬</button>';
-                html += '<button class="icon-btn flashcard-remove" data-word="' + escapeHtml(word) + '" title="Remove">✕</button>';
-                html += '</div>';
+                html += `<div class="flashcard-item">
+                    <span class="flashcard-word">${escapeHtml(word)}</span>
+                    <button class="icon-btn flashcard-ask" data-word="${escapeHtml(word)}" title="Ask Dr. Khan">💬</button>
+                    <button class="icon-btn flashcard-remove" data-word="${escapeHtml(word)}" title="Remove">✕</button>
+                </div>`;
             });
         }
         html += '</div>';
 
         html += '<div class="sidebar-section settings-section"><div class="section-title">⚙️ Settings</div>';
-        html += '<div class="setting-row"><label>Tutor Mode</label><select id="sidebar-personality">';
-        html += '<option value="tutor" ' + (personality === 'tutor' ? 'selected' : '') + '>📘 All‑round Tutor</option>';
-        html += '<option value="grammar" ' + (personality === 'grammar' ? 'selected' : '') + '>📝 Grammar Focus</option>';
-        html += '<option value="vocab" ' + (personality === 'vocab' ? 'selected' : '') + '>📚 Vocabulary Builder</option>';
-        html += '<option value="exam" ' + (personality === 'exam' ? 'selected' : '') + '>🎯 Exam Prep</option>';
-        html += '</select></div>';
-        html += '<div class="setting-row"><span>Dark Mode</span><label class="toggle-switch"><input type="checkbox" id="sidebar-dark-toggle" ' + (panelDarkMode ? 'checked' : '') + '><span class="slider"></span></label></div>';
-        html += '<div class="setting-row"><span>Font Size</span><div class="font-controls"><button id="font-minus">A-</button><button id="font-plus">A+</button></div></div>';
+        html += `<div class="setting-row"><label>Tutor Mode</label><select id="sidebar-personality">
+            <option value="tutor" ${personality === 'tutor' ? 'selected' : ''}>📘 All‑round Tutor</option>
+            <option value="grammar" ${personality === 'grammar' ? 'selected' : ''}>📝 Grammar Focus</option>
+            <option value="vocab" ${personality === 'vocab' ? 'selected' : ''}>📚 Vocabulary Builder</option>
+            <option value="exam" ${personality === 'exam' ? 'selected' : ''}>🎯 Exam Prep</option>
+        </select></div>`;
+        html += `<div class="setting-row"><span>Dark Mode</span><label class="toggle-switch"><input type="checkbox" id="sidebar-dark-toggle" ${panelDarkMode ? 'checked' : ''}><span class="slider"></span></label></div>`;
+        html += `<div class="setting-row"><span>Font Size</span><div class="font-controls"><button id="font-minus">A-</button><button id="font-plus">A+</button></div></div>`;
         html += '</div>';
 
         sidebar.innerHTML = html;
@@ -408,7 +406,6 @@
                     currentConvId = id;
                     saveConversations();
                     renderAll();
-                    // Close sidebar on mobile after selection
                     if (window.innerWidth < 768) toggleSidebar(false);
                 }
             });
@@ -425,18 +422,10 @@
             newConversation();
             if (window.innerWidth < 768) toggleSidebar(false);
         });
-        document.getElementById('sidebar-personality')?.addEventListener('change', function(e) {
-            personality = e.target.value;
-        });
+        document.getElementById('sidebar-personality')?.addEventListener('change', function(e) { personality = e.target.value; });
         document.getElementById('sidebar-dark-toggle')?.addEventListener('change', togglePanelDarkMode);
-        document.getElementById('font-minus')?.addEventListener('click', function(e) {
-            e.stopPropagation();
-            setFontSize(-2);
-        });
-        document.getElementById('font-plus')?.addEventListener('click', function(e) {
-            e.stopPropagation();
-            setFontSize(2);
-        });
+        document.getElementById('font-minus')?.addEventListener('click', function(e) { e.stopPropagation(); setFontSize(-2); });
+        document.getElementById('font-plus')?.addEventListener('click', function(e) { e.stopPropagation(); setFontSize(2); });
 
         document.querySelectorAll('.flashcard-ask').forEach(btn => {
             btn.addEventListener('click', function(e) {
@@ -457,25 +446,18 @@
         });
     }
 
-    // ---------- Toggle Sidebar (Mobile) ----------
+    // ---------- Toggle Sidebar ----------
     function toggleSidebar(open) {
         const sidebar = document.getElementById('drkhan-sidebar');
         const overlay = document.getElementById('drkhan-sidebar-overlay');
         if (!sidebar) return;
         const isOpen = open !== undefined ? open : !sidebarOpen;
         sidebarOpen = isOpen;
-        if (isOpen) {
-            sidebar.style.transform = 'translateX(0)';
-            sidebar.style.width = '280px';
-            if (overlay) overlay.style.display = 'block';
-        } else {
-            sidebar.style.transform = 'translateX(-100%)';
-            sidebar.style.width = '280px';
-            if (overlay) overlay.style.display = 'none';
-        }
+        sidebar.style.transform = isOpen ? 'translateX(0)' : 'translateX(-100%)';
+        if (overlay) overlay.style.display = isOpen ? 'block' : 'none';
     }
 
-    // ---------- Render functions ----------
+    // ---------- Render Functions ----------
     function renderAll() {
         renderSidebar();
         renderMessages();
@@ -489,7 +471,6 @@
         if (versionToggle) versionToggle.checked = (hskVersion === 3);
         applyThemeToPanel(hskLevel);
         updateLevelBadge(hskLevel);
-        // Show version tooltip if first time
         if (!localStorage.getItem('drkhan_version_tooltip_shown')) {
             setTimeout(() => showVersionTooltip(), 1500);
         }
@@ -512,43 +493,34 @@
             const isLong = fullContent.length > 400;
             const contentHtml = isLong ? truncateText(fullContent, 400) : formatText(fullContent);
             const pinned = isPinned(originalIdx);
-            html += '<div class="message ' + msg.role + '" data-idx="' + originalIdx + '">';
-            html += '<div class="avatar">' + avatar + '</div>';
-            html += '<div class="bubble-wrapper">';
-            html += '<div class="message-bubble" style="font-size:' + fontSize + 'px">';
-            html += '<div class="message-content ' + (isLong ? 'truncated' : '') + '" id="msg-content-' + originalIdx + '">' + contentHtml + '</div>';
-            if (isLong) html += '<button class="read-more" data-idx="' + originalIdx + '">Read more</button>';
-            html += '</div>';
-            html += '<div class="message-actions">';
-            if (!isUser) {
-                html += '<button class="icon-btn pin-btn" data-idx="' + originalIdx + '" title="' + (pinned ? 'Unpin' : 'Pin') + '">' + (pinned ? '📌' : '📍') + '</button>';
-                html += '<button class="icon-btn flashcard-add-btn" data-msgidx="' + originalIdx + '" title="Add to word cards">📇</button>';
-            }
-            html += '<button class="icon-btn copy-btn" data-idx="' + originalIdx + '" title="Copy">📋</button>';
-            if (isUser) html += '<button class="icon-btn edit-btn" data-idx="' + originalIdx + '" title="Edit">✏️</button>';
-            else html += '<button class="icon-btn quote-btn" data-idx="' + originalIdx + '" title="Quote reply">💬</button>';
-            html += '<button class="icon-btn delete-btn" data-idx="' + originalIdx + '" title="Delete">🗑️</button>';
-            html += '</div>';
-            html += '<div class="timestamp">' + time + '</div>';
-            html += '</div></div>';
+            html += `<div class="message ${msg.role}" data-idx="${originalIdx}">
+                <div class="avatar">${avatar}</div>
+                <div class="bubble-wrapper">
+                    <div class="message-bubble" style="font-size:${fontSize}px">
+                        <div class="message-content ${isLong ? 'truncated' : ''}" id="msg-content-${originalIdx}">${contentHtml}</div>
+                        ${isLong ? `<button class="read-more" data-idx="${originalIdx}">Read more</button>` : ''}
+                    </div>
+                    <div class="message-actions">
+                        ${!isUser ? `<button class="icon-btn pin-btn" data-idx="${originalIdx}" title="${pinned ? 'Unpin' : 'Pin'}">${pinned ? '📌' : '📍'}</button>` : ''}
+                        ${!isUser ? `<button class="icon-btn flashcard-add-btn" data-msgidx="${originalIdx}" title="Add to word cards">📇</button>` : ''}
+                        <button class="icon-btn copy-btn" data-idx="${originalIdx}" title="Copy">📋</button>
+                        ${isUser ? `<button class="icon-btn edit-btn" data-idx="${originalIdx}" title="Edit">✏️</button>` : `<button class="icon-btn quote-btn" data-idx="${originalIdx}" title="Quote reply">💬</button>`}
+                        <button class="icon-btn delete-btn" data-idx="${originalIdx}" title="Delete">🗑️</button>
+                    </div>
+                    <div class="timestamp">${time}</div>
+                </div>
+            </div>`;
         });
         if (isWaiting) {
-            html += '<div class="message assistant typing"><div class="avatar">📘</div><div class="bubble-wrapper"><div class="message-bubble typing-indicator"><span>.</span><span>.</span><span>.</span></div></div></div>';
+            html += `<div class="message assistant typing"><div class="avatar">📘</div><div class="bubble-wrapper"><div class="message-bubble typing-indicator"><span>.</span><span>.</span><span>.</span></div></div></div>`;
         }
         msgsDiv.innerHTML = html;
 
         msgsDiv.querySelectorAll('.read-more').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const idx = parseInt(this.dataset.idx);
-                window.toggleReadMore(idx);
-            });
+            btn.addEventListener('click', function(e) { e.stopPropagation(); const idx = parseInt(this.dataset.idx); window.toggleReadMore(idx); });
         });
         msgsDiv.querySelectorAll('.pin-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                window.togglePinMessage(parseInt(this.dataset.idx));
-            });
+            btn.addEventListener('click', function(e) { e.stopPropagation(); window.togglePinMessage(parseInt(this.dataset.idx)); });
         });
         msgsDiv.querySelectorAll('.flashcard-add-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
@@ -558,32 +530,18 @@
                 if (!conv || !conv.messages[idx]) return;
                 const msg = conv.messages[idx].content;
                 const words = msg.match(/[\u4e00-\u9fa5]{2,}/g);
-                if (words && words.length > 0) {
-                    const word = prompt('Add word to cards (select or type):', words[0]);
-                    if (word && word.trim()) addFlashcard(word.trim());
-                } else {
-                    const word = prompt('Enter the word to add:');
-                    if (word && word.trim()) addFlashcard(word.trim());
-                }
+                const word = words && words.length > 0 ? prompt('Add word to cards (select or type):', words[0]) : prompt('Enter the word to add:');
+                if (word && word.trim()) addFlashcard(word.trim());
             });
         });
         msgsDiv.querySelectorAll('.copy-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                window.copyMessageContent(parseInt(this.dataset.idx));
-            });
+            btn.addEventListener('click', function(e) { e.stopPropagation(); window.copyMessageContent(parseInt(this.dataset.idx)); });
         });
         msgsDiv.querySelectorAll('.quote-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                window.quoteMessage(parseInt(this.dataset.idx));
-            });
+            btn.addEventListener('click', function(e) { e.stopPropagation(); window.quoteMessage(parseInt(this.dataset.idx)); });
         });
         msgsDiv.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                window.deleteMessage(parseInt(this.dataset.idx));
-            });
+            btn.addEventListener('click', function(e) { e.stopPropagation(); window.deleteMessage(parseInt(this.dataset.idx)); });
         });
         msgsDiv.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
@@ -592,9 +550,7 @@
                 const conv = getCurrentConv();
                 if (!conv || !conv.messages[idx]) return;
                 const newContent = prompt('Edit your message:', conv.messages[idx].content);
-                if (newContent && newContent.trim()) {
-                    window.editUserMessage(idx, newContent.trim());
-                }
+                if (newContent && newContent.trim()) window.editUserMessage(idx, newContent.trim());
             });
         });
 
@@ -627,7 +583,7 @@
     function updateContextSuggestions() {
         const container = document.getElementById('suggestions');
         if (!container) return;
-        const levelSpecificSuggestions = [
+        const suggestions = [
             'How to use "把" (bǎ) structure?',
             'Difference between "漂亮" and "美丽"',
             'Correct this: "我昨天去图书馆了。"',
@@ -635,9 +591,9 @@
             'Usage of "虽然...但是..."',
             'Give me an HSK4 example sentence',
         ];
-        container.innerHTML = levelSpecificSuggestions.slice(0,5).map(function(s) {
-            return '<div class="suggestion-chip" data-question="' + escapeHtml(s) + '">📖 ' + escapeHtml(s) + '</div>';
-        }).join('');
+        container.innerHTML = suggestions.slice(0,5).map(s =>
+            `<div class="suggestion-chip" data-question="${escapeHtml(s)}">📖 ${escapeHtml(s)}</div>`
+        ).join('');
         document.querySelectorAll('.suggestion-chip').forEach(chip => {
             chip.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -671,7 +627,7 @@
         const chosen = words[idx];
         wordOfDay = chosen.word;
         wordOfDayMeaning = chosen.meaning;
-        wodEl.innerHTML = '📖 Word of the Day: <strong>' + chosen.word + '</strong> (' + chosen.meaning + ') <button class="wod-ask">❓</button>';
+        wodEl.innerHTML = `📖 Word of the Day: <strong>${chosen.word}</strong> (${chosen.meaning}) <button class="wod-ask">❓</button>`;
         wodEl.querySelector('.wod-ask')?.addEventListener('click', function() {
             document.getElementById('drkhan-input').value = 'Explain "' + chosen.word + '" with examples';
             sendMessage();
@@ -693,27 +649,17 @@
             padding: 3px 12px; border-radius: 30px; font-size: 0.6rem;
             font-weight: 600; white-space: nowrap; border: 1px solid #ffd966;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            cursor: pointer;
-            pointer-events: auto;
+            cursor: pointer; pointer-events: auto;
             transition: background 0.2s;
             animation: drkhanPulse 2s infinite ease-in-out;
         `;
-        reminder.addEventListener('mouseenter', function() {
-            this.style.background = 'rgba(10,41,66,1)';
-        });
-        reminder.addEventListener('mouseleave', function() {
-            this.style.background = 'rgba(10,41,66,0.95)';
-        });
+        reminder.addEventListener('mouseenter', function() { this.style.background = 'rgba(10,41,66,1)'; });
+        reminder.addEventListener('mouseleave', function() { this.style.background = 'rgba(10,41,66,0.95)'; });
 
         if (!document.getElementById('drkhan-pulse-style')) {
             const style = document.createElement('style');
             style.id = 'drkhan-pulse-style';
-            style.textContent = `
-                @keyframes drkhanPulse {
-                    0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
-                    50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
-                }
-            `;
+            style.textContent = `@keyframes drkhanPulse { 0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); } 50% { opacity: 1; transform: translateX(-50%) scale(1.05); } }`;
             document.head.appendChild(style);
         }
 
@@ -735,10 +681,7 @@
             if (panel) {
                 panel.style.display = 'flex';
                 const input = document.getElementById('drkhan-input');
-                if (input) {
-                    input.value = tipContent;
-                    setTimeout(() => input.focus(), 200);
-                }
+                if (input) { input.value = tipContent; setTimeout(() => input.focus(), 200); }
             }
         });
 
@@ -751,7 +694,6 @@
         const container = document.querySelector('.version-toggle-container');
         if (!container) return;
         const tooltip = document.createElement('div');
-        tooltip.className = 'drkhan-version-tooltip';
         tooltip.style.cssText = `
             position: absolute; top: -32px; left: 50%; transform: translateX(-50%);
             background: var(--hsk-accent, #e67e22); color: white;
@@ -778,8 +720,7 @@
         toggle.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
         toggle.style.boxShadow = '0 0 30px var(--hsk-glow, rgba(230,126,34,0.6))';
         setTimeout(() => { toggle.style.boxShadow = 'none'; }, 500);
-        const versionText = hskVersion === 3 ? 'HSK 3.0' : 'HSK 2.0';
-        showToast('📚 Switched to ' + versionText);
+        showToast('📚 Switched to ' + (hskVersion === 3 ? 'HSK 3.0' : 'HSK 2.0'));
     }
 
     // ---------- Quick Quiz ----------
@@ -810,10 +751,7 @@
         const msg = conv.messages[idx];
         const quoted = '> ' + msg.content.replace(/\n/g, '\n> ');
         const input = document.getElementById('drkhan-input');
-        if (input) {
-            input.value = input.value ? input.value + '\n' + quoted : quoted;
-            input.focus();
-        }
+        if (input) { input.value = input.value ? input.value + '\n' + quoted : quoted; input.focus(); }
     }
     function copyMessageContent(idx) {
         const conv = getCurrentConv();
@@ -841,32 +779,18 @@
         showToast('🎤 Speak Chinese...');
     }
 
-    // ---------- Model selection ----------
+    // ---------- Model Selection ----------
     async function getBestModel() {
         if (currentModelId) return currentModelId;
         try {
             const models = await puter.ai.listModels();
-            const preferred = [
-                'google/gemini-3.1-flash-lite',
-                'google/gemini-2.5-flash-lite-001',
-                'google/gemini-2.0-flash-lite-001',
-                'gpt-5.4-nano'
-            ];
+            const preferred = ['google/gemini-3.1-flash-lite', 'google/gemini-2.5-flash-lite-001', 'google/gemini-2.0-flash-lite-001', 'gpt-5.4-nano'];
             for (const preferredId of preferred) {
-                if (models.some(m => m.id === preferredId)) {
-                    currentModelId = preferredId;
-                    return currentModelId;
-                }
+                if (models.some(m => m.id === preferredId)) { currentModelId = preferredId; return currentModelId; }
             }
             const geminiModel = models.find(m => m.id.toLowerCase().includes('gemini'));
-            if (geminiModel) {
-                currentModelId = geminiModel.id;
-                return currentModelId;
-            }
-            if (models.length > 0) {
-                currentModelId = models[0].id;
-                return currentModelId;
-            }
+            if (geminiModel) { currentModelId = geminiModel.id; return currentModelId; }
+            if (models.length > 0) { currentModelId = models[0].id; return currentModelId; }
             throw new Error('No chat models available');
         } catch (err) {
             console.warn('Model listing failed, using safe default', err);
@@ -875,11 +799,14 @@
         }
     }
 
-    // ---------- Send message ----------
+    // ---------- Send Message (with Auto‑Level Detection) ----------
     async function sendMessage(initialText, isRegenerate) {
         const input = document.getElementById('drkhan-input');
         const text = initialText || (input ? input.value.trim() : '');
         if (!text || isWaiting) return;
+
+        // ---- AUTO‑LEVEL DETECTION ----
+        detectAndSwitchLevel(text);
 
         let puterReady = false;
         for (let i = 0; i < 5; i++) {
@@ -934,10 +861,7 @@ IMPORTANT:
             history.push({ role: msg.role, content: msg.content });
         }
 
-        const chatMessages = [
-            { role: 'system', content: systemPrompt },
-            ...history
-        ];
+        const chatMessages = [{ role: 'system', content: systemPrompt }, ...history];
 
         try {
             const modelId = await getBestModel();
@@ -951,7 +875,7 @@ IMPORTANT:
         }
     }
 
-    // ---------- Conversation management ----------
+    // ---------- Conversation Management ----------
     function newConversation() {
         const id = Date.now();
         conversations.push({
@@ -1026,13 +950,8 @@ IMPORTANT:
         panelDarkMode = !panelDarkMode;
         const panel = document.querySelector('.drkhan-panel');
         if (panel) {
-            if (panelDarkMode) {
-                panel.classList.add('dark');
-                document.body.classList.add('dark');
-            } else {
-                panel.classList.remove('dark');
-                document.body.classList.remove('dark');
-            }
+            if (panelDarkMode) { panel.classList.add('dark'); document.body.classList.add('dark'); }
+            else { panel.classList.remove('dark'); document.body.classList.remove('dark'); }
         }
         const toggleInput = document.getElementById('sidebar-dark-toggle');
         if (toggleInput) toggleInput.checked = panelDarkMode;
@@ -1045,10 +964,7 @@ IMPORTANT:
         dropdown.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
         dropdown.style.transform = 'scale(1.1)';
         dropdown.style.boxShadow = '0 0 30px var(--hsk-glow, rgba(230,126,34,0.5))';
-        setTimeout(() => {
-            dropdown.style.transform = 'scale(1)';
-            dropdown.style.boxShadow = 'none';
-        }, 400);
+        setTimeout(() => { dropdown.style.transform = 'scale(1)'; dropdown.style.boxShadow = 'none'; }, 400);
         const segments = getLevelSegments(hskLevel, hskVersion);
         showToast('📚 Switched to ' + segments.label + ' – ' + segments.focus);
     }
@@ -1061,31 +977,15 @@ IMPORTANT:
 <style>
     #drkhan-container * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
     :root {
-        --primary: #e67e22;
-        --bg-glass: rgba(255,255,255,0.7);
-        --bg-sidebar: rgba(248,252,255,0.85);
-        --border-light: rgba(0,0,0,0.08);
-        --shadow-lg: 0 25px 60px rgba(0,0,0,0.15);
-        --radius: 20px;
-        --radius-sm: 10px;
-        --text-primary: #1a202c;
-        --text-secondary: #4a5568;
-        --text-muted: #718096;
+        --primary: #e67e22; --bg-glass: rgba(255,255,255,0.7); --bg-sidebar: rgba(248,252,255,0.85);
+        --border-light: rgba(0,0,0,0.08); --shadow-lg: 0 25px 60px rgba(0,0,0,0.15);
+        --text-primary: #1a202c; --text-secondary: #4a5568; --text-muted: #718096;
     }
-    .dark {
-        --bg-glass: rgba(20,20,30,0.9);
-        --bg-sidebar: rgba(15,15,25,0.95);
-        --border-light: rgba(255,255,255,0.08);
-        --text-primary: #e2e8f0;
-        --text-secondary: #a0aec0;
-        --text-muted: #718096;
-    }
-    
-    /* Bubble */
+    .dark { --bg-glass: rgba(20,20,30,0.9); --bg-sidebar: rgba(15,15,25,0.95); --border-light: rgba(255,255,255,0.08);
+        --text-primary: #e2e8f0; --text-secondary: #a0aec0; --text-muted: #718096; }
     .drkhan-bubble {
         position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%;
-        background: #0a2942; color: white;
-        display: flex; align-items: center; justify-content: center; cursor: pointer;
+        background: #0a2942; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer;
         box-shadow: 0 8px 30px rgba(0,0,0,0.3); z-index: 10000;
         transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         border: 2px solid #ffd966; touch-action: manipulation; padding: 0;
@@ -1098,8 +998,6 @@ IMPORTANT:
         transition: opacity 0.3s; pointer-events: none; white-space: nowrap;
     }
     .drkhan-bubble:hover .tooltip { opacity: 1; }
-    
-    /* Panel */
     .drkhan-panel {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background: var(--bg-glass); backdrop-filter: blur(20px);
@@ -1108,18 +1006,10 @@ IMPORTANT:
         transition: background 0.3s;
     }
     .dark .drkhan-panel { background: rgba(15,15,25,0.95); }
-    
-    /* Header */
     .drkhan-panel-header {
-        background: linear-gradient(145deg, #e67e22, #d35400);
-        color: white;
-        padding: 10px 16px;
-        display: flex; align-items: center; justify-content: space-between;
-        flex-shrink: 0;
-        min-height: 56px;
-        transition: background 0.4s;
-        gap: 8px;
-        flex-wrap: wrap;
+        background: linear-gradient(145deg, #e67e22, #d35400); color: white;
+        padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
+        flex-shrink: 0; min-height: 56px; transition: background 0.4s; gap: 8px; flex-wrap: wrap;
     }
     .drkhan-panel-header h3 { margin:0; font-size:1rem; font-weight:700; display:flex; align-items:center; gap:8px; }
     .panel-actions { display: flex; gap: 4px; flex-shrink: 0; }
@@ -1130,11 +1020,7 @@ IMPORTANT:
         transition: all 0.2s; min-width: 44px; min-height: 44px;
     }
     .panel-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); }
-    
-    /* Body */
     .drkhan-body { display: flex; flex: 1; overflow: hidden; position: relative; }
-    
-    /* Sidebar - Drawer style for mobile */
     .drkhan-sidebar {
         position: absolute; top: 0; left: 0; height: 100%;
         width: 280px; background: var(--bg-sidebar); backdrop-filter: blur(12px);
@@ -1146,20 +1032,14 @@ IMPORTANT:
         padding-bottom: 20px;
     }
     .dark .drkhan-sidebar { background: rgba(15,15,25,0.98); }
-    /* Desktop: always visible */
     @media (min-width: 769px) {
-        .drkhan-sidebar {
-            position: relative; transform: translateX(0) !important;
-            width: 240px; flex-shrink: 0;
-        }
+        .drkhan-sidebar { position: relative; transform: translateX(0) !important; width: 240px; flex-shrink: 0; }
         .drkhan-sidebar-overlay { display: none !important; }
     }
-    /* Sidebar overlay */
     .drkhan-sidebar-overlay {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0,0,0,0.3); z-index: 40; display: none;
     }
-    
     .sidebar-section { padding: 14px 12px; border-bottom: 1px solid var(--border-light); }
     .section-title { font-weight: 600; opacity: 0.6; margin-bottom: 10px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); }
     .conv-list { display: flex; flex-direction: column; gap: 3px; }
@@ -1167,8 +1047,7 @@ IMPORTANT:
         display: flex; align-items: center; justify-content: space-between;
         padding: 8px 10px; border-radius: var(--radius-sm); cursor: pointer;
         transition: all 0.15s; font-size: 0.82rem;
-        color: var(--text-primary);
-        min-height: 40px;
+        color: var(--text-primary); min-height: 40px;
     }
     .conv-item:hover { background: rgba(0,0,0,0.04); }
     .dark .conv-item:hover { background: rgba(255,255,255,0.04); }
@@ -1183,16 +1062,13 @@ IMPORTANT:
         font-weight: 600; transition: all 0.2s; font-size: 0.85rem;
     }
     .new-chat-sidebar:hover { background: var(--hsk-accent, #e67e22); color: white; }
-    
     .flashcard-item { display: flex; align-items: center; gap: 4px; padding: 4px 0; font-size: 0.8rem; border-bottom: 1px solid var(--border-light); color: var(--text-primary); }
     .flashcard-item .flashcard-word { flex:1; cursor:pointer; font-weight:500; }
     .flashcard-item .flashcard-word:hover { color: var(--hsk-accent, #e67e22); }
     .flashcard-item button { background: none; border: none; cursor: pointer; font-size: 0.8rem; opacity: 0.5; padding: 4px 6px; }
     .flashcard-item button:hover { opacity: 1; }
-    
     .pinned-note-item { padding: 4px 0; cursor: pointer; font-size: 0.75rem; border-bottom: 1px solid var(--border-light); color: var(--text-primary); }
     .pinned-note-item:hover { color: var(--hsk-accent, #e67e22); }
-    
     .setting-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
     .setting-row label { font-size: 0.8rem; color: var(--text-secondary); }
     .setting-row select { background: var(--bg-glass); border: 1px solid var(--border-light); border-radius: 20px; padding: 4px 10px; font-size: 0.8rem; color: var(--text-primary); }
@@ -1204,22 +1080,16 @@ IMPORTANT:
     input:checked + .slider:before { transform: translateX(16px); }
     .font-controls { display: flex; gap: 4px; }
     .font-controls button { background: var(--hsk-accent, #e67e22); color: white; border: none; border-radius: 20px; padding: 3px 10px; cursor: pointer; font-weight:600; font-size:0.8rem; min-height:32px; }
-    
-    /* Main chat area */
     .drkhan-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
-    
-    /* Chat header - responsive wrap */
     .chat-header {
         padding: 8px 12px; display: flex; align-items: center; gap: 6px;
         border-bottom: 1px solid var(--border-light); flex-shrink: 0; flex-wrap: wrap;
-        background: var(--bg-glass);
-        color: var(--text-primary);
-        min-height: 50px;
+        background: var(--bg-glass); color: var(--text-primary); min-height: 50px;
     }
     .chat-header .wod { font-size: 0.65rem; color: var(--text-secondary); flex-shrink:0; display: none; }
     @media (min-width: 600px) { .chat-header .wod { display: inline; } }
-    .chat-header input { 
-        flex: 1; padding: 6px 12px; border-radius: 30px; border: 1px solid var(--border-light); 
+    .chat-header input {
+        flex: 1; padding: 6px 12px; border-radius: 30px; border: 1px solid var(--border-light);
         background: rgba(255,255,255,0.5); min-width: 60px; font-size:0.8rem; outline:none; color: var(--text-primary);
         min-height: 36px;
     }
@@ -1232,19 +1102,12 @@ IMPORTANT:
         min-height: 36px; min-width: 56px;
     }
     .dark .chat-header select { background: rgba(255,255,255,0.05); color: var(--text-primary); }
-    
-    /* Version toggle - VISIBLE */
     .version-toggle-container {
         display: flex; align-items: center; gap: 4px;
-        flex-shrink: 0;
-        background: var(--bg-glass);
-        border: 1px solid var(--border-light);
-        border-radius: 30px;
-        padding: 2px 8px;
-        font-size: 0.6rem;
-        font-weight: 700;
-        color: var(--text-secondary);
-        min-height: 36px;
+        flex-shrink: 0; background: var(--bg-glass);
+        border: 1px solid var(--border-light); border-radius: 30px;
+        padding: 2px 8px; font-size: 0.6rem; font-weight: 700;
+        color: var(--text-secondary); min-height: 36px;
     }
     .version-toggle-container label { cursor: pointer; display: flex; align-items: center; }
     .version-toggle-switch { position: relative; display: inline-block; width: 30px; height: 16px; flex-shrink: 0; }
@@ -1260,7 +1123,6 @@ IMPORTANT:
     input:checked + .version-slider { background: var(--hsk-accent, #e67e22); }
     input:checked + .version-slider:before { transform: translateX(14px); }
     .version-label { font-size: 0.6rem; font-weight: 700; min-width: 18px; }
-    
     .level-badge {
         font-size: 0.55rem; background: var(--bg-glass); border: 1px solid var(--border-light);
         border-radius: 30px; padding: 1px 8px; color: var(--text-secondary);
@@ -1268,8 +1130,6 @@ IMPORTANT:
         max-width: 120px; flex-shrink: 1; min-height: 24px; display: flex; align-items: center;
     }
     @media (min-width: 600px) { .level-badge { max-width: 200px; font-size: 0.6rem; } }
-    
-    /* Messages */
     .drkhan-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
     .message { display: flex; gap: 10px; align-items: flex-start; }
     .message.user { flex-direction: row-reverse; }
@@ -1300,15 +1160,11 @@ IMPORTANT:
     .dark .typing .message-bubble { background: rgba(50,50,70,0.9); }
     .typing-indicator span { animation: blink 1.4s infinite; font-size: 1rem; }
     @keyframes blink { 0% { opacity:0.2; } 20% { opacity:1; } 100% { opacity:0.2; } }
-    
-    /* Input area */
     .input-area {
         padding: 8px 12px; border-top: 1px solid var(--border-light);
         display: flex; gap: 6px; align-items: flex-end;
-        background: var(--bg-glass);
-        backdrop-filter: blur(4px);
-        flex-shrink: 0;
-        flex-wrap: wrap;
+        background: var(--bg-glass); backdrop-filter: blur(4px);
+        flex-shrink: 0; flex-wrap: wrap;
     }
     .input-area textarea {
         flex: 1; padding: 8px 14px; border-radius: 30px;
@@ -1331,8 +1187,6 @@ IMPORTANT:
     .share-btn { background: #555; color: white; }
     .mic-btn { background: #4a9eff; color: white; }
     .quiz-btn { background: var(--hsk-accent, #8b5cf6); color: white; }
-    
-    /* Suggestions */
     .suggestions {
         display: flex; gap: 6px; padding: 4px 12px; overflow-x: auto;
         white-space: nowrap; flex-wrap: nowrap; border-top: 1px solid var(--border-light);
@@ -1347,7 +1201,6 @@ IMPORTANT:
     }
     .dark .suggestion-chip { background: rgba(255,255,255,0.04); }
     .suggestion-chip:hover { background: var(--hsk-accent, #e67e22); color: white; border-color: var(--hsk-accent, #e67e22); transform: scale(1.02); }
-    
     .drkhan-stats { font-size: 0.55rem; opacity: 0.4; padding: 2px 12px 4px; text-align: right; color: var(--text-muted); flex-shrink: 0; }
     .drkhan-toast {
         position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
@@ -1358,8 +1211,6 @@ IMPORTANT:
     @keyframes fadeInUp { from { opacity:0; transform:translate(-50%,20px); } to { opacity:1; transform:translate(-50%,0); } }
     @keyframes drkhanTooltipPop { 0% { opacity:0; transform:translateX(-50%) scale(0.8); } 100% { opacity:1; transform:translateX(-50%) scale(1); } }
     .muted { opacity: 0.5; font-size: 0.75rem; color: var(--text-muted); }
-    
-    /* Responsive adjustments */
     @media (max-width: 768px) {
         .drkhan-panel { border-radius: 0; }
         .drkhan-panel-header { padding: 8px 12px; }
@@ -1456,7 +1307,6 @@ IMPORTANT:
         const panel = container.querySelector('.drkhan-panel');
         const bubble = container.querySelector('.drkhan-bubble');
 
-        // --- Bubble click: toggle panel ---
         bubble.addEventListener('click', function(e) {
             e.stopPropagation();
             if (panel.style.display === 'flex') {
@@ -1464,12 +1314,10 @@ IMPORTANT:
                 if (window.innerWidth < 768) toggleSidebar(false);
             } else {
                 panel.style.display = 'flex';
-                // On mobile, sidebar starts closed
                 if (window.innerWidth < 768) toggleSidebar(false);
             }
         });
 
-        // --- Click outside to close panel ---
         document.addEventListener('click', function(e) {
             if (panel.style.display === 'flex' &&
                 !panel.contains(e.target) &&
@@ -1480,7 +1328,7 @@ IMPORTANT:
             }
         });
 
-        // --- Sidebar toggle (hamburger) ---
+        // Sidebar toggle
         const sidebarToggleBtn = document.getElementById('sidebar-toggle');
         const sidebarOverlay = document.getElementById('drkhan-sidebar-overlay');
         sidebarToggleBtn.addEventListener('click', function(e) {
@@ -1488,12 +1336,10 @@ IMPORTANT:
             toggleSidebar(!sidebarOpen);
         });
         if (sidebarOverlay) {
-            sidebarOverlay.addEventListener('click', function() {
-                toggleSidebar(false);
-            });
+            sidebarOverlay.addEventListener('click', function() { toggleSidebar(false); });
         }
 
-        // --- HSK dropdown ---
+        // HSK dropdown
         const headerHsk = document.getElementById('header-hsk');
         headerHsk.addEventListener('change', function(e) {
             hskLevel = parseInt(e.target.value);
@@ -1502,22 +1348,22 @@ IMPORTANT:
             animateLevelChange();
         });
 
-        // --- Version toggle ---
+        // Version toggle
         const versionToggle = document.getElementById('version-toggle');
         versionToggle.addEventListener('change', function(e) {
             hskVersion = this.checked ? 3 : 2;
+            wordLevelMap = null; // reset cache
             applyThemeToPanel(hskLevel);
             updateLevelBadge(hskLevel);
             animateVersionToggle();
             renderAll();
         });
 
-        // --- Panel controls ---
-        document.getElementById('minimize-panel').onclick = function() { 
+        document.getElementById('minimize-panel').onclick = function() {
             panel.style.display = 'none';
             if (window.innerWidth < 768) toggleSidebar(false);
         };
-        document.getElementById('close-panel').onclick = function() { 
+        document.getElementById('close-panel').onclick = function() {
             panel.style.display = 'none';
             if (window.innerWidth < 768) toggleSidebar(false);
         };
@@ -1527,7 +1373,6 @@ IMPORTANT:
         document.getElementById('mic-btn').onclick = startPronunciationCheck;
         document.getElementById('quiz-btn').onclick = startQuickQuiz;
 
-        // --- Textarea ---
         const textarea = document.getElementById('drkhan-input');
         textarea.addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -1540,13 +1385,12 @@ IMPORTANT:
             this.style.height = Math.min(100, this.scrollHeight) + 'px';
         });
 
-        // --- Search ---
         document.getElementById('drkhan-search').addEventListener('input', function(e) {
             currentSearch = e.target.value.trim().toLowerCase();
             renderMessages();
         });
 
-        // --- Drag (desktop only) ---
+        // Drag (desktop only)
         let isDragging = false, dragOffsetX, dragOffsetY;
         const header = panel.querySelector('.drkhan-panel-header');
         header.addEventListener('mousedown', function(e) {
@@ -1574,7 +1418,7 @@ IMPORTANT:
             }
         });
 
-        // --- Keyboard shortcuts ---
+        // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.key === 'k') {
                 e.preventDefault();
@@ -1586,7 +1430,7 @@ IMPORTANT:
             }
         });
 
-        // --- Suggestion label (floating) ---
+        // Floating suggestion label
         const suggestionLabel = document.createElement('div');
         suggestionLabel.className = 'drkhan-suggestion';
         suggestionLabel.textContent = '💬 Ask Dr. Khan';
@@ -1616,28 +1460,21 @@ IMPORTANT:
         document.getElementById('drkhan-input').addEventListener('focus', hideSuggestion);
         document.getElementById('drkhan-send').addEventListener('click', hideSuggestion);
 
-        // --- Reminders refresh ---
         setInterval(() => updateBubbleReminders(), 30000);
 
-        // --- Apply initial theme ---
         applyThemeToPanel(hskLevel);
         updateLevelBadge(hskLevel);
 
-        // --- Handle resize for sidebar ---
         window.addEventListener('resize', function() {
-            isMobile = window.innerWidth < 768;
+            const isMobile = window.innerWidth < 768;
             if (!isMobile) {
-                // On desktop, always show sidebar
                 const sidebar = document.getElementById('drkhan-sidebar');
                 if (sidebar) sidebar.style.transform = 'translateX(0)';
                 if (sidebarOverlay) sidebarOverlay.style.display = 'none';
                 sidebarOpen = true;
             } else {
-                // On mobile, hide sidebar
                 const sidebar = document.getElementById('drkhan-sidebar');
-                if (sidebar && !sidebarOpen) {
-                    sidebar.style.transform = 'translateX(-100%)';
-                }
+                if (sidebar && !sidebarOpen) sidebar.style.transform = 'translateX(-100%)';
             }
         });
     }
