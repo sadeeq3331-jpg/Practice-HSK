@@ -1,4 +1,4 @@
-// drkhan.js – Chinese Learning Assistant v3.7 (HSK 2.0 / 3.0 Toggle + Animations)
+// drkhan.js – Chinese Learning Assistant v3.8 (Fully Responsive + Visible 2.0/3.0 Toggle)
 (function() {
     const STORAGE_KEY = 'drkhan_conversations';
     const FLASHCARD_KEY = 'drkhan_flashcards';
@@ -16,30 +16,31 @@
     let panelDarkMode = false;
     let personality = 'tutor';
     let hskLevel = 3;
-    let hskVersion = 2; // 2 or 3
-    let sidebarOpen = true;
+    let hskVersion = 2;
+    let sidebarOpen = false; // Start closed on mobile
     let currentModelId = null;
     let flashcards = [];
     let streak = 0;
     let lastActiveDate = '';
     let lastFlashcardAdd = '';
+    let isMobile = window.innerWidth < 768;
 
-    // ---------- HSK Level Segments (2.0 vs 3.0) ----------
+    // ---------- HSK Level Segments ----------
     const HSK_SEGMENTS = {
         2: {
-            1: { label: 'HSK 1', focus: 'Basic Vocabulary & Listening', segments: ['🎧 Picture Matching', '📖 Word Recognition'], writing: false },
+            1: { label: 'HSK 1', focus: 'Basic Vocabulary', segments: ['🎧 Picture Matching', '📖 Word Recognition'], writing: false },
             2: { label: 'HSK 2', focus: 'Everyday Topics', segments: ['🎧 Short Dialogues', '📖 Sentence Matching', '✍️ Basic Sentences'], writing: true },
-            3: { label: 'HSK 3', focus: 'Intermediate Grammar', segments: ['🎧 Dialogues & Passages', '📖 Cloze & Arrangement', '✍️ Word Order'], writing: true },
-            4: { label: 'HSK 4', focus: 'Complex Topics', segments: ['🎧 Longer Passages', '📖 Reading Comprehension', '✍️ Short Essays'], writing: true },
-            5: { label: 'HSK 5', focus: 'Academic & Abstract', segments: ['🎧 Complex Dialogues', '📖 Advanced Cloze', '✍️ Essays (150c)'], writing: true },
+            3: { label: 'HSK 3', focus: 'Intermediate Grammar', segments: ['🎧 Dialogues', '📖 Cloze', '✍️ Word Order'], writing: true },
+            4: { label: 'HSK 4', focus: 'Complex Topics', segments: ['🎧 Longer Passages', '📖 Comprehension', '✍️ Short Essays'], writing: true },
+            5: { label: 'HSK 5', focus: 'Academic', segments: ['🎧 Complex Dialogues', '📖 Advanced Cloze', '✍️ Essays (150c)'], writing: true },
             6: { label: 'HSK 6', focus: 'Native Level', segments: ['🎧 Long Passages', '📖 Advanced Comprehension', '✍️ Essays (300c)'], writing: true }
         },
         3: {
             1: { label: 'HSK 3.0 L1', focus: 'Basic Communication', segments: ['🎧 Simple Dialogues', '📖 Basic Characters'], writing: false },
             2: { label: 'HSK 3.0 L2', focus: 'Daily Life', segments: ['🎧 Short Conversations', '📖 Short Passages', '✍️ Simple Sentences'], writing: true },
-            3: { label: 'HSK 3.0 L3', focus: 'Intermediate Topics', segments: ['🎧 Longer Conversations', '📖 Medium Passages', '✍️ Paragraphs'], writing: true },
+            3: { label: 'HSK 3.0 L3', focus: 'Intermediate', segments: ['🎧 Longer Conversations', '📖 Medium Passages', '✍️ Paragraphs'], writing: true },
             4: { label: 'HSK 3.0 L4', focus: 'Complex Ideas', segments: ['🎧 News & Interviews', '📖 Advanced Texts', '✍️ Short Essays'], writing: true },
-            5: { label: 'HSK 3.0 L5', focus: 'Academic & Professional', segments: ['🎧 Discussions', '📖 Research Articles', '✍️ Essays (200c)'], writing: true },
+            5: { label: 'HSK 3.0 L5', focus: 'Academic', segments: ['🎧 Discussions', '📖 Research Articles', '✍️ Essays (200c)'], writing: true },
             6: { label: 'HSK 3.0 L6', focus: 'Native Proficiency', segments: ['🎧 Debates', '📖 Complex Texts', '✍️ Essays (300c)'], writing: true }
         }
     };
@@ -47,30 +48,6 @@
     function getLevelSegments(level, version) {
         const seg = HSK_SEGMENTS[version] || HSK_SEGMENTS[2];
         return seg[level] || seg[3];
-    }
-
-    // ---------- Exercise prompts per version/level ----------
-    function getLevelExercisePrompt(level, version) {
-        const prompts = {
-            2: {
-                1: 'Give me a simple vocabulary exercise for HSK 1. Include 5 words with pinyin and meanings.',
-                2: 'Give me a short dialogue exercise for HSK 2. Write a 3-line dialogue and ask to fill in a missing word.',
-                3: 'Give me a sentence arrangement exercise for HSK 3. Provide 5 scrambled Chinese words to arrange into a sentence.',
-                4: 'Give me a cloze test for HSK 4. Write a short passage (40-50 chars) with 3 blanks and 4 options each.',
-                5: 'Give me an essay topic for HSK 5. Provide a topic requiring about 150 characters with a brief outline.',
-                6: 'Give me a summary exercise for HSK 6. Provide a passage (100-120 chars) and ask for a 50-60 char summary.'
-            },
-            3: {
-                1: 'Give me a simple vocabulary exercise for HSK 3.0 L1. Include 5 words with pinyin and meanings.',
-                2: 'Give me a short dialogue exercise for HSK 3.0 L2. Write a 4-line dialogue on a daily topic.',
-                3: 'Give me a paragraph reconstruction exercise for HSK 3.0 L3. Provide jumbled sentences to form a logical paragraph.',
-                4: 'Give me a comprehension exercise for HSK 3.0 L4. Provide a short passage and 3 comprehension questions.',
-                5: 'Give me an essay topic for HSK 3.0 L5. Provide a topic requiring about 200 characters with structure suggestions.',
-                6: 'Give me a summary exercise for HSK 3.0 L6. Provide a longer passage (150 chars) and ask for a 80-100 char summary.'
-            }
-        };
-        const v = prompts[version] || prompts[2];
-        return v[level] || v[3];
     }
 
     // ---------- HSK Theme Colors ----------
@@ -110,7 +87,6 @@
         updateLevelBadge(level);
     }
 
-    // ---------- Level Badge ----------
     function updateLevelBadge(level) {
         const badge = document.getElementById('level-badge');
         if (!badge) return;
@@ -119,14 +95,12 @@
         badge.style.color = getTheme(level).accent;
     }
 
-    // ---------- Word List Loading (2.0 vs 3.0) ----------
+    // ---------- Word List Loading ----------
     function getWordList(level, version) {
         if (version === 3) {
-            // HSK 3.0 – expects window.HSK3_0_WORDS (array with level property)
             const allWords = window.HSK3_0_WORDS || [];
             return allWords.filter(w => w.level === level);
         } else {
-            // HSK 2.0 – uses separate arrays per level
             const map = {
                 1: window.HSK1_WORDS,
                 2: window.HSK2_WORDS,
@@ -141,37 +115,37 @@
 
     // ---------- TIPS ----------
     const TIPS = [
-        "Tip: 的 (de) is for possession (my book = 我的书). 地 (de) turns adjectives into adverbs (quickly = 快地). 得 (de) shows degree (well done = 做得好).",
+        "Tip: 的 (de) is for possession (my book = 我的书). 地 (de) turns adjectives into adverbs. 得 (de) shows degree.",
         "Tip: Measure words are essential! Use 个 (gè) for general objects, 本 (běn) for books, 只 (zhī) for animals.",
         "Tip: 不 (bù) is for present/future negation. 没 (méi) is for past negation or 'have not'.",
         "Tip: 了 (le) shows completed action OR a change of state. Context is key!",
-        "Tip: 把 (bǎ) structure is used to emphasize the object: 我把书放在桌子上 (wǒ bǎ shū fàng zài zhuōzi shàng) – I put the book on the table.",
+        "Tip: 把 (bǎ) structure emphasizes the object: 我把书放在桌子上 (wǒ bǎ shū fàng zài zhuōzi shàng) – I put the book on the table.",
         "Tip: Learn radicals! 氵 (water) appears in 河, 海, 洗. 木 (wood) appears in 树, 林, 材.",
         "Tip: 的 (de) can also form adjectives: 漂亮的 (piàoliang de) – beautiful, or 红色的 (hóngsè de) – red.",
         "Tip: 是 (shì) is NOT used with adjectives. Say 我很高兴 (wǒ hěn gāoxìng) – I am happy, NOT 我是高兴.",
-        "Tip: 有 (yǒu) means 'have' or 'there is'. 有没有 (yǒu méi yǒu) means 'is there?' or 'do you have?'.",
+        "Tip: 有 (yǒu) means 'have' or 'there is'. 有没有 (yǒu méi yǒu) means 'is there?'.",
         "Tip: Verb doubling (看看 kànkan, 听听 tīngting) softens the tone: 你看看 (nǐ kànkan) – take a look.",
-        "Tip: 一边…一边… (yībiān…yībiān…) means 'doing two things at once': 一边听音乐一边学习 (yībiān tīng yīnyuè yībiān xuéxí) – study while listening to music.",
+        "Tip: 一边…一边… (yībiān…yībiān…) means 'doing two things at once': 一边听音乐一边学习 – study while listening to music.",
         "Tip: 除了…以外 (chúle…yǐwài) means 'except for' or 'in addition to'.",
         "Tip: 越来越 (yuèláiyuè) means 'more and more': 越来越热 (yuèláiyuè rè) – getting hotter.",
-        "Tip: 一…就… (yī…jiù…) means 'as soon as': 一到家就睡觉 (yī dào jiā jiù shuìjiào) – sleep as soon as I get home.",
+        "Tip: 一…就… (yī…jiù…) means 'as soon as': 一到家就睡觉 – sleep as soon as I get home.",
         "Tip: 都 (dōu) means 'all'. 也 (yě) means 'also'. 还 (hái) means 'still' or 'also'.",
         "Tip: 能 (néng) = physical ability. 可以 (kěyǐ) = permission. 会 (huì) = learned skill or future will.",
         "Tip: 想 (xiǎng) = want or miss. 要 (yào) = want/need or future 'will'.",
         "Tip: 从 (cóng) = from. 离 (lí) = away from. 到 (dào) = to. Use these for directions.",
         "Tip: 为了 (wèile) = for the purpose of. 因为 (yīnwèi) = because. 所以 (suǒyǐ) = therefore.",
         "Tip: 虽然 (suīrán) = although. 但是 (dànshì) = but. They often go together.",
-        "Tip: 如果 (rúguǒ) = if. 就 (jiù) = then. 如果明天不下雨，我们就去公园 (rúguǒ míngtiān bù xià yǔ, wǒmen jiù qù gōngyuán) – If it doesn't rain tomorrow, we'll go to the park.",
+        "Tip: 如果 (rúguǒ) = if. 就 (jiù) = then. 如果明天不下雨，我们就去公园 – If it doesn't rain tomorrow, we'll go to the park.",
         "Tip: 被 (bèi) is for passive voice: 书被拿走了 (shū bèi ná zǒu le) – The book was taken away.",
-        "Tip: 给 (gěi) means 'give' or acts as a preposition: 我给你打电话 (wǒ gěi nǐ dǎ diànhuà) – I will call you.",
+        "Tip: 给 (gěi) means 'give' or acts as a preposition: 我给你打电话 – I will call you.",
         "Tip: 让 (ràng) = let / make someone do something: 让我看看 (ràng wǒ kànkan) – Let me see.",
-        "Tip: 对 (duì) = to/towards, or correct. 我对汉语感兴趣 (wǒ duì hànyǔ gǎn xìngqù) – I am interested in Chinese.",
-        "Tip: 跟 (gēn) = with / follow. 我跟朋友一起去 (wǒ gēn péngyou yīqǐ qù) – I go with friends.",
+        "Tip: 对 (duì) = to/towards, or correct. 我对汉语感兴趣 – I am interested in Chinese.",
+        "Tip: 跟 (gēn) = with / follow. 我跟朋友一起去 – I go with friends.",
         "Tip: 在 (zài) can be 'at/in/on' (location) or an action in progress (正在 zhèngzài).",
         "Tip: 着 (zhe) shows a continuous state: 站着 (zhànzhe) – standing, 笑着 (xiàozhe) – laughing.",
-        "Tip: 过 (guò) shows experience in the past: 我去过北京 (wǒ qù guò běijīng) – I have been to Beijing.",
-        "Tip: 吧 (ba) softens a suggestion: 我们去吃饭吧 (wǒmen qù chīfàn ba) – Let's go eat. 吗 (ma) is for yes/no questions.",
-        "Tip: 口 (kǒu) is the measure word for family members: 三口人 (sān kǒu rén) – 3 people in a family."
+        "Tip: 过 (guò) shows experience in the past: 我去过北京 – I have been to Beijing.",
+        "Tip: 吧 (ba) softens a suggestion: 我们去吃饭吧 – Let's go eat. 吗 (ma) is for yes/no questions.",
+        "Tip: 口 (kǒu) is the measure word for family members: 三口人 – 3 people in a family."
     ];
 
     function getDailyTip() {
@@ -180,7 +154,7 @@
         return TIPS[dayOfYear % TIPS.length];
     }
 
-    // ---------- Streak & Flashcard tracking ----------
+    // ---------- Streak & Flashcard ----------
     function updateStreak() {
         const today = new Date().toDateString();
         if (lastActiveDate !== today) {
@@ -242,7 +216,7 @@
         localStorage.setItem(FLASHCARD_KEY, JSON.stringify(flashcards)); 
         renderSidebar(); 
     }
-    function addFlashcard(word, context) {
+    function addFlashcard(word) {
         if (!word || word.trim().length === 0) return;
         const trimmed = word.trim();
         if (!flashcards.includes(trimmed)) {
@@ -265,8 +239,7 @@
         if (!lastFlashcardAdd) return Infinity;
         const last = new Date(lastFlashcardAdd);
         const now = new Date();
-        const diff = (now - last) / (1000 * 60 * 60 * 24);
-        return diff;
+        return (now - last) / (1000 * 60 * 60 * 24);
     }
 
     // ---------- Core helpers ----------
@@ -375,7 +348,7 @@
     function savePinned() { localStorage.setItem('drkhan_pinned', JSON.stringify(pinnedMessages)); }
     function isPinned(idx) { return pinnedMessages.some(p => p.convId === currentConvId && p.idx === idx); }
 
-    // ---------- Sidebar ----------
+    // ---------- Render Sidebar (Responsive) ----------
     function renderSidebar() {
         const sidebar = document.getElementById('drkhan-sidebar');
         if (!sidebar) return;
@@ -435,6 +408,8 @@
                     currentConvId = id;
                     saveConversations();
                     renderAll();
+                    // Close sidebar on mobile after selection
+                    if (window.innerWidth < 768) toggleSidebar(false);
                 }
             });
         });
@@ -448,6 +423,7 @@
         document.getElementById('new-chat-sidebar')?.addEventListener('click', function(e) {
             e.stopPropagation();
             newConversation();
+            if (window.innerWidth < 768) toggleSidebar(false);
         });
         document.getElementById('sidebar-personality')?.addEventListener('change', function(e) {
             personality = e.target.value;
@@ -481,6 +457,24 @@
         });
     }
 
+    // ---------- Toggle Sidebar (Mobile) ----------
+    function toggleSidebar(open) {
+        const sidebar = document.getElementById('drkhan-sidebar');
+        const overlay = document.getElementById('drkhan-sidebar-overlay');
+        if (!sidebar) return;
+        const isOpen = open !== undefined ? open : !sidebarOpen;
+        sidebarOpen = isOpen;
+        if (isOpen) {
+            sidebar.style.transform = 'translateX(0)';
+            sidebar.style.width = '280px';
+            if (overlay) overlay.style.display = 'block';
+        } else {
+            sidebar.style.transform = 'translateX(-100%)';
+            sidebar.style.width = '280px';
+            if (overlay) overlay.style.display = 'none';
+        }
+    }
+
     // ---------- Render functions ----------
     function renderAll() {
         renderSidebar();
@@ -491,13 +485,14 @@
         updateBubbleReminders();
         const headerHsk = document.getElementById('header-hsk');
         if (headerHsk) headerHsk.value = hskLevel;
-        // Update version toggle UI
         const versionToggle = document.getElementById('version-toggle');
         if (versionToggle) versionToggle.checked = (hskVersion === 3);
         applyThemeToPanel(hskLevel);
         updateLevelBadge(hskLevel);
-        // Show suggestion tooltip for version toggle if first time
-        showVersionTooltip();
+        // Show version tooltip if first time
+        if (!localStorage.getItem('drkhan_version_tooltip_shown')) {
+            setTimeout(() => showVersionTooltip(), 1500);
+        }
     }
 
     function renderMessages() {
@@ -565,10 +560,10 @@
                 const words = msg.match(/[\u4e00-\u9fa5]{2,}/g);
                 if (words && words.length > 0) {
                     const word = prompt('Add word to cards (select or type):', words[0]);
-                    if (word && word.trim()) addFlashcard(word.trim(), msg);
+                    if (word && word.trim()) addFlashcard(word.trim());
                 } else {
                     const word = prompt('Enter the word to add:');
-                    if (word && word.trim()) addFlashcard(word.trim(), msg);
+                    if (word && word.trim()) addFlashcard(word.trim());
                 }
             });
         });
@@ -632,75 +627,7 @@
     function updateContextSuggestions() {
         const container = document.getElementById('suggestions');
         if (!container) return;
-        const segments = getLevelSegments(hskLevel, hskVersion);
-        let levelSpecificSuggestions = [];
-        if (hskVersion === 2) {
-            if (hskLevel <= 2) {
-                levelSpecificSuggestions = [
-                    'What does "你好" mean?',
-                    'Give me a simple sentence with "我"',
-                    'How to say "thank you" in Chinese?'
-                ];
-            } else if (hskLevel === 3) {
-                levelSpecificSuggestions = [
-                    'Give me a sentence arrangement exercise',
-                    'How to use "把" (bǎ) structure?',
-                    'Correct this: "我昨天去图书馆了。"'
-                ];
-            } else if (hskLevel === 4) {
-                levelSpecificSuggestions = [
-                    'Give me a cloze test (fill in the blanks)',
-                    'Explain "虽然...但是..." with examples',
-                    'Give me an HSK4 example sentence'
-                ];
-            } else if (hskLevel === 5) {
-                levelSpecificSuggestions = [
-                    'Give me an essay topic (150 characters)',
-                    'Summarize this passage for me',
-                    'Advanced vocabulary for HSK 5'
-                ];
-            } else {
-                levelSpecificSuggestions = [
-                    'Give me a summary exercise',
-                    'Give me an essay topic (300 characters)',
-                    'Advanced grammar for HSK 6'
-                ];
-            }
-        } else {
-            // HSK 3.0 specific suggestions
-            if (hskLevel <= 2) {
-                levelSpecificSuggestions = [
-                    'Practice basic greetings for HSK 3.0 L1',
-                    'Simple sentences with "是" and "有"',
-                    'How to introduce yourself in Chinese'
-                ];
-            } else if (hskLevel === 3) {
-                levelSpecificSuggestions = [
-                    'Paragraph reconstruction exercise for HSK 3.0 L3',
-                    'Use of "把" in HSK 3.0',
-                    'Compare HSK 2.0 vs 3.0 vocabulary'
-                ];
-            } else if (hskLevel === 4) {
-                levelSpecificSuggestions = [
-                    'Comprehension exercise for HSK 3.0 L4',
-                    'Discuss a news article in Chinese',
-                    'Advanced grammar for HSK 3.0 L4'
-                ];
-            } else if (hskLevel === 5) {
-                levelSpecificSuggestions = [
-                    'Essay topic for HSK 3.0 L5 (200 characters)',
-                    'Summarize an academic text',
-                    'Debate vocabulary for HSK 3.0 L5'
-                ];
-            } else {
-                levelSpecificSuggestions = [
-                    'Summary exercise for HSK 3.0 L6',
-                    'Essay topic (300 characters)',
-                    'Complex text analysis for HSK 3.0 L6'
-                ];
-            }
-        }
-        const allSuggestions = [
+        const levelSpecificSuggestions = [
             'How to use "把" (bǎ) structure?',
             'Difference between "漂亮" and "美丽"',
             'Correct this: "我昨天去图书馆了。"',
@@ -708,8 +635,7 @@
             'Usage of "虽然...但是..."',
             'Give me an HSK4 example sentence',
         ];
-        const finalSuggestions = levelSpecificSuggestions.length > 0 ? levelSpecificSuggestions : allSuggestions;
-        container.innerHTML = finalSuggestions.slice(0,5).map(function(s) {
+        container.innerHTML = levelSpecificSuggestions.slice(0,5).map(function(s) {
             return '<div class="suggestion-chip" data-question="' + escapeHtml(s) + '">📖 ' + escapeHtml(s) + '</div>';
         }).join('');
         document.querySelectorAll('.suggestion-chip').forEach(chip => {
@@ -813,39 +739,31 @@
                     input.value = tipContent;
                     setTimeout(() => input.focus(), 200);
                 }
-                const suggestionLabel = document.querySelector('.drkhan-suggestion');
-                if (suggestionLabel) {
-                    suggestionLabel.style.opacity = '0';
-                    suggestionLabel.style.transform = 'translateY(10px)';
-                }
             }
         });
 
         bubble.appendChild(reminder);
     }
 
-    // ---------- Version Toggle Animation & Tooltip ----------
+    // ---------- Version Toggle ----------
     function showVersionTooltip() {
-        // Check if tooltip was already shown
         if (localStorage.getItem('drkhan_version_tooltip_shown')) return;
-        const toggle = document.getElementById('version-toggle');
-        if (!toggle) return;
+        const container = document.querySelector('.version-toggle-container');
+        if (!container) return;
         const tooltip = document.createElement('div');
         tooltip.className = 'drkhan-version-tooltip';
         tooltip.style.cssText = `
-            position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
+            position: absolute; top: -32px; left: 50%; transform: translateX(-50%);
             background: var(--hsk-accent, #e67e22); color: white;
-            padding: 4px 14px; border-radius: 30px; font-size: 0.75rem;
+            padding: 3px 12px; border-radius: 30px; font-size: 0.65rem;
             font-weight: 600; white-space: nowrap;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             animation: drkhanTooltipPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: none; z-index: 100;
         `;
         tooltip.textContent = '✨ Try HSK 3.0!';
-        // Insert tooltip near toggle
-        const parent = toggle.parentElement;
-        parent.style.position = 'relative';
-        parent.appendChild(tooltip);
+        container.style.position = 'relative';
+        container.appendChild(tooltip);
         setTimeout(() => {
             tooltip.style.opacity = '0';
             tooltip.style.transition = 'opacity 0.5s ease';
@@ -857,22 +775,18 @@
     function animateVersionToggle() {
         const toggle = document.getElementById('version-toggle');
         if (!toggle) return;
-        // Pulse glow
         toggle.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
         toggle.style.boxShadow = '0 0 30px var(--hsk-glow, rgba(230,126,34,0.6))';
-        setTimeout(() => {
-            toggle.style.boxShadow = 'none';
-        }, 500);
-        // Show toast
+        setTimeout(() => { toggle.style.boxShadow = 'none'; }, 500);
         const versionText = hskVersion === 3 ? 'HSK 3.0' : 'HSK 2.0';
         showToast('📚 Switched to ' + versionText);
     }
 
-    // ---------- Quick Quiz (version-aware) ----------
+    // ---------- Quick Quiz ----------
     function startQuickQuiz() {
         const wordList = getWordList(hskLevel, hskVersion);
         if (!wordList || wordList.length === 0) {
-            showToast('No word list for HSK ' + hskLevel + ' (version ' + hskVersion + '.0)');
+            showToast('No word list for HSK ' + hskLevel + ' (v' + hskVersion + '.0)');
             return;
         }
         const shuffled = [...wordList].sort(() => Math.random() - 0.5);
@@ -881,43 +795,11 @@
         const segments = getLevelSegments(hskLevel, hskVersion);
         quizText += '📌 *' + segments.focus + '*\n';
         quizText += '🎧 ' + segments.segments.join(' · ') + '\n\n';
-
-        // Use version-specific exercise prompt
-        const prompt = getLevelExercisePrompt(hskLevel, hskVersion);
-        quizText += '**Exercise:** ' + prompt + '\n\n';
-
-        // For simplicity, include a sample exercise based on level
-        if (hskVersion === 2 && hskLevel === 3) {
-            const scrambled = selected.slice(0, 3);
-            scrambled.forEach((w, i) => {
-                const sentence = w.word + ' ' + (w.example || '');
-                const words = sentence.split(/\s+/).sort(() => Math.random() - 0.5);
-                quizText += (i+1) + '. Arrange: **' + words.join(' ') + '**\n';
-                quizText += '   ✅ Hint: ' + w.meaning + '\n';
-            });
-        } else if (hskVersion === 3 && hskLevel === 3) {
-            quizText += '**Paragraph Reconstruction:**\n';
-            const sentences = [
-                '今天天气很好。',
-                '我们决定去公园玩。',
-                '公园里有很多花。',
-                '我们拍了很多照片。'
-            ];
-            const shuffledSentences = sentences.sort(() => Math.random() - 0.5);
-            quizText += 'Arrange these sentences to form a logical paragraph:\n';
-            shuffledSentences.forEach((s, i) => {
-                quizText += '  ' + (i+1) + '. ' + s + '\n';
-            });
-            quizText += '\n✅ Hint: The topic is about going to the park.';
-        } else {
-            // Generic: show words and ask for a sentence
-            selected.forEach((w, i) => {
-                quizText += (i+1) + '. **' + w.word + '** → ' + w.meaning + '\n';
-            });
-            quizText += '\n✍️ Write a sentence using one of these words.';
-        }
-
-        addMessage('user', '🎯 Start Quick Quiz (HSK ' + hskLevel + ' v' + hskVersion + '.0)');
+        selected.forEach((w, i) => {
+            quizText += (i+1) + '. **' + w.word + '** → ' + w.meaning + '\n';
+        });
+        quizText += '\n✍️ Write a sentence using one of these words.';
+        addMessage('user', '🎯 Quick Quiz (HSK ' + hskLevel + ' v' + hskVersion + '.0)');
         addMessage('assistant', quizText);
     }
 
@@ -1016,32 +898,31 @@
         let personalityInstruction = '';
         if (personality === 'grammar') personalityInstruction = 'Focus on grammar analysis. Explain sentence structure, particle usage, and common errors. Provide corrected versions.';
         else if (personality === 'vocab') personalityInstruction = 'Expand vocabulary: give synonyms, antonyms, collocations, radicals, and mnemonic tips. Offer example sentences in different contexts.';
-        else if (personality === 'exam') personalityInstruction = 'Focus on HSK ' + hskLevel + ' (v' + hskVersion + '.0) exam preparation. Give high-frequency vocabulary, test-taking strategies, and practice questions. Tailor all content to HSK ' + hskLevel + ' level.';
+        else if (personality === 'exam') personalityInstruction = 'Focus on HSK ' + hskLevel + ' (v' + hskVersion + '.0) exam preparation. Give high-frequency vocabulary, test-taking strategies, and practice questions.';
         else personalityInstruction = 'Act as a friendly Chinese tutor. Explain vocabulary usage, correct mistakes, provide mnemonics, and give contextual examples. Encourage the student and make learning fun.';
 
         const segments = getLevelSegments(hskLevel, hskVersion);
         const levelContext = 'Student is at HSK ' + hskLevel + ' (version ' + hskVersion + '.0). Focus areas: ' + segments.focus + '. Segments: ' + segments.segments.join(', ') + '.';
 
-        const systemPrompt = `You are a professional Chinese language tutor named Dr. Khan. Your main job is to help students learn Chinese (Mandarin). You only answer questions related to Chinese learning, including vocabulary, grammar, pronunciation, writing, and cultural background.
+        const systemPrompt = `You are a professional Chinese language tutor named Dr. Khan. Your main job is to help students learn Chinese (Mandarin). You only answer questions related to Chinese learning.
 
 Current student: HSK ${hskLevel} (version ${hskVersion}.0).
 ${levelContext}
 
 Guidelines:
-- Provide clear, accurate, and useful answers to every question.
-- When a student asks about a word, give example sentences in multiple contexts and explain common collocations.
+- Provide clear, accurate, and useful answers.
+- When a student asks about a word, give example sentences in multiple contexts.
 - If a student writes a sentence, check grammar and word choice, point out errors, and provide corrections.
-- Provide memory techniques: breaking down characters (radicals), association, synonyms/antonyms.
+- Provide memory techniques: radicals, association, synonyms/antonyms.
 - Adjust the difficulty of your answers according to the student's HSK level.
-- Keep a friendly, encouraging tone and make learning fun.
+- Keep a friendly, encouraging tone.
 
 ${personalityInstruction}
 
-IMPORTANT INSTRUCTION: 
-- Always respond in English for all explanations, grammar points, corrections, and instructions. 
+IMPORTANT: 
+- Always respond in English for explanations, grammar points, corrections, and instructions. 
 - When providing example sentences, write them in Chinese characters, followed by pinyin in parentheses, and then the English translation. For example: "我喜欢学习中文 (wǒ xǐhuān xuéxí zhōngwén) – I like learning Chinese."
-- Do not respond in Chinese for the explanation part; only the example sentences and their pinyin/translations should contain Chinese.
-- This ensures that students understand the lesson clearly while being exposed to the target language in a controlled way.`;
+- Only the example sentences and their pinyin/translations should contain Chinese.`;
 
         const conv = getCurrentConv();
         if (!conv) { isWaiting = false; return; }
@@ -1158,12 +1039,11 @@ IMPORTANT INSTRUCTION:
         applyThemeToPanel(hskLevel);
     }
 
-    // ---------- Animated Level Change ----------
     function animateLevelChange() {
         const dropdown = document.getElementById('header-hsk');
         if (!dropdown) return;
         dropdown.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        dropdown.style.transform = 'scale(1.2)';
+        dropdown.style.transform = 'scale(1.1)';
         dropdown.style.boxShadow = '0 0 30px var(--hsk-glow, rgba(230,126,34,0.5))';
         setTimeout(() => {
             dropdown.style.transform = 'scale(1)';
@@ -1173,7 +1053,7 @@ IMPORTANT INSTRUCTION:
         showToast('📚 Switched to ' + segments.label + ' – ' + segments.focus);
     }
 
-    // ---------- Create Widget ----------
+    // ---------- Create Widget (Fully Responsive) ----------
     function createWidget() {
         const container = document.createElement('div');
         container.id = 'drkhan-container';
@@ -1182,14 +1062,12 @@ IMPORTANT INSTRUCTION:
     #drkhan-container * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
     :root {
         --primary: #e67e22;
-        --primary-dark: #d35400;
         --bg-glass: rgba(255,255,255,0.7);
         --bg-sidebar: rgba(248,252,255,0.85);
         --border-light: rgba(0,0,0,0.08);
-        --shadow-sm: 0 8px 30px rgba(0,0,0,0.06);
         --shadow-lg: 0 25px 60px rgba(0,0,0,0.15);
         --radius: 20px;
-        --radius-sm: 12px;
+        --radius-sm: 10px;
         --text-primary: #1a202c;
         --text-secondary: #4a5568;
         --text-muted: #718096;
@@ -1201,73 +1079,96 @@ IMPORTANT INSTRUCTION:
         --text-primary: #e2e8f0;
         --text-secondary: #a0aec0;
         --text-muted: #718096;
-        background: rgba(0,0,0,0.3);
     }
     
+    /* Bubble */
     .drkhan-bubble {
-        position: fixed; bottom: 25px; right: 25px; width: 68px; height: 68px; border-radius: 50%;
-        background: #0a2942;
-        color: white;
+        position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%;
+        background: #0a2942; color: white;
         display: flex; align-items: center; justify-content: center; cursor: pointer;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.3); z-index: 10000; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.3); z-index: 10000;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         border: 2px solid #ffd966; touch-action: manipulation; padding: 0;
     }
-    .drkhan-bubble svg { width: 44px; height: 44px; display: block; }
-    .drkhan-bubble:hover { transform: scale(1.08) rotate(-5deg); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+    .drkhan-bubble svg { width: 38px; height: 38px; display: block; }
+    .drkhan-bubble:hover { transform: scale(1.08) rotate(-5deg); }
     .drkhan-bubble .tooltip {
         position: absolute; top: -34px; background: rgba(10,41,66,0.95); color: white;
-        padding: 4px 16px; border-radius: 30px; font-size: 0.75rem; opacity: 0;
-        transition: opacity 0.3s; pointer-events: none; white-space: nowrap; backdrop-filter: blur(8px);
+        padding: 4px 14px; border-radius: 30px; font-size: 0.7rem; opacity: 0;
+        transition: opacity 0.3s; pointer-events: none; white-space: nowrap;
     }
     .drkhan-bubble:hover .tooltip { opacity: 1; }
     
+    /* Panel */
     .drkhan-panel {
-        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        width: 880px; max-width: 95vw; height: 88vh; max-height: 820px;
-        background: var(--bg-glass); backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
-        border-radius: 32px; box-shadow: var(--shadow-lg);
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: var(--bg-glass); backdrop-filter: blur(20px);
         display: none; flex-direction: column; z-index: 10001;
-        overflow: hidden; border: 1px solid rgba(255,255,255,0.12);
-        transition: background 0.3s, border-color 0.3s;
+        overflow: hidden; border: none;
+        transition: background 0.3s;
     }
-    .dark .drkhan-panel { border-color: rgba(255,255,255,0.05); }
+    .dark .drkhan-panel { background: rgba(15,15,25,0.95); }
     
+    /* Header */
     .drkhan-panel-header {
         background: linear-gradient(145deg, #e67e22, #d35400);
-        backdrop-filter: blur(12px);
         color: white;
-        padding: 14px 24px;
+        padding: 10px 16px;
         display: flex; align-items: center; justify-content: space-between;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
         flex-shrink: 0;
-        transition: background 0.4s ease;
+        min-height: 56px;
+        transition: background 0.4s;
+        gap: 8px;
+        flex-wrap: wrap;
     }
-    .drkhan-panel-header h3 { margin:0; font-size:1.2rem; font-weight:700; display:flex; align-items:center; gap:10px; letter-spacing:-0.3px; }
-    .panel-actions { display: flex; gap: 6px; }
+    .drkhan-panel-header h3 { margin:0; font-size:1rem; font-weight:700; display:flex; align-items:center; gap:8px; }
+    .panel-actions { display: flex; gap: 4px; flex-shrink: 0; }
     .panel-btn {
         background: rgba(255,255,255,0.12); border: none; color: white;
-        width: 34px; height: 34px; border-radius: 30px; font-size: 0.9rem;
-        cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
-        transition: all 0.2s; backdrop-filter: blur(4px);
+        width: 36px; height: 36px; border-radius: 30px; font-size: 0.85rem;
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: all 0.2s; min-width: 44px; min-height: 44px;
     }
     .panel-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); }
     
-    .drkhan-body { display: flex; flex: 1; overflow: hidden; }
+    /* Body */
+    .drkhan-body { display: flex; flex: 1; overflow: hidden; position: relative; }
+    
+    /* Sidebar - Drawer style for mobile */
     .drkhan-sidebar {
-        width: 250px; background: var(--bg-sidebar); backdrop-filter: blur(12px);
-        border-right: 1px solid var(--border-light); display: flex; flex-direction: column;
-        overflow-y: auto; flex-shrink: 0; transition: width 0.3s, background 0.3s;
-        color: var(--text-primary);
+        position: absolute; top: 0; left: 0; height: 100%;
+        width: 280px; background: var(--bg-sidebar); backdrop-filter: blur(12px);
+        border-right: 1px solid var(--border-light);
+        display: flex; flex-direction: column;
+        overflow-y: auto; z-index: 50;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        padding-bottom: 20px;
     }
-    .sidebar-section { padding: 16px 14px; border-bottom: 1px solid var(--border-light); }
-    .section-title { font-weight: 600; opacity: 0.6; margin-bottom: 12px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); }
-    .conv-list { display: flex; flex-direction: column; gap: 4px; }
+    .dark .drkhan-sidebar { background: rgba(15,15,25,0.98); }
+    /* Desktop: always visible */
+    @media (min-width: 769px) {
+        .drkhan-sidebar {
+            position: relative; transform: translateX(0) !important;
+            width: 240px; flex-shrink: 0;
+        }
+        .drkhan-sidebar-overlay { display: none !important; }
+    }
+    /* Sidebar overlay */
+    .drkhan-sidebar-overlay {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.3); z-index: 40; display: none;
+    }
+    
+    .sidebar-section { padding: 14px 12px; border-bottom: 1px solid var(--border-light); }
+    .section-title { font-weight: 600; opacity: 0.6; margin-bottom: 10px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); }
+    .conv-list { display: flex; flex-direction: column; gap: 3px; }
     .conv-item {
         display: flex; align-items: center; justify-content: space-between;
-        padding: 10px 12px; border-radius: var(--radius-sm); cursor: pointer;
-        transition: all 0.15s; font-size: 0.85rem;
+        padding: 8px 10px; border-radius: var(--radius-sm); cursor: pointer;
+        transition: all 0.15s; font-size: 0.82rem;
         color: var(--text-primary);
+        min-height: 40px;
     }
     .conv-item:hover { background: rgba(0,0,0,0.04); }
     .dark .conv-item:hover { background: rgba(255,255,255,0.04); }
@@ -1279,203 +1180,218 @@ IMPORTANT INSTRUCTION:
         background: transparent; border: 1.5px dashed var(--hsk-accent, #e67e22);
         border-radius: 30px; color: var(--hsk-accent, #e67e22);
         padding: 8px 12px; margin-top: 8px; width: 100%; cursor: pointer;
-        font-weight: 600; transition: all 0.2s;
+        font-weight: 600; transition: all 0.2s; font-size: 0.85rem;
     }
     .new-chat-sidebar:hover { background: var(--hsk-accent, #e67e22); color: white; }
     
-    .flashcard-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; font-size: 0.85rem; border-bottom: 1px solid var(--border-light); color: var(--text-primary); }
+    .flashcard-item { display: flex; align-items: center; gap: 4px; padding: 4px 0; font-size: 0.8rem; border-bottom: 1px solid var(--border-light); color: var(--text-primary); }
     .flashcard-item .flashcard-word { flex:1; cursor:pointer; font-weight:500; }
     .flashcard-item .flashcard-word:hover { color: var(--hsk-accent, #e67e22); }
-    .pinned-note-item { padding: 6px 0; cursor: pointer; font-size: 0.8rem; border-bottom: 1px solid var(--border-light); color: var(--text-primary); }
+    .flashcard-item button { background: none; border: none; cursor: pointer; font-size: 0.8rem; opacity: 0.5; padding: 4px 6px; }
+    .flashcard-item button:hover { opacity: 1; }
+    
+    .pinned-note-item { padding: 4px 0; cursor: pointer; font-size: 0.75rem; border-bottom: 1px solid var(--border-light); color: var(--text-primary); }
     .pinned-note-item:hover { color: var(--hsk-accent, #e67e22); }
     
-    .settings-section label, .settings-section select { font-size: 0.85rem; color: var(--text-primary); }
-    .setting-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-    .setting-row select { background: var(--bg-glass); border: 1px solid var(--border-light); border-radius: 20px; padding: 4px 10px; color: var(--text-primary); }
-    .toggle-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+    .setting-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .setting-row label { font-size: 0.8rem; color: var(--text-secondary); }
+    .setting-row select { background: var(--bg-glass); border: 1px solid var(--border-light); border-radius: 20px; padding: 4px 10px; font-size: 0.8rem; color: var(--text-primary); }
+    .toggle-switch { position: relative; display: inline-block; width: 36px; height: 20px; }
     .toggle-switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top:0; left:0; right:0; bottom:0; background: #ccc; border-radius: 22px; transition: 0.3s; }
-    .slider:before { position: absolute; content:""; height: 18px; width: 18px; left: 2px; bottom: 2px; background: white; border-radius: 50%; transition: 0.3s; }
+    .slider { position: absolute; cursor: pointer; top:0; left:0; right:0; bottom:0; background: #ccc; border-radius: 20px; transition: 0.3s; }
+    .slider:before { position: absolute; content:""; height: 16px; width: 16px; left: 2px; bottom: 2px; background: white; border-radius: 50%; transition: 0.3s; }
     input:checked + .slider { background: var(--hsk-accent, #e67e22); }
-    input:checked + .slider:before { transform: translateX(18px); }
-    .font-controls { display: flex; gap: 6px; }
-    .font-controls button { background: var(--hsk-accent, #e67e22); color: white; border: none; border-radius: 20px; padding: 4px 12px; cursor: pointer; font-weight:600; }
+    input:checked + .slider:before { transform: translateX(16px); }
+    .font-controls { display: flex; gap: 4px; }
+    .font-controls button { background: var(--hsk-accent, #e67e22); color: white; border: none; border-radius: 20px; padding: 3px 10px; cursor: pointer; font-weight:600; font-size:0.8rem; min-height:32px; }
     
-    .drkhan-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    /* Main chat area */
+    .drkhan-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    
+    /* Chat header - responsive wrap */
     .chat-header {
-        padding: 10px 20px; display: flex; align-items: center; gap: 12px;
+        padding: 8px 12px; display: flex; align-items: center; gap: 6px;
         border-bottom: 1px solid var(--border-light); flex-shrink: 0; flex-wrap: wrap;
         background: var(--bg-glass);
         color: var(--text-primary);
+        min-height: 50px;
     }
-    .chat-header .wod { font-size: 0.8rem; color: var(--text-secondary); flex-shrink:0; }
-    .chat-header input { flex: 1; padding: 8px 16px; border-radius: 40px; border: 1px solid var(--border-light); background: rgba(255,255,255,0.5); min-width: 120px; font-size:0.85rem; outline:none; color: var(--text-primary); }
+    .chat-header .wod { font-size: 0.65rem; color: var(--text-secondary); flex-shrink:0; display: none; }
+    @media (min-width: 600px) { .chat-header .wod { display: inline; } }
+    .chat-header input { 
+        flex: 1; padding: 6px 12px; border-radius: 30px; border: 1px solid var(--border-light); 
+        background: rgba(255,255,255,0.5); min-width: 60px; font-size:0.8rem; outline:none; color: var(--text-primary);
+        min-height: 36px;
+    }
     .dark .chat-header input { background: rgba(255,255,255,0.05); color: var(--text-primary); }
-    
-    /* Version toggle container */
-    .version-toggle-container {
-        display: flex; align-items: center; gap: 6px;
-        flex-shrink: 0;
-        background: var(--bg-glass);
-        border: 1px solid var(--border-light);
-        border-radius: 40px;
-        padding: 2px 8px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: var(--text-secondary);
-    }
-    .version-toggle-container label {
-        cursor: pointer;
-    }
-    /* Custom toggle switch */
-    .version-toggle-switch {
-        position: relative;
-        display: inline-block;
-        width: 34px;
-        height: 18px;
-        flex-shrink: 0;
-    }
-    .version-toggle-switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-    .version-slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: #ccc;
-        transition: 0.3s;
-        border-radius: 18px;
-    }
-    .version-slider:before {
-        position: absolute;
-        content: "";
-        height: 14px;
-        width: 14px;
-        left: 2px;
-        bottom: 2px;
-        background: white;
-        transition: 0.3s;
-        border-radius: 50%;
-    }
-    input:checked + .version-slider {
-        background: var(--hsk-accent, #e67e22);
-    }
-    input:checked + .version-slider:before {
-        transform: translateX(16px);
-    }
-    .version-label {
-        font-size: 0.65rem;
-        font-weight: 600;
-        min-width: 20px;
-    }
-    
     .chat-header select {
         background: var(--bg-glass); border: 1px solid var(--border-light);
-        border-radius: 40px; padding: 6px 14px; font-size: 0.8rem;
+        border-radius: 30px; padding: 4px 10px; font-size: 0.75rem;
         font-weight: 600; color: var(--text-primary);
         flex-shrink:0; cursor:pointer; outline:none;
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        min-height: 36px; min-width: 56px;
     }
     .dark .chat-header select { background: rgba(255,255,255,0.05); color: var(--text-primary); }
     
-    /* Level Badge */
-    .level-badge {
-        font-size: 0.65rem; background: var(--bg-glass); border: 1px solid var(--border-light);
-        border-radius: 30px; padding: 2px 12px; color: var(--text-secondary);
-        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        max-width: 200px; flex-shrink: 1;
+    /* Version toggle - VISIBLE */
+    .version-toggle-container {
+        display: flex; align-items: center; gap: 4px;
+        flex-shrink: 0;
+        background: var(--bg-glass);
+        border: 1px solid var(--border-light);
+        border-radius: 30px;
+        padding: 2px 8px;
+        font-size: 0.6rem;
+        font-weight: 700;
+        color: var(--text-secondary);
+        min-height: 36px;
     }
+    .version-toggle-container label { cursor: pointer; display: flex; align-items: center; }
+    .version-toggle-switch { position: relative; display: inline-block; width: 30px; height: 16px; flex-shrink: 0; }
+    .version-toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .version-slider {
+        position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+        background: #ccc; transition: 0.3s; border-radius: 16px;
+    }
+    .version-slider:before {
+        position: absolute; content: ""; height: 12px; width: 12px;
+        left: 2px; bottom: 2px; background: white; transition: 0.3s; border-radius: 50%;
+    }
+    input:checked + .version-slider { background: var(--hsk-accent, #e67e22); }
+    input:checked + .version-slider:before { transform: translateX(14px); }
+    .version-label { font-size: 0.6rem; font-weight: 700; min-width: 18px; }
     
-    .drkhan-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
-    .message { display: flex; gap: 12px; align-items: flex-start; }
+    .level-badge {
+        font-size: 0.55rem; background: var(--bg-glass); border: 1px solid var(--border-light);
+        border-radius: 30px; padding: 1px 8px; color: var(--text-secondary);
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        max-width: 120px; flex-shrink: 1; min-height: 24px; display: flex; align-items: center;
+    }
+    @media (min-width: 600px) { .level-badge { max-width: 200px; font-size: 0.6rem; } }
+    
+    /* Messages */
+    .drkhan-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .message { display: flex; gap: 10px; align-items: flex-start; }
     .message.user { flex-direction: row-reverse; }
-    .avatar { width: 38px; height: 38px; border-radius: 50%; background: #e6f0fa; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .avatar { width: 32px; height: 32px; border-radius: 50%; background: #e6f0fa; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
     .user .avatar { background: var(--hsk-accent, #e67e22); color: white; }
-    .bubble-wrapper { max-width: 80%; position: relative; }
+    .bubble-wrapper { max-width: 85%; position: relative; }
     .message-bubble {
-        padding: 12px 18px; border-radius: 20px;
+        padding: 8px 14px; border-radius: 16px;
         background: rgba(255,255,255,0.85); backdrop-filter: blur(4px);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.03); line-height: 1.6; word-wrap: break-word;
-        color: var(--text-primary);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.03); line-height: 1.5; word-wrap: break-word;
+        color: var(--text-primary); font-size: 0.9rem;
     }
     .dark .message-bubble { background: rgba(50,50,70,0.9); color: #e2e8f0; }
     .user .message-bubble { background: var(--hsk-accent, #e67e22); color: white; }
     .message-actions {
-        position: absolute; top: -12px; right: 10px; display: flex; gap: 4px;
+        position: absolute; top: -10px; right: 6px; display: flex; gap: 2px;
         opacity: 0; transform: translateY(4px); transition: all 0.2s;
-        background: rgba(255,255,255,0.9); border-radius: 20px; padding: 2px 6px;
+        background: rgba(255,255,255,0.9); border-radius: 16px; padding: 2px 4px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
-    .dark .message-actions { background: rgba(40,40,60,0.9); color: #e0e0e0; }
+    .dark .message-actions { background: rgba(40,40,60,0.9); }
     .message:hover .message-actions { opacity: 1; transform: translateY(0); }
-    .icon-btn { background: transparent; border: none; cursor: pointer; color: inherit; opacity: 0.6; font-size: 0.85rem; padding: 2px 4px; transition: opacity 0.15s; }
+    .icon-btn { background: none; border: none; cursor: pointer; color: inherit; opacity: 0.6; font-size: 0.75rem; padding: 2px 4px; min-width: 28px; min-height: 28px; }
     .icon-btn:hover { opacity: 1; }
-    .timestamp { font-size: 0.6rem; opacity: 0.5; margin-top: 4px; text-align: right; color: var(--text-muted); }
-    .read-more { background: transparent; border: none; color: var(--hsk-accent, #e67e22); cursor: pointer; font-size: 0.8rem; margin-top: 4px; font-weight:500; }
-    .typing .message-bubble { background: #e6f0fa; display: flex; gap: 4px; padding: 12px 16px; }
+    .timestamp { font-size: 0.55rem; opacity: 0.4; margin-top: 2px; text-align: right; color: var(--text-muted); }
+    .read-more { background: none; border: none; color: var(--hsk-accent, #e67e22); cursor: pointer; font-size: 0.75rem; margin-top: 4px; font-weight:500; }
+    .typing .message-bubble { background: #e6f0fa; display: flex; gap: 4px; padding: 10px 14px; }
     .dark .typing .message-bubble { background: rgba(50,50,70,0.9); }
-    .typing-indicator span { animation: blink 1.4s infinite; font-size: 1.2rem; }
+    .typing-indicator span { animation: blink 1.4s infinite; font-size: 1rem; }
     @keyframes blink { 0% { opacity:0.2; } 20% { opacity:1; } 100% { opacity:0.2; } }
     
+    /* Input area */
     .input-area {
-        padding: 12px 20px; border-top: 1px solid var(--border-light);
-        display: flex; gap: 8px; align-items: flex-end;
+        padding: 8px 12px; border-top: 1px solid var(--border-light);
+        display: flex; gap: 6px; align-items: flex-end;
         background: var(--bg-glass);
         backdrop-filter: blur(4px);
+        flex-shrink: 0;
+        flex-wrap: wrap;
     }
     .input-area textarea {
-        flex: 1; padding: 10px 16px; border-radius: 40px;
+        flex: 1; padding: 8px 14px; border-radius: 30px;
         border: 1px solid var(--border-light); background: rgba(255,255,255,0.6);
-        resize: none; font-size: 0.9rem; outline: none; max-height: 120px;
-        transition: border-color 0.2s;
-        color: var(--text-primary);
+        resize: none; font-size: 0.85rem; outline: none; max-height: 100px;
+        transition: border-color 0.2s; min-height: 40px; color: var(--text-primary);
     }
     .dark .input-area textarea { background: rgba(255,255,255,0.05); color: var(--text-primary); }
     .input-area textarea::placeholder { color: var(--text-muted); }
     .input-area textarea:focus { border-color: var(--hsk-accent, #e67e22); }
-    .send-btn, .share-btn, .mic-btn, .quiz-btn {
-        border: none; border-radius: 50%; width: 44px; height: 44px;
-        display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem;
+    .input-area button {
+        border: none; border-radius: 50%; width: 40px; height: 40px;
+        display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem;
         box-shadow: 0 4px 12px rgba(0,0,0,0.08); flex-shrink: 0;
-        transition: all 0.2s;
+        transition: all 0.2s; min-width: 44px; min-height: 44px;
     }
+    .input-area button:hover { transform: scale(1.05); }
     .send-btn { background: var(--hsk-accent, #e67e22); color: white; }
-    .send-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px var(--hsk-glow, rgba(230,126,34,0.3)); }
+    .send-btn:hover { box-shadow: 0 6px 20px var(--hsk-glow, rgba(230,126,34,0.3)); }
     .share-btn { background: #555; color: white; }
-    .share-btn:hover { transform: scale(1.05); }
     .mic-btn { background: #4a9eff; color: white; }
-    .mic-btn:hover { transform: scale(1.05); }
     .quiz-btn { background: var(--hsk-accent, #8b5cf6); color: white; }
-    .quiz-btn:hover { transform: scale(1.05); }
     
+    /* Suggestions */
     .suggestions {
-        display: flex; gap: 8px; padding: 6px 20px; overflow-x: auto;
+        display: flex; gap: 6px; padding: 4px 12px; overflow-x: auto;
         white-space: nowrap; flex-wrap: nowrap; border-top: 1px solid var(--border-light);
         background: var(--bg-glass); scrollbar-width: none; -ms-overflow-style: none;
+        flex-shrink: 0; min-height: 32px;
     }
+    .suggestions::-webkit-scrollbar { display: none; }
     .suggestion-chip {
         flex-shrink: 0; background: rgba(0,0,0,0.04); border-radius: 30px;
-        padding: 4px 14px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s;
-        border: 1px solid transparent;
-        color: var(--text-primary);
+        padding: 3px 12px; font-size: 0.7rem; cursor: pointer; transition: all 0.2s;
+        border: 1px solid transparent; color: var(--text-primary); min-height: 28px; display: flex; align-items: center;
     }
-    .dark .suggestion-chip { background: rgba(255,255,255,0.04); color: var(--text-primary); }
+    .dark .suggestion-chip { background: rgba(255,255,255,0.04); }
     .suggestion-chip:hover { background: var(--hsk-accent, #e67e22); color: white; border-color: var(--hsk-accent, #e67e22); transform: scale(1.02); }
     
-    .drkhan-stats { font-size: 0.6rem; opacity: 0.5; padding: 4px 20px 8px; text-align: right; color: var(--text-muted); }
+    .drkhan-stats { font-size: 0.55rem; opacity: 0.4; padding: 2px 12px 4px; text-align: right; color: var(--text-muted); flex-shrink: 0; }
     .drkhan-toast {
-        position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-        background: var(--hsk-accent, #e67e22); color: white; padding: 10px 24px; border-radius: 30px;
+        position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+        background: var(--hsk-accent, #e67e22); color: white; padding: 8px 20px; border-radius: 30px;
         z-index: 99999; box-shadow: 0 4px 16px rgba(0,0,0,0.2); animation: fadeInUp 0.3s;
+        font-size: 0.85rem; max-width: 90vw; text-align: center;
     }
     @keyframes fadeInUp { from { opacity:0; transform:translate(-50%,20px); } to { opacity:1; transform:translate(-50%,0); } }
-    .muted { opacity: 0.6; font-size: 0.8rem; color: var(--text-muted); }
-    @media (max-width: 700px) { .drkhan-sidebar { width: 0 !important; } .drkhan-panel { width: 95vw; height: 92vh; } }
+    @keyframes drkhanTooltipPop { 0% { opacity:0; transform:translateX(-50%) scale(0.8); } 100% { opacity:1; transform:translateX(-50%) scale(1); } }
+    .muted { opacity: 0.5; font-size: 0.75rem; color: var(--text-muted); }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .drkhan-panel { border-radius: 0; }
+        .drkhan-panel-header { padding: 8px 12px; }
+        .drkhan-panel-header h3 { font-size: 0.9rem; }
+        .chat-header { padding: 6px 10px; gap: 4px; }
+        .chat-header .wod { display: none; }
+        .chat-header input { font-size: 0.75rem; padding: 4px 10px; min-height: 32px; }
+        .chat-header select { font-size: 0.7rem; padding: 3px 8px; min-height: 32px; }
+        .version-toggle-container { padding: 2px 6px; font-size: 0.55rem; min-height: 32px; }
+        .version-toggle-switch { width: 26px; height: 14px; }
+        .version-slider:before { height: 10px; width: 10px; left: 2px; bottom: 2px; }
+        input:checked + .version-slider:before { transform: translateX(12px); }
+        .version-label { font-size: 0.55rem; min-width: 14px; }
+        .level-badge { font-size: 0.5rem; max-width: 80px; min-height: 20px; }
+        .drkhan-messages { padding: 8px; }
+        .message-bubble { font-size: 0.85rem; padding: 6px 12px; }
+        .input-area button { width: 36px; height: 36px; font-size: 0.85rem; min-width: 40px; min-height: 40px; }
+        .input-area textarea { font-size: 0.8rem; padding: 6px 12px; min-height: 36px; }
+        .suggestion-chip { font-size: 0.65rem; padding: 2px 10px; min-height: 24px; }
+        .drkhan-bubble { width: 54px; height: 54px; bottom: 16px; right: 16px; }
+        .drkhan-bubble svg { width: 34px; height: 34px; }
+        .drkhan-toast { font-size: 0.75rem; bottom: 70px; padding: 6px 16px; }
+    }
+    @media (max-width: 420px) {
+        .chat-header select { font-size: 0.6rem; padding: 2px 6px; min-width: 44px; }
+        .version-toggle-container { font-size: 0.5rem; padding: 1px 4px; }
+        .level-badge { max-width: 60px; font-size: 0.45rem; }
+        .chat-header input { font-size: 0.7rem; min-width: 40px; }
+        .drkhan-panel-header h3 { font-size: 0.8rem; }
+        .panel-btn { min-width: 36px; min-height: 36px; font-size: 0.75rem; }
+        .input-area button { min-width: 36px; min-height: 36px; width: 32px; height: 32px; font-size: 0.75rem; }
+    }
 </style>
 <div class="drkhan-bubble">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" fill="none">
@@ -1491,16 +1407,17 @@ IMPORTANT INSTRUCTION:
         <h3>📘 Dr. Khan</h3>
         <div class="panel-actions">
             <button class="panel-btn" id="sidebar-toggle" title="Toggle sidebar">☰</button>
-            <button class="panel-btn" id="export-chat" title="Export chat">📥</button>
+            <button class="panel-btn" id="export-chat" title="Export">📥</button>
             <button class="panel-btn" id="minimize-panel" title="Minimize">─</button>
             <button class="panel-btn" id="close-panel" title="Close">✕</button>
         </div>
     </div>
     <div class="drkhan-body">
+        <div class="drkhan-sidebar-overlay" id="drkhan-sidebar-overlay"></div>
         <div class="drkhan-sidebar" id="drkhan-sidebar"></div>
         <div class="drkhan-main" id="drkhan-main">
             <div class="chat-header">
-                <span id="current-conv-name" style="font-weight:600; flex-shrink:0;">New Chat</span>
+                <span id="current-conv-name" style="font-weight:600; flex-shrink:0; font-size:0.85rem;">New Chat</span>
                 <select id="header-hsk">
                     <option value="1">HSK 1</option>
                     <option value="2">HSK 2</option>
@@ -1517,17 +1434,17 @@ IMPORTANT INSTRUCTION:
                     </label>
                     <span class="version-label">3.0</span>
                 </div>
-                <span class="level-badge" id="level-badge">🎧 Picture Selection · 📖 Word Recognition</span>
+                <span class="level-badge" id="level-badge">🎧 Picture Matching · 📖 Word Recognition</span>
                 <span class="wod" id="word-of-day">📖 Word of the Day: --</span>
-                <input type="text" id="drkhan-search" placeholder="🔍 Search messages...">
+                <input type="text" id="drkhan-search" placeholder="🔍 Search...">
             </div>
             <div class="drkhan-messages" id="drkhan-messages"></div>
             <div class="suggestions" id="suggestions"></div>
             <div class="input-area">
                 <button class="mic-btn" id="mic-btn" title="Voice input">🎙️</button>
-                <textarea id="drkhan-input" placeholder="Type your Chinese question here..." rows="1" maxlength="1000"></textarea>
+                <textarea id="drkhan-input" placeholder="Type your Chinese question..." rows="1" maxlength="1000"></textarea>
                 <button class="share-btn" id="share-conv" title="Share chat">🔗</button>
-                <button class="quiz-btn" id="quiz-btn" title="Quick Quiz (5 questions)">🎯</button>
+                <button class="quiz-btn" id="quiz-btn" title="Quick Quiz">🎯</button>
                 <button class="send-btn" id="drkhan-send">➤</button>
             </div>
             <div class="drkhan-stats" id="drkhan-stats"></div>
@@ -1539,60 +1456,70 @@ IMPORTANT INSTRUCTION:
         const panel = container.querySelector('.drkhan-panel');
         const bubble = container.querySelector('.drkhan-bubble');
 
+        // --- Bubble click: toggle panel ---
         bubble.addEventListener('click', function(e) {
             e.stopPropagation();
-            panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+            if (panel.style.display === 'flex') {
+                panel.style.display = 'none';
+                if (window.innerWidth < 768) toggleSidebar(false);
+            } else {
+                panel.style.display = 'flex';
+                // On mobile, sidebar starts closed
+                if (window.innerWidth < 768) toggleSidebar(false);
+            }
         });
 
+        // --- Click outside to close panel ---
         document.addEventListener('click', function(e) {
             if (panel.style.display === 'flex' &&
                 !panel.contains(e.target) &&
                 e.target !== bubble &&
                 !e.target.closest('#drkhan-selection-popup')) {
                 panel.style.display = 'none';
+                if (window.innerWidth < 768) toggleSidebar(false);
             }
         });
 
-        const mainArea = document.getElementById('drkhan-main');
-        mainArea.addEventListener('click', function(e) {
-            const sidebar = document.getElementById('drkhan-sidebar');
-            if (sidebarOpen && !e.target.closest('#sidebar-toggle') && !e.target.closest('.drkhan-sidebar')) {
-                sidebarOpen = false;
-                sidebar.style.width = '0px';
-            }
+        // --- Sidebar toggle (hamburger) ---
+        const sidebarToggleBtn = document.getElementById('sidebar-toggle');
+        const sidebarOverlay = document.getElementById('drkhan-sidebar-overlay');
+        sidebarToggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleSidebar(!sidebarOpen);
         });
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', function() {
+                toggleSidebar(false);
+            });
+        }
 
-        // HSK level dropdown
+        // --- HSK dropdown ---
         const headerHsk = document.getElementById('header-hsk');
         headerHsk.addEventListener('change', function(e) {
             hskLevel = parseInt(e.target.value);
             applyThemeToPanel(hskLevel);
             updateLevelBadge(hskLevel);
             animateLevelChange();
-            const sidebar = document.getElementById('drkhan-sidebar');
-            if (sidebar) {
-                const theme = getTheme(hskLevel);
-                sidebar.style.setProperty('--hsk-accent', theme.accent);
-            }
         });
 
-        // Version toggle
+        // --- Version toggle ---
         const versionToggle = document.getElementById('version-toggle');
         versionToggle.addEventListener('change', function(e) {
             hskVersion = this.checked ? 3 : 2;
-            // Reinitialize word lists, update UI
             applyThemeToPanel(hskLevel);
             updateLevelBadge(hskLevel);
             animateVersionToggle();
             renderAll();
         });
 
-        document.getElementById('minimize-panel').onclick = function() { panel.style.display = 'none'; };
-        document.getElementById('close-panel').onclick = function() { panel.style.display = 'none'; };
-        document.getElementById('sidebar-toggle').onclick = function(e) {
-            e.stopPropagation();
-            sidebarOpen = !sidebarOpen;
-            document.getElementById('drkhan-sidebar').style.width = sidebarOpen ? '250px' : '0px';
+        // --- Panel controls ---
+        document.getElementById('minimize-panel').onclick = function() { 
+            panel.style.display = 'none';
+            if (window.innerWidth < 768) toggleSidebar(false);
+        };
+        document.getElementById('close-panel').onclick = function() { 
+            panel.style.display = 'none';
+            if (window.innerWidth < 768) toggleSidebar(false);
         };
         document.getElementById('export-chat').onclick = exportConversation;
         document.getElementById('share-conv').onclick = shareConversation;
@@ -1600,6 +1527,7 @@ IMPORTANT INSTRUCTION:
         document.getElementById('mic-btn').onclick = startPronunciationCheck;
         document.getElementById('quiz-btn').onclick = startQuickQuiz;
 
+        // --- Textarea ---
         const textarea = document.getElementById('drkhan-input');
         textarea.addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -1609,29 +1537,35 @@ IMPORTANT INSTRUCTION:
         });
         textarea.addEventListener('input', function() {
             this.style.height = 'auto';
-            this.style.height = Math.min(120, this.scrollHeight) + 'px';
+            this.style.height = Math.min(100, this.scrollHeight) + 'px';
         });
+
+        // --- Search ---
         document.getElementById('drkhan-search').addEventListener('input', function(e) {
             currentSearch = e.target.value.trim().toLowerCase();
             renderMessages();
         });
 
-        // drag
+        // --- Drag (desktop only) ---
         let isDragging = false, dragOffsetX, dragOffsetY;
         const header = panel.querySelector('.drkhan-panel-header');
         header.addEventListener('mousedown', function(e) {
             if (e.target.tagName === 'BUTTON') return;
+            if (window.innerWidth < 769) return;
             isDragging = true;
             const rect = panel.getBoundingClientRect();
             dragOffsetX = e.clientX - rect.left;
             dragOffsetY = e.clientY - rect.top;
             panel.style.transition = 'none';
+            panel.style.position = 'fixed';
+            panel.style.top = '0';
+            panel.style.left = '0';
+            panel.style.transform = 'none';
         });
         window.addEventListener('mousemove', function(e) {
             if (!isDragging) return;
             panel.style.left = (e.clientX - dragOffsetX) + 'px';
             panel.style.top = (e.clientY - dragOffsetY) + 'px';
-            panel.style.transform = 'none';
         });
         window.addEventListener('mouseup', function() {
             if (isDragging) {
@@ -1640,6 +1574,7 @@ IMPORTANT INSTRUCTION:
             }
         });
 
+        // --- Keyboard shortcuts ---
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.key === 'k') {
                 e.preventDefault();
@@ -1651,15 +1586,15 @@ IMPORTANT INSTRUCTION:
             }
         });
 
-        // Suggestion label
+        // --- Suggestion label (floating) ---
         const suggestionLabel = document.createElement('div');
         suggestionLabel.className = 'drkhan-suggestion';
         suggestionLabel.textContent = '💬 Ask Dr. Khan';
         suggestionLabel.style.cssText = `
-            position: fixed; bottom: 100px; right: 30px;
+            position: fixed; bottom: 90px; right: 20px;
             background: rgba(10,41,66,0.92); color: white;
-            padding: 8px 18px; border-radius: 40px; font-size: 0.9rem; font-weight: 600;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2); z-index: 9999;
+            padding: 6px 14px; border-radius: 30px; font-size: 0.8rem; font-weight: 600;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 9999;
             opacity: 0; transform: translateY(10px);
             transition: opacity 0.5s ease, transform 0.5s ease;
             pointer-events: none; white-space: nowrap;
@@ -1667,7 +1602,7 @@ IMPORTANT INSTRUCTION:
         `;
         document.body.appendChild(suggestionLabel);
 
-        let suggestionTimer = setTimeout(() => {
+        setTimeout(() => {
             suggestionLabel.style.opacity = '1';
             suggestionLabel.style.transform = 'translateY(0)';
         }, 4000);
@@ -1675,22 +1610,36 @@ IMPORTANT INSTRUCTION:
         function hideSuggestion() {
             suggestionLabel.style.opacity = '0';
             suggestionLabel.style.transform = 'translateY(10px)';
-            clearTimeout(suggestionTimer);
         }
         bubble.addEventListener('click', hideSuggestion);
         panel.addEventListener('click', hideSuggestion);
         document.getElementById('drkhan-input').addEventListener('focus', hideSuggestion);
-        document.getElementById('drkhan-input').addEventListener('input', hideSuggestion);
         document.getElementById('drkhan-send').addEventListener('click', hideSuggestion);
 
-        setInterval(() => {
-            updateBubbleReminders();
-        }, 30000);
+        // --- Reminders refresh ---
+        setInterval(() => updateBubbleReminders(), 30000);
 
+        // --- Apply initial theme ---
         applyThemeToPanel(hskLevel);
         updateLevelBadge(hskLevel);
-        // Show version tooltip after a delay
-        setTimeout(() => showVersionTooltip(), 1000);
+
+        // --- Handle resize for sidebar ---
+        window.addEventListener('resize', function() {
+            isMobile = window.innerWidth < 768;
+            if (!isMobile) {
+                // On desktop, always show sidebar
+                const sidebar = document.getElementById('drkhan-sidebar');
+                if (sidebar) sidebar.style.transform = 'translateX(0)';
+                if (sidebarOverlay) sidebarOverlay.style.display = 'none';
+                sidebarOpen = true;
+            } else {
+                // On mobile, hide sidebar
+                const sidebar = document.getElementById('drkhan-sidebar');
+                if (sidebar && !sidebarOpen) {
+                    sidebar.style.transform = 'translateX(-100%)';
+                }
+            }
+        });
     }
 
     // ---------- Init ----------
