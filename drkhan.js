@@ -1,4 +1,4 @@
-// drkhan.js – Chinese Learning Assistant v3.5 (Dark Mode contrast fixed)
+// drkhan.js – Chinese Learning Assistant v3.6 (Level-Upgraded + Animated Dropdown)
 (function() {
     const STORAGE_KEY = 'drkhan_conversations';
     const FLASHCARD_KEY = 'drkhan_flashcards';
@@ -22,6 +22,32 @@
     let streak = 0;
     let lastActiveDate = '';
     let lastFlashcardAdd = '';
+
+    // ---------- HSK Level Segments ----------
+    const HSK_SEGMENTS = {
+        1: { label: 'HSK 1', focus: 'Basic Vocabulary & Listening', segments: ['🎧 Picture Matching', '📖 Word Recognition'], writing: false },
+        2: { label: 'HSK 2', focus: 'Everyday Topics', segments: ['🎧 Short Dialogues', '📖 Sentence Matching', '✍️ Basic Sentences'], writing: true },
+        3: { label: 'HSK 3', focus: 'Intermediate Grammar', segments: ['🎧 Dialogues & Passages', '📖 Cloze & Arrangement', '✍️ Word Order'], writing: true },
+        4: { label: 'HSK 4', focus: 'Complex Topics', segments: ['🎧 Longer Passages', '📖 Reading Comprehension', '✍️ Short Essays'], writing: true },
+        5: { label: 'HSK 5', focus: 'Academic & Abstract', segments: ['🎧 Complex Dialogues', '📖 Advanced Cloze', '✍️ Essays (150c)'], writing: true },
+        6: { label: 'HSK 6', focus: 'Native Level', segments: ['🎧 Long Passages', '📖 Advanced Comprehension', '✍️ Essays (300c)'], writing: true }
+    };
+
+    function getLevelSegments(level) {
+        return HSK_SEGMENTS[level] || HSK_SEGMENTS[3];
+    }
+
+    function getLevelExercisePrompt(level) {
+        const prompts = {
+            1: 'Give me a simple vocabulary exercise for HSK 1. Include 5 words with their pinyin and meanings. Then ask a basic question like "What is 你好 in English?"',
+            2: 'Give me a short dialogue exercise for HSK 2. Write a 3-line dialogue between two people on a daily topic. Then ask the student to fill in a missing word.',
+            3: 'Give me a sentence arrangement exercise for HSK 3. Provide 5 scrambled Chinese words and ask the student to arrange them into a correct sentence. Include the correct answer for reference.',
+            4: 'Give me a cloze test for HSK 4. Write a short passage (40-50 characters) with 3 blanks. Provide 4 options for each blank. Include the correct answers.',
+            5: 'Give me an essay topic for HSK 5. Provide a topic that requires writing about 150 characters. Include a brief outline to help structure the essay.',
+            6: 'Give me a summary exercise for HSK 6. Provide a passage (100-120 characters) and ask the student to summarize it in 50-60 characters. Include a sample summary.'
+        };
+        return prompts[level] || prompts[3];
+    }
 
     // ---------- HSK Theme Colors ----------
     const HSK_THEMES = {
@@ -56,8 +82,18 @@
         if (sendBtn) sendBtn.style.background = accent;
         const quizBtn = panel.querySelector('#quiz-btn');
         if (quizBtn) quizBtn.style.background = accent;
-        // Update any other accent elements
         document.querySelectorAll('.drkhan-toast').forEach(el => el.style.background = accent);
+        // Update level badge
+        updateLevelBadge(level);
+    }
+
+    // ---------- Level Badge ----------
+    function updateLevelBadge(level) {
+        const badge = document.getElementById('level-badge');
+        if (!badge) return;
+        const segments = getLevelSegments(level);
+        badge.textContent = segments.segments.join(' · ');
+        badge.style.color = getTheme(level).accent;
     }
 
     // ---------- TIPS ----------
@@ -413,6 +449,7 @@
         const headerHsk = document.getElementById('header-hsk');
         if (headerHsk) headerHsk.value = hskLevel;
         applyThemeToPanel(hskLevel);
+        updateLevelBadge(hskLevel);
     }
 
     function renderMessages() {
@@ -547,6 +584,39 @@
     function updateContextSuggestions() {
         const container = document.getElementById('suggestions');
         if (!container) return;
+        const levelSegments = getLevelSegments(hskLevel);
+        let levelSpecificSuggestions = [];
+        if (hskLevel <= 2) {
+            levelSpecificSuggestions = [
+                'What does "你好" mean?',
+                'Give me a simple sentence with "我"',
+                'How to say "thank you" in Chinese?'
+            ];
+        } else if (hskLevel === 3) {
+            levelSpecificSuggestions = [
+                'Give me a sentence arrangement exercise',
+                'How to use "把" (bǎ) structure?',
+                'Correct this: "我昨天去图书馆了。"'
+            ];
+        } else if (hskLevel === 4) {
+            levelSpecificSuggestions = [
+                'Give me a cloze test (fill in the blanks)',
+                'Explain "虽然...但是..." with examples',
+                'Give me an HSK4 example sentence'
+            ];
+        } else if (hskLevel === 5) {
+            levelSpecificSuggestions = [
+                'Give me an essay topic (150 characters)',
+                'Summarize this passage for me',
+                'Advanced vocabulary for HSK 5'
+            ];
+        } else {
+            levelSpecificSuggestions = [
+                'Give me a summary exercise',
+                'Give me an essay topic (300 characters)',
+                'Advanced grammar for HSK 6'
+            ];
+        }
         const allSuggestions = [
             'How to use "把" (bǎ) structure?',
             'Difference between "漂亮" and "美丽"',
@@ -555,7 +625,9 @@
             'Usage of "虽然...但是..."',
             'Give me an HSK4 example sentence',
         ];
-        container.innerHTML = allSuggestions.slice(0,5).map(function(s) {
+        // Use level-specific suggestions first, fallback to general
+        const finalSuggestions = levelSpecificSuggestions.length > 0 ? levelSpecificSuggestions : allSuggestions;
+        container.innerHTML = finalSuggestions.slice(0,5).map(function(s) {
             return '<div class="suggestion-chip" data-question="' + escapeHtml(s) + '">📖 ' + escapeHtml(s) + '</div>';
         }).join('');
         document.querySelectorAll('.suggestion-chip').forEach(chip => {
@@ -670,7 +742,7 @@
         bubble.appendChild(reminder);
     }
 
-    // ---------- Quick Quiz ----------
+    // ---------- Level-Specific Quick Quiz ----------
     function startQuickQuiz() {
         const wordList = window['HSK' + hskLevel + '_WORDS'];
         if (!wordList || wordList.length === 0) {
@@ -680,20 +752,57 @@
         const shuffled = [...wordList].sort(() => Math.random() - 0.5);
         const selected = shuffled.slice(0, 5);
         let quizText = '🎯 **Quick Quiz (HSK ' + hskLevel + ')**\n\n';
-        selected.forEach((w, i) => {
-            const options = [w.meaning];
-            const others = wordList.filter(x => x.meaning !== w.meaning).sort(() => Math.random() - 0.5);
-            for (let j = 0; j < 3 && j < others.length; j++) {
-                if (!options.includes(others[j].meaning)) options.push(others[j].meaning);
-            }
-            const shuffledOpts = options.sort(() => Math.random() - 0.5);
-            const correctLetter = String.fromCharCode(65 + shuffledOpts.indexOf(w.meaning));
-            quizText += (i+1) + '. **' + w.word + '**\n';
-            shuffledOpts.forEach((opt, idx) => {
-                quizText += '   ' + String.fromCharCode(65 + idx) + '. ' + opt + '\n';
+
+        // Level-specific quiz header
+        const segments = getLevelSegments(hskLevel);
+        quizText += '📌 *' + segments.focus + '*\n';
+        quizText += '🎧 ' + segments.segments.join(' · ') + '\n\n';
+
+        if (hskLevel <= 2) {
+            // Simple vocabulary quiz
+            selected.forEach((w, i) => {
+                quizText += (i+1) + '. **' + w.word + '** → ' + w.meaning + '\n';
             });
-            quizText += '   ✅ Answer: ' + correctLetter + '\n\n';
-        });
+            quizText += '\n✍️ **Exercise:** Write a simple sentence using one of these words.';
+        } else if (hskLevel === 3) {
+            // Sentence arrangement
+            const scrambled = selected.slice(0, 3);
+            scrambled.forEach((w, i) => {
+                const sentence = w.word + ' ' + (w.example || '');
+                const words = sentence.split(/\s+/).sort(() => Math.random() - 0.5);
+                quizText += (i+1) + '. Arrange: **' + words.join(' ') + '**\n';
+                quizText += '   ✅ Hint: ' + w.meaning + '\n';
+            });
+            quizText += '\n💡 Try to form a correct sentence!';
+        } else if (hskLevel === 4) {
+            // Cloze style
+            const passage = '学习中文是很有意义的。' + selected[0].word + '让我感到快乐。' + selected[1].word + '也很重要。' + selected[2].word + '是每天都要做的。';
+            const blanks = selected.slice(0, 3).map(w => w.word);
+            const options = [
+                ['学习', '工作', '休息'],
+                ['朋友', '家人', '老师'],
+                ['看书', '写字', '听歌']
+            ];
+            quizText += '**Fill in the blanks:**\n\n';
+            const parts = passage.split('___');
+            // Simpler approach: show options
+            quizText += 'Choose the correct word for each blank:\n';
+            blanks.forEach((word, i) => {
+                quizText += '  ' + (i+1) + '. ' + options[i].join(' / ') + ' → ✅ ' + word + '\n';
+            });
+        } else {
+            // HSK 5-6: Essay or summary prompts
+            quizText += '✍️ **Writing Exercise:**\n\n';
+            if (hskLevel === 5) {
+                quizText += '**Topic:** Write about your favorite hobby (150 characters).\n\n';
+                quizText += '**Outline:**\n- What is your hobby?\n- Why do you like it?\n- How often do you do it?\n\n';
+            } else {
+                quizText += '**Topic:** Discuss the importance of learning languages (200-300 characters).\n\n';
+                quizText += '**Outline:**\n- Why learn languages?\n- What are the benefits?\n- Share your personal experience.\n\n';
+            }
+            quizText += '💡 Write your essay and I\'ll give you feedback!';
+        }
+
         addMessage('user', '🎯 Start Quick Quiz (HSK ' + hskLevel + ')');
         addMessage('assistant', quizText);
     }
@@ -796,9 +905,13 @@
         else if (personality === 'exam') personalityInstruction = 'Focus on HSK ' + hskLevel + ' exam preparation. Give high-frequency vocabulary, test-taking strategies, and practice questions. Tailor all content to HSK ' + hskLevel + ' level.';
         else personalityInstruction = 'Act as a friendly Chinese tutor. Explain vocabulary usage, correct mistakes, provide mnemonics, and give contextual examples. Encourage the student and make learning fun.';
 
+        const segments = getLevelSegments(hskLevel);
+        const levelContext = 'Student is at HSK ' + hskLevel + ' level. Focus areas: ' + segments.focus + '. Segments: ' + segments.segments.join(', ') + '.';
+
         const systemPrompt = `You are a professional Chinese language tutor named Dr. Khan. Your main job is to help students learn Chinese (Mandarin). You only answer questions related to Chinese learning, including vocabulary, grammar, pronunciation, writing, and cultural background.
 
 Current student HSK level: ${hskLevel}.
+${levelContext}
 
 Guidelines:
 - Provide clear, accurate, and useful answers to every question.
@@ -928,8 +1041,24 @@ IMPORTANT INSTRUCTION:
         }
         const toggleInput = document.getElementById('sidebar-dark-toggle');
         if (toggleInput) toggleInput.checked = panelDarkMode;
-        // Re-apply theme with dark mode consideration
         applyThemeToPanel(hskLevel);
+    }
+
+    // ---------- Animated Level Change ----------
+    function animateLevelChange() {
+        const dropdown = document.getElementById('header-hsk');
+        if (!dropdown) return;
+        // Add pulse animation
+        dropdown.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        dropdown.style.transform = 'scale(1.2)';
+        dropdown.style.boxShadow = '0 0 30px var(--hsk-glow, rgba(230,126,34,0.5))';
+        setTimeout(() => {
+            dropdown.style.transform = 'scale(1)';
+            dropdown.style.boxShadow = 'none';
+        }, 400);
+        // Show a toast notification
+        const segments = getLevelSegments(hskLevel);
+        showToast('📚 Switched to ' + segments.label + ' – ' + segments.focus);
     }
 
     // ---------- Create Widget ----------
@@ -1075,8 +1204,17 @@ IMPORTANT INSTRUCTION:
         border-radius: 40px; padding: 6px 14px; font-size: 0.8rem;
         font-weight: 600; color: var(--text-primary);
         flex-shrink:0; cursor:pointer; outline:none;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     .dark .chat-header select { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+    
+    /* Level Badge */
+    .level-badge {
+        font-size: 0.65rem; background: var(--bg-glass); border: 1px solid var(--border-light);
+        border-radius: 30px; padding: 2px 12px; color: var(--text-secondary);
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        max-width: 200px; flex-shrink: 1;
+    }
     
     .drkhan-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
     .message { display: flex; gap: 12px; align-items: flex-start; }
@@ -1196,6 +1334,7 @@ IMPORTANT INSTRUCTION:
                     <option value="5">HSK 5</option>
                     <option value="6">HSK 6</option>
                 </select>
+                <span class="level-badge" id="level-badge">🎧 Picture Selection · 📖 Word Recognition</span>
                 <span class="wod" id="word-of-day">📖 Word of the Day: --</span>
                 <input type="text" id="drkhan-search" placeholder="🔍 Search messages...">
             </div>
@@ -1244,6 +1383,8 @@ IMPORTANT INSTRUCTION:
         headerHsk.addEventListener('change', function(e) {
             hskLevel = parseInt(e.target.value);
             applyThemeToPanel(hskLevel);
+            updateLevelBadge(hskLevel);
+            animateLevelChange();
             const sidebar = document.getElementById('drkhan-sidebar');
             if (sidebar) {
                 const theme = getTheme(hskLevel);
@@ -1351,8 +1492,8 @@ IMPORTANT INSTRUCTION:
             updateBubbleReminders();
         }, 30000);
 
-        // Apply initial theme
         applyThemeToPanel(hskLevel);
+        updateLevelBadge(hskLevel);
     }
 
     // ---------- Init ----------
