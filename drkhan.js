@@ -1,4 +1,4 @@
-// drkhan.js – Chinese Learning Assistant v4.0 (Auto‑Level Detection + Fully Responsive)
+// drkhan.js – Chinese Learning Assistant v4.2 (Complete, Ready‑to‑Paste)
 (function() {
     const STORAGE_KEY = 'drkhan_conversations';
     const FLASHCARD_KEY = 'drkhan_flashcards';
@@ -12,7 +12,7 @@
     let isWaiting = false;
     let pinnedMessages = [];
     let currentSearch = '';
-    let fontSize = 16;
+    let fontSize = 18;
     let panelDarkMode = false;
     let personality = 'tutor';
     let hskLevel = 3;
@@ -50,14 +50,14 @@
         return seg[level] || seg[3];
     }
 
-    // ---------- HSK Theme Colors ----------
+    // ---------- HSK Theme Colors (Modern, Soft) ----------
     const HSK_THEMES = {
-        1: { accent: '#3b82f6', accentHover: '#2563eb', gradient: 'linear-gradient(145deg, #3b82f6, #1d4ed8)', glow: 'rgba(59,130,246,0.3)', darkAccent: '#60a5fa' },
-        2: { accent: '#22c55e', accentHover: '#16a34a', gradient: 'linear-gradient(145deg, #22c55e, #15803d)', glow: 'rgba(34,197,94,0.3)', darkAccent: '#4ade80' },
-        3: { accent: '#14b8a6', accentHover: '#0d9488', gradient: 'linear-gradient(145deg, #14b8a6, #0f766e)', glow: 'rgba(20,184,166,0.3)', darkAccent: '#2dd4bf' },
-        4: { accent: '#8b5cf6', accentHover: '#7c3aed', gradient: 'linear-gradient(145deg, #8b5cf6, #6d28d9)', glow: 'rgba(139,92,246,0.3)', darkAccent: '#a78bfa' },
-        5: { accent: '#f59e0b', accentHover: '#d97706', gradient: 'linear-gradient(145deg, #f59e0b, #b45309)', glow: 'rgba(245,158,11,0.3)', darkAccent: '#fbbf24' },
-        6: { accent: '#ef4444', accentHover: '#dc2626', gradient: 'linear-gradient(145deg, #ef4444, #b91c1c)', glow: 'rgba(239,68,68,0.3)', darkAccent: '#f87171' }
+        1: { accent: '#5b8def', accentHover: '#4a7adf', gradient: 'linear-gradient(145deg, #6a9cf5, #4a7adf)', glow: 'rgba(91,141,239,0.3)', darkAccent: '#7aa9f7' },
+        2: { accent: '#4bc07a', accentHover: '#3aa86a', gradient: 'linear-gradient(145deg, #5cd48a, #3aa86a)', glow: 'rgba(75,192,122,0.3)', darkAccent: '#6ad492' },
+        3: { accent: '#3cc5b0', accentHover: '#2bb09a', gradient: 'linear-gradient(145deg, #4dd6c0, #2bb09a)', glow: 'rgba(60,197,176,0.3)', darkAccent: '#5ad4c0' },
+        4: { accent: '#a77be0', accentHover: '#9568d0', gradient: 'linear-gradient(145deg, #b88ef0, #9568d0)', glow: 'rgba(167,123,224,0.3)', darkAccent: '#b892f0' },
+        5: { accent: '#f5a623', accentHover: '#e0951a', gradient: 'linear-gradient(145deg, #f7b840, #e0951a)', glow: 'rgba(245,166,35,0.3)', darkAccent: '#f7b840' },
+        6: { accent: '#ef6b6b', accentHover: '#d95555', gradient: 'linear-gradient(145deg, #f28080, #d95555)', glow: 'rgba(239,107,107,0.3)', darkAccent: '#f28080' }
     };
 
     function getTheme(level) { return HSK_THEMES[level] || HSK_THEMES[3]; }
@@ -91,7 +91,7 @@
         badge.style.color = getTheme(level).accent;
     }
 
-    // ---------- Word Lists & Auto‑Detection ----------
+    // ---------- Word Lists & Auto‑Detection (Frequency‑Based) ----------
     function getWordList(level, version) {
         if (version === 3) {
             const allWords = window.HSK3_0_WORDS || [];
@@ -106,7 +106,10 @@
         const map = {};
         for (let level = 1; level <= 6; level++) {
             const words = getWordList(level, version);
-            words.forEach(w => { if (!map[w.word] || map[w.word] < level) map[w.word] = level; });
+            words.forEach(w => {
+                if (!map[w.word]) map[w.word] = [];
+                map[w.word].push(level);
+            });
         }
         return map;
     }
@@ -120,18 +123,57 @@
         const chineseChars = text.match(/[\u4e00-\u9fa5]+/g);
         if (!chineseChars) return;
         const map = getWordLevelMap(hskVersion);
-        let maxLevel = 0;
+        const levelCounts = {};
         chineseChars.forEach(chunk => {
-            if (map[chunk] && map[chunk] > maxLevel) maxLevel = map[chunk];
+            const levels = map[chunk];
+            if (levels && levels.length > 0) {
+                levels.forEach(lv => {
+                    levelCounts[lv] = (levelCounts[lv] || 0) + 1;
+                });
+            }
         });
-        if (maxLevel > 0 && maxLevel !== hskLevel) {
-            hskLevel = maxLevel;
+        if (Object.keys(levelCounts).length === 0) return;
+        let maxCount = 0;
+        let detectedLevel = hskLevel;
+        for (const [lv, count] of Object.entries(levelCounts)) {
+            if (count > maxCount) {
+                maxCount = count;
+                detectedLevel = parseInt(lv);
+            }
+        }
+        if (detectedLevel !== hskLevel) {
+            hskLevel = detectedLevel;
             const headerHsk = document.getElementById('header-hsk');
             if (headerHsk) headerHsk.value = hskLevel;
             applyThemeToPanel(hskLevel);
             updateLevelBadge(hskLevel);
             showToast('📚 Switched to HSK ' + hskLevel + ' (detected from your question)');
         }
+    }
+
+    // ---------- Improved Text Formatting (removes markdown) ----------
+    function formatText(text) {
+        if (!text) return text;
+        let html = text;
+
+        html = html.replace(/^### (.+)$/gm, '<h4>$1</h4>');
+        html = html.replace(/^## (.+)$/gm, '<h3>$1</h3>');
+        html = html.replace(/^# (.+)$/gm, '<h2>$1</h2>');
+
+        html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+        html = html.replace(/((?:<li>.*<\/li>\s*)+)/g, '<ul class="bullet-list">$1</ul>');
+
+        html = html.replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>');
+        html = html.replace(/((?:<li>.*<\/li>\s*)+)/g, function(match) {
+            if (match.match(/<li>.*<\/li>/g) && match.match(/\d/)) return '<ol>' + match + '</ol>';
+            return '<ul class="bullet-list">' + match + '</ul>';
+        });
+
+        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        html = html.replace(/\n/g, '<br>');
+
+        return html;
     }
 
     // ---------- Tips ----------
@@ -252,13 +294,6 @@
             try { return JSON.parse(raw).message?.content || raw; } catch { return raw; }
         }
         return raw?.message?.content || raw?.content || JSON.stringify(raw);
-    }
-    function formatText(text) {
-        if (!text) return text;
-        let html = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-        html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-        html = html.replace(/\n/g, '<br>');
-        return html;
     }
     function truncateText(text, maxLen) {
         if (text.length <= maxLen) return text;
@@ -446,7 +481,7 @@
         });
     }
 
-    // ---------- Toggle Sidebar ----------
+    // ---------- Toggle Sidebar (works on all screens) ----------
     function toggleSidebar(open) {
         const sidebar = document.getElementById('drkhan-sidebar');
         const overlay = document.getElementById('drkhan-sidebar-overlay');
@@ -799,7 +834,7 @@
         }
     }
 
-    // ---------- Send Message (with Auto‑Level Detection) ----------
+    // ---------- Send Message (with Auto‑Level Detection & Pinyin requirement) ----------
     async function sendMessage(initialText, isRegenerate) {
         const input = document.getElementById('drkhan-input');
         const text = initialText || (input ? input.value.trim() : '');
@@ -844,12 +879,13 @@ Guidelines:
 - Adjust the difficulty of your answers according to the student's HSK level.
 - Keep a friendly, encouraging tone.
 
-${personalityInstruction}
-
-IMPORTANT: 
+CRITICAL INSTRUCTION: 
 - Always respond in English for explanations, grammar points, corrections, and instructions. 
-- When providing example sentences, write them in Chinese characters, followed by pinyin in parentheses, and then the English translation. For example: "我喜欢学习中文 (wǒ xǐhuān xuéxí zhōngwén) – I like learning Chinese."
-- Only the example sentences and their pinyin/translations should contain Chinese.`;
+- When providing example sentences, write them in Chinese characters, followed by pinyin in parentheses for EVERY Chinese character, and then the English translation. For example: "我喜欢学习中文 (wǒ xǐhuān xuéxí zhōngwén) – I like learning Chinese."
+- ONLY the example sentences and their pinyin/translations should contain Chinese.
+- Use vocabulary and sentence structures that are appropriate for the student's HSK level (${hskLevel}) and version (${hskVersion}.0). Do not use words above this level.
+
+${personalityInstruction}`;
 
         const conv = getCurrentConv();
         if (!conv) { isWaiting = false; return; }
@@ -942,7 +978,7 @@ IMPORTANT:
     }
 
     function setFontSize(delta) {
-        fontSize = Math.min(32, Math.max(12, fontSize + delta));
+        fontSize = Math.min(32, Math.max(14, fontSize + delta));
         document.querySelectorAll('.message-bubble').forEach(function(el) { el.style.fontSize = fontSize + 'px'; });
     }
 
@@ -969,17 +1005,18 @@ IMPORTANT:
         showToast('📚 Switched to ' + segments.label + ' – ' + segments.focus);
     }
 
-    // ---------- Create Widget (Fully Responsive) ----------
+    // ---------- Create Widget (Full UI) ----------
     function createWidget() {
         const container = document.createElement('div');
         container.id = 'drkhan-container';
         container.innerHTML = `
 <style>
-    #drkhan-container * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    #drkhan-container * { box-sizing: border-box; font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
     :root {
         --primary: #e67e22; --bg-glass: rgba(255,255,255,0.7); --bg-sidebar: rgba(248,252,255,0.85);
         --border-light: rgba(0,0,0,0.08); --shadow-lg: 0 25px 60px rgba(0,0,0,0.15);
         --text-primary: #1a202c; --text-secondary: #4a5568; --text-muted: #718096;
+        --radius: 16px;
     }
     .dark { --bg-glass: rgba(20,20,30,0.9); --bg-sidebar: rgba(15,15,25,0.95); --border-light: rgba(255,255,255,0.08);
         --text-primary: #e2e8f0; --text-secondary: #a0aec0; --text-muted: #718096; }
@@ -1038,7 +1075,7 @@ IMPORTANT:
     }
     .drkhan-sidebar-overlay {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.3); z-index: 40; display: none;
+        background: rgba(0,0,0,0.2); z-index: 40; display: none;
     }
     .sidebar-section { padding: 14px 12px; border-bottom: 1px solid var(--border-light); }
     .section-title { font-weight: 600; opacity: 0.6; margin-bottom: 10px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); }
@@ -1139,7 +1176,7 @@ IMPORTANT:
     .message-bubble {
         padding: 8px 14px; border-radius: 16px;
         background: rgba(255,255,255,0.85); backdrop-filter: blur(4px);
-        box-shadow: 0 2px 6px rgba(0,0,0,0.03); line-height: 1.5; word-wrap: break-word;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.03); line-height: 1.6; word-wrap: break-word;
         color: var(--text-primary); font-size: 0.9rem;
     }
     .dark .message-bubble { background: rgba(50,50,70,0.9); color: #e2e8f0; }
@@ -1211,6 +1248,12 @@ IMPORTANT:
     @keyframes fadeInUp { from { opacity:0; transform:translate(-50%,20px); } to { opacity:1; transform:translate(-50%,0); } }
     @keyframes drkhanTooltipPop { 0% { opacity:0; transform:translateX(-50%) scale(0.8); } 100% { opacity:1; transform:translateX(-50%) scale(1); } }
     .muted { opacity: 0.5; font-size: 0.75rem; color: var(--text-muted); }
+    .bullet-list, ol { margin: 4px 0 4px 20px; padding: 0; }
+    .bullet-list li, ol li { margin-bottom: 2px; }
+    h2, h3, h4 { margin: 6px 0 4px; color: var(--text-primary); }
+    h2 { font-size: 1.2rem; }
+    h3 { font-size: 1.05rem; }
+    h4 { font-size: 0.95rem; }
     @media (max-width: 768px) {
         .drkhan-panel { border-radius: 0; }
         .drkhan-panel-header { padding: 8px 12px; }
@@ -1233,6 +1276,7 @@ IMPORTANT:
         .drkhan-bubble { width: 54px; height: 54px; bottom: 16px; right: 16px; }
         .drkhan-bubble svg { width: 34px; height: 34px; }
         .drkhan-toast { font-size: 0.75rem; bottom: 70px; padding: 6px 16px; }
+        .bulle-list, ol { margin-left: 16px; }
     }
     @media (max-width: 420px) {
         .chat-header select { font-size: 0.6rem; padding: 2px 6px; min-width: 44px; }
@@ -1352,7 +1396,7 @@ IMPORTANT:
         const versionToggle = document.getElementById('version-toggle');
         versionToggle.addEventListener('change', function(e) {
             hskVersion = this.checked ? 3 : 2;
-            wordLevelMap = null; // reset cache
+            wordLevelMap = null;
             applyThemeToPanel(hskLevel);
             updateLevelBadge(hskLevel);
             animateVersionToggle();
