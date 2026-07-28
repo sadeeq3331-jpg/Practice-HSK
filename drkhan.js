@@ -1479,7 +1479,7 @@ ${personalityInstruction}`;
         suggestionLabel.className = 'drkhan-suggestion';
         suggestionLabel.textContent = '💬 Ask Dr. Khan';
         suggestionLabel.style.cssText = `
-            position: fixed; bottom: 90px; right: 20px;
+            position: fixed; bottom: 90px; left: 20px;
             background: rgba(10,41,66,0.92); color: white;
             padding: 6px 14px; border-radius: 30px; font-size: 0.8rem; font-weight: 600;
             box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 9999;
