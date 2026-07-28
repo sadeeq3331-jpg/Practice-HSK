@@ -1021,7 +1021,7 @@ ${personalityInstruction}`;
     .dark { --bg-glass: rgba(20,20,30,0.9); --bg-sidebar: rgba(15,15,25,0.95); --border-light: rgba(255,255,255,0.08);
         --text-primary: #e2e8f0; --text-secondary: #a0aec0; --text-muted: #718096; }
     .drkhan-bubble {
-        position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%;
+        position: fixed; bottom: 20px; left: 20px; width: 60px; height: 60px; border-radius: 50%;
         background: #0a2942; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer;
         box-shadow: 0 8px 30px rgba(0,0,0,0.3); z-index: 10000;
         transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
