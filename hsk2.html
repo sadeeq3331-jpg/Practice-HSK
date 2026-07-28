@@ -1062,13 +1062,6 @@
     if (studyMode) { eyeIcon.classList.remove('fa-eye-slash'); eyeIcon.classList.add('fa-eye'); }
     else { eyeIcon.classList.remove('fa-eye'); eyeIcon.classList.add('fa-eye-slash'); }
   }
-
-  // ========== AUTO REFRESH EVERY 5 MINUTES (to show new ads) ==========
-  setTimeout(() => {
-    saveState();
-    location.reload();
-  }, 300000);
-
   // Initial load
   loadState();
   buildLetterFilter();
