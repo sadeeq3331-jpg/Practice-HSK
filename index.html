@@ -1,15 +1,50 @@
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<!-- New favicon: stethoscope SVG -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSK Master · Premium Access</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <!-- New favicon: stethoscope SVG -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Crect width='800' height='800' rx='200' fill='%230a2942'/%3E%3Cg transform='translate(200,200) scale(0.8)'%3E%3Cpath d='M192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v25.6C69.5 68.4 16 127.1 16 200v32c0 101.7 82.3 184 184 184h64c101.7 0 184-82.3 184-184v-32c0-72.9-53.5-131.6-128-142.4V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V32zM48 200c0-63.1 48-115.4 109.5-126.9 4.2-.7 8.5-1.1 12.8-1.1h31.5c4.3 0 8.6 .4 12.8 1.1C288 84.6 336 136.9 336 200v32c0 75.1-60.9 136-136 136h-64c-75.1 0-136-60.9-136-136v-32zm320 240c0-8.8-7.2-16-16-16H32c-8.8 0-16 7.2-16 16v48c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16v-48z' fill='%23ffd966'/%3E%3C/g%3E%3C/svg%3E">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Crect width='800' height='800' rx='200' fill='%230a2942'/%3E%3Cg transform='translat[...]" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
-
-font-size: 1.2rem;
-margin-bottom: 2.5rem;
-}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
+    body {
+      background: linear-gradient(145deg, #f0f5fa 0%, #e6edf4 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(12px);
+      border-radius: 3rem;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 30px 50px rgba(0,20,40,0.15);
+      border: 1px solid rgba(255,255,255,0.6);
+      text-align: center;
+      position: relative;
+    }
+    h1 {
+      font-size: 3.2rem;
+      background: linear-gradient(135deg, #1D3557, #457B9D);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+    .sub {
+      color: #2b4a6f;
+      font-size: 1.2rem;
+      margin-bottom: 2.5rem;
+    }
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -164,14 +199,68 @@ margin-bottom: 2.5rem;
       display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
     }
     .footer-links a { color: #6b8a9e; text-decoration: none; font-size: 0.85rem; }
-    /* styles omitted for brevity — unchanged */
-</style>
+  </style>
 </head>
 <body>
-@@ -261,175 +108,15 @@ <h2>HSK 6</h2>
+
+<div class="container">
+  <h1>📚 HSK Master · Premium</h1>
+  <div class="sub">Full access to all levels — one payment, forever</div>
+  
+  <div class="card-grid">
+    <div class="level-card" data-level="1" data-hub="hsk1_hub.html">
+      <h2>HSK 1</h2>
+      <p>150 words</p>
+      <div class="lock-icon"><i class="fas fa-lock"></i></div>
+    </div>
+    <div class="level-card" data-level="2" data-hub="hsk2_hub.html">
+      <h2>HSK 2</h2>
+      <p>300 words</p>
+      <div class="lock-icon"><i class="fas fa-lock"></i></div>
+    </div>
+    <div class="level-card" data-level="3" data-hub="hsk3_hub.html">
+      <h2>HSK 3</h2>
+      <p>600 words</p>
+      <div class="lock-icon"><i class="fas fa-lock"></i></div>
+    </div>
+    <div class="level-card" data-level="4" data-hub="hsk4_hub.html">
+      <h2>HSK 4</h2>
+      <p>1200 words</p>
+      <div class="lock-icon"><i class="fas fa-lock"></i></div>
+    </div>
+    <div class="level-card" data-level="5" data-hub="hsk5_hub.html">
+      <h2>HSK 5</h2>
+      <p>2500 words</p>
+      <div class="lock-icon"><i class="fas fa-lock"></i></div>
+    </div>
+    <div class="level-card" data-level="6" data-hub="hsk6_hub.html">
+      <h2>HSK 6</h2>
+      <p>5000+ words</p>
+      <div class="lock-icon"><i class="fas fa-lock"></i></div>
+    </div>
+  </div>
+
+  <div class="features">
+    <span>🔊 Pronunciation</span>
+    <span>❤️ Favorites</span>
+    <span>🐧 Quiz buddy</span>
+    <span>⌨️ Typing practice</span>
+    <span>📝 Example sentences</span>
+  </div>
+  
+  <p style="margin-top: 2rem; color: #457B9D;">🔒 All content is premium — unlock with a one‑time code.</p>
+
+  <a href="#" class="drkhan-link" id="openDrKhan">📘 Ask Dr. Khan (AI Tutor)</a>
+
+  <div class="footer-links">
+    <a href="privacy.html"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
+    <a href="terms.html"><i class="fas fa-file-contract"></i> Terms of Service</a>
+  </div>
+</div>
+
 <!-- Modal (same as before) -->
 <div class="modal-overlay" id="accessModal">
-<div class="modal">
+  <div class="modal">
     <div class="modal-header">
       <h3 id="modalLevelTitle">HSK 1 Access</h3>
       <button class="close-modal" id="closeModalBtn"><i class="fas fa-times"></i></button>
@@ -216,15 +305,14 @@ margin-bottom: 2.5rem;
       </div>
       <p style="font-size: 0.9rem; color: #4e6f86;">Contact me with payment screenshot — you'll receive your personal code within minutes.</p>
     </div>
-    <!-- modal content omitted for brevity -->
-</div>
+  </div>
 </div>
 
 <script src="https://js.puter.com/v2/"></script>
 <script src="drkhan.js"></script>
 
 <script>
-(function() {
+  (function() {
     const BIN_ID = "69f7a51b36566621a81f067a";
     const MASTER_KEY = "$2a$10$OV7m1X11camle5ENh1AA5uFzDjzsDgKYKIz7bOuOLU/sBVocEALge";
     const API_URL = "https://api.jsonbin.io/v3/b/" + BIN_ID;
@@ -342,7 +430,7 @@ margin-bottom: 2.5rem;
 
     codeInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') submitBtn.click(); });
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
-    /* inline script unchanged */
-})();
+  })();
 </script>
 </body>
+</html>
