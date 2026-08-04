@@ -1,4 +1,4 @@
-// drkhan.js – Chinese Learning Assistant v4.4 (Full UI, Left Bubble, Lazy Loading)
+// drkhan.js – Chinese Learning Assistant v4.3 (Bubble Visible, Left Side)
 (function() {
     const STORAGE_KEY = 'drkhan_conversations';
     const FLASHCARD_KEY = 'drkhan_flashcards';
@@ -6,8 +6,6 @@
     const LAST_ADD_KEY = 'drkhan_last_flashcard_add';
     const MAX_MESSAGE_LENGTH = 1000;
     const MAX_HISTORY_MESSAGES = 20;
-    const WORD_CACHE_KEY = 'drkhan_word_cache_';
-    const WORD_CACHE_VERSION = 'v2';
 
     let conversations = [];
     let currentConvId = null;
@@ -26,7 +24,6 @@
     let lastActiveDate = '';
     let lastFlashcardAdd = '';
     let wordLevelMap = null;
-    let isLoadingWords = false;
 
     // ---------- HSK Level Segments ----------
     const HSK_SEGMENTS = {
@@ -53,7 +50,7 @@
         return seg[level] || seg[3];
     }
 
-    // ---------- HSK Theme Colors ----------
+    // ---------- HSK Theme Colors (Modern, Soft) ----------
     const HSK_THEMES = {
         1: { accent: '#5b8def', accentHover: '#4a7adf', gradient: 'linear-gradient(145deg, #6a9cf5, #4a7adf)', glow: 'rgba(91,141,239,0.3)', darkAccent: '#7aa9f7' },
         2: { accent: '#4bc07a', accentHover: '#3aa86a', gradient: 'linear-gradient(145deg, #5cd48a, #3aa86a)', glow: 'rgba(75,192,122,0.3)', darkAccent: '#6ad492' },
@@ -94,151 +91,88 @@
         badge.style.color = getTheme(level).accent;
     }
 
-    // ---------- Lazy Word List Loading ----------
-    function getCachedWords(level, version) {
-        try {
-            const key = WORD_CACHE_KEY + version + '_' + level;
-            const raw = localStorage.getItem(key);
-            if (raw) {
-                const data = JSON.parse(raw);
-                if (data.version === WORD_CACHE_VERSION) return data.words;
-            }
-        } catch(e) {}
-        return null;
-    }
-
-    function setCachedWords(level, version, words) {
-        try {
-            const key = WORD_CACHE_KEY + version + '_' + level;
-            localStorage.setItem(key, JSON.stringify({ version: WORD_CACHE_VERSION, words }));
-        } catch(e) {}
-    }
-
-    function loadWordsForLevel(level, version) {
-        return new Promise((resolve, reject) => {
-            const cached = getCachedWords(level, version);
-            if (cached) { resolve(cached); return; }
-
-            const scriptMap = {
-                1: 'words_hsk1.js',
-                2: 'words_hsk2.js',
-                3: 'words_hsk3.js',
-                4: 'words_hsk4.js',
-                5: 'words_hsk5.js',
-                6: 'words_hsk6.js'
-            };
-            const scriptName = scriptMap[level];
-            if (!scriptName) { reject('No word list for level ' + level); return; }
-
-            const script = document.createElement('script');
-            script.src = scriptName;
-            script.onload = function() {
-                const varName = 'HSK' + level + '_WORDS';
-                const words = window[varName];
-                if (words && Array.isArray(words) && words.length > 0) {
-                    setCachedWords(level, version, words);
-                    resolve(words);
-                } else {
-                    reject('Word list not found for level ' + level);
-                }
-                document.head.removeChild(script);
-            };
-            script.onerror = function() { reject('Failed to load ' + scriptName); };
-            document.head.appendChild(script);
-        });
-    }
-
-    async function ensureWordLevelMap(version) {
-        if (wordLevelMap) return wordLevelMap;
-        if (isLoadingWords) {
-            await new Promise(resolve => {
-                const check = () => {
-                    if (!isLoadingWords && wordLevelMap) resolve();
-                    else setTimeout(check, 100);
-                };
-                check();
-            });
-            return wordLevelMap;
+    // ---------- Word Lists & Auto‑Detection (Frequency‑Based) ----------
+    function getWordList(level, version) {
+        if (version === 3) {
+            const allWords = window.HSK3_0_WORDS || [];
+            return allWords.filter(w => w.level === level);
+        } else {
+            const map = { 1: window.HSK1_WORDS, 2: window.HSK2_WORDS, 3: window.HSK3_WORDS, 4: window.HSK4_WORDS, 5: window.HSK5_WORDS, 6: window.HSK6_WORDS };
+            return map[level] || [];
         }
+    }
 
-        isLoadingWords = true;
+    function buildWordLevelMap(version) {
         const map = {};
-        try {
-            for (let level = 1; level <= 6; level++) {
-                try {
-                    const words = await loadWordsForLevel(level, version);
-                    words.forEach(w => {
-                        if (!map[w.word]) map[w.word] = [];
-                        if (!map[w.word].includes(level)) map[w.word].push(level);
-                    });
-                } catch(e) {}
-            }
-        } catch(e) {}
-        wordLevelMap = map;
-        isLoadingWords = false;
+        for (let level = 1; level <= 6; level++) {
+            const words = getWordList(level, version);
+            words.forEach(w => {
+                if (!map[w.word]) map[w.word] = [];
+                map[w.word].push(level);
+            });
+        }
         return map;
+    }
+
+    function getWordLevelMap(version) {
+        if (!wordLevelMap) wordLevelMap = buildWordLevelMap(version);
+        return wordLevelMap;
     }
 
     function detectAndSwitchLevel(text) {
         const chineseChars = text.match(/[\u4e00-\u9fa5]+/g);
         if (!chineseChars) return;
-        ensureWordLevelMap(hskVersion).then(map => {
-            if (!map) return;
-            const levelCounts = {};
-            chineseChars.forEach(chunk => {
-                const levels = map[chunk];
-                if (levels && levels.length > 0) {
-                    levels.forEach(lv => {
-                        levelCounts[lv] = (levelCounts[lv] || 0) + 1;
-                    });
-                }
-            });
-            if (Object.keys(levelCounts).length === 0) return;
-            let maxCount = 0;
-            let detectedLevel = hskLevel;
-            for (const [lv, count] of Object.entries(levelCounts)) {
-                if (count > maxCount) {
-                    maxCount = count;
-                    detectedLevel = parseInt(lv);
-                }
-            }
-            if (detectedLevel !== hskLevel) {
-                hskLevel = detectedLevel;
-                const headerHsk = document.getElementById('header-hsk');
-                if (headerHsk) headerHsk.value = hskLevel;
-                applyThemeToPanel(hskLevel);
-                updateLevelBadge(hskLevel);
-                showToast('📚 Switched to HSK ' + hskLevel + ' (detected from your question)');
+        const map = getWordLevelMap(hskVersion);
+        const levelCounts = {};
+        chineseChars.forEach(chunk => {
+            const levels = map[chunk];
+            if (levels && levels.length > 0) {
+                levels.forEach(lv => {
+                    levelCounts[lv] = (levelCounts[lv] || 0) + 1;
+                });
             }
         });
+        if (Object.keys(levelCounts).length === 0) return;
+        let maxCount = 0;
+        let detectedLevel = hskLevel;
+        for (const [lv, count] of Object.entries(levelCounts)) {
+            if (count > maxCount) {
+                maxCount = count;
+                detectedLevel = parseInt(lv);
+            }
+        }
+        if (detectedLevel !== hskLevel) {
+            hskLevel = detectedLevel;
+            const headerHsk = document.getElementById('header-hsk');
+            if (headerHsk) headerHsk.value = hskLevel;
+            applyThemeToPanel(hskLevel);
+            updateLevelBadge(hskLevel);
+            showToast('📚 Switched to HSK ' + hskLevel + ' (detected from your question)');
+        }
     }
 
-    async function getWordListForQuiz(level, version) {
-        const cached = getCachedWords(level, version);
-        if (cached) return cached;
-        try {
-            const words = await loadWordsForLevel(level, version);
-            return words;
-        } catch(e) { return []; }
-    }
-
-    // ---------- Text Formatting ----------
+    // ---------- Improved Text Formatting (removes markdown) ----------
     function formatText(text) {
         if (!text) return text;
         let html = text;
+
         html = html.replace(/^### (.+)$/gm, '<h4>$1</h4>');
         html = html.replace(/^## (.+)$/gm, '<h3>$1</h3>');
         html = html.replace(/^# (.+)$/gm, '<h2>$1</h2>');
+
         html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
         html = html.replace(/((?:<li>.*<\/li>\s*)+)/g, '<ul class="bullet-list">$1</ul>');
+
         html = html.replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>');
         html = html.replace(/((?:<li>.*<\/li>\s*)+)/g, function(match) {
             if (match.match(/<li>.*<\/li>/g) && match.match(/\d/)) return '<ol>' + match + '</ol>';
             return '<ul class="bullet-list">' + match + '</ul>';
         });
+
         html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
         html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
         html = html.replace(/\n/g, '<br>');
+
         return html;
     }
 
@@ -248,14 +182,14 @@
         "Tip: Use 个 (gè) for general objects, 本 (běn) for books, 只 (zhī) for animals.",
         "Tip: 不 (bù) is present/future negation. 没 (méi) is past negation.",
         "Tip: 了 (le) shows completed action OR change of state.",
-        "Tip: 把 (bǎ) emphasizes the object.",
+        "Tip: 把 (bǎ) emphasizes the object: 我把书放在桌子上 (wǒ bǎ shū fàng zài zhuōzi shàng) – I put the book on the table.",
         "Tip: Learn radicals! 氵 (water) appears in 河, 海, 洗. 木 (wood) appears in 树, 林, 材.",
         "Tip: 是 (shì) is NOT used with adjectives. Say 我很高兴 (wǒ hěn gāoxìng) – I am happy.",
         "Tip: 有 (yǒu) means 'have' or 'there is'. 有没有 (yǒu méi yǒu) means 'is there?'.",
-        "Tip: Verb doubling (看看 kànkan) softens the tone.",
+        "Tip: Verb doubling (看看 kànkan) softens the tone: 你看看 (nǐ kànkan) – take a look.",
         "Tip: 一边…一边… (yībiān…yībiān…) means 'doing two things at once'.",
-        "Tip: 越来越 (yuèláiyuè) means 'more and more'.",
-        "Tip: 一…就… (yī…jiù…) means 'as soon as'.",
+        "Tip: 越来越 (yuèláiyuè) means 'more and more': 越来越热 (yuèláiyuè rè) – getting hotter.",
+        "Tip: 一…就… (yī…jiù…) means 'as soon as': 一到家就睡觉 – sleep as soon as I get home.",
         "Tip: 都 (dōu) = 'all'. 也 (yě) = 'also'. 还 (hái) = 'still' or 'also'.",
         "Tip: 能 (néng) = physical ability. 可以 (kěyǐ) = permission. 会 (huì) = learned skill.",
         "Tip: 想 (xiǎng) = want or miss. 要 (yào) = want/need or future 'will'.",
@@ -263,16 +197,16 @@
         "Tip: 为了 (wèile) = for the purpose of. 因为 (yīnwèi) = because. 所以 (suǒyǐ) = therefore.",
         "Tip: 虽然 (suīrán) = although. 但是 (dànshì) = but.",
         "Tip: 如果 (rúguǒ) = if. 就 (jiù) = then.",
-        "Tip: 被 (bèi) is for passive voice.",
-        "Tip: 给 (gěi) = give or preposition.",
-        "Tip: 让 (ràng) = let / make someone do something.",
-        "Tip: 对 (duì) = to/towards, or correct.",
-        "Tip: 跟 (gēn) = with / follow.",
-        "Tip: 在 (zài) = at/in/on or action in progress.",
-        "Tip: 着 (zhe) shows continuous state.",
-        "Tip: 过 (guò) shows past experience.",
-        "Tip: 吧 (ba) softens suggestion. 吗 (ma) = yes/no question.",
-        "Tip: 口 (kǒu) = measure word for family members."
+        "Tip: 被 (bèi) is for passive voice: 书被拿走了 (shū bèi ná zǒu le) – The book was taken away.",
+        "Tip: 给 (gěi) = give or preposition: 我给你打电话 – I will call you.",
+        "Tip: 让 (ràng) = let / make someone do something: 让我看看 (ràng wǒ kànkan) – Let me see.",
+        "Tip: 对 (duì) = to/towards, or correct. 我对汉语感兴趣 – I am interested in Chinese.",
+        "Tip: 跟 (gēn) = with / follow. 我跟朋友一起去 – I go with friends.",
+        "Tip: 在 (zài) = at/in/on or action in progress (正在 zhèngzài).",
+        "Tip: 着 (zhe) shows continuous state: 站着 (zhànzhe) – standing.",
+        "Tip: 过 (guò) shows past experience: 我去过北京 – I have been to Beijing.",
+        "Tip: 吧 (ba) softens suggestion: 我们去吃饭吧 – Let's go eat. 吗 (ma) = yes/no question.",
+        "Tip: 口 (kǒu) = measure word for family members: 三口人 – 3 people."
     ];
 
     function getDailyTip() {
@@ -547,7 +481,7 @@
         });
     }
 
-    // ---------- Toggle Sidebar ----------
+    // ---------- Toggle Sidebar (works on all screens) ----------
     function toggleSidebar(open) {
         const sidebar = document.getElementById('drkhan-sidebar');
         const overlay = document.getElementById('drkhan-sidebar-overlay');
@@ -559,28 +493,22 @@
     }
 
     // ---------- Render Functions ----------
-    let renderScheduled = false;
     function renderAll() {
-        if (renderScheduled) return;
-        renderScheduled = true;
-        requestAnimationFrame(() => {
-            renderSidebar();
-            renderMessages();
-            updateStats();
-            updateContextSuggestions();
-            updateWordOfDay();
-            updateBubbleReminders();
-            const headerHsk = document.getElementById('header-hsk');
-            if (headerHsk) headerHsk.value = hskLevel;
-            const versionToggle = document.getElementById('version-toggle');
-            if (versionToggle) versionToggle.checked = (hskVersion === 3);
-            applyThemeToPanel(hskLevel);
-            updateLevelBadge(hskLevel);
-            if (!localStorage.getItem('drkhan_version_tooltip_shown')) {
-                setTimeout(() => showVersionTooltip(), 1500);
-            }
-            renderScheduled = false;
-        });
+        renderSidebar();
+        renderMessages();
+        updateStats();
+        updateContextSuggestions();
+        updateWordOfDay();
+        updateBubbleReminders();
+        const headerHsk = document.getElementById('header-hsk');
+        if (headerHsk) headerHsk.value = hskLevel;
+        const versionToggle = document.getElementById('version-toggle');
+        if (versionToggle) versionToggle.checked = (hskVersion === 3);
+        applyThemeToPanel(hskLevel);
+        updateLevelBadge(hskLevel);
+        if (!localStorage.getItem('drkhan_version_tooltip_shown')) {
+            setTimeout(() => showVersionTooltip(), 1500);
+        }
     }
 
     function renderMessages() {
@@ -831,13 +759,13 @@
     }
 
     // ---------- Quick Quiz ----------
-    async function startQuickQuiz() {
-        const words = await getWordListForQuiz(hskLevel, hskVersion);
-        if (!words || words.length === 0) {
+    function startQuickQuiz() {
+        const wordList = getWordList(hskLevel, hskVersion);
+        if (!wordList || wordList.length === 0) {
             showToast('No word list for HSK ' + hskLevel + ' (v' + hskVersion + '.0)');
             return;
         }
-        const shuffled = [...words].sort(() => Math.random() - 0.5);
+        const shuffled = [...wordList].sort(() => Math.random() - 0.5);
         const selected = shuffled.slice(0, 5);
         let quizText = '🎯 **Quick Quiz (HSK ' + hskLevel + ' v' + hskVersion + '.0)**\n\n';
         const segments = getLevelSegments(hskLevel, hskVersion);
@@ -906,12 +834,13 @@
         }
     }
 
-    // ---------- Send Message ----------
+    // ---------- Send Message (with Auto‑Level Detection & Pinyin requirement) ----------
     async function sendMessage(initialText, isRegenerate) {
         const input = document.getElementById('drkhan-input');
         const text = initialText || (input ? input.value.trim() : '');
         if (!text || isWaiting) return;
 
+        // ---- AUTO‑LEVEL DETECTION ----
         detectAndSwitchLevel(text);
 
         let puterReady = false;
@@ -1076,7 +1005,7 @@ ${personalityInstruction}`;
         showToast('📚 Switched to ' + segments.label + ' – ' + segments.focus);
     }
 
-    // ---------- CREATE WIDGET (FULL UI, LEFT BUBBLE) ----------
+    // ---------- Create Widget (Full UI with Fixed Bubble) ----------
     function createWidget() {
         const container = document.createElement('div');
         container.id = 'drkhan-container';
@@ -1418,10 +1347,18 @@ ${personalityInstruction}`;
         </div>
     </div>
 </div>`;
+
         document.body.appendChild(container);
 
         const panel = container.querySelector('.drkhan-panel');
         const bubble = container.querySelector('.drkhan-bubble');
+
+        // ***** FIX: Force bubble visibility *****
+        if (bubble) {
+            bubble.style.display = 'flex';
+            bubble.style.zIndex = '999999';
+            console.log('✅ Dr. Khan bubble fixed (left side)');
+        }
 
         bubble.addEventListener('click', function(e) {
             e.stopPropagation();
