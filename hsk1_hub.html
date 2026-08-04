@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Premium Gatekeeper: Redirects to index.html if not premium -->
+<script src="premium-check.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSK 1 · Learning Hub</title>
 <!-- Font Awesome (required for icons) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
@@ -198,7 +206,7 @@
 </style>
 </head>
 <body class="light">
-@@ -243,26 +51,7 @@ <h2>🏆 Badges & Progress</h2>
+@@ -243,26 +51,7 @@
 
 <!-- Mock exam section -->
 <div class="exam-section">
@@ -226,7 +234,7 @@
 </div>
 
 <!-- PREMIUM CONTACT CONTAINER (filled by premium.js) -->
-@@ -289,7 +78,7 @@ <h2>🏆 Badges & Progress</h2>
+@@ -289,7 +78,7 @@
 }
 var darkBtn = document.createElement('button');
 darkBtn.innerHTML = '<i class="fas fa-moon"></i>';
@@ -235,7 +243,7 @@ darkBtn.innerHTML = '<i class="fas fa-moon"></i>';
 darkBtn.onclick = function() {
 if (body.classList.contains('light')) {
 body.classList.remove('light');
-@@ -307,7 +96,6 @@ <h2>🏆 Badges & Progress</h2>
+@@ -307,7 +96,6 @@
 document.body.appendChild(darkBtn);
 })();
 </script>
